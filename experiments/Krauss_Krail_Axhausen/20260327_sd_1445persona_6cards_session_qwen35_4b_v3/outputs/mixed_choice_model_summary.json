@@ -1,0 +1,14 @@
+{
+  "model_type": "paper_aligned_sd_panel_mixed_logit_subset",
+  "draw_type": "sobol_normal",
+  "n_draws": 5000,
+  "respondent_batch_size": 128,
+  "draw_batch_size": 256,
+  "n_respondents": 1445,
+  "n_observations": 8670,
+  "n_parameters": 36,
+  "null_loglikelihood": -12019.17211090945,
+  "final_loglikelihood": -3379.7732769103914,
+  "rho_square": 0.7188014910076319,
+  "normalization": "private_car_base_for_sd_subset"
+}

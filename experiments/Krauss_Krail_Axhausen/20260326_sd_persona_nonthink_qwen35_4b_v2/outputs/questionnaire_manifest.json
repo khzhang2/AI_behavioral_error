@@ -1,0 +1,13 @@
+{
+  "experiment_name": "20260326_sd_persona_nonthink_qwen35_4b_v2",
+  "questionnaire_file": "data/krauss_sd_5cards_reconstruction.csv",
+  "warmup_count": 2,
+  "n_tasks": 5,
+  "alternatives": [
+    "e_scooter",
+    "bikesharing",
+    "walking",
+    "private_car"
+  ],
+  "note": "Five-task short-distance reconstruction block with two warm-up turns before formal choices."
+}

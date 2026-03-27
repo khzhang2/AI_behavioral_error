@@ -1,0 +1,31 @@
+persona_id,female,gender_text,age_band,age_years,income_band,metropolis,metropolis_text,household_cars,accessible_bikes,pt_pass,pt_pass_text
+P001,1,female,40_49,43,2000_3999_eur,0,large city,2,4,0,does not hold a public transport pass
+P002,1,female,68_plus,68,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass
+P003,1,female,50_59,50,lt_500_eur,0,large city,0,2,1,holds a public transport pass
+P004,0,male,50_59,51,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass
+P005,1,female,30_39,31,2000_3999_eur,0,large city,2,0,0,does not hold a public transport pass
+P006,1,female,60_67,60,500_1999_eur,0,large city,0,1,1,holds a public transport pass
+P007,0,male,40_49,44,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass
+P008,1,female,68_plus,75,lt_500_eur,1,metropolis,2,2,0,does not hold a public transport pass
+P009,0,male,68_plus,80,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass
+P010,0,male,50_59,58,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass
+P011,1,female,30_39,36,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass
+P012,1,female,30_39,39,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass
+P013,0,male,40_49,40,2000_3999_eur,0,large city,2,2,1,holds a public transport pass
+P014,0,male,68_plus,70,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass
+P015,0,male,18_29,27,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass
+P016,1,female,60_67,67,4000_plus_eur,0,large city,0,2,1,holds a public transport pass
+P017,0,male,60_67,65,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass
+P018,0,male,68_plus,70,500_1999_eur,0,large city,0,3,1,holds a public transport pass
+P019,1,female,30_39,39,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass
+P020,1,female,50_59,53,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass
+P021,0,male,40_49,48,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass
+P022,0,male,18_29,26,4000_plus_eur,0,large city,1,3,1,holds a public transport pass
+P023,0,male,50_59,53,2000_3999_eur,0,large city,2,2,1,holds a public transport pass
+P024,0,male,50_59,55,2000_3999_eur,0,large city,2,3,1,holds a public transport pass
+P025,0,male,50_59,51,2000_3999_eur,0,large city,1,2,1,holds a public transport pass
+P026,0,male,60_67,66,2000_3999_eur,1,metropolis,2,0,0,does not hold a public transport pass
+P027,1,female,50_59,54,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass
+P028,0,male,30_39,36,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass
+P029,1,female,68_plus,79,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass
+P030,0,male,30_39,35,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass

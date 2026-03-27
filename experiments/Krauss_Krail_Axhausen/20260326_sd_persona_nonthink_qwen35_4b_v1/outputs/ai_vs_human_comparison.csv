@@ -1,0 +1,17 @@
+parameter_name,human_estimate,human_std_error,source_table,source_note,ai_estimate,ai_robust_std_error,difference_ai_minus_human,sign_match
+ASC_ES,-1.574,0.99,Table_4,Alternative-specific constant for e-scootersharing with private car as the omitted base.,-3.145476665093814,1.7976931348623157e+308,-1.5714766650938141,1
+ASC_BS,-1.199,0.968,Table_4,Alternative-specific constant for bikesharing with private car as the omitted base.,2.323602602469975,1.7976931348623157e+308,3.5226026024699753,0
+ASC_WALK,4.551,0.912,Table_4,Alternative-specific constant for walking with private car as the omitted base.,0.7325835330962442,0.1724022482362819,-3.8184164669037557,1
+B_TIME_ES,-0.116,0.023,Table_4,Travel time coefficient for e-scootersharing.,-2.0874462113601973,1.7976931348623157e+308,-1.9714462113601972,1
+B_TIME_BS,-0.09,0.016,Table_4,Travel time coefficient for bikesharing.,0.421873430502433,0.1010376066989338,0.511873430502433,0
+B_TIME_WALK,-0.212,0.012,Table_4,Travel time coefficient for walking.,0.0139629499530719,0.024471985233782,0.2259629499530719,0
+B_TIME_CAR,-0.057,0.014,Table_4,Travel time coefficient for private car.,0.8950441612266593,0.2514024002853661,0.9520441612266594,0
+B_ACCESS_SHARED,-0.04,0.009,Table_4,Access time coefficient for shared services.,-0.0495890838594289,1.7976931348623157e+308,-0.009589083859428901,1
+B_ACCESS_CAR,-0.034,0.032,Table_4,Access time coefficient for private car.,0.7199573228998167,0.2873657568121958,0.7539573228998168,0
+B_EGRESS_SHARED,-0.03,0.013,Table_4,Egress time coefficient for shared services.,0.781677065727096,1.7976931348623157e+308,0.8116770657270961,0
+B_EGRESS_CAR,-0.042,0.014,Table_4,Egress time coefficient for private car.,0.1414713037086233,0.0318553900422331,0.1834713037086233,0
+B_PARKING,-0.04,0.017,Table_4,Parking search time coefficient on modes where applicable.,-0.5811892630756591,0.1038919057320968,-0.5411892630756591,1
+B_COST,-1.886,0.194,Table_4,Generic cost coefficient.,-1.8902036742068105,0.4561684880825406,-0.004203674206810559,1
+B_AVAILABILITY,0.006,0.002,Table_4,Availability coefficient for shared micromobility.,-0.0224434156853869,1.7976931348623157e+308,-0.0284434156853869,0
+B_FREE_FLOATING,0.418,0.102,Table_4,Free-floating scheme coefficient for short-distance shared micromobility.,-1.900883861029704,1.7976931348623157e+308,-2.318883861029704,0
+B_PEDELEC,-0.321,0.176,Table_4,Pedelec dummy coefficient within bikesharing.,-0.720573521818175,0.3957215171207264,-0.399573521818175,1

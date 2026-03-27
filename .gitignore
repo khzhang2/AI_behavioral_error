@@ -5,5 +5,4 @@ __pycache__/
 .venv/
 tests/*
 !tests/.gitkeep
-experiments/
 configs/

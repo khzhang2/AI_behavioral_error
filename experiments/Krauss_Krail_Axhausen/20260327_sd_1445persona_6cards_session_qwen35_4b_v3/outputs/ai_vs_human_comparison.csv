@@ -1,0 +1,37 @@
+parameter_name,human_estimate,source_table,normalization,source_note,estimate,std_error,z_value,p_value,significant_5pct,difference_ai_minus_human,sign_match
+ASC_ES_REL_CAR,1.504,Table_4,private_car_base_for_sd_subset,Computed as ASC_ES minus ASC_CAR from the paper.,-123.69023979978064,0.0,,,0,-125.19423979978065,0
+ASC_BS_REL_CAR,1.879,Table_4,private_car_base_for_sd_subset,Computed as ASC_BS minus ASC_CAR from the paper.,103.83341655403098,0.0,,,0,101.95441655403097,1
+ASC_WALK_REL_CAR,7.629,Table_4,private_car_base_for_sd_subset,Computed as ASC_WALK minus ASC_CAR from the paper.,-5.851862697998942,0.0,,,0,-13.48086269799894,0
+AGE_ES_REL_CAR,-0.024,Table_4,private_car_base_for_sd_subset,Computed as AGE_ES minus AGE_CAR.,-4.511891079564103,0.0,,,0,-4.487891079564103,1
+AGE_BS_REL_CAR,-0.014,Table_4,private_car_base_for_sd_subset,Computed as AGE_BS minus AGE_CAR.,-1.3727301188804024,0.0,,,0,-1.3587301188804024,1
+AGE_WALK_REL_CAR,0.047,Table_4,private_car_base_for_sd_subset,Computed as AGE_WALK minus AGE_CAR.,-602.8251026796371,0.0,,,0,-602.8721026796371,0
+BIKEACC_ES_REL_CAR,0.19,Table_4,private_car_base_for_sd_subset,Computed as BIKEACC_ES minus BIKEACC_CAR.,3.6867357902460554,2.388950754423629,1.5432447836856045,0.1227713951630002,0,3.4967357902460554,1
+BIKEACC_BS_REL_CAR,0.724,Table_4,private_car_base_for_sd_subset,Computed as BIKEACC_BS minus BIKEACC_CAR.,-0.8456367078960622,2.2485740058247767,-0.3760768850415856,0.7068597381236217,0,-1.5696367078960622,0
+BIKEACC_WALK_REL_CAR,-1.126,Table_4,private_car_base_for_sd_subset,Computed as BIKEACC_WALK minus BIKEACC_CAR.,-20.248237389269253,0.0,,,0,-19.12223738926925,1
+CARACC_ES_REL_CAR,0.306,Table_4,private_car_base_for_sd_subset,Computed as CARACC_ES minus CARACC_CAR.,-49.40053924587792,0.0,,,0,-49.70653924587792,0
+CARACC_BS_REL_CAR,0.138,Table_4,private_car_base_for_sd_subset,Computed as CARACC_BS minus CARACC_CAR.,-56.55637994795051,0.0,,,0,-56.69437994795051,0
+CARACC_WALK_REL_CAR,-0.052,Table_4,private_car_base_for_sd_subset,Computed as CARACC_WALK minus CARACC_CAR.,-14.989421771598456,0.0,,,0,-14.937421771598457,1
+PTPASS_ES_REL_CAR,-0.934,Table_4,private_car_base_for_sd_subset,Computed as PTPASS_ES minus PTPASS_CAR.,77.63010930496169,0.0,,,0,78.56410930496169,0
+PTPASS_BS_REL_CAR,-0.756,Table_4,private_car_base_for_sd_subset,Computed as PTPASS_BS minus PTPASS_CAR.,-15.763413456397297,2.2083326674537456,-7.138151642058913,9.459100169806334e-13,1,-15.007413456397297,1
+PTPASS_WALK_REL_CAR,-0.915,Table_4,private_car_base_for_sd_subset,Computed as PTPASS_WALK minus PTPASS_CAR.,-6.069715664020985,0.0,,,0,-5.154715664020985,1
+MAAS_ES_REL_CAR,0.263,Table_4,private_car_base_for_sd_subset,Computed as MAAS_ES minus MAAS_CAR.,8.346309387371296,0.0,,,0,8.083309387371296,1
+MAAS_BS_REL_CAR,0.058,Table_4,private_car_base_for_sd_subset,Computed as MAAS_BS minus MAAS_CAR.,0.7213421034909933,0.0,,,0,0.6633421034909932,1
+MAAS_WALK_REL_CAR,-1.342,Table_4,private_car_base_for_sd_subset,Computed as MAAS_WALK minus MAAS_CAR.,-2.2434834619547503,0.0,,,0,-0.9014834619547503,1
+B_TIME_ES,-0.116,Table_4,direct,Mode-specific travel time coefficient for e-scootersharing.,-31.61138496498709,0.0,,,0,-31.49538496498709,1
+B_TIME_BS,-0.09,Table_4,direct,Mode-specific travel time coefficient for bikesharing.,-8.48155595891447,2.140338780562781,-3.9627165736278105,7.410173392252695e-05,1,-8.39155595891447,1
+B_TIME_WALK,-0.212,Table_4,direct,Mode-specific travel time coefficient for walking.,-208.9366439197436,0.0,,,0,-208.7246439197436,1
+B_TIME_CAR,-0.057,Table_4,direct,Mode-specific travel time coefficient for private car.,87.26094857309245,0.0,,,0,87.31794857309245,0
+B_ACCESS_SHARED,-0.04,Table_4,direct,Shared-mode access time coefficient.,-19.4383177106124,2.8434211069376985,-6.836243025412101,8.129719120120171e-12,1,-19.3983177106124,1
+B_ACCESS_CAR,-0.034,Table_4,direct,Private-car access time coefficient.,-40.6473234418921,5.7573270089659045,-7.06010330463979,1.6637802247032596e-12,1,-40.6133234418921,1
+B_EGRESS_SHARED,-0.03,Table_4,direct,Shared-mode egress time coefficient.,-247.81395433994035,13.058824662435653,-18.976742604775858,0.0,1,-247.78395433994035,1
+B_EGRESS_CAR,-0.042,Table_4,direct,Private-car egress time coefficient.,-162.5415927685879,0.0,,,0,-162.4995927685879,1
+B_PARKING,-0.04,Table_4,direct,Generic parking-search-time coefficient.,160.22802126574348,0.0,,,0,160.26802126574347,0
+B_COST_LOGMEAN,-1.886,Table_4,direct,Mean term in the log-normal cost coefficient.,5.437099062357263,0.0,,,0,7.323099062357263,0
+SIGMA_COST,-1.414,Table_4,direct,Scale term in the log-normal cost coefficient.,-2.0712336043885955,0.0289133317181182,-71.63593682601025,0.0,1,-0.6572336043885956,1
+B_AVAILABILITY,0.006,Table_4,direct,Availability coefficient for shared modes.,0.6160833700185325,0.0,,,0,0.6100833700185325,1
+B_SCHEME_SD,0.418,Table_4,direct,Free-floating scheme coefficient for short-distance shared modes.,-239.356395495624,0.0,,,0,-239.77439549562402,0
+B_RANGE,0.006,Table_4,direct,Battery range coefficient for shared modes.,132.07867695849208,0.0,,,0,132.07267695849208,1
+B_PEDELEC,-0.321,Table_4,direct,Pedelec dummy coefficient within bikesharing.,-92.44580336847046,0.0,,,0,-92.12480336847047,1
+SIGMA_ES,1.315,Table_4,direct,Random intercept scale for e-scootersharing.,303.8667207992195,0.0,,,0,302.5517207992195,1
+SIGMA_BS,1.587,Table_4,direct,Random intercept scale for bikesharing.,69.16321322132788,0.0,,,0,67.57621322132788,1
+SIGMA_WALK,-2.933,Table_4,direct,Random intercept scale for walking.,-7.418458237177419,0.0,,,0,-4.485458237177419,1

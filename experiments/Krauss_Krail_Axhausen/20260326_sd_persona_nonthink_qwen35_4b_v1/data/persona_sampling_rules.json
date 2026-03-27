@@ -1,0 +1,41 @@
+{
+  "source": "Krauss, Krail, and Axhausen (2022), Table 1",
+  "exact_distributions": {
+    "female": 0.492,
+    "age_band": {
+      "18_29": 0.076,
+      "30_39": 0.163,
+      "40_49": 0.233,
+      "50_59": 0.221,
+      "60_67": 0.149,
+      "68_plus": 0.158
+    },
+    "income_band": {
+      "lt_500_eur": 0.020,
+      "500_1999_eur": 0.360,
+      "2000_3999_eur": 0.440,
+      "4000_plus_eur": 0.180
+    },
+    "metropolis": 0.613,
+    "pt_pass": 0.416
+  },
+  "moment_matching_approximations": {
+    "household_cars": {
+      "distribution": "poisson_truncated",
+      "mean": 1.0,
+      "min": 0,
+      "max": 4,
+      "note": "The paper reports an average of 1 car per household but not the full distribution."
+    },
+    "accessible_bikes": {
+      "distribution": "poisson_truncated",
+      "mean": 2.0,
+      "min": 0,
+      "max": 5,
+      "note": "The paper reports an average of 2 accessible bikes per household but not the full distribution."
+    }
+  },
+  "omitted_persona_fields": {
+    "maas_subscription": "Omitted from persona sampling because Table 1 in the paper excerpt used here does not report a sample distribution."
+  }
+}

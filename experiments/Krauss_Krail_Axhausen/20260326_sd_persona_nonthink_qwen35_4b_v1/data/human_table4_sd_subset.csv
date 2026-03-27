@@ -1,0 +1,17 @@
+parameter_name,human_estimate,human_std_error,source_table,source_note
+ASC_ES,-1.574,0.990,Table_4,Alternative-specific constant for e-scootersharing with private car as the omitted base.
+ASC_BS,-1.199,0.968,Table_4,Alternative-specific constant for bikesharing with private car as the omitted base.
+ASC_WALK,4.551,0.912,Table_4,Alternative-specific constant for walking with private car as the omitted base.
+B_TIME_ES,-0.116,0.023,Table_4,Travel time coefficient for e-scootersharing.
+B_TIME_BS,-0.090,0.016,Table_4,Travel time coefficient for bikesharing.
+B_TIME_WALK,-0.212,0.012,Table_4,Travel time coefficient for walking.
+B_TIME_CAR,-0.057,0.014,Table_4,Travel time coefficient for private car.
+B_ACCESS_SHARED,-0.040,0.009,Table_4,Access time coefficient for shared services.
+B_ACCESS_CAR,-0.034,0.032,Table_4,Access time coefficient for private car.
+B_EGRESS_SHARED,-0.030,0.013,Table_4,Egress time coefficient for shared services.
+B_EGRESS_CAR,-0.042,0.014,Table_4,Egress time coefficient for private car.
+B_PARKING,-0.040,0.017,Table_4,Parking search time coefficient on modes where applicable.
+B_COST,-1.886,0.194,Table_4,Generic cost coefficient.
+B_AVAILABILITY,0.006,0.002,Table_4,Availability coefficient for shared micromobility.
+B_FREE_FLOATING,0.418,0.102,Table_4,Free-floating scheme coefficient for short-distance shared micromobility.
+B_PEDELEC,-0.321,0.176,Table_4,Pedelec dummy coefficient within bikesharing.
