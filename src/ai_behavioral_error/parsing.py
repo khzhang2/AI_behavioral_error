@@ -4,12 +4,25 @@ import json
 import re
 
 
+def _strip_code_fence(text: str) -> str:
+    stripped = text.strip()
+    if stripped.startswith("```") and stripped.endswith("```"):
+        lines = stripped.splitlines()
+        if len(lines) >= 3:
+            return "\n".join(lines[1:-1]).strip()
+    return stripped
+
+
 def parse_choice_label(raw_text: str) -> str:
-    text = raw_text.strip()
+    text = _strip_code_fence(raw_text)
 
     if text.startswith("{"):
-        payload = json.loads(text)
-        return str(payload["choice"]).strip().upper()
+        try:
+            payload = json.loads(text)
+        except json.JSONDecodeError:
+            payload = None
+        if isinstance(payload, dict) and "choice" in payload:
+            return str(payload["choice"]).strip().upper()
 
     match = re.search(r"\b([A-D])\b", text.upper())
     return match.group(1) if match else ""

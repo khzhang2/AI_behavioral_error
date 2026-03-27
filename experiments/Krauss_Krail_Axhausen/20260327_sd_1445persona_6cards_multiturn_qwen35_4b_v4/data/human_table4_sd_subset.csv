@@ -1,0 +1,37 @@
+parameter_name,human_estimate,source_table,normalization,source_note
+ASC_ES_REL_CAR,1.504,Table_4,private_car_base_for_sd_subset,Computed as ASC_ES minus ASC_CAR from the paper.
+ASC_BS_REL_CAR,1.879,Table_4,private_car_base_for_sd_subset,Computed as ASC_BS minus ASC_CAR from the paper.
+ASC_WALK_REL_CAR,7.629,Table_4,private_car_base_for_sd_subset,Computed as ASC_WALK minus ASC_CAR from the paper.
+AGE_ES_REL_CAR,-0.024,Table_4,private_car_base_for_sd_subset,Computed as AGE_ES minus AGE_CAR.
+AGE_BS_REL_CAR,-0.014,Table_4,private_car_base_for_sd_subset,Computed as AGE_BS minus AGE_CAR.
+AGE_WALK_REL_CAR,0.047,Table_4,private_car_base_for_sd_subset,Computed as AGE_WALK minus AGE_CAR.
+BIKEACC_ES_REL_CAR,0.190,Table_4,private_car_base_for_sd_subset,Computed as BIKEACC_ES minus BIKEACC_CAR.
+BIKEACC_BS_REL_CAR,0.724,Table_4,private_car_base_for_sd_subset,Computed as BIKEACC_BS minus BIKEACC_CAR.
+BIKEACC_WALK_REL_CAR,-1.126,Table_4,private_car_base_for_sd_subset,Computed as BIKEACC_WALK minus BIKEACC_CAR.
+CARACC_ES_REL_CAR,0.306,Table_4,private_car_base_for_sd_subset,Computed as CARACC_ES minus CARACC_CAR.
+CARACC_BS_REL_CAR,0.138,Table_4,private_car_base_for_sd_subset,Computed as CARACC_BS minus CARACC_CAR.
+CARACC_WALK_REL_CAR,-0.052,Table_4,private_car_base_for_sd_subset,Computed as CARACC_WALK minus CARACC_CAR.
+PTPASS_ES_REL_CAR,-0.934,Table_4,private_car_base_for_sd_subset,Computed as PTPASS_ES minus PTPASS_CAR.
+PTPASS_BS_REL_CAR,-0.756,Table_4,private_car_base_for_sd_subset,Computed as PTPASS_BS minus PTPASS_CAR.
+PTPASS_WALK_REL_CAR,-0.915,Table_4,private_car_base_for_sd_subset,Computed as PTPASS_WALK minus PTPASS_CAR.
+MAAS_ES_REL_CAR,0.263,Table_4,private_car_base_for_sd_subset,Computed as MAAS_ES minus MAAS_CAR.
+MAAS_BS_REL_CAR,0.058,Table_4,private_car_base_for_sd_subset,Computed as MAAS_BS minus MAAS_CAR.
+MAAS_WALK_REL_CAR,-1.342,Table_4,private_car_base_for_sd_subset,Computed as MAAS_WALK minus MAAS_CAR.
+B_TIME_ES,-0.116,Table_4,direct,Mode-specific travel time coefficient for e-scootersharing.
+B_TIME_BS,-0.090,Table_4,direct,Mode-specific travel time coefficient for bikesharing.
+B_TIME_WALK,-0.212,Table_4,direct,Mode-specific travel time coefficient for walking.
+B_TIME_CAR,-0.057,Table_4,direct,Mode-specific travel time coefficient for private car.
+B_ACCESS_SHARED,-0.040,Table_4,direct,Shared-mode access time coefficient.
+B_ACCESS_CAR,-0.034,Table_4,direct,Private-car access time coefficient.
+B_EGRESS_SHARED,-0.030,Table_4,direct,Shared-mode egress time coefficient.
+B_EGRESS_CAR,-0.042,Table_4,direct,Private-car egress time coefficient.
+B_PARKING,-0.040,Table_4,direct,Generic parking-search-time coefficient.
+B_COST_LOGMEAN,-1.886,Table_4,direct,Mean term in the log-normal cost coefficient.
+SIGMA_COST,-1.414,Table_4,direct,Scale term in the log-normal cost coefficient.
+B_AVAILABILITY,0.006,Table_4,direct,Availability coefficient for shared modes.
+B_SCHEME_SD,0.418,Table_4,direct,Free-floating scheme coefficient for short-distance shared modes.
+B_RANGE,0.006,Table_4,direct,Battery range coefficient for shared modes.
+B_PEDELEC,-0.321,Table_4,direct,Pedelec dummy coefficient within bikesharing.
+SIGMA_ES,1.315,Table_4,direct,Random intercept scale for e-scootersharing.
+SIGMA_BS,1.587,Table_4,direct,Random intercept scale for bikesharing.
+SIGMA_WALK,-2.933,Table_4,direct,Random intercept scale for walking.

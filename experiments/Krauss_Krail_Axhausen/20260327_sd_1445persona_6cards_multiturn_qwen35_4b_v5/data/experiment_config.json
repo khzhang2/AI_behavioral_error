@@ -1,0 +1,43 @@
+{
+  "experiment_name": "20260327_sd_1445persona_6cards_multiturn_qwen35_4b_v5",
+  "paper_reference": "Krauss, Krail, and Axhausen (2022)",
+  "scope": "short_distance_reconstruction_paper_aligned_mixed_logit_full_human_scale_multiturn",
+  "n_respondents": 1445,
+  "warmup_count": 0,
+  "tasks_per_respondent": 6,
+  "master_seed": 20260327,
+  "estimation_seed": 20260327,
+  "backend": {
+    "type": "ollama",
+    "model_name": "qwen3.5:4b",
+    "host": "http://127.0.0.1:11434",
+    "think": false,
+    "temperature": 0.1,
+    "top_p": 0.95,
+    "top_k": 20,
+    "seed": 20260327,
+    "num_predict": 64,
+    "timeout_sec": 180
+  },
+  "mixed_logit": {
+    "draw_type": "sobol_normal",
+    "n_draws": 5000,
+    "respondent_batch_size": 128,
+    "draw_batch_size": 256,
+    "random_dimensions": [
+      "z_cost",
+      "z_es",
+      "z_bs",
+      "z_walk"
+    ],
+    "normalization": "private_car_base_for_sd_subset"
+  },
+  "notes": [
+    "This run keeps the short-distance four-alternative reconstruction and retains the v3 human-scale setting of 1,445 respondents with six choice tasks per respondent.",
+    "Unlike v3, the six short-distance cards are shown one by one within the same respondent conversation so that the SP survey is presented sequentially rather than answered in a single bulk response.",
+    "Following the paper's description that choice situations are randomly drawn from one block, the six reconstructed short-distance cards are presented in a respondent-specific random order.",
+    "The original paper uses 5,000 Sobol draws for simulated mixed logit estimation; this run mirrors that draw method in Python.",
+    "MaaS subscription is retained as a persona field for alignment with the original utility specification, but its sample distribution is assumed because the main paper excerpt used here does not report it explicitly.",
+    "This remains a short-distance-only reconstruction rather than the paper's pooled SD+MD estimation sample."
+  ]
+}
