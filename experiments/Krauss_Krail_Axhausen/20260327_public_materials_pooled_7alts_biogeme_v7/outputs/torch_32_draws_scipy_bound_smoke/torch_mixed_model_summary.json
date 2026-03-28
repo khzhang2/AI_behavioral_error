@@ -1,0 +1,19 @@
+{
+  "experiment_name": "20260327_public_materials_pooled_7alts_biogeme_v7",
+  "model_name": "krauss_public_materials_pooled_7alts_panel_mixed_logit_torch",
+  "estimation_backend": "torch",
+  "device": "cuda",
+  "n_draws": 32,
+  "n_respondents": 10,
+  "n_observations": 60,
+  "init_loglikelihood": -59.20099919438014,
+  "final_loglikelihood": -3.6890173015321266,
+  "null_loglikelihood": -83.17766166719345,
+  "rho_square": 0.9376865702989297,
+  "rho_square_null": 0.9556489419443834,
+  "valid_choice_rate": 1.0,
+  "runtime_seconds": 2.8291098999325186,
+  "optimizer": "scipy_lbfgsb",
+  "phi_constraint": "bound_only",
+  "local_torch_dir": "C:\\Users\\admin\\Documents\\Github\\AI_behavioral_error\\.python_packages\\cu118"
+}

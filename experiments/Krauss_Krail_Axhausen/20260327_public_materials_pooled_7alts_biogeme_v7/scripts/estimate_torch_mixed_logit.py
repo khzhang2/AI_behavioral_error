@@ -31,6 +31,7 @@ if LOCAL_TORCH_DIR is not None:
 import numpy as np
 import pandas as pd
 import torch
+from scipy.optimize import minimize
 from scipy.stats import norm, qmc
 
 
@@ -91,13 +92,13 @@ def parameter_order() -> list[str]:
     return load_human_targets()["parameter_name"].tolist()
 
 
-def initial_theta_raw(order: list[str]) -> np.ndarray:
+def initial_theta_raw(order: list[str], phi_constraint: str) -> np.ndarray:
     human = load_human_targets()
     mapping = dict(zip(human["parameter_name"], human["human_estimate"]))
     theta = []
     for name in order:
         value = float(mapping[name])
-        if name == "PHI_POOL":
+        if name == "PHI_POOL" and phi_constraint == "softplus":
             value = inverse_softplus(max(value - 1e-6, 1e-9))
         theta.append(value)
     return np.array(theta, dtype=float)
@@ -109,21 +110,21 @@ def inverse_softplus(value: float) -> float:
     return math.log(math.expm1(value))
 
 
-def transform_params(theta_raw: torch.Tensor, order: list[str]) -> dict[str, torch.Tensor]:
+def transform_params(theta_raw: torch.Tensor, order: list[str], phi_constraint: str) -> dict[str, torch.Tensor]:
     params = {}
     for index, name in enumerate(order):
         value = theta_raw[index]
-        if name == "PHI_POOL":
+        if name == "PHI_POOL" and phi_constraint == "softplus":
             value = torch.nn.functional.softplus(value) + 1e-6
         params[name] = value
     return params
 
 
-def transform_estimates(theta_raw_np: np.ndarray, order: list[str]) -> tuple[np.ndarray, np.ndarray]:
+def transform_estimates(theta_raw_np: np.ndarray, order: list[str], phi_constraint: str) -> tuple[np.ndarray, np.ndarray]:
     transformed = []
     jac_diag = []
     for value, name in zip(theta_raw_np, order):
-        if name == "PHI_POOL":
+        if name == "PHI_POOL" and phi_constraint == "softplus":
             sigma = 1.0 / (1.0 + math.exp(-value))
             transformed.append(math.log1p(math.exp(value)) + 1e-6)
             jac_diag.append(sigma)
@@ -248,8 +249,14 @@ def prepare_tensors(device: torch.device, max_respondents: int | None = None) ->
     return tensors, wide
 
 
-def negative_loglik_by_respondent(theta_raw: torch.Tensor, tensors: dict[str, torch.Tensor], draws: torch.Tensor, order: list[str]) -> torch.Tensor:
-    params = transform_params(theta_raw, order)
+def negative_loglik_by_respondent(
+    theta_raw: torch.Tensor,
+    tensors: dict[str, torch.Tensor],
+    draws: torch.Tensor,
+    order: list[str],
+    phi_constraint: str,
+) -> torch.Tensor:
+    params = transform_params(theta_raw, order, phi_constraint)
 
     age = tensors["age"][:, None, None]
     hhcar = tensors["hhcar"][:, None, None]
@@ -393,11 +400,24 @@ def negative_loglik_by_respondent(theta_raw: torch.Tensor, tensors: dict[str, to
     return -respondent_log_prob
 
 
-def total_negative_loglik(theta_raw: torch.Tensor, tensors: dict[str, torch.Tensor], draws: torch.Tensor, order: list[str]) -> torch.Tensor:
-    return negative_loglik_by_respondent(theta_raw, tensors, draws, order).sum()
+def total_negative_loglik(
+    theta_raw: torch.Tensor,
+    tensors: dict[str, torch.Tensor],
+    draws: torch.Tensor,
+    order: list[str],
+    phi_constraint: str,
+) -> torch.Tensor:
+    return negative_loglik_by_respondent(theta_raw, tensors, draws, order, phi_constraint).sum()
 
 
-def optimize(theta0: np.ndarray, tensors: dict[str, torch.Tensor], draws: torch.Tensor, order: list[str], device: torch.device) -> tuple[np.ndarray, float, dict]:
+def optimize_torch_lbfgs(
+    theta0: np.ndarray,
+    tensors: dict[str, torch.Tensor],
+    draws: torch.Tensor,
+    order: list[str],
+    device: torch.device,
+    phi_constraint: str,
+) -> tuple[np.ndarray, float, dict]:
     theta = torch.tensor(theta0, device=device, requires_grad=True)
     optimizer = torch.optim.LBFGS(
         [theta],
@@ -413,7 +433,7 @@ def optimize(theta0: np.ndarray, tensors: dict[str, torch.Tensor], draws: torch.
     def closure():
         nonlocal last_loss
         optimizer.zero_grad()
-        loss = total_negative_loglik(theta, tensors, draws, order)
+        loss = total_negative_loglik(theta, tensors, draws, order, phi_constraint)
         if torch.isnan(loss) or torch.isinf(loss):
             raise ValueError("Torch objective became NaN/Inf during optimization.")
         loss.backward()
@@ -426,11 +446,71 @@ def optimize(theta0: np.ndarray, tensors: dict[str, torch.Tensor], draws: torch.
     return theta.detach().cpu().numpy(), float(last_loss), trace
 
 
-def compute_covariances(theta_raw_np: np.ndarray, tensors: dict[str, torch.Tensor], draws: torch.Tensor, order: list[str], device: torch.device) -> tuple[np.ndarray, np.ndarray]:
+def scipy_bounds(order: list[str], phi_constraint: str) -> list[tuple[float | None, float | None]]:
+    bounds: list[tuple[float | None, float | None]] = []
+    for name in order:
+        if name == "PHI_POOL" and phi_constraint == "bound_only":
+            bounds.append((1e-6, None))
+        else:
+            bounds.append((None, None))
+    return bounds
+
+
+def optimize_scipy_lbfgsb(
+    theta0: np.ndarray,
+    tensors: dict[str, torch.Tensor],
+    draws: torch.Tensor,
+    order: list[str],
+    device: torch.device,
+    phi_constraint: str,
+) -> tuple[np.ndarray, float, dict]:
+    trace = {"loss_history": [], "n_function_evals": 0}
+    cache: dict[str, object] = {"x": None, "loss": None, "grad": None}
+
+    def objective_and_grad(theta_np: np.ndarray) -> tuple[float, np.ndarray]:
+        cached_x = cache["x"]
+        if cached_x is not None and np.array_equal(theta_np, cached_x):
+            return float(cache["loss"]), np.array(cache["grad"], dtype=float)
+        theta = torch.tensor(theta_np, device=device, requires_grad=True)
+        loss = total_negative_loglik(theta, tensors, draws, order, phi_constraint)
+        if torch.isnan(loss) or torch.isinf(loss):
+            raise ValueError("Torch objective became NaN/Inf during scipy optimization.")
+        loss.backward()
+        loss_value = float(loss.detach().cpu().item())
+        grad_value = theta.grad.detach().cpu().numpy().astype(float)
+        trace["n_function_evals"] += 1
+        trace["loss_history"].append(loss_value)
+        cache["x"] = np.array(theta_np, copy=True)
+        cache["loss"] = loss_value
+        cache["grad"] = np.array(grad_value, copy=True)
+        return loss_value, grad_value
+
+    result = minimize(
+        fun=lambda x: objective_and_grad(x)[0],
+        x0=theta0.astype(float),
+        jac=lambda x: objective_and_grad(x)[1],
+        method="L-BFGS-B",
+        bounds=scipy_bounds(order, phi_constraint),
+        options={"maxiter": 500, "ftol": 1e-12, "gtol": 1e-7, "maxcor": 100},
+    )
+    trace["success"] = bool(result.success)
+    trace["message"] = str(result.message)
+    trace["nit"] = int(result.nit)
+    return result.x.astype(float), float(result.fun), trace
+
+
+def compute_covariances(
+    theta_raw_np: np.ndarray,
+    tensors: dict[str, torch.Tensor],
+    draws: torch.Tensor,
+    order: list[str],
+    device: torch.device,
+    phi_constraint: str,
+) -> tuple[np.ndarray, np.ndarray]:
     theta_raw = torch.tensor(theta_raw_np, device=device, requires_grad=True)
 
     def objective(vector: torch.Tensor) -> torch.Tensor:
-        return total_negative_loglik(vector, tensors, draws, order)
+        return total_negative_loglik(vector, tensors, draws, order, phi_constraint)
 
     hessian = torch.autograd.functional.hessian(objective, theta_raw, vectorize=True).detach().cpu().numpy()
     cov_raw = np.linalg.pinv(hessian)
@@ -442,7 +522,7 @@ def compute_covariances(theta_raw_np: np.ndarray, tensors: dict[str, torch.Tenso
         end = min(start + chunk_size, n_resp)
 
         def chunk_vector_fn(vector: torch.Tensor) -> torch.Tensor:
-            return negative_loglik_by_respondent(vector, tensors, draws, order)[start:end]
+            return negative_loglik_by_respondent(vector, tensors, draws, order, phi_constraint)[start:end]
 
         jac = torch.autograd.functional.jacobian(chunk_vector_fn, theta_raw, vectorize=True).detach().cpu().numpy()
         if jac.ndim == 2 and jac.shape[0] == len(order):
@@ -458,8 +538,9 @@ def summarize_estimates(
     cov_raw: np.ndarray,
     robust_cov_raw: np.ndarray,
     order: list[str],
+    phi_constraint: str,
 ) -> pd.DataFrame:
-    estimates, jac_diag = transform_estimates(theta_raw_np, order)
+    estimates, jac_diag = transform_estimates(theta_raw_np, order, phi_constraint)
     jac = np.diag(jac_diag)
     cov = jac @ cov_raw @ jac
     robust_cov = jac @ robust_cov_raw @ jac
@@ -578,6 +659,8 @@ def main() -> None:
     parser.add_argument("--output-subdir", type=str, default="torch_32_draws_full")
     parser.add_argument("--device", type=str, default=None)
     parser.add_argument("--max-respondents", type=int, default=None)
+    parser.add_argument("--optimizer-backend", choices=["torch_lbfgs", "scipy_lbfgsb"], default="torch_lbfgs")
+    parser.add_argument("--phi-constraint", choices=["softplus", "bound_only"], default="softplus")
     args = parser.parse_args()
 
     if LOCAL_TORCH_DIR is None:
@@ -593,7 +676,7 @@ def main() -> None:
     t0 = time.perf_counter()
     config = load_json(DATA_DIR / "experiment_config.json")
     order = parameter_order()
-    theta0 = initial_theta_raw(order)
+    theta0 = initial_theta_raw(order, phi_constraint=args.phi_constraint)
     tensors, wide = prepare_tensors(device, max_respondents=args.max_respondents)
     n_respondents = int(wide["RESPONDENT_ID"].nunique())
     draws_np = generate_sobol_draws(
@@ -605,10 +688,13 @@ def main() -> None:
     draws = torch.tensor(draws_np, device=device)
 
     init_theta = torch.tensor(theta0, device=device)
-    init_negloglik = float(total_negative_loglik(init_theta, tensors, draws, order).detach().cpu().item())
-    theta_hat_raw, final_negloglik, trace = optimize(theta0, tensors, draws, order, device)
-    cov_raw, robust_cov_raw = compute_covariances(theta_hat_raw, tensors, draws, order, device)
-    estimates = summarize_estimates(theta_hat_raw, cov_raw, robust_cov_raw, order)
+    init_negloglik = float(total_negative_loglik(init_theta, tensors, draws, order, args.phi_constraint).detach().cpu().item())
+    if args.optimizer_backend == "torch_lbfgs":
+        theta_hat_raw, final_negloglik, trace = optimize_torch_lbfgs(theta0, tensors, draws, order, device, args.phi_constraint)
+    else:
+        theta_hat_raw, final_negloglik, trace = optimize_scipy_lbfgsb(theta0, tensors, draws, order, device, args.phi_constraint)
+    cov_raw, robust_cov_raw = compute_covariances(theta_hat_raw, tensors, draws, order, device, args.phi_constraint)
+    estimates = summarize_estimates(theta_hat_raw, cov_raw, robust_cov_raw, order, args.phi_constraint)
 
     estimates.to_csv(output_dir / "torch_mixed_estimates.csv", index=False)
     wide.to_csv(output_dir / "torch_estimation_wide.csv", index=False)
@@ -630,7 +716,8 @@ def main() -> None:
         "rho_square_null": 1.0 - ((-final_negloglik) / null_loglik),
         "valid_choice_rate": 1.0,
         "runtime_seconds": time.perf_counter() - t0,
-        "optimizer": "torch.optim.LBFGS",
+        "optimizer": args.optimizer_backend,
+        "phi_constraint": args.phi_constraint,
         "local_torch_dir": str(LOCAL_TORCH_DIR),
     }
     (output_dir / "torch_mixed_model_summary.json").write_text(json.dumps(model_summary, indent=2), encoding="utf-8")
