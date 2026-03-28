@@ -38,8 +38,8 @@
 3. 冻结 prompt 模板和输出格式。
 4. 先做小样本 smoke test，检查解析率和选择分布。
 5. 再做正式采集。
-6. 采集完成后整理 `parsed_choices.csv` 和 `ai_choices_wide.csv`。
-7. 估计 mixed logit 或其他离散选择模型。
+6. 采集完成后整理 `parsed_choices.csv` 和 canonical `pooled_choices_long.csv`（旧实验若需要，可额外保留 `ai_choices_wide.csv` 作为 legacy artifact）。
+7. 估计 mixed logit 或其他离散选择模型；当前 Krauss 主线推荐使用 `Biogeme`。
 8. 与人类论文结果做参数方向和量级比较。
 9. 写实验摘要，记录边界、异常和后续改动建议。
 
@@ -65,6 +65,7 @@
 - `v1`：小样本、5 张卡、Biogeme MNL 基线。
 - `v2`：小样本、5 张卡、paper-aligned mixed logit 子模型。
 - `v3`：大样本、1445 persona、6 张卡、单 session prompt。
+- `v7`：公开材料最高保真 pooled `SD + MD`、`7` 个备选项、`Biogeme` panel mixed logit 主线。
 
 ### 3. 每轮实验至少需要准备的文件
 
@@ -72,11 +73,11 @@
   定义样本量、模型、temperature、draw 数、任务数等。
 - `data/persona_sampling_rules.json`
   定义 demographic 和 mobility resource 的采样规则。
-- `data/prompt_template.md`
-  记录 prompt 设计原则和输出格式。
+- `data/survey_instrument_en.md`
+  记录公开材料问卷 framing 和答题约束。
 - `data/*cards*.csv`
-  记录题卡本体。
-- `data/human_table4_sd_subset.csv`
+  记录题卡本体或 pooled choice-set 设计文件。
+- `data/human_table4_*.csv`
   记录从原文转写的人类基线参数。
 - `scripts/run_ai_collection.py`
   负责 persona 生成、问卷投喂、原始日志和结构化输出。
@@ -140,8 +141,8 @@
 - `raw_interactions.jsonl`
 - `respondent_transcripts.json`
 - `parsed_choices.csv`
-- `ai_choices_wide.csv`
-- `mixed_choice_estimates.csv` 或其他模型结果文件
+- `pooled_choices_long.csv` 或其他 canonical estimation input
+- `biogeme_mixed_estimates.csv` 或其他模型结果文件
 - `ai_vs_human_comparison.csv`
 - `experiment_summary.md`
 
@@ -157,30 +158,24 @@
 
 当前仓库默认只使用根目录虚拟环境 `./.venv`。
 
-- 推荐 Python 版本：`3.9`
-- 当前仓库的统一解释器入口：`./.venv/bin/python`
-- 当前机器上的 `./.venv` 基于 `/opt/anaconda3/bin/python3.9` 创建
-- 当前 `./.venv` 已设置 `include-system-site-packages = true`
-- 这样做是为了在统一环境下复用本机已安装的 `torch`
+- 推荐 Python 版本：`3.11`
+- 当前仓库的统一解释器入口：
+  - Windows：`.\.venv\Scripts\python.exe`
+  - Unix：`./.venv/bin/python`
+- 当前主线实验不依赖 `torch`，Krauss `v7` 的参数估计统一使用 `Biogeme`
 
 如果需要重建这个环境，建议按下面顺序操作：
 
-```bash
-/opt/anaconda3/bin/python3.9 -m venv .venv
-./.venv/bin/python -m pip install --upgrade pip
-./.venv/bin/python -m pip install -e .
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -e .
 ```
 
 如果要运行 Krauss_Krail_Axhausen 的实验估计脚本，建议补齐实验依赖：
 
-```bash
-./.venv/bin/python -m pip install -e ".[experiments]"
-```
-
-如果运行包含 `torch` 的脚本，建议使用：
-
-```bash
-OMP_NUM_THREADS=1 ./.venv/bin/python ...
+```powershell
+.\.venv\Scripts\python.exe -m pip install -e ".[experiments]"
 ```
 
 ## 快速开始

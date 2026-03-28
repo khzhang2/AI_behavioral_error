@@ -1,0 +1,1446 @@
+respondent_id,persona_id,female,gender_text,age_band,age_years,income_band,metropolis,city_type_text,household_cars,accessible_bikes,pt_pass,pt_pass_text,maas_subscription,maas_text,subsample,assigned_block_id
+1,P0001,0,male,30_39,38,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+2,P0002,1,female,50_59,53,500_1999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+3,P0003,0,male,68_plus,70,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+4,P0004,0,male,40_49,42,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+5,P0005,1,female,40_49,48,2000_3999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+6,P0006,0,male,50_59,59,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+7,P0007,1,female,30_39,35,4000_plus_eur,1,metropolis,4,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+8,P0008,1,female,60_67,61,4000_plus_eur,1,metropolis,2,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,6
+9,P0009,0,male,30_39,32,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+10,P0010,1,female,18_29,22,2000_3999_eur,0,large city,2,4,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+11,P0011,1,female,30_39,37,4000_plus_eur,0,large city,2,4,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+12,P0012,1,female,40_49,46,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+13,P0013,0,male,60_67,64,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+14,P0014,0,male,68_plus,74,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+15,P0015,0,male,50_59,53,500_1999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+16,P0016,1,female,30_39,35,500_1999_eur,0,large city,1,4,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,5
+17,P0017,1,female,68_plus,70,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+18,P0018,1,female,40_49,40,4000_plus_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+19,P0019,0,male,18_29,23,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+20,P0020,1,female,30_39,37,4000_plus_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+21,P0021,1,female,50_59,51,4000_plus_eur,1,metropolis,3,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+22,P0022,1,female,18_29,29,2000_3999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+23,P0023,0,male,60_67,64,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+24,P0024,0,male,68_plus,68,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,4
+25,P0025,0,male,50_59,56,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+26,P0026,0,male,60_67,64,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+27,P0027,0,male,50_59,52,2000_3999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+28,P0028,1,female,68_plus,72,4000_plus_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+29,P0029,0,male,40_49,48,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+30,P0030,0,male,68_plus,68,500_1999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+31,P0031,1,female,40_49,44,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+32,P0032,0,male,40_49,43,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+33,P0033,0,male,30_39,37,4000_plus_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+34,P0034,0,male,30_39,31,4000_plus_eur,0,large city,0,0,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,4
+35,P0035,0,male,68_plus,75,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+36,P0036,1,female,50_59,51,4000_plus_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+37,P0037,1,female,18_29,20,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+38,P0038,1,female,18_29,19,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+39,P0039,1,female,68_plus,80,4000_plus_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+40,P0040,0,male,68_plus,76,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+41,P0041,1,female,30_39,37,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+42,P0042,0,male,18_29,28,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+43,P0043,1,female,30_39,39,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+44,P0044,1,female,30_39,30,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+45,P0045,1,female,50_59,57,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+46,P0046,0,male,50_59,53,2000_3999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+47,P0047,0,male,60_67,62,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+48,P0048,1,female,50_59,57,lt_500_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+49,P0049,0,male,68_plus,69,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+50,P0050,1,female,68_plus,74,2000_3999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+51,P0051,1,female,50_59,58,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+52,P0052,0,male,50_59,54,4000_plus_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+53,P0053,1,female,50_59,58,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+54,P0054,1,female,60_67,61,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+55,P0055,0,male,60_67,67,500_1999_eur,0,large city,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+56,P0056,0,male,68_plus,68,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+57,P0057,1,female,60_67,65,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+58,P0058,0,male,40_49,42,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+59,P0059,1,female,68_plus,76,2000_3999_eur,1,metropolis,2,0,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+60,P0060,1,female,50_59,54,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+61,P0061,0,male,50_59,52,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+62,P0062,1,female,60_67,63,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+63,P0063,0,male,40_49,40,4000_plus_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+64,P0064,1,female,30_39,38,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+65,P0065,1,female,60_67,61,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+66,P0066,0,male,40_49,48,500_1999_eur,0,large city,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+67,P0067,0,male,30_39,30,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,8
+68,P0068,0,male,68_plus,76,500_1999_eur,1,metropolis,4,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+69,P0069,0,male,68_plus,75,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+70,P0070,0,male,40_49,45,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+71,P0071,1,female,60_67,66,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+72,P0072,0,male,40_49,44,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+73,P0073,1,female,40_49,45,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+74,P0074,1,female,30_39,32,lt_500_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+75,P0075,0,male,50_59,59,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+76,P0076,1,female,40_49,48,lt_500_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+77,P0077,0,male,60_67,65,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+78,P0078,0,male,50_59,53,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,3
+79,P0079,0,male,40_49,44,4000_plus_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+80,P0080,0,male,40_49,43,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+81,P0081,1,female,40_49,41,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+82,P0082,1,female,30_39,36,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+83,P0083,0,male,50_59,53,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+84,P0084,0,male,68_plus,69,4000_plus_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+85,P0085,0,male,40_49,43,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+86,P0086,1,female,40_49,43,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+87,P0087,1,female,30_39,31,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+88,P0088,1,female,30_39,38,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+89,P0089,1,female,40_49,40,4000_plus_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+90,P0090,0,male,30_39,34,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+91,P0091,1,female,68_plus,69,4000_plus_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+92,P0092,0,male,30_39,31,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+93,P0093,0,male,60_67,60,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+94,P0094,0,male,40_49,44,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+95,P0095,1,female,50_59,51,500_1999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+96,P0096,0,male,50_59,54,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+97,P0097,0,male,60_67,60,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+98,P0098,0,male,30_39,37,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+99,P0099,0,male,40_49,47,2000_3999_eur,1,metropolis,4,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+100,P0100,0,male,18_29,18,4000_plus_eur,0,large city,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+101,P0101,0,male,50_59,53,4000_plus_eur,1,metropolis,3,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,8
+102,P0102,0,male,68_plus,75,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+103,P0103,0,male,18_29,23,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+104,P0104,1,female,18_29,25,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+105,P0105,1,female,68_plus,69,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+106,P0106,0,male,50_59,51,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,3
+107,P0107,0,male,50_59,56,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+108,P0108,0,male,40_49,47,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+109,P0109,1,female,68_plus,71,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,2
+110,P0110,1,female,68_plus,71,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+111,P0111,1,female,40_49,40,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+112,P0112,1,female,68_plus,79,500_1999_eur,0,large city,3,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+113,P0113,1,female,50_59,56,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+114,P0114,0,male,40_49,40,2000_3999_eur,1,metropolis,1,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+115,P0115,0,male,50_59,52,500_1999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+116,P0116,1,female,68_plus,76,lt_500_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+117,P0117,1,female,60_67,62,4000_plus_eur,0,large city,1,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+118,P0118,0,male,50_59,55,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+119,P0119,0,male,18_29,29,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+120,P0120,0,male,68_plus,71,2000_3999_eur,0,large city,3,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,3
+121,P0121,1,female,50_59,51,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+122,P0122,0,male,40_49,40,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+123,P0123,0,male,18_29,19,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+124,P0124,0,male,40_49,46,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+125,P0125,1,female,50_59,53,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+126,P0126,1,female,60_67,66,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+127,P0127,0,male,40_49,47,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+128,P0128,0,male,30_39,36,4000_plus_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+129,P0129,1,female,50_59,54,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+130,P0130,0,male,60_67,65,500_1999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+131,P0131,0,male,40_49,45,2000_3999_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+132,P0132,1,female,40_49,41,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+133,P0133,0,male,18_29,25,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,8
+134,P0134,0,male,60_67,64,lt_500_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+135,P0135,0,male,50_59,52,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+136,P0136,1,female,40_49,41,lt_500_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+137,P0137,0,male,68_plus,69,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+138,P0138,0,male,50_59,55,500_1999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+139,P0139,0,male,68_plus,74,lt_500_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+140,P0140,1,female,40_49,48,500_1999_eur,1,metropolis,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+141,P0141,0,male,68_plus,79,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+142,P0142,0,male,50_59,51,4000_plus_eur,1,metropolis,4,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+143,P0143,1,female,40_49,47,lt_500_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+144,P0144,0,male,40_49,45,4000_plus_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+145,P0145,0,male,50_59,52,500_1999_eur,0,large city,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+146,P0146,1,female,50_59,56,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+147,P0147,0,male,40_49,47,500_1999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+148,P0148,0,male,40_49,48,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+149,P0149,0,male,50_59,59,2000_3999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+150,P0150,0,male,60_67,65,2000_3999_eur,0,large city,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+151,P0151,1,female,18_29,18,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+152,P0152,1,female,50_59,57,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+153,P0153,0,male,50_59,54,500_1999_eur,0,large city,1,3,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+154,P0154,0,male,50_59,58,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+155,P0155,1,female,60_67,63,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+156,P0156,0,male,40_49,40,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+157,P0157,1,female,60_67,67,4000_plus_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+158,P0158,1,female,40_49,40,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+159,P0159,1,female,18_29,28,500_1999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+160,P0160,0,male,30_39,34,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+161,P0161,0,male,60_67,66,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+162,P0162,0,male,50_59,55,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+163,P0163,1,female,50_59,55,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+164,P0164,1,female,68_plus,75,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+165,P0165,0,male,60_67,64,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,6
+166,P0166,1,female,18_29,18,4000_plus_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+167,P0167,1,female,40_49,44,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+168,P0168,0,male,60_67,63,4000_plus_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+169,P0169,1,female,68_plus,77,2000_3999_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+170,P0170,0,male,30_39,33,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+171,P0171,1,female,40_49,46,500_1999_eur,0,large city,4,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+172,P0172,1,female,30_39,35,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+173,P0173,1,female,18_29,19,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+174,P0174,1,female,50_59,53,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+175,P0175,0,male,40_49,47,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+176,P0176,0,male,30_39,32,4000_plus_eur,1,metropolis,1,0,1,holds a public transport pass,1,has an active MaaS subscription,SD,6
+177,P0177,1,female,30_39,38,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+178,P0178,0,male,68_plus,69,2000_3999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+179,P0179,1,female,60_67,63,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+180,P0180,1,female,30_39,35,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+181,P0181,0,male,60_67,60,4000_plus_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+182,P0182,0,male,30_39,31,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+183,P0183,0,male,40_49,44,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+184,P0184,1,female,50_59,54,2000_3999_eur,0,large city,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+185,P0185,0,male,60_67,66,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+186,P0186,0,male,30_39,32,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+187,P0187,1,female,50_59,59,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+188,P0188,0,male,60_67,66,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+189,P0189,1,female,50_59,53,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+190,P0190,0,male,30_39,30,4000_plus_eur,1,metropolis,2,0,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+191,P0191,1,female,18_29,18,4000_plus_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+192,P0192,1,female,50_59,51,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,3
+193,P0193,1,female,30_39,36,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+194,P0194,1,female,50_59,52,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+195,P0195,0,male,30_39,32,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+196,P0196,1,female,50_59,50,2000_3999_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+197,P0197,1,female,50_59,59,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+198,P0198,0,male,68_plus,71,2000_3999_eur,0,large city,4,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+199,P0199,0,male,18_29,28,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+200,P0200,0,male,40_49,48,2000_3999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+201,P0201,1,female,40_49,48,4000_plus_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+202,P0202,1,female,68_plus,73,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+203,P0203,0,male,40_49,47,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+204,P0204,1,female,60_67,61,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+205,P0205,0,male,50_59,51,4000_plus_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+206,P0206,1,female,68_plus,74,2000_3999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+207,P0207,1,female,18_29,25,2000_3999_eur,0,large city,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+208,P0208,1,female,68_plus,73,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+209,P0209,0,male,40_49,41,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+210,P0210,1,female,68_plus,70,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+211,P0211,0,male,68_plus,78,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+212,P0212,0,male,30_39,38,500_1999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+213,P0213,0,male,60_67,60,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+214,P0214,1,female,30_39,30,4000_plus_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+215,P0215,1,female,30_39,33,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+216,P0216,0,male,50_59,51,500_1999_eur,1,metropolis,0,5,1,holds a public transport pass,1,has an active MaaS subscription,SD,5
+217,P0217,0,male,40_49,45,4000_plus_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+218,P0218,1,female,30_39,35,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+219,P0219,0,male,68_plus,80,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+220,P0220,0,male,68_plus,71,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+221,P0221,0,male,40_49,47,2000_3999_eur,1,metropolis,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+222,P0222,1,female,60_67,62,4000_plus_eur,0,large city,1,0,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,3
+223,P0223,0,male,50_59,56,2000_3999_eur,0,large city,1,0,1,holds a public transport pass,1,has an active MaaS subscription,SD,3
+224,P0224,1,female,50_59,59,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,5
+225,P0225,0,male,60_67,63,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+226,P0226,0,male,30_39,35,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+227,P0227,0,male,40_49,41,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+228,P0228,1,female,40_49,45,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+229,P0229,1,female,40_49,40,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+230,P0230,0,male,60_67,66,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+231,P0231,1,female,30_39,32,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+232,P0232,0,male,50_59,53,4000_plus_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+233,P0233,1,female,40_49,49,2000_3999_eur,1,metropolis,3,0,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+234,P0234,1,female,60_67,64,4000_plus_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+235,P0235,1,female,50_59,51,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+236,P0236,0,male,60_67,60,500_1999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+237,P0237,1,female,40_49,42,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+238,P0238,1,female,68_plus,80,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+239,P0239,0,male,40_49,45,2000_3999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+240,P0240,1,female,40_49,46,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+241,P0241,1,female,68_plus,69,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+242,P0242,1,female,50_59,59,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+243,P0243,1,female,50_59,52,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,7
+244,P0244,1,female,40_49,45,2000_3999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+245,P0245,0,male,60_67,61,500_1999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+246,P0246,0,male,30_39,33,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+247,P0247,0,male,60_67,65,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+248,P0248,1,female,60_67,63,2000_3999_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+249,P0249,0,male,40_49,48,500_1999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+250,P0250,0,male,68_plus,77,2000_3999_eur,0,large city,3,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+251,P0251,1,female,30_39,33,4000_plus_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+252,P0252,1,female,60_67,63,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+253,P0253,0,male,40_49,48,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+254,P0254,0,male,18_29,28,500_1999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+255,P0255,0,male,50_59,54,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+256,P0256,1,female,50_59,58,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+257,P0257,1,female,60_67,62,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+258,P0258,1,female,40_49,42,500_1999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+259,P0259,1,female,30_39,30,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+260,P0260,0,male,40_49,48,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+261,P0261,0,male,60_67,64,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,4
+262,P0262,1,female,30_39,31,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+263,P0263,1,female,40_49,47,2000_3999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+264,P0264,1,female,40_49,44,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+265,P0265,1,female,60_67,62,500_1999_eur,1,metropolis,4,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+266,P0266,1,female,50_59,53,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+267,P0267,1,female,40_49,41,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+268,P0268,0,male,60_67,67,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+269,P0269,0,male,60_67,60,500_1999_eur,0,large city,1,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,4
+270,P0270,0,male,40_49,42,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+271,P0271,1,female,40_49,45,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+272,P0272,1,female,40_49,49,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+273,P0273,1,female,68_plus,75,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+274,P0274,1,female,30_39,37,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+275,P0275,1,female,60_67,67,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+276,P0276,1,female,40_49,46,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+277,P0277,1,female,60_67,67,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+278,P0278,0,male,68_plus,69,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+279,P0279,1,female,68_plus,77,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+280,P0280,1,female,40_49,42,500_1999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+281,P0281,0,male,18_29,19,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+282,P0282,1,female,68_plus,71,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+283,P0283,1,female,50_59,53,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+284,P0284,0,male,68_plus,71,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+285,P0285,1,female,30_39,37,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+286,P0286,1,female,50_59,59,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+287,P0287,0,male,18_29,18,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+288,P0288,1,female,40_49,48,500_1999_eur,1,metropolis,3,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+289,P0289,1,female,60_67,66,4000_plus_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+290,P0290,1,female,30_39,31,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+291,P0291,1,female,50_59,57,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+292,P0292,1,female,68_plus,79,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,4
+293,P0293,1,female,50_59,57,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+294,P0294,1,female,18_29,18,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+295,P0295,0,male,50_59,52,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+296,P0296,1,female,40_49,48,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+297,P0297,0,male,30_39,35,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+298,P0298,1,female,50_59,51,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+299,P0299,1,female,50_59,59,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+300,P0300,0,male,30_39,37,2000_3999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+301,P0301,1,female,40_49,45,lt_500_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+302,P0302,0,male,68_plus,70,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+303,P0303,1,female,30_39,31,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,5
+304,P0304,0,male,40_49,41,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+305,P0305,1,female,50_59,59,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+306,P0306,0,male,60_67,64,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+307,P0307,0,male,30_39,37,2000_3999_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+308,P0308,1,female,50_59,59,4000_plus_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+309,P0309,0,male,30_39,36,500_1999_eur,1,metropolis,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+310,P0310,0,male,50_59,59,500_1999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+311,P0311,0,male,40_49,44,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,3
+312,P0312,0,male,40_49,48,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+313,P0313,0,male,30_39,34,500_1999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+314,P0314,0,male,40_49,45,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+315,P0315,0,male,68_plus,78,500_1999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+316,P0316,0,male,60_67,63,500_1999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+317,P0317,1,female,60_67,66,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+318,P0318,0,male,60_67,61,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+319,P0319,0,male,68_plus,71,2000_3999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+320,P0320,0,male,40_49,47,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,3
+321,P0321,0,male,50_59,57,2000_3999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+322,P0322,1,female,18_29,25,2000_3999_eur,0,large city,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+323,P0323,0,male,68_plus,79,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+324,P0324,1,female,30_39,32,500_1999_eur,0,large city,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+325,P0325,0,male,40_49,44,2000_3999_eur,0,large city,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+326,P0326,0,male,18_29,18,500_1999_eur,1,metropolis,2,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+327,P0327,0,male,30_39,33,500_1999_eur,0,large city,1,5,1,holds a public transport pass,1,has an active MaaS subscription,SD,4
+328,P0328,1,female,50_59,50,4000_plus_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+329,P0329,0,male,40_49,42,500_1999_eur,0,large city,2,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+330,P0330,0,male,18_29,27,500_1999_eur,1,metropolis,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+331,P0331,1,female,30_39,37,lt_500_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+332,P0332,1,female,50_59,54,4000_plus_eur,1,metropolis,1,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+333,P0333,1,female,60_67,60,2000_3999_eur,1,metropolis,1,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+334,P0334,1,female,68_plus,71,4000_plus_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+335,P0335,0,male,50_59,54,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+336,P0336,0,male,18_29,23,500_1999_eur,0,large city,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+337,P0337,0,male,18_29,24,500_1999_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+338,P0338,0,male,40_49,47,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+339,P0339,0,male,40_49,48,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+340,P0340,0,male,60_67,60,4000_plus_eur,0,large city,2,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+341,P0341,0,male,50_59,54,4000_plus_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+342,P0342,0,male,68_plus,68,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+343,P0343,0,male,40_49,40,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+344,P0344,0,male,50_59,56,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+345,P0345,1,female,50_59,52,500_1999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+346,P0346,1,female,40_49,46,2000_3999_eur,0,large city,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+347,P0347,0,male,40_49,49,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+348,P0348,1,female,40_49,49,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+349,P0349,1,female,40_49,46,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+350,P0350,0,male,60_67,61,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+351,P0351,1,female,30_39,34,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+352,P0352,1,female,40_49,49,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+353,P0353,1,female,40_49,40,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+354,P0354,1,female,68_plus,74,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+355,P0355,1,female,50_59,55,500_1999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+356,P0356,1,female,18_29,23,2000_3999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+357,P0357,0,male,68_plus,72,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+358,P0358,1,female,40_49,46,4000_plus_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+359,P0359,1,female,68_plus,69,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+360,P0360,0,male,60_67,65,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+361,P0361,1,female,30_39,30,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+362,P0362,1,female,50_59,53,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+363,P0363,0,male,30_39,38,500_1999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+364,P0364,1,female,68_plus,72,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+365,P0365,1,female,60_67,67,500_1999_eur,1,metropolis,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+366,P0366,0,male,30_39,37,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+367,P0367,0,male,40_49,41,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+368,P0368,1,female,30_39,37,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+369,P0369,1,female,68_plus,72,4000_plus_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+370,P0370,1,female,30_39,36,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+371,P0371,0,male,18_29,22,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+372,P0372,1,female,50_59,54,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+373,P0373,0,male,50_59,58,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+374,P0374,0,male,40_49,45,500_1999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+375,P0375,1,female,40_49,47,2000_3999_eur,0,large city,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+376,P0376,0,male,68_plus,73,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+377,P0377,1,female,18_29,29,500_1999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+378,P0378,1,female,30_39,35,2000_3999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+379,P0379,1,female,60_67,67,500_1999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+380,P0380,0,male,50_59,56,500_1999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+381,P0381,0,male,60_67,60,4000_plus_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+382,P0382,1,female,50_59,58,500_1999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+383,P0383,0,male,68_plus,68,4000_plus_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+384,P0384,0,male,30_39,37,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+385,P0385,0,male,50_59,51,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+386,P0386,1,female,40_49,43,2000_3999_eur,0,large city,1,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+387,P0387,0,male,18_29,25,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+388,P0388,1,female,68_plus,77,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+389,P0389,0,male,68_plus,70,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,3
+390,P0390,0,male,40_49,41,500_1999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+391,P0391,0,male,50_59,58,2000_3999_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+392,P0392,0,male,60_67,65,4000_plus_eur,0,large city,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+393,P0393,1,female,40_49,47,4000_plus_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+394,P0394,1,female,40_49,41,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+395,P0395,0,male,30_39,33,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+396,P0396,0,male,50_59,50,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+397,P0397,1,female,30_39,33,4000_plus_eur,0,large city,1,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+398,P0398,0,male,60_67,60,4000_plus_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+399,P0399,0,male,40_49,44,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+400,P0400,0,male,50_59,54,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+401,P0401,0,male,50_59,55,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+402,P0402,1,female,60_67,67,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+403,P0403,1,female,40_49,48,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+404,P0404,0,male,40_49,47,4000_plus_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+405,P0405,0,male,50_59,50,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+406,P0406,0,male,40_49,45,2000_3999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+407,P0407,1,female,30_39,38,4000_plus_eur,1,metropolis,1,3,1,holds a public transport pass,1,has an active MaaS subscription,MD,5
+408,P0408,0,male,60_67,66,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,2
+409,P0409,0,male,68_plus,76,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,6
+410,P0410,1,female,68_plus,72,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+411,P0411,0,male,68_plus,73,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+412,P0412,1,female,30_39,34,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+413,P0413,0,male,50_59,57,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+414,P0414,0,male,50_59,59,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+415,P0415,0,male,68_plus,78,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+416,P0416,0,male,60_67,63,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+417,P0417,0,male,30_39,35,500_1999_eur,1,metropolis,4,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+418,P0418,1,female,50_59,52,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+419,P0419,1,female,40_49,45,4000_plus_eur,1,metropolis,4,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+420,P0420,0,male,30_39,34,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+421,P0421,0,male,18_29,28,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+422,P0422,1,female,30_39,38,4000_plus_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+423,P0423,0,male,68_plus,72,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,1
+424,P0424,0,male,60_67,67,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+425,P0425,0,male,50_59,52,500_1999_eur,1,metropolis,2,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+426,P0426,0,male,40_49,44,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+427,P0427,1,female,30_39,37,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+428,P0428,1,female,40_49,49,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,3
+429,P0429,0,male,68_plus,78,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+430,P0430,0,male,40_49,46,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+431,P0431,0,male,60_67,66,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+432,P0432,0,male,40_49,42,500_1999_eur,1,metropolis,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+433,P0433,1,female,40_49,46,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+434,P0434,0,male,68_plus,76,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+435,P0435,0,male,40_49,49,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+436,P0436,0,male,68_plus,71,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+437,P0437,1,female,30_39,38,4000_plus_eur,1,metropolis,3,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+438,P0438,1,female,30_39,38,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+439,P0439,0,male,50_59,51,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+440,P0440,0,male,30_39,31,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+441,P0441,1,female,30_39,31,4000_plus_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+442,P0442,0,male,68_plus,73,4000_plus_eur,0,large city,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+443,P0443,0,male,68_plus,74,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+444,P0444,0,male,40_49,43,4000_plus_eur,0,large city,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+445,P0445,0,male,50_59,52,2000_3999_eur,0,large city,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+446,P0446,1,female,40_49,46,4000_plus_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+447,P0447,0,male,50_59,53,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+448,P0448,1,female,60_67,65,2000_3999_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+449,P0449,1,female,60_67,60,2000_3999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+450,P0450,1,female,68_plus,75,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+451,P0451,1,female,60_67,62,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+452,P0452,0,male,68_plus,75,2000_3999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+453,P0453,1,female,30_39,33,500_1999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+454,P0454,0,male,68_plus,74,4000_plus_eur,0,large city,3,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+455,P0455,0,male,30_39,31,2000_3999_eur,0,large city,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+456,P0456,1,female,60_67,66,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+457,P0457,1,female,30_39,33,500_1999_eur,0,large city,1,4,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+458,P0458,0,male,50_59,50,500_1999_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+459,P0459,1,female,40_49,47,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+460,P0460,1,female,40_49,40,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+461,P0461,0,male,68_plus,68,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+462,P0462,0,male,60_67,67,4000_plus_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+463,P0463,0,male,18_29,29,4000_plus_eur,0,large city,4,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+464,P0464,1,female,68_plus,71,500_1999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+465,P0465,1,female,30_39,34,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+466,P0466,0,male,40_49,46,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+467,P0467,1,female,40_49,46,500_1999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+468,P0468,1,female,40_49,46,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+469,P0469,1,female,50_59,53,500_1999_eur,0,large city,3,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+470,P0470,0,male,68_plus,70,4000_plus_eur,0,large city,3,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,6
+471,P0471,0,male,30_39,38,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+472,P0472,1,female,30_39,31,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+473,P0473,0,male,68_plus,70,4000_plus_eur,0,large city,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+474,P0474,0,male,30_39,36,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+475,P0475,0,male,30_39,39,500_1999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+476,P0476,0,male,40_49,44,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+477,P0477,0,male,60_67,66,4000_plus_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+478,P0478,1,female,40_49,41,4000_plus_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+479,P0479,0,male,40_49,44,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+480,P0480,0,male,50_59,50,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+481,P0481,1,female,50_59,56,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+482,P0482,1,female,40_49,43,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+483,P0483,1,female,60_67,60,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+484,P0484,1,female,50_59,53,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+485,P0485,0,male,40_49,47,4000_plus_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,5
+486,P0486,1,female,60_67,60,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+487,P0487,1,female,40_49,41,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+488,P0488,1,female,30_39,36,500_1999_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+489,P0489,0,male,40_49,41,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+490,P0490,0,male,60_67,62,2000_3999_eur,1,metropolis,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+491,P0491,1,female,60_67,64,2000_3999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+492,P0492,0,male,40_49,42,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+493,P0493,0,male,30_39,34,2000_3999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+494,P0494,0,male,50_59,59,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+495,P0495,1,female,60_67,65,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,4
+496,P0496,0,male,40_49,49,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+497,P0497,1,female,68_plus,68,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+498,P0498,0,male,40_49,44,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,1
+499,P0499,1,female,30_39,37,4000_plus_eur,0,large city,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+500,P0500,0,male,40_49,48,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+501,P0501,1,female,50_59,54,lt_500_eur,1,metropolis,3,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+502,P0502,1,female,18_29,22,500_1999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+503,P0503,0,male,60_67,61,4000_plus_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+504,P0504,0,male,60_67,63,2000_3999_eur,0,large city,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+505,P0505,0,male,40_49,44,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+506,P0506,0,male,40_49,49,500_1999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+507,P0507,1,female,40_49,41,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+508,P0508,0,male,50_59,52,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,4
+509,P0509,0,male,30_39,32,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+510,P0510,1,female,18_29,18,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+511,P0511,1,female,40_49,46,4000_plus_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+512,P0512,0,male,40_49,40,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+513,P0513,0,male,68_plus,69,2000_3999_eur,1,metropolis,1,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+514,P0514,1,female,68_plus,70,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+515,P0515,0,male,60_67,61,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+516,P0516,1,female,68_plus,79,500_1999_eur,0,large city,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+517,P0517,1,female,40_49,47,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+518,P0518,0,male,40_49,43,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+519,P0519,1,female,30_39,32,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+520,P0520,0,male,68_plus,74,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+521,P0521,1,female,50_59,55,500_1999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+522,P0522,0,male,50_59,57,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+523,P0523,1,female,60_67,63,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+524,P0524,1,female,50_59,51,2000_3999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+525,P0525,1,female,60_67,61,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+526,P0526,0,male,68_plus,80,2000_3999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+527,P0527,1,female,60_67,61,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+528,P0528,1,female,18_29,25,500_1999_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+529,P0529,0,male,50_59,51,2000_3999_eur,0,large city,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+530,P0530,0,male,50_59,52,2000_3999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+531,P0531,0,male,30_39,33,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+532,P0532,0,male,40_49,44,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+533,P0533,1,female,50_59,51,4000_plus_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+534,P0534,0,male,50_59,53,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+535,P0535,1,female,50_59,59,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+536,P0536,0,male,40_49,45,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+537,P0537,0,male,50_59,57,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+538,P0538,1,female,68_plus,73,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+539,P0539,0,male,68_plus,77,4000_plus_eur,0,large city,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+540,P0540,1,female,60_67,61,2000_3999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+541,P0541,0,male,30_39,38,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+542,P0542,1,female,50_59,50,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+543,P0543,0,male,60_67,65,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+544,P0544,1,female,50_59,51,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+545,P0545,0,male,50_59,59,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+546,P0546,0,male,60_67,64,4000_plus_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+547,P0547,0,male,68_plus,70,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+548,P0548,0,male,68_plus,76,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+549,P0549,0,male,30_39,35,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,5
+550,P0550,0,male,50_59,55,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+551,P0551,1,female,50_59,51,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+552,P0552,0,male,18_29,21,2000_3999_eur,0,large city,2,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+553,P0553,1,female,68_plus,73,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+554,P0554,0,male,30_39,32,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+555,P0555,1,female,50_59,55,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+556,P0556,1,female,18_29,19,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+557,P0557,1,female,50_59,58,2000_3999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+558,P0558,0,male,60_67,61,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+559,P0559,1,female,50_59,56,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+560,P0560,0,male,60_67,64,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+561,P0561,0,male,60_67,63,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+562,P0562,1,female,60_67,67,4000_plus_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+563,P0563,1,female,30_39,34,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+564,P0564,1,female,50_59,57,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+565,P0565,0,male,68_plus,80,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+566,P0566,1,female,50_59,58,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+567,P0567,1,female,50_59,53,500_1999_eur,1,metropolis,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+568,P0568,0,male,40_49,44,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+569,P0569,1,female,50_59,53,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+570,P0570,1,female,30_39,39,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+571,P0571,1,female,30_39,37,500_1999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+572,P0572,0,male,18_29,21,2000_3999_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+573,P0573,0,male,68_plus,80,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+574,P0574,1,female,40_49,45,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+575,P0575,0,male,18_29,28,500_1999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+576,P0576,0,male,30_39,36,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+577,P0577,0,male,50_59,50,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+578,P0578,1,female,68_plus,78,2000_3999_eur,0,large city,3,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+579,P0579,0,male,40_49,49,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+580,P0580,1,female,18_29,23,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+581,P0581,0,male,40_49,41,2000_3999_eur,1,metropolis,3,3,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+582,P0582,1,female,68_plus,78,2000_3999_eur,0,large city,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+583,P0583,1,female,68_plus,68,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+584,P0584,0,male,68_plus,79,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+585,P0585,1,female,50_59,54,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+586,P0586,1,female,40_49,48,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+587,P0587,0,male,18_29,26,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+588,P0588,0,male,68_plus,75,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+589,P0589,0,male,60_67,64,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+590,P0590,0,male,68_plus,75,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+591,P0591,1,female,68_plus,73,4000_plus_eur,1,metropolis,2,3,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,7
+592,P0592,1,female,40_49,44,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+593,P0593,1,female,18_29,21,500_1999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+594,P0594,0,male,68_plus,80,lt_500_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+595,P0595,1,female,60_67,63,500_1999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+596,P0596,0,male,50_59,55,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+597,P0597,1,female,68_plus,77,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+598,P0598,0,male,50_59,58,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+599,P0599,1,female,50_59,59,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+600,P0600,0,male,50_59,54,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,4
+601,P0601,0,male,40_49,48,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+602,P0602,1,female,40_49,47,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+603,P0603,1,female,40_49,42,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+604,P0604,1,female,50_59,50,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+605,P0605,1,female,18_29,23,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+606,P0606,0,male,50_59,55,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+607,P0607,0,male,50_59,59,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+608,P0608,0,male,50_59,55,2000_3999_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+609,P0609,1,female,30_39,34,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+610,P0610,1,female,18_29,24,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,5
+611,P0611,0,male,40_49,49,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+612,P0612,1,female,50_59,57,4000_plus_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+613,P0613,0,male,30_39,30,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+614,P0614,0,male,40_49,48,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+615,P0615,1,female,18_29,25,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+616,P0616,0,male,68_plus,79,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+617,P0617,0,male,40_49,48,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+618,P0618,1,female,40_49,42,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+619,P0619,1,female,60_67,61,500_1999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+620,P0620,0,male,40_49,40,500_1999_eur,1,metropolis,3,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+621,P0621,1,female,30_39,38,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+622,P0622,0,male,30_39,33,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+623,P0623,0,male,68_plus,80,500_1999_eur,1,metropolis,4,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+624,P0624,0,male,60_67,61,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+625,P0625,1,female,40_49,47,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+626,P0626,0,male,68_plus,73,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+627,P0627,0,male,60_67,67,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+628,P0628,0,male,68_plus,70,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+629,P0629,0,male,18_29,19,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,5
+630,P0630,1,female,30_39,39,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+631,P0631,1,female,40_49,44,2000_3999_eur,0,large city,3,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+632,P0632,1,female,68_plus,79,2000_3999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+633,P0633,0,male,50_59,55,500_1999_eur,0,large city,4,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+634,P0634,0,male,40_49,48,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+635,P0635,1,female,50_59,50,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+636,P0636,0,male,40_49,48,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+637,P0637,1,female,18_29,26,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+638,P0638,1,female,40_49,41,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+639,P0639,0,male,68_plus,74,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+640,P0640,1,female,68_plus,78,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+641,P0641,0,male,40_49,49,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+642,P0642,1,female,60_67,60,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+643,P0643,1,female,60_67,60,2000_3999_eur,0,large city,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+644,P0644,0,male,30_39,34,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+645,P0645,0,male,60_67,65,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+646,P0646,1,female,60_67,60,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+647,P0647,1,female,60_67,61,2000_3999_eur,0,large city,3,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+648,P0648,1,female,60_67,60,4000_plus_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+649,P0649,1,female,60_67,66,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+650,P0650,1,female,60_67,63,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+651,P0651,0,male,40_49,48,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+652,P0652,1,female,30_39,34,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+653,P0653,0,male,30_39,34,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+654,P0654,0,male,18_29,22,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+655,P0655,1,female,68_plus,68,2000_3999_eur,0,large city,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+656,P0656,0,male,30_39,35,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,1,has an active MaaS subscription,SD,7
+657,P0657,1,female,40_49,49,lt_500_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+658,P0658,0,male,30_39,37,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+659,P0659,0,male,68_plus,79,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+660,P0660,0,male,60_67,64,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+661,P0661,0,male,68_plus,68,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+662,P0662,0,male,40_49,48,2000_3999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+663,P0663,1,female,30_39,32,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+664,P0664,1,female,50_59,53,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+665,P0665,1,female,40_49,48,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+666,P0666,1,female,40_49,45,4000_plus_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+667,P0667,0,male,18_29,19,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+668,P0668,0,male,30_39,30,2000_3999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+669,P0669,1,female,68_plus,71,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,3
+670,P0670,1,female,40_49,46,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+671,P0671,0,male,40_49,46,500_1999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+672,P0672,0,male,40_49,47,4000_plus_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+673,P0673,1,female,60_67,63,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+674,P0674,0,male,18_29,22,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+675,P0675,0,male,60_67,65,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+676,P0676,1,female,50_59,53,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+677,P0677,1,female,30_39,35,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+678,P0678,1,female,50_59,50,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+679,P0679,0,male,40_49,42,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+680,P0680,0,male,60_67,61,2000_3999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+681,P0681,1,female,40_49,44,500_1999_eur,1,metropolis,3,5,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+682,P0682,0,male,40_49,40,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+683,P0683,1,female,40_49,47,500_1999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+684,P0684,0,male,50_59,54,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+685,P0685,1,female,68_plus,80,500_1999_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+686,P0686,0,male,30_39,35,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+687,P0687,1,female,30_39,38,4000_plus_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+688,P0688,1,female,40_49,47,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+689,P0689,0,male,50_59,58,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+690,P0690,1,female,60_67,61,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+691,P0691,0,male,68_plus,68,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+692,P0692,1,female,60_67,65,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+693,P0693,0,male,40_49,42,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+694,P0694,0,male,60_67,60,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+695,P0695,1,female,68_plus,76,4000_plus_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+696,P0696,1,female,30_39,34,4000_plus_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+697,P0697,1,female,68_plus,79,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+698,P0698,0,male,30_39,37,2000_3999_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+699,P0699,1,female,30_39,39,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+700,P0700,1,female,50_59,59,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+701,P0701,1,female,30_39,36,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+702,P0702,1,female,60_67,67,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+703,P0703,0,male,60_67,60,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+704,P0704,0,male,30_39,36,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+705,P0705,1,female,18_29,21,4000_plus_eur,1,metropolis,0,3,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+706,P0706,0,male,40_49,45,2000_3999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+707,P0707,1,female,60_67,63,4000_plus_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+708,P0708,1,female,30_39,33,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+709,P0709,1,female,68_plus,74,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+710,P0710,1,female,68_plus,76,2000_3999_eur,1,metropolis,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+711,P0711,0,male,40_49,48,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+712,P0712,0,male,50_59,55,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+713,P0713,1,female,68_plus,74,2000_3999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+714,P0714,1,female,30_39,32,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+715,P0715,0,male,40_49,44,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+716,P0716,1,female,68_plus,74,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+717,P0717,1,female,60_67,61,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+718,P0718,1,female,18_29,20,500_1999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+719,P0719,0,male,50_59,58,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+720,P0720,1,female,50_59,51,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+721,P0721,0,male,40_49,42,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+722,P0722,1,female,30_39,39,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+723,P0723,1,female,50_59,57,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+724,P0724,1,female,68_plus,80,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+725,P0725,1,female,30_39,39,4000_plus_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+726,P0726,1,female,18_29,26,lt_500_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+727,P0727,0,male,60_67,64,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+728,P0728,1,female,40_49,41,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+729,P0729,0,male,40_49,48,2000_3999_eur,1,metropolis,3,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+730,P0730,0,male,40_49,42,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+731,P0731,1,female,60_67,64,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+732,P0732,0,male,50_59,56,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,7
+733,P0733,0,male,60_67,61,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+734,P0734,0,male,40_49,45,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+735,P0735,1,female,18_29,23,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+736,P0736,1,female,60_67,64,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+737,P0737,1,female,40_49,47,500_1999_eur,0,large city,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+738,P0738,1,female,50_59,56,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+739,P0739,0,male,30_39,38,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+740,P0740,0,male,50_59,52,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+741,P0741,1,female,40_49,45,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,4
+742,P0742,1,female,40_49,45,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+743,P0743,0,male,50_59,50,4000_plus_eur,1,metropolis,2,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+744,P0744,0,male,68_plus,72,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+745,P0745,0,male,18_29,19,500_1999_eur,1,metropolis,3,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+746,P0746,0,male,40_49,44,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+747,P0747,0,male,40_49,46,4000_plus_eur,1,metropolis,1,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+748,P0748,0,male,30_39,33,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+749,P0749,1,female,30_39,31,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+750,P0750,0,male,68_plus,68,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+751,P0751,0,male,50_59,57,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+752,P0752,1,female,40_49,45,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+753,P0753,1,female,50_59,59,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+754,P0754,0,male,40_49,46,500_1999_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+755,P0755,1,female,68_plus,69,4000_plus_eur,0,large city,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+756,P0756,1,female,68_plus,75,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+757,P0757,1,female,18_29,24,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+758,P0758,1,female,50_59,52,lt_500_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+759,P0759,0,male,68_plus,79,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+760,P0760,1,female,60_67,63,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+761,P0761,0,male,60_67,60,4000_plus_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+762,P0762,1,female,18_29,27,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+763,P0763,1,female,60_67,66,500_1999_eur,0,large city,3,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+764,P0764,1,female,68_plus,77,500_1999_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+765,P0765,1,female,18_29,25,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+766,P0766,1,female,68_plus,71,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+767,P0767,0,male,60_67,61,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+768,P0768,0,male,30_39,32,4000_plus_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+769,P0769,0,male,50_59,50,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+770,P0770,1,female,40_49,42,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+771,P0771,0,male,40_49,41,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+772,P0772,0,male,68_plus,69,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+773,P0773,0,male,68_plus,79,4000_plus_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+774,P0774,0,male,18_29,25,2000_3999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+775,P0775,0,male,68_plus,75,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+776,P0776,0,male,40_49,42,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+777,P0777,0,male,68_plus,71,4000_plus_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+778,P0778,0,male,60_67,62,4000_plus_eur,1,metropolis,3,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+779,P0779,0,male,50_59,57,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+780,P0780,1,female,40_49,44,4000_plus_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+781,P0781,1,female,40_49,44,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+782,P0782,1,female,40_49,43,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+783,P0783,1,female,50_59,56,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+784,P0784,0,male,50_59,51,2000_3999_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+785,P0785,0,male,60_67,64,4000_plus_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+786,P0786,0,male,50_59,59,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+787,P0787,1,female,30_39,38,2000_3999_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+788,P0788,0,male,50_59,56,4000_plus_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+789,P0789,0,male,30_39,31,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+790,P0790,0,male,40_49,43,500_1999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+791,P0791,0,male,30_39,39,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,4
+792,P0792,0,male,40_49,41,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,3
+793,P0793,0,male,68_plus,73,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+794,P0794,0,male,40_49,41,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+795,P0795,0,male,50_59,52,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+796,P0796,1,female,18_29,20,4000_plus_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+797,P0797,0,male,30_39,39,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+798,P0798,1,female,60_67,60,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+799,P0799,1,female,50_59,55,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+800,P0800,0,male,30_39,32,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+801,P0801,1,female,68_plus,68,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+802,P0802,0,male,50_59,58,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+803,P0803,1,female,60_67,67,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+804,P0804,0,male,60_67,60,4000_plus_eur,0,large city,2,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+805,P0805,0,male,60_67,60,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,1
+806,P0806,1,female,68_plus,73,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+807,P0807,1,female,60_67,60,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+808,P0808,1,female,30_39,33,4000_plus_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+809,P0809,0,male,60_67,62,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+810,P0810,1,female,50_59,57,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+811,P0811,1,female,30_39,32,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+812,P0812,0,male,50_59,58,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+813,P0813,0,male,40_49,48,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+814,P0814,1,female,60_67,61,4000_plus_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+815,P0815,1,female,68_plus,71,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+816,P0816,0,male,40_49,41,2000_3999_eur,0,large city,2,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+817,P0817,1,female,40_49,44,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+818,P0818,1,female,40_49,45,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+819,P0819,0,male,18_29,19,4000_plus_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+820,P0820,0,male,18_29,19,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+821,P0821,1,female,40_49,43,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+822,P0822,1,female,68_plus,72,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+823,P0823,0,male,50_59,52,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+824,P0824,1,female,30_39,31,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+825,P0825,0,male,60_67,65,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+826,P0826,1,female,68_plus,71,4000_plus_eur,1,metropolis,3,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+827,P0827,1,female,40_49,49,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+828,P0828,0,male,40_49,45,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+829,P0829,0,male,40_49,41,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+830,P0830,1,female,30_39,33,2000_3999_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+831,P0831,1,female,40_49,42,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+832,P0832,0,male,40_49,45,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+833,P0833,0,male,68_plus,76,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+834,P0834,1,female,50_59,54,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+835,P0835,1,female,68_plus,75,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+836,P0836,1,female,60_67,67,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+837,P0837,1,female,40_49,41,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+838,P0838,1,female,30_39,38,2000_3999_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+839,P0839,1,female,60_67,65,4000_plus_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+840,P0840,1,female,68_plus,68,2000_3999_eur,0,large city,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+841,P0841,0,male,50_59,54,4000_plus_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+842,P0842,0,male,40_49,45,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+843,P0843,1,female,68_plus,72,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+844,P0844,1,female,18_29,22,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+845,P0845,0,male,60_67,62,500_1999_eur,1,metropolis,4,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+846,P0846,1,female,60_67,66,4000_plus_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+847,P0847,1,female,30_39,35,2000_3999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+848,P0848,1,female,50_59,55,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+849,P0849,0,male,30_39,30,4000_plus_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+850,P0850,1,female,50_59,55,4000_plus_eur,1,metropolis,3,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+851,P0851,0,male,60_67,64,2000_3999_eur,0,large city,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+852,P0852,0,male,60_67,63,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+853,P0853,1,female,60_67,65,4000_plus_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+854,P0854,0,male,30_39,34,4000_plus_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+855,P0855,0,male,40_49,42,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+856,P0856,1,female,30_39,35,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+857,P0857,0,male,30_39,30,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+858,P0858,1,female,40_49,43,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+859,P0859,0,male,60_67,65,2000_3999_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+860,P0860,0,male,60_67,60,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+861,P0861,1,female,60_67,65,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+862,P0862,0,male,50_59,57,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+863,P0863,0,male,50_59,56,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+864,P0864,0,male,68_plus,78,500_1999_eur,0,large city,0,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,5
+865,P0865,1,female,18_29,23,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+866,P0866,0,male,30_39,32,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+867,P0867,1,female,50_59,51,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+868,P0868,1,female,60_67,65,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+869,P0869,0,male,30_39,37,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+870,P0870,0,male,30_39,31,500_1999_eur,1,metropolis,4,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+871,P0871,0,male,18_29,23,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+872,P0872,1,female,68_plus,80,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+873,P0873,1,female,50_59,50,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+874,P0874,1,female,40_49,43,2000_3999_eur,1,metropolis,2,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+875,P0875,0,male,30_39,31,500_1999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+876,P0876,0,male,30_39,33,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+877,P0877,1,female,68_plus,80,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+878,P0878,0,male,60_67,63,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+879,P0879,1,female,30_39,37,4000_plus_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+880,P0880,0,male,40_49,41,4000_plus_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+881,P0881,1,female,60_67,64,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,6
+882,P0882,1,female,50_59,57,4000_plus_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+883,P0883,0,male,30_39,35,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+884,P0884,0,male,60_67,67,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+885,P0885,1,female,60_67,61,2000_3999_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+886,P0886,0,male,40_49,48,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+887,P0887,1,female,18_29,27,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+888,P0888,0,male,50_59,56,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+889,P0889,0,male,40_49,42,500_1999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+890,P0890,1,female,50_59,57,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+891,P0891,1,female,40_49,49,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,5
+892,P0892,0,male,50_59,52,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+893,P0893,1,female,40_49,41,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+894,P0894,0,male,18_29,18,2000_3999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+895,P0895,1,female,18_29,24,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+896,P0896,0,male,68_plus,77,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+897,P0897,0,male,30_39,30,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+898,P0898,0,male,68_plus,70,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+899,P0899,0,male,68_plus,71,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+900,P0900,0,male,40_49,42,500_1999_eur,1,metropolis,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+901,P0901,1,female,40_49,47,2000_3999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+902,P0902,1,female,40_49,49,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+903,P0903,0,male,40_49,44,500_1999_eur,0,large city,1,3,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+904,P0904,1,female,40_49,47,2000_3999_eur,1,metropolis,4,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+905,P0905,0,male,40_49,40,500_1999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+906,P0906,1,female,68_plus,80,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+907,P0907,0,male,68_plus,80,2000_3999_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+908,P0908,0,male,60_67,61,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+909,P0909,0,male,50_59,50,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,1
+910,P0910,0,male,30_39,31,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+911,P0911,0,male,30_39,38,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+912,P0912,1,female,60_67,62,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+913,P0913,0,male,50_59,53,2000_3999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+914,P0914,0,male,40_49,44,4000_plus_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+915,P0915,0,male,30_39,38,2000_3999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+916,P0916,0,male,40_49,48,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,5
+917,P0917,0,male,40_49,45,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+918,P0918,0,male,40_49,44,2000_3999_eur,0,large city,3,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+919,P0919,1,female,18_29,28,2000_3999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+920,P0920,0,male,60_67,63,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+921,P0921,0,male,60_67,67,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+922,P0922,1,female,50_59,59,500_1999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+923,P0923,0,male,40_49,46,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+924,P0924,0,male,60_67,67,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+925,P0925,1,female,18_29,22,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+926,P0926,0,male,30_39,37,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+927,P0927,0,male,50_59,51,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+928,P0928,1,female,60_67,67,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+929,P0929,0,male,68_plus,74,4000_plus_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+930,P0930,0,male,50_59,51,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+931,P0931,0,male,18_29,22,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+932,P0932,0,male,68_plus,79,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+933,P0933,0,male,60_67,60,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+934,P0934,1,female,60_67,67,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+935,P0935,1,female,68_plus,69,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+936,P0936,1,female,60_67,67,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+937,P0937,1,female,30_39,35,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+938,P0938,0,male,18_29,27,2000_3999_eur,1,metropolis,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+939,P0939,0,male,40_49,43,4000_plus_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+940,P0940,0,male,68_plus,72,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+941,P0941,0,male,40_49,47,2000_3999_eur,0,large city,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+942,P0942,0,male,30_39,37,500_1999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+943,P0943,0,male,18_29,29,4000_plus_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+944,P0944,1,female,68_plus,77,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+945,P0945,0,male,50_59,57,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+946,P0946,1,female,50_59,59,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+947,P0947,0,male,40_49,40,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+948,P0948,0,male,68_plus,72,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+949,P0949,0,male,50_59,52,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,3
+950,P0950,1,female,30_39,34,4000_plus_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+951,P0951,1,female,30_39,36,500_1999_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+952,P0952,1,female,40_49,44,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+953,P0953,0,male,60_67,63,500_1999_eur,0,large city,4,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+954,P0954,1,female,30_39,37,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+955,P0955,0,male,40_49,49,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+956,P0956,1,female,18_29,27,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+957,P0957,1,female,40_49,49,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+958,P0958,0,male,30_39,32,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+959,P0959,0,male,60_67,60,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+960,P0960,1,female,68_plus,70,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+961,P0961,1,female,40_49,46,4000_plus_eur,1,metropolis,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+962,P0962,1,female,50_59,52,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+963,P0963,1,female,60_67,67,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,5
+964,P0964,1,female,40_49,48,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+965,P0965,1,female,68_plus,79,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+966,P0966,1,female,30_39,30,2000_3999_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+967,P0967,0,male,50_59,55,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+968,P0968,0,male,68_plus,78,4000_plus_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+969,P0969,1,female,40_49,41,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+970,P0970,1,female,40_49,46,lt_500_eur,0,large city,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+971,P0971,1,female,18_29,20,500_1999_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+972,P0972,0,male,30_39,36,500_1999_eur,0,large city,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+973,P0973,0,male,60_67,61,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+974,P0974,0,male,30_39,36,4000_plus_eur,0,large city,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+975,P0975,1,female,60_67,61,2000_3999_eur,0,large city,3,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+976,P0976,1,female,50_59,58,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+977,P0977,0,male,68_plus,76,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+978,P0978,0,male,60_67,66,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+979,P0979,0,male,68_plus,68,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+980,P0980,1,female,30_39,38,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+981,P0981,1,female,50_59,54,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+982,P0982,0,male,18_29,21,500_1999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+983,P0983,0,male,40_49,40,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+984,P0984,1,female,60_67,62,4000_plus_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+985,P0985,1,female,50_59,57,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+986,P0986,1,female,60_67,60,2000_3999_eur,0,large city,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+987,P0987,1,female,18_29,29,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+988,P0988,0,male,68_plus,73,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+989,P0989,0,male,50_59,59,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+990,P0990,1,female,40_49,49,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+991,P0991,0,male,68_plus,74,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+992,P0992,0,male,68_plus,69,2000_3999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+993,P0993,1,female,50_59,50,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+994,P0994,1,female,50_59,51,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+995,P0995,1,female,50_59,55,4000_plus_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+996,P0996,0,male,30_39,34,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+997,P0997,1,female,40_49,47,4000_plus_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+998,P0998,1,female,30_39,37,500_1999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+999,P0999,1,female,68_plus,70,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1000,P1000,0,male,60_67,62,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1001,P1001,0,male,30_39,37,2000_3999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1002,P1002,0,male,60_67,67,500_1999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1003,P1003,0,male,30_39,33,500_1999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1004,P1004,0,male,18_29,23,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1005,P1005,0,male,60_67,65,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1006,P1006,0,male,40_49,41,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1007,P1007,1,female,60_67,64,4000_plus_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1008,P1008,1,female,30_39,37,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1009,P1009,0,male,50_59,50,4000_plus_eur,0,large city,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,8
+1010,P1010,0,male,40_49,45,4000_plus_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1011,P1011,1,female,30_39,32,500_1999_eur,1,metropolis,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1012,P1012,0,male,30_39,36,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1013,P1013,0,male,50_59,54,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1014,P1014,1,female,60_67,60,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1015,P1015,0,male,60_67,66,4000_plus_eur,0,large city,0,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+1016,P1016,0,male,40_49,46,500_1999_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1017,P1017,0,male,40_49,40,lt_500_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1018,P1018,0,male,30_39,39,500_1999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1019,P1019,1,female,30_39,32,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1020,P1020,0,male,60_67,61,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1021,P1021,0,male,60_67,63,500_1999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1022,P1022,0,male,50_59,51,500_1999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1023,P1023,0,male,40_49,41,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,8
+1024,P1024,1,female,68_plus,70,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1025,P1025,1,female,18_29,24,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1026,P1026,0,male,18_29,24,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1027,P1027,0,male,50_59,57,4000_plus_eur,0,large city,3,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1028,P1028,0,male,40_49,41,2000_3999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1029,P1029,1,female,30_39,34,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1030,P1030,0,male,40_49,40,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1031,P1031,1,female,30_39,37,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1032,P1032,1,female,50_59,51,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1033,P1033,1,female,40_49,40,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1034,P1034,0,male,50_59,56,4000_plus_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1035,P1035,1,female,18_29,21,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1036,P1036,0,male,40_49,45,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1037,P1037,0,male,60_67,67,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1038,P1038,0,male,60_67,61,500_1999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1039,P1039,0,male,50_59,51,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1040,P1040,1,female,68_plus,77,4000_plus_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1041,P1041,0,male,30_39,31,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1042,P1042,1,female,50_59,50,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1043,P1043,0,male,40_49,45,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1044,P1044,0,male,50_59,50,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1045,P1045,0,male,50_59,53,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1046,P1046,1,female,50_59,51,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1047,P1047,0,male,60_67,61,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1048,P1048,0,male,50_59,54,500_1999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1049,P1049,0,male,30_39,32,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1050,P1050,1,female,40_49,42,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+1051,P1051,0,male,40_49,40,2000_3999_eur,0,large city,1,3,1,holds a public transport pass,1,has an active MaaS subscription,MD,8
+1052,P1052,1,female,50_59,57,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1053,P1053,1,female,50_59,57,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1054,P1054,1,female,60_67,60,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1055,P1055,0,male,68_plus,73,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1056,P1056,1,female,30_39,36,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1057,P1057,0,male,60_67,66,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1058,P1058,0,male,50_59,59,500_1999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1059,P1059,0,male,30_39,33,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1060,P1060,0,male,30_39,39,4000_plus_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1061,P1061,1,female,68_plus,80,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1062,P1062,0,male,50_59,56,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1063,P1063,1,female,50_59,53,4000_plus_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1064,P1064,1,female,40_49,42,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1065,P1065,0,male,40_49,47,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1066,P1066,0,male,50_59,56,500_1999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1067,P1067,0,male,50_59,55,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1068,P1068,1,female,60_67,64,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1069,P1069,1,female,30_39,37,4000_plus_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1070,P1070,1,female,60_67,67,500_1999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1071,P1071,1,female,18_29,19,4000_plus_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1072,P1072,1,female,40_49,49,4000_plus_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1073,P1073,1,female,68_plus,70,4000_plus_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1074,P1074,0,male,68_plus,79,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1075,P1075,0,male,68_plus,69,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1076,P1076,1,female,30_39,39,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1077,P1077,0,male,50_59,54,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1078,P1078,1,female,40_49,46,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1079,P1079,0,male,30_39,33,4000_plus_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1080,P1080,0,male,30_39,39,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1081,P1081,0,male,40_49,41,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1082,P1082,0,male,68_plus,70,500_1999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1083,P1083,0,male,68_plus,75,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1084,P1084,0,male,50_59,53,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+1085,P1085,1,female,40_49,48,500_1999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1086,P1086,1,female,50_59,50,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1087,P1087,0,male,18_29,24,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1088,P1088,1,female,40_49,41,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1089,P1089,1,female,30_39,35,2000_3999_eur,0,large city,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1090,P1090,0,male,30_39,38,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1091,P1091,1,female,30_39,34,500_1999_eur,1,metropolis,1,5,1,holds a public transport pass,1,has an active MaaS subscription,MD,4
+1092,P1092,0,male,68_plus,78,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1093,P1093,1,female,68_plus,73,2000_3999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1094,P1094,0,male,30_39,32,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1095,P1095,1,female,30_39,30,2000_3999_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1096,P1096,1,female,50_59,58,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1097,P1097,1,female,40_49,43,2000_3999_eur,1,metropolis,4,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1098,P1098,0,male,18_29,23,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1099,P1099,0,male,60_67,60,500_1999_eur,1,metropolis,3,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1100,P1100,0,male,40_49,48,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1101,P1101,0,male,40_49,48,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1102,P1102,0,male,40_49,46,4000_plus_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1103,P1103,1,female,40_49,47,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1104,P1104,0,male,60_67,63,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,3
+1105,P1105,0,male,30_39,31,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1106,P1106,0,male,18_29,20,2000_3999_eur,0,large city,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1107,P1107,0,male,40_49,45,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1108,P1108,1,female,30_39,35,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1109,P1109,1,female,40_49,44,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1110,P1110,1,female,60_67,65,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1111,P1111,0,male,68_plus,74,500_1999_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1112,P1112,1,female,68_plus,75,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1113,P1113,0,male,18_29,23,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1114,P1114,1,female,50_59,57,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,4
+1115,P1115,0,male,30_39,30,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1116,P1116,1,female,68_plus,77,2000_3999_eur,0,large city,2,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1117,P1117,0,male,30_39,32,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1118,P1118,1,female,30_39,34,4000_plus_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1119,P1119,0,male,50_59,54,500_1999_eur,0,large city,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1120,P1120,1,female,68_plus,77,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1121,P1121,1,female,50_59,57,500_1999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1122,P1122,0,male,60_67,61,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1123,P1123,1,female,60_67,62,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1124,P1124,1,female,30_39,39,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1125,P1125,0,male,30_39,30,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1126,P1126,0,male,50_59,55,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1127,P1127,0,male,60_67,67,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1128,P1128,0,male,50_59,55,2000_3999_eur,1,metropolis,2,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1129,P1129,1,female,40_49,45,2000_3999_eur,0,large city,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1130,P1130,0,male,50_59,53,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1131,P1131,0,male,50_59,52,500_1999_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1132,P1132,0,male,50_59,56,2000_3999_eur,0,large city,3,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1133,P1133,0,male,50_59,52,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1134,P1134,1,female,50_59,53,2000_3999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1135,P1135,1,female,30_39,34,500_1999_eur,0,large city,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1136,P1136,0,male,18_29,21,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1137,P1137,1,female,50_59,55,2000_3999_eur,1,metropolis,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1138,P1138,1,female,60_67,67,2000_3999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1139,P1139,1,female,40_49,49,500_1999_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1140,P1140,0,male,40_49,47,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1141,P1141,0,male,50_59,54,4000_plus_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1142,P1142,1,female,68_plus,71,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1143,P1143,1,female,50_59,55,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1144,P1144,1,female,60_67,63,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,2
+1145,P1145,0,male,68_plus,71,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1146,P1146,1,female,30_39,37,4000_plus_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1147,P1147,0,male,50_59,57,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1148,P1148,1,female,60_67,62,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+1149,P1149,0,male,68_plus,74,2000_3999_eur,1,metropolis,3,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1150,P1150,1,female,50_59,52,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1151,P1151,0,male,68_plus,71,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1152,P1152,1,female,18_29,28,2000_3999_eur,0,large city,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1153,P1153,1,female,68_plus,76,2000_3999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1154,P1154,0,male,40_49,40,2000_3999_eur,0,large city,3,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1155,P1155,1,female,30_39,37,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,1,has an active MaaS subscription,MD,8
+1156,P1156,1,female,40_49,41,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1157,P1157,1,female,50_59,50,500_1999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1158,P1158,0,male,60_67,67,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1159,P1159,1,female,68_plus,69,4000_plus_eur,1,metropolis,2,0,1,holds a public transport pass,1,has an active MaaS subscription,MD,7
+1160,P1160,1,female,40_49,49,500_1999_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1161,P1161,1,female,40_49,42,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1162,P1162,1,female,18_29,25,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1163,P1163,1,female,30_39,38,2000_3999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1164,P1164,0,male,60_67,65,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1165,P1165,0,male,40_49,42,2000_3999_eur,0,large city,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1166,P1166,1,female,40_49,47,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1167,P1167,0,male,30_39,37,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1168,P1168,1,female,60_67,60,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1169,P1169,0,male,40_49,43,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1170,P1170,1,female,40_49,41,4000_plus_eur,0,large city,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1171,P1171,0,male,30_39,32,500_1999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1172,P1172,1,female,50_59,52,500_1999_eur,0,large city,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1173,P1173,1,female,40_49,42,500_1999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1174,P1174,1,female,68_plus,71,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1175,P1175,1,female,60_67,62,500_1999_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1176,P1176,0,male,68_plus,73,4000_plus_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1177,P1177,1,female,30_39,35,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1178,P1178,1,female,50_59,53,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1179,P1179,1,female,30_39,36,4000_plus_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1180,P1180,1,female,68_plus,78,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+1181,P1181,0,male,60_67,61,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1182,P1182,0,male,68_plus,73,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1183,P1183,0,male,40_49,42,2000_3999_eur,0,large city,2,4,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,3
+1184,P1184,1,female,68_plus,72,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1185,P1185,1,female,68_plus,70,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1186,P1186,1,female,30_39,34,500_1999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1187,P1187,1,female,68_plus,80,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1188,P1188,0,male,68_plus,70,500_1999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1189,P1189,0,male,68_plus,71,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1190,P1190,0,male,50_59,56,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1191,P1191,0,male,68_plus,71,500_1999_eur,0,large city,3,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1192,P1192,0,male,40_49,40,500_1999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1193,P1193,0,male,50_59,59,4000_plus_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1194,P1194,0,male,60_67,65,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1195,P1195,1,female,50_59,50,4000_plus_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1196,P1196,0,male,68_plus,77,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1197,P1197,1,female,68_plus,73,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1198,P1198,0,male,60_67,62,4000_plus_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1199,P1199,0,male,68_plus,74,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1200,P1200,0,male,30_39,33,2000_3999_eur,0,large city,3,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1201,P1201,1,female,50_59,53,2000_3999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1202,P1202,0,male,40_49,49,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1203,P1203,1,female,50_59,50,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1204,P1204,0,male,50_59,51,lt_500_eur,0,large city,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1205,P1205,0,male,60_67,60,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1206,P1206,1,female,40_49,49,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1207,P1207,1,female,68_plus,68,2000_3999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1208,P1208,1,female,60_67,62,2000_3999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1209,P1209,1,female,60_67,66,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,1,has an active MaaS subscription,SD,4
+1210,P1210,1,female,18_29,27,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1211,P1211,0,male,68_plus,68,4000_plus_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+1212,P1212,0,male,40_49,47,500_1999_eur,0,large city,3,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1213,P1213,1,female,40_49,40,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1214,P1214,1,female,60_67,62,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1215,P1215,0,male,30_39,30,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1216,P1216,0,male,60_67,67,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1217,P1217,0,male,30_39,36,500_1999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1218,P1218,0,male,50_59,50,2000_3999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1219,P1219,1,female,60_67,64,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+1220,P1220,1,female,18_29,28,2000_3999_eur,1,metropolis,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1221,P1221,0,male,50_59,58,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1222,P1222,1,female,50_59,57,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1223,P1223,1,female,18_29,20,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1224,P1224,0,male,68_plus,77,500_1999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1225,P1225,0,male,30_39,39,4000_plus_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1226,P1226,0,male,50_59,57,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1227,P1227,1,female,60_67,61,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1228,P1228,1,female,68_plus,70,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1229,P1229,0,male,50_59,57,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1230,P1230,1,female,60_67,62,500_1999_eur,0,large city,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+1231,P1231,1,female,40_49,42,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1232,P1232,1,female,50_59,54,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1233,P1233,1,female,40_49,41,2000_3999_eur,1,metropolis,3,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1234,P1234,1,female,60_67,60,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1235,P1235,1,female,40_49,49,500_1999_eur,0,large city,1,3,1,holds a public transport pass,1,has an active MaaS subscription,SD,1
+1236,P1236,1,female,40_49,42,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1237,P1237,1,female,60_67,65,4000_plus_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1238,P1238,0,male,18_29,22,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1239,P1239,1,female,30_39,35,4000_plus_eur,1,metropolis,0,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+1240,P1240,0,male,50_59,56,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1241,P1241,0,male,40_49,40,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1242,P1242,0,male,30_39,33,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1243,P1243,1,female,60_67,64,500_1999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1244,P1244,1,female,60_67,67,500_1999_eur,1,metropolis,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1245,P1245,1,female,40_49,40,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1246,P1246,1,female,50_59,55,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1247,P1247,0,male,40_49,42,lt_500_eur,0,large city,2,5,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,8
+1248,P1248,1,female,60_67,65,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1249,P1249,0,male,40_49,41,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1250,P1250,1,female,40_49,45,2000_3999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1251,P1251,1,female,40_49,43,2000_3999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1252,P1252,0,male,40_49,43,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1253,P1253,1,female,50_59,51,500_1999_eur,1,metropolis,1,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1254,P1254,1,female,40_49,42,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1255,P1255,0,male,30_39,39,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1256,P1256,1,female,30_39,34,2000_3999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1257,P1257,1,female,40_49,42,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1258,P1258,1,female,30_39,37,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1259,P1259,0,male,30_39,35,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1260,P1260,1,female,30_39,30,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1261,P1261,0,male,40_49,44,4000_plus_eur,1,metropolis,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1262,P1262,1,female,30_39,36,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+1263,P1263,0,male,68_plus,70,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1264,P1264,0,male,30_39,31,2000_3999_eur,1,metropolis,3,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1265,P1265,0,male,60_67,65,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1266,P1266,1,female,18_29,28,2000_3999_eur,1,metropolis,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1267,P1267,0,male,50_59,51,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,7
+1268,P1268,1,female,50_59,59,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1269,P1269,1,female,30_39,35,2000_3999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1270,P1270,1,female,50_59,55,500_1999_eur,1,metropolis,1,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1271,P1271,0,male,60_67,64,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1272,P1272,0,male,60_67,66,500_1999_eur,0,large city,1,0,1,holds a public transport pass,1,has an active MaaS subscription,MD,2
+1273,P1273,1,female,68_plus,74,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1274,P1274,0,male,50_59,56,2000_3999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1275,P1275,0,male,68_plus,71,500_1999_eur,1,metropolis,0,3,1,holds a public transport pass,1,has an active MaaS subscription,SD,6
+1276,P1276,0,male,30_39,30,500_1999_eur,1,metropolis,1,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1277,P1277,1,female,68_plus,68,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1278,P1278,0,male,50_59,57,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1279,P1279,0,male,60_67,66,2000_3999_eur,1,metropolis,3,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1280,P1280,0,male,60_67,61,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1281,P1281,1,female,40_49,42,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,3
+1282,P1282,0,male,68_plus,75,500_1999_eur,0,large city,0,2,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,4
+1283,P1283,0,male,40_49,43,500_1999_eur,1,metropolis,3,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1284,P1284,0,male,50_59,57,4000_plus_eur,1,metropolis,2,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,7
+1285,P1285,0,male,30_39,36,2000_3999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1286,P1286,0,male,50_59,55,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,1,has an active MaaS subscription,MD,3
+1287,P1287,1,female,40_49,44,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1288,P1288,1,female,30_39,33,500_1999_eur,1,metropolis,3,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1289,P1289,0,male,30_39,35,4000_plus_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1290,P1290,1,female,30_39,31,500_1999_eur,1,metropolis,1,3,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,2
+1291,P1291,1,female,18_29,24,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1292,P1292,1,female,40_49,46,2000_3999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1293,P1293,0,male,40_49,44,500_1999_eur,1,metropolis,0,5,1,holds a public transport pass,1,has an active MaaS subscription,MD,1
+1294,P1294,1,female,68_plus,70,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,3
+1295,P1295,1,female,68_plus,70,2000_3999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1296,P1296,1,female,60_67,66,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1297,P1297,0,male,40_49,49,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1298,P1298,0,male,40_49,40,500_1999_eur,1,metropolis,1,5,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,4
+1299,P1299,0,male,18_29,29,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1300,P1300,0,male,68_plus,69,4000_plus_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1301,P1301,0,male,30_39,36,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1302,P1302,1,female,40_49,45,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1303,P1303,0,male,68_plus,79,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1304,P1304,0,male,18_29,18,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1305,P1305,1,female,50_59,54,500_1999_eur,1,metropolis,2,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1306,P1306,0,male,60_67,60,500_1999_eur,0,large city,1,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1307,P1307,1,female,30_39,36,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1308,P1308,0,male,60_67,63,2000_3999_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1309,P1309,1,female,18_29,21,4000_plus_eur,0,large city,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1310,P1310,0,male,30_39,34,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1311,P1311,0,male,50_59,59,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1312,P1312,0,male,50_59,59,500_1999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1313,P1313,1,female,60_67,67,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1314,P1314,0,male,40_49,44,2000_3999_eur,0,large city,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1315,P1315,1,female,40_49,47,4000_plus_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1316,P1316,0,male,40_49,45,lt_500_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1317,P1317,1,female,18_29,24,4000_plus_eur,0,large city,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,4
+1318,P1318,0,male,30_39,37,2000_3999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1319,P1319,0,male,60_67,64,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1320,P1320,1,female,60_67,61,4000_plus_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1321,P1321,1,female,68_plus,74,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1322,P1322,1,female,68_plus,69,500_1999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1323,P1323,0,male,40_49,48,500_1999_eur,0,large city,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1324,P1324,1,female,68_plus,68,500_1999_eur,1,metropolis,2,1,1,holds a public transport pass,1,has an active MaaS subscription,MD,3
+1325,P1325,0,male,30_39,34,2000_3999_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1326,P1326,0,male,50_59,53,500_1999_eur,1,metropolis,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1327,P1327,1,female,50_59,50,4000_plus_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1328,P1328,1,female,18_29,28,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1329,P1329,1,female,50_59,57,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1330,P1330,1,female,50_59,58,4000_plus_eur,1,metropolis,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1331,P1331,1,female,68_plus,73,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1332,P1332,0,male,68_plus,76,2000_3999_eur,1,metropolis,3,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1333,P1333,1,female,50_59,59,4000_plus_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1334,P1334,0,male,40_49,49,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1335,P1335,0,male,68_plus,78,500_1999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1336,P1336,1,female,18_29,19,500_1999_eur,0,large city,0,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1337,P1337,0,male,68_plus,71,2000_3999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1338,P1338,0,male,18_29,22,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1339,P1339,0,male,18_29,21,500_1999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1340,P1340,0,male,30_39,37,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1341,P1341,0,male,68_plus,75,500_1999_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1342,P1342,1,female,60_67,60,500_1999_eur,1,metropolis,1,5,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,7
+1343,P1343,0,male,60_67,65,4000_plus_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,2
+1344,P1344,1,female,68_plus,71,4000_plus_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1345,P1345,1,female,40_49,42,2000_3999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1346,P1346,0,male,40_49,45,2000_3999_eur,0,large city,2,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1347,P1347,1,female,50_59,53,4000_plus_eur,1,metropolis,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,7
+1348,P1348,0,male,68_plus,78,4000_plus_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1349,P1349,0,male,40_49,49,500_1999_eur,1,metropolis,3,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1350,P1350,1,female,30_39,33,500_1999_eur,0,large city,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1351,P1351,1,female,68_plus,78,500_1999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1352,P1352,1,female,40_49,46,500_1999_eur,1,metropolis,4,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1353,P1353,1,female,40_49,44,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1354,P1354,0,male,50_59,53,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1355,P1355,1,female,68_plus,75,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1356,P1356,0,male,40_49,42,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1357,P1357,0,male,68_plus,78,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1358,P1358,0,male,60_67,60,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1359,P1359,0,male,60_67,65,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1360,P1360,1,female,60_67,63,500_1999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,3
+1361,P1361,1,female,30_39,32,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1362,P1362,0,male,40_49,41,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1363,P1363,0,male,30_39,39,2000_3999_eur,1,metropolis,2,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1364,P1364,0,male,40_49,46,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1365,P1365,0,male,60_67,63,4000_plus_eur,1,metropolis,2,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+1366,P1366,1,female,18_29,22,500_1999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1367,P1367,1,female,50_59,55,2000_3999_eur,0,large city,4,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1368,P1368,0,male,40_49,45,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1369,P1369,0,male,60_67,65,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1370,P1370,1,female,30_39,35,2000_3999_eur,1,metropolis,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1371,P1371,0,male,40_49,44,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,2
+1372,P1372,1,female,60_67,61,2000_3999_eur,1,metropolis,1,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,5
+1373,P1373,1,female,50_59,58,4000_plus_eur,0,large city,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1374,P1374,1,female,40_49,46,2000_3999_eur,1,metropolis,0,5,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1375,P1375,1,female,30_39,30,500_1999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1376,P1376,1,female,68_plus,77,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1377,P1377,0,male,40_49,46,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1378,P1378,0,male,60_67,63,2000_3999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1379,P1379,0,male,18_29,21,500_1999_eur,0,large city,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1380,P1380,0,male,40_49,48,2000_3999_eur,0,large city,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1381,P1381,0,male,60_67,62,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,1
+1382,P1382,0,male,60_67,61,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,1
+1383,P1383,0,male,30_39,30,4000_plus_eur,0,large city,0,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1384,P1384,1,female,50_59,57,2000_3999_eur,1,metropolis,2,4,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1385,P1385,1,female,40_49,45,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1386,P1386,1,female,40_49,47,500_1999_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1387,P1387,1,female,50_59,59,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1388,P1388,0,male,50_59,57,2000_3999_eur,0,large city,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1389,P1389,1,female,50_59,53,lt_500_eur,1,metropolis,2,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1390,P1390,0,male,40_49,48,4000_plus_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1391,P1391,0,male,40_49,41,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,1,has an active MaaS subscription,SD,3
+1392,P1392,0,male,68_plus,74,500_1999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1393,P1393,1,female,60_67,64,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1394,P1394,0,male,40_49,44,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1395,P1395,0,male,68_plus,78,4000_plus_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,5
+1396,P1396,0,male,40_49,49,2000_3999_eur,1,metropolis,2,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1397,P1397,0,male,40_49,48,500_1999_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1398,P1398,1,female,50_59,55,500_1999_eur,1,metropolis,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,8
+1399,P1399,0,male,30_39,34,2000_3999_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1400,P1400,0,male,68_plus,73,500_1999_eur,1,metropolis,1,5,0,does not hold a public transport pass,1,has an active MaaS subscription,MD,7
+1401,P1401,0,male,50_59,50,2000_3999_eur,0,large city,0,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1402,P1402,0,male,40_49,47,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1403,P1403,0,male,30_39,38,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,1,has an active MaaS subscription,SD,2
+1404,P1404,0,male,60_67,66,4000_plus_eur,0,large city,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1405,P1405,0,male,30_39,37,4000_plus_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1406,P1406,1,female,30_39,30,2000_3999_eur,1,metropolis,1,4,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1407,P1407,0,male,60_67,65,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1408,P1408,0,male,68_plus,70,2000_3999_eur,1,metropolis,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1409,P1409,1,female,60_67,67,lt_500_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1410,P1410,0,male,18_29,19,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1411,P1411,1,female,68_plus,70,2000_3999_eur,0,large city,1,2,1,holds a public transport pass,1,has an active MaaS subscription,SD,2
+1412,P1412,1,female,60_67,62,500_1999_eur,1,metropolis,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1413,P1413,1,female,50_59,59,500_1999_eur,1,metropolis,0,5,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,1
+1414,P1414,1,female,40_49,45,500_1999_eur,0,large city,0,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,6
+1415,P1415,0,male,40_49,42,500_1999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,7
+1416,P1416,0,male,60_67,63,500_1999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,2
+1417,P1417,1,female,30_39,30,500_1999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1418,P1418,0,male,40_49,41,4000_plus_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1419,P1419,1,female,50_59,50,500_1999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,4
+1420,P1420,0,male,50_59,59,2000_3999_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1421,P1421,0,male,68_plus,74,2000_3999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,6
+1422,P1422,1,female,50_59,50,4000_plus_eur,0,large city,0,4,1,holds a public transport pass,0,does not have a MaaS subscription,SD,8
+1423,P1423,1,female,50_59,50,500_1999_eur,1,metropolis,0,2,1,holds a public transport pass,0,does not have a MaaS subscription,MD,8
+1424,P1424,1,female,68_plus,79,2000_3999_eur,0,large city,1,1,1,holds a public transport pass,0,does not have a MaaS subscription,MD,3
+1425,P1425,0,male,50_59,59,500_1999_eur,1,metropolis,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1426,P1426,1,female,60_67,62,500_1999_eur,1,metropolis,1,4,1,holds a public transport pass,1,has an active MaaS subscription,MD,6
+1427,P1427,0,male,68_plus,74,4000_plus_eur,0,large city,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,4
+1428,P1428,0,male,40_49,46,2000_3999_eur,1,metropolis,1,2,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1429,P1429,0,male,50_59,53,2000_3999_eur,1,metropolis,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1430,P1430,1,female,50_59,56,2000_3999_eur,1,metropolis,1,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,5
+1431,P1431,0,male,68_plus,69,2000_3999_eur,1,metropolis,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,7
+1432,P1432,0,male,50_59,59,2000_3999_eur,1,metropolis,0,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,2
+1433,P1433,0,male,50_59,50,500_1999_eur,0,large city,2,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1434,P1434,0,male,30_39,32,2000_3999_eur,1,metropolis,2,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,7
+1435,P1435,1,female,30_39,32,2000_3999_eur,1,metropolis,1,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1436,P1436,1,female,40_49,41,4000_plus_eur,0,large city,1,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,8
+1437,P1437,0,male,40_49,49,500_1999_eur,0,large city,1,3,1,holds a public transport pass,0,does not have a MaaS subscription,MD,4
+1438,P1438,1,female,50_59,56,4000_plus_eur,0,large city,2,2,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3
+1439,P1439,0,male,68_plus,69,2000_3999_eur,0,large city,0,2,1,holds a public transport pass,1,has an active MaaS subscription,MD,1
+1440,P1440,1,female,40_49,45,500_1999_eur,0,large city,0,3,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,5
+1441,P1441,1,female,40_49,41,500_1999_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,6
+1442,P1442,1,female,40_49,46,500_1999_eur,0,large city,2,0,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,6
+1443,P1443,1,female,60_67,64,4000_plus_eur,1,metropolis,0,0,1,holds a public transport pass,0,does not have a MaaS subscription,SD,2
+1444,P1444,0,male,50_59,51,2000_3999_eur,0,large city,1,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,SD,1
+1445,P1445,0,male,68_plus,71,2000_3999_eur,1,metropolis,0,1,0,does not hold a public transport pass,0,does not have a MaaS subscription,MD,3

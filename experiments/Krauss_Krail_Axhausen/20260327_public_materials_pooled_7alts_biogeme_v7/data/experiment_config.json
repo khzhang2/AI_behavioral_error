@@ -1,0 +1,63 @@
+{
+  "experiment_name": "20260327_public_materials_pooled_7alts_biogeme_v7",
+  "paper_reference": "Krauss, Krail, and Axhausen (2022)",
+  "replication_standard": "public_materials_high_fidelity",
+  "scope": "pooled_sd_md_public_materials_7alternatives_biogeme_mixed_logit",
+  "n_respondents": 1445,
+  "tasks_per_respondent": 6,
+  "blocks_per_subsample": 8,
+  "master_seed": 20260327,
+  "design_seed": 20260327,
+  "estimation_seed": 20260327,
+  "backend": {
+    "type": "ollama",
+    "model_name": "qwen3.5:9b",
+    "host": "http://127.0.0.1:11434",
+    "think": false,
+    "temperature": 0.1,
+    "top_p": 0.95,
+    "top_k": 20,
+    "seed": 20260327,
+    "num_predict": 64,
+    "timeout_sec": 240
+  },
+  "subsample_assignment": {
+    "method": "fixed_seed_balanced_shuffle",
+    "share_sd": 0.5,
+    "share_md": 0.5
+  },
+  "biogeme": {
+    "implementation": "biogeme",
+    "version_target": "3.2.12",
+    "optimization_algorithm": "scipy",
+    "draw_type": "user_defined_sobol_normal",
+    "n_draws": 8,
+    "random_components": [
+      "z_cost",
+      "z_es",
+      "z_bs",
+      "z_walk",
+      "z_car",
+      "z_cs",
+      "z_rp",
+      "z_pt"
+    ],
+    "panel_likelihood": true,
+    "private_car_scale_correction": "phi_pool_applied_to_private_car_utility"
+  },
+  "missing_covariate_assumptions": {
+    "maas_subscription": {
+      "distribution": "bernoulli",
+      "probability": 0.1
+    }
+  },
+  "notes": [
+    "This experiment package is labeled as a public-materials highest-fidelity replication, not as an exact recovery of the original Ngene design or respondent microdata.",
+    "The pooled design uses the published SD and MD attribute level tables, all seven alternatives, the published pooled Table 4 target coefficients, and the Appendix A utility-function structure.",
+    "The original Ngene blocks are unavailable in the public paper. The eight-block design file is therefore reconstructed deterministically from the published attribute levels and marked as inferred_from_public at the task-combination level.",
+    "Personas are grounded only in public Table 1 observables plus one explicit external assumption for MaaS subscription.",
+    "The estimator is Biogeme only; torch-based mixed-logit estimation is intentionally not part of this v7 line.",
+    "For the full v7 run, the AI-side settings follow v6 closely, while the Biogeme draw count is reduced to 8 so that the pooled 67-parameter panel mixed-logit model remains tractable on the local machine.",
+    "The active Biogeme optimizer is the package's scipy backend."
+  ]
+}

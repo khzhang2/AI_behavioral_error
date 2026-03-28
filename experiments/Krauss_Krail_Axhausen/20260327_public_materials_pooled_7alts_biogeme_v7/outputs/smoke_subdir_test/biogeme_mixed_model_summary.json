@@ -1,0 +1,12 @@
+{
+  "experiment_name": "20260327_public_materials_pooled_7alts_biogeme_v7",
+  "model_name": "krauss_public_materials_pooled_7alts_panel_mixed_logit_biogeme",
+  "n_respondents": 2,
+  "n_observations": 12,
+  "n_draws": 4,
+  "final_loglikelihood": 0.0,
+  "null_loglikelihood": -16.635532333438686,
+  "rho_square": 1.0,
+  "rho_square_null": 1.0,
+  "n_parameters": 67
+}

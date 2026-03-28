@@ -1,0 +1,42 @@
+{
+  "experiment_name": "20260327_public_materials_pooled_7alts_biogeme_v7",
+  "replication_standard": "public_materials_high_fidelity",
+  "subsample_design": "pooled_sd_md",
+  "questionnaire_file": "data/pooled_choice_sets_public_materials.csv",
+  "survey_briefing_file": "data/survey_instrument_en.md",
+  "survey_mode": "multi_turn_panel_prompt_with_grounding_turn",
+  "n_tasks_per_respondent": 6,
+  "blocks_per_subsample": 8,
+  "alternatives_by_subsample": {
+    "SD": [
+      "e_scooter",
+      "bikesharing",
+      "walking",
+      "private_car"
+    ],
+    "MD": [
+      "carsharing",
+      "ridepooling",
+      "public_transport",
+      "private_car"
+    ]
+  },
+  "task_ordering": "respondent_specific_random_order_within_assigned_reconstructed_block",
+  "design_provenance": {
+    "attribute_levels": "public_exact",
+    "choice_set_combinations": "inferred_from_public"
+  },
+  "missing_covariate_assumptions": {
+    "maas_subscription": {
+      "status": "explicit_external_assumption",
+      "distribution": "bernoulli",
+      "probability": 0.1,
+      "reason": "The pooled utility specification includes MaaS, but the public paper does not report its sample share."
+    }
+  },
+  "subsample_assignment": {
+    "status": "inferred_from_public",
+    "paper_statement": "Respondents were randomly selected into SD or MD sub-samples.",
+    "implementation": "Balanced 50/50 shuffle with fixed seed 20260327."
+  }
+}
