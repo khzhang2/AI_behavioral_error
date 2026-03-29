@@ -67,6 +67,10 @@
 - `v3`：大样本、1445 persona、6 张卡、单 session prompt。
 - `v7`：公开材料最高保真 pooled `SD + MD`、`7` 个备选项、`Biogeme` panel mixed logit 主线。
 
+现在仓库里也有第二条论文线：
+
+- `Swissmetro/20260329_public_reverse_engineered_panel_mnl_biogeme_v1`：Swissmetro 公开材料逆向工程、pylogit 对齐 `MNL` benchmark、三轮 AI respondent 复现实验。
+
 ### 3. 每轮实验至少需要准备的文件
 
 - `data/experiment_config.json`

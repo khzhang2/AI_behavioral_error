@@ -1,0 +1,14 @@
+{
+  "run_label": "ai_run_01",
+  "run_id": 1,
+  "n_personas": 752,
+  "n_tasks": 6768,
+  "n_long_rows": 20304,
+  "tasks_per_respondent": 9,
+  "generated_at_utc": "2026-03-28T19:05:29.043580+00:00",
+  "sampling_policy": {
+    "profiles": "sampled with replacement from empirical cleaned respondent profiles",
+    "templates": "sampled by empirical frequency within survey stratum",
+    "baselines": "sampled independently from empirical baseline distributions within survey stratum and car availability"
+  }
+}

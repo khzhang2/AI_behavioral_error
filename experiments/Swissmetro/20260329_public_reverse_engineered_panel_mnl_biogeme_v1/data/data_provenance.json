@@ -1,0 +1,42 @@
+{
+  "source_url": "https://raw.githubusercontent.com/timothyb0912/pylogit/master/examples/data/swissmetro.dat",
+  "fetched_at_utc": "2026-03-28T19:02:04.205856+00:00",
+  "sha256": "27432693cf052985d79a950b4b888be3efca798fc89b0d3ffefe40608ede00f2",
+  "raw_path": "data\\raw\\swissmetro.dat",
+  "n_rows": 10728,
+  "n_columns": 28,
+  "columns": [
+    "GROUP",
+    "SURVEY",
+    "SP",
+    "ID",
+    "PURPOSE",
+    "FIRST",
+    "TICKET",
+    "WHO",
+    "LUGGAGE",
+    "AGE",
+    "MALE",
+    "INCOME",
+    "GA",
+    "ORIGIN",
+    "DEST",
+    "TRAIN_AV",
+    "CAR_AV",
+    "SM_AV",
+    "TRAIN_TT",
+    "TRAIN_CO",
+    "TRAIN_HE",
+    "SM_TT",
+    "SM_CO",
+    "SM_HE",
+    "SM_SEATS",
+    "CAR_TT",
+    "CAR_CO",
+    "CHOICE"
+  ],
+  "notes": [
+    "This file is downloaded from the public pylogit Swissmetro example repository.",
+    "The public reverse-engineering line freezes the raw tab-delimited source locally before any cleaning or reconstruction."
+  ]
+}

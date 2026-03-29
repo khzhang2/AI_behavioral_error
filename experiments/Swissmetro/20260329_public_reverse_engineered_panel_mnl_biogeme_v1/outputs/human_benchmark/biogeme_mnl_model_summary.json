@@ -1,0 +1,46 @@
+{
+  "experiment_name": "20260329_public_reverse_engineered_panel_mnl_biogeme_v1",
+  "dataset_role": "human",
+  "run_id": null,
+  "model_name": "swissmetro_mnl_human_benchmark",
+  "n_observations": 6768,
+  "n_respondents": 752,
+  "null_loglikelihood": -6964.662979192186,
+  "final_loglikelihood": -5331.252006916162,
+  "rho_square": 0.23452835796305527,
+  "rho_bar_square": 0.23395403010082416,
+  "n_parameters": 4,
+  "number_of_threads": 27,
+  "estimated_at_utc": "2026-03-28T19:04:07.281526+00:00",
+  "choice_counts": {
+    "TRAIN": 908,
+    "SWISSMETRO": 4090,
+    "CAR": 1770
+  },
+  "pylogit_benchmark": {
+    "source": "pylogit Swissmetro benchmark notebook",
+    "cleaning_rules": {
+      "purpose_in": [
+        1,
+        3
+      ],
+      "choice_not_equal": 0
+    },
+    "expected_cleaned_observations": 6768,
+    "expected_cleaned_respondents": 752,
+    "expected_final_loglikelihood": -5331.252,
+    "expected_coefficients": {
+      "ASC_CAR": -0.154632,
+      "ASC_TRAIN": -0.701187,
+      "B_COST": -1.083791,
+      "B_TIME": -1.27786
+    }
+  },
+  "benchmark_deltas": {
+    "ASC_CAR": -6.719892632622848e-07,
+    "ASC_TRAIN": -2.8494364090470015e-07,
+    "B_COST": 9.628792287941224e-07,
+    "B_TIME": 1.0434803290326755e-06
+  },
+  "benchmark_loglikelihood_delta": -6.9161615101620555e-06
+}

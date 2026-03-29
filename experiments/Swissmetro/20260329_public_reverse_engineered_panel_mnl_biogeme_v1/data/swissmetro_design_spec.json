@@ -1,0 +1,116 @@
+{
+  "design_type": "other",
+  "specific_classification": "respondent-specific pivoted stated-preference design with recurring 9-task template families",
+  "n_cleaned_respondents": 752,
+  "n_cleaned_observations": 6768,
+  "tasks_per_respondent": [
+    9
+  ],
+  "alternatives": [
+    "TRAIN",
+    "SWISSMETRO",
+    "CAR"
+  ],
+  "attributes_by_mode": {
+    "TRAIN": [
+      "travel_time",
+      "travel_cost",
+      "headway"
+    ],
+    "SWISSMETRO": [
+      "travel_time",
+      "travel_cost",
+      "headway",
+      "seat_configuration"
+    ],
+    "CAR": [
+      "travel_time",
+      "travel_cost",
+      "availability"
+    ]
+  },
+  "exact_discrete_levels": {
+    "TRAIN_HE": [
+      30,
+      60,
+      120
+    ],
+    "SM_HE": [
+      10,
+      20,
+      30
+    ],
+    "SM_SEATS": [
+      0,
+      1
+    ]
+  },
+  "template_family_counts_by_survey": {
+    "0": 187,
+    "1": 143
+  },
+  "top_template_family_counts": [
+    {
+      "survey_stratum": 0,
+      "rank": 1,
+      "frequency": 11
+    },
+    {
+      "survey_stratum": 0,
+      "rank": 2,
+      "frequency": 10
+    },
+    {
+      "survey_stratum": 0,
+      "rank": 3,
+      "frequency": 7
+    },
+    {
+      "survey_stratum": 0,
+      "rank": 4,
+      "frequency": 7
+    },
+    {
+      "survey_stratum": 0,
+      "rank": 5,
+      "frequency": 7
+    },
+    {
+      "survey_stratum": 1,
+      "rank": 1,
+      "frequency": 22
+    },
+    {
+      "survey_stratum": 1,
+      "rank": 2,
+      "frequency": 20
+    },
+    {
+      "survey_stratum": 1,
+      "rank": 3,
+      "frequency": 16
+    },
+    {
+      "survey_stratum": 1,
+      "rank": 4,
+      "frequency": 15
+    },
+    {
+      "survey_stratum": 1,
+      "rank": 5,
+      "frequency": 15
+    }
+  ],
+  "reconstruction_method": {
+    "baseline_definition": "median of the non-zero unique within-respondent values for each time/cost attribute",
+    "time_cost_template_representation": "ratios to respondent-specific panel baseline, rounded to one decimal to stabilize recurring template families",
+    "discrete_attribute_representation": "exact public levels for headway and seat configuration",
+    "template_sampling_rule": "sample template families by empirical frequency within survey stratum",
+    "baseline_sampling_rule": "sample numeric baselines independently from empirical respondent baseline distributions within survey stratum"
+  },
+  "notes": [
+    "The public data support a recurring-family interpretation rather than a single shared orthogonal table.",
+    "Swissmetro and train headways take exact repeated public levels, while time and cost vary respondent by respondent around panel-specific baselines.",
+    "This line therefore reconstructs fresh AI panels from inferred template families instead of reusing raw human task bundles."
+  ]
+}

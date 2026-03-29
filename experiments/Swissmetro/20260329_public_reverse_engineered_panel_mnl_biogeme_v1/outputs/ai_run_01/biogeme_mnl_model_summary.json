@@ -1,0 +1,20 @@
+{
+  "experiment_name": "20260329_public_reverse_engineered_panel_mnl_biogeme_v1",
+  "dataset_role": "ai",
+  "run_id": 1,
+  "model_name": "swissmetro_mnl_ai_run_01",
+  "n_observations": 6768,
+  "n_respondents": 752,
+  "null_loglikelihood": -6990.207281003001,
+  "final_loglikelihood": -5814.092947074035,
+  "rho_square": 0.1682517108076672,
+  "rho_bar_square": 0.16767948171070313,
+  "n_parameters": 4,
+  "number_of_threads": 27,
+  "estimated_at_utc": "2026-03-28T19:55:19.110205+00:00",
+  "choice_counts": {
+    "TRAIN": 949,
+    "SWISSMETRO": 4035,
+    "CAR": 1784
+  }
+}

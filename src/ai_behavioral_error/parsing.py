@@ -21,8 +21,10 @@ def parse_choice_label(raw_text: str) -> str:
             payload = json.loads(text)
         except json.JSONDecodeError:
             payload = None
-        if isinstance(payload, dict) and "choice" in payload:
-            return str(payload["choice"]).strip().upper()
+        if isinstance(payload, dict):
+            for key in ("choice", "choice_label", "chosen_label"):
+                if key in payload:
+                    return str(payload[key]).strip().upper()
 
     match = re.search(r"\b([A-D])\b", text.upper())
     return match.group(1) if match else ""
