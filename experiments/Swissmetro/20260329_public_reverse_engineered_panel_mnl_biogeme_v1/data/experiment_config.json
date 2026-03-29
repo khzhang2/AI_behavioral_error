@@ -1,11 +1,8 @@
 {
   "experiment_name": "20260329_public_reverse_engineered_panel_mnl_biogeme_v1",
   "paper_reference": "Swissmetro benchmark from the pylogit Swissmetro example",
-  "replication_standard": "public_reverse_engineering",
-  "scope": "swissmetro_public_reverse_engineering_mnl_biogeme_ai_replication",
   "master_seed": 20260329,
-  "n_runs": 3,
-  "n_synthetic_respondents_per_run": 752,
+  "n_respondents": 752,
   "tasks_per_respondent": 9,
   "choice_labels": {
     "A": "TRAIN",
@@ -21,20 +18,21 @@
     "top_p": 0.95,
     "top_k": 20,
     "seed": 20260329,
-    "num_predict": 32,
+    "grounding_num_predict": 96,
+    "choice_num_predict": 32,
     "timeout_sec": 240
   },
   "biogeme": {
     "implementation": "biogeme",
-    "version_target": "3.2.12",
+    "model_type": "mnl",
     "optimization_algorithm": "scipy",
-    "model_type": "mnl"
+    "threads_policy": "use_all_minus_one_core"
   },
   "notes": [
-    "This line is labeled as a public reverse engineering of the Swissmetro stated-preference survey, not as an exact historical recovery of the original questionnaire or DOE files.",
-    "The human benchmark is the four-parameter MNL reproduced by the pylogit Swissmetro notebook and re-estimated in Biogeme.",
-    "AI respondents are synthetic personas sampled with replacement from the cleaned respondent-profile distribution.",
-    "AI respondents answer the survey one task at a time in a multi-turn conversation.",
-    "AI panels are reconstructed from template families inferred from the public data rather than direct respondent-level task bundle reuse."
+    "This is a simple research-purpose pipeline, not an industrial framework.",
+    "The questionnaire template lives in scripts/questionnaire_template.py for easy review.",
+    "Grounding is intentionally compact to avoid truncation.",
+    "Each respondent keeps one growing multi-turn conversation across all 9 questions.",
+    "The prompt directly states the persona in prose and explicitly explains GA, headway, and Swissmetro seat configuration."
   ]
 }

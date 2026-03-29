@@ -1,0 +1,11 @@
+{
+  "dataset": "ai",
+  "n_rows": 6768,
+  "n_respondents": 752,
+  "null_loglikelihood": -6979.259723083568,
+  "final_loglikelihood": -5189.171533109792,
+  "rho_square": 0.256486828259614,
+  "rho_bar_square": 0.25591370157301563,
+  "number_of_parameters": 4,
+  "number_of_threads": 27
+}

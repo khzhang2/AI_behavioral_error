@@ -1,0 +1,14 @@
+{
+  "experiment_name": "20260329_public_reverse_engineered_panel_mnl_biogeme_v1",
+  "n_respondents": 752,
+  "tasks_per_respondent": 9,
+  "llm_model": "qwen3.5:9b",
+  "prompt_template_file": "C:\\Users\\admin\\Documents\\Github\\AI_behavioral_error\\experiments\\Swissmetro\\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\\scripts\\questionnaire_template.py",
+  "compact_grounding": true,
+  "growing_context_across_questions": true,
+  "concept_explanations": [
+    "GA covers both Train and Swissmetro fares",
+    "headway means minutes between departures",
+    "Swissmetro seat configuration is a binary comfort attribute"
+  ]
+}

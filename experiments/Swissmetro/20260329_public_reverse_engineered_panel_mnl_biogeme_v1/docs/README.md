@@ -1,102 +1,73 @@
-# Swissmetro Public Reverse Engineering (`v1`)
+# Swissmetro Simple AI Survey Replication
 
-## 定位
+这个目录现在只保留一套最小研究流程：
 
-这个目录实现的是：
+- 用现有 `data/` 里的 Swissmetro 重建数据
+- 通过 `ollama` 调 `qwen3.5:9b`
+- 像手机问卷一样逐题问 `9` 个 choice task
+- 同一个 respondent 在同一段不断增长的对话里完成整份问卷
+- 用 `Biogeme` 估计一个和 pylogit notebook 一致的 `4` 参数 `MNL`
 
-- `public_reverse_engineering`
-- `Swissmetro`
-- `Biogeme` `4` 参数 `MNL`
-- `3` 轮独立 AI run
+## 主要文件
 
-它不是对历史 Swissmetro DOE 文件或原始问卷脚本的 exact recovery。这里的 panel 设计来自对 `swissmetro.dat` 和公开 notebook / 说明材料的逆向工程，因此必须视为公开材料重建。
-
-## 目录内容
-
-- `data/raw/swissmetro.dat`
-- `data/data_provenance.json`
-- `data/pylogit_benchmark_targets.json`
-- `data/human_cleaned_wide.csv`
-- `data/human_cleaned_long.csv`
-- `data/human_respondent_profiles.csv`
-- `data/reconstructed_panel_catalog.csv`
-- `data/reconstructed_panel_baselines.csv`
-- `data/swissmetro_reverse_engineering.md`
-- `data/swissmetro_design_spec.json`
-- `data/swissmetro_codebook.json`
-- `data/survey_briefing_en.md`
-- `data/questionnaire_template_en.md`
-- `scripts/fetch_swissmetro_data.py`
-- `scripts/prepare_human_benchmark.py`
-- `scripts/reverse_engineer_design.py`
-- `scripts/generate_ai_panels.py`
+- `data/experiment_config.json`
+- `scripts/questionnaire_template.py`
 - `scripts/run_ai_collection.py`
 - `scripts/estimate_biogeme_mnl.py`
 - `scripts/build_comparison.py`
 - `scripts/summarize_experiment.py`
 
-## 运行环境
+## 设计原则
 
-推荐直接使用仓库根目录虚拟环境：
+- prompt 不再先列 respondent dossier，而是直接告诉模型“你是一个什么样的人”
+- grounding 改成 compact JSON，专门避免被截断
+- 每一题都会把前面的问答一起带上，所以上下文会随着题目推进变长
+- prompt 会直接解释问卷特有概念，尤其是 `GA`、`headway`、`seat configuration`
+- 只保留研究会用到的输出
+
+## 建议运行顺序
+
+1. 采集 AI 问卷
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[experiments]"
+python experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\run_ai_collection.py
 ```
 
-## 运行顺序
-
-1. 获取并冻结公开数据
+2. 估计人类 benchmark
 
 ```powershell
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\fetch_swissmetro_data.py
+python experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\estimate_biogeme_mnl.py --dataset human
 ```
 
-2. 准备人类 benchmark 数据
+3. 估计 AI MNL
 
 ```powershell
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\prepare_human_benchmark.py
+python experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\estimate_biogeme_mnl.py --dataset ai
 ```
 
-3. 逆向工程 panel 设计
+4. 生成人类与 AI 对比
 
 ```powershell
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\reverse_engineer_design.py
+python experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\build_comparison.py
 ```
 
-4. 估计人类 benchmark
+5. 生成实验 summary
 
 ```powershell
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\estimate_biogeme_mnl.py --dataset-role human
-```
-
-5. 生成并运行三轮 AI survey
-
-```powershell
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\generate_ai_panels.py --run-id 1
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\run_ai_collection.py --run-id 1
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\estimate_biogeme_mnl.py --dataset-role ai --run-id 1
-```
-
-对 `run-id = 2` 和 `run-id = 3` 重复同样三步。
-
-6. 汇总对比与报告
-
-```powershell
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\build_comparison.py
-.\.venv\Scripts\python.exe experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\summarize_experiment.py
+python experiments\Swissmetro\20260329_public_reverse_engineered_panel_mnl_biogeme_v1\scripts\summarize_experiment.py
 ```
 
 ## 关键输出
 
-- `outputs/human_benchmark/`
-- `outputs/ai_run_01/`
-- `outputs/ai_run_02/`
-- `outputs/ai_run_03/`
-- `outputs/aggregate/experiment_report.md`
-
-## 关键约束
-
-- 人类 benchmark 必须复现 pylogit notebook 的 `4` 参数 `MNL`
-- AI survey 必须逐题问答，不能一次性要求模型答完 9 题
-- 参数估计只允许使用 `Biogeme`
+- `outputs/persona_samples.csv`
+- `outputs/reconstructed_panels_wide.csv`
+- `outputs/reconstructed_panels_long.csv`
+- `outputs/parsed_choices.csv`
+- `outputs/raw_interactions.jsonl`
+- `outputs/respondent_transcripts.json`
+- `outputs/run_respondents.json`
+- `outputs/human_benchmark_biogeme_mnl_estimates.csv`
+- `outputs/ai_biogeme_mnl_estimates.csv`
+- `outputs/ai_vs_human_comparison.csv`
+- `outputs/ai_vs_human_coefficients.png`
+- `outputs/experiment_summary.md`
