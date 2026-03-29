@@ -1,9 +1,0 @@
-{
-  "run_label": "ai_run_02",
-  "n_compared_parameters": 4,
-  "n_sign_matches": 4,
-  "sign_match_rate": 1.0,
-  "human_time_cost_ratio": 1.1790650520413244,
-  "ai_time_cost_ratio": 10.414942553044176,
-  "time_cost_ratio_difference": 9.235877501002852
-}
