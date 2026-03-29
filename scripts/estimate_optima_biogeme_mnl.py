@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import math
 import os
+from pathlib import Path
 
 import pandas as pd
 from biogeme import database as db
@@ -10,7 +11,7 @@ from biogeme import models
 from biogeme.biogeme import BIOGEME
 from biogeme.expressions import Beta, Variable
 
-from optima_common import DATA_DIR, OUTPUT_DIR, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, DATA_DIR, OUTPUT_DIR, ensure_dir, write_json
 
 
 SHARED_USER_COLUMNS = [
@@ -36,7 +37,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", choices=["human", "ai"], required=True)
     parser.add_argument("--specification", choices=["basic", "user_characteristics_no_origin_dest"], default="basic")
-    parser.add_argument("--output-subdir", type=str, required=True)
+    parser.add_argument("--output-subdir", type=str, default=None)
+    parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--max-rows", type=int, default=None)
     return parser.parse_args()
 
@@ -45,7 +47,7 @@ def load_dataset(dataset: str, max_rows: int | None) -> pd.DataFrame:
     if dataset == "human":
         frame = pd.read_csv(DATA_DIR / "human_cleaned_wide.csv")
     else:
-        frame = pd.read_csv(OUTPUT_DIR / "ai_collection" / "ai_cleaned_wide.csv")
+        frame = pd.read_csv(AI_COLLECTION_DIR / "ai_cleaned_wide.csv")
     frame = frame.copy().sort_values("respondent_id").reset_index(drop=True)
     if "PT_AVAILABLE" not in frame.columns:
         frame["PT_AVAILABLE"] = 1
@@ -127,7 +129,12 @@ def build_model(frame: pd.DataFrame, specification: str) -> tuple[BIOGEME, list[
     return biogeme, user_columns, threads
 def main() -> None:
     args = parse_args()
-    output_dir = ensure_dir(OUTPUT_DIR / args.output_subdir)
+    if args.output_dir is not None:
+        output_dir = ensure_dir(Path(args.output_dir))
+    elif args.output_subdir is not None:
+        output_dir = ensure_dir(OUTPUT_DIR / args.output_subdir)
+    else:
+        output_dir = ensure_dir(OUTPUT_DIR / f"{args.dataset}_mnl_{args.specification}")
     frame = load_dataset(args.dataset, args.max_rows)
     biogeme, user_columns, threads = build_model(frame, args.specification)
     model_name = f"optima_{args.dataset}_{args.specification}_mnl"

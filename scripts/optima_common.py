@@ -16,6 +16,7 @@ CONFIG = json.loads((ROOT_DIR / "experiment_config.json").read_text(encoding="ut
 DATA_DIR = ROOT_DIR / CONFIG["paths"]["data_dir"]
 EXPERIMENT_DIR = ROOT_DIR / CONFIG["paths"]["archive_dir"]
 OUTPUT_DIR = EXPERIMENT_DIR / "outputs"
+AI_COLLECTION_DIR = DATA_DIR / CONFIG["paths"].get("ai_collection_subdir", "ai_collection_qwen3.5_9b")
 
 INDICATOR_NAMES = ["Envir01", "Mobil05", "LifSty07", "Envir05", "Mobil12", "LifSty01"]
 INDICATOR_TEXT = {

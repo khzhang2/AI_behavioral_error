@@ -14,7 +14,7 @@ from biogeme import database as db
 from biogeme import models
 from biogeme.expressions import Beta, MonteCarlo, Variable, bioDraws, bioNormalCdf, log
 
-from optima_common import CONFIG, DATA_DIR, DRAW_NAMES, INDICATOR_NAMES, OUTPUT_DIR, draw_generator_from_file, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, DRAW_NAMES, INDICATOR_NAMES, OUTPUT_DIR, draw_generator_from_file, ensure_dir, write_json
 from optima_hcm_model_spec import INDICATOR_SPECS, PARAMETER_ORDER, POSITIVE_PARAMETERS
 
 RUNTIME_PARAMETER_FILE = Path(__file__).resolve().parents[1] / "biogeme_runtime.toml"
@@ -39,7 +39,7 @@ def load_dataset(dataset: str, max_rows: int | None = None) -> pd.DataFrame:
     if dataset == "human":
         frame = pd.read_csv(DATA_DIR / "human_cleaned_wide.csv")
     else:
-        frame = pd.read_csv(OUTPUT_DIR / "ai_collection" / "ai_cleaned_wide.csv")
+        frame = pd.read_csv(AI_COLLECTION_DIR / "ai_cleaned_wide.csv")
     frame = frame.copy().sort_values("respondent_id").reset_index(drop=True)
     numeric_frame = frame.select_dtypes(include=["number", "bool"]).copy()
     if max_rows is not None:

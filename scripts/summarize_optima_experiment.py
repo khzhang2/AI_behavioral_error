@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from optima_common import CONFIG, INDICATOR_NAMES, OUTPUT_DIR, read_json
+from optima_common import AI_COLLECTION_DIR, CONFIG, INDICATOR_NAMES, OUTPUT_DIR, read_json
 
 
 AGGREGATE_DIR = OUTPUT_DIR / "aggregate"
@@ -15,9 +15,9 @@ def fmt(value, digits: int = 4) -> str:
 
 
 def main() -> None:
-    ai_indicators = pd.read_csv(OUTPUT_DIR / "ai_collection" / "parsed_indicators.csv")
-    ai_choice = pd.read_csv(OUTPUT_DIR / "ai_collection" / "parsed_choice.csv")
-    progress = read_json(OUTPUT_DIR / "ai_collection" / "run_respondents.json")
+    ai_indicators = pd.read_csv(AI_COLLECTION_DIR / "parsed_indicators.csv")
+    ai_choice = pd.read_csv(AI_COLLECTION_DIR / "parsed_choice.csv")
+    progress = read_json(AI_COLLECTION_DIR / "run_respondents.json")
     human_biogeme32 = read_json(OUTPUT_DIR / "human_biogeme_32" / "biogeme_hcm_summary.json")
     ai_biogeme32 = read_json(OUTPUT_DIR / "ai_biogeme_32" / "biogeme_hcm_summary.json")
     human_torch500 = read_json(OUTPUT_DIR / "human_torch_500" / "torch_hcm_summary.json")

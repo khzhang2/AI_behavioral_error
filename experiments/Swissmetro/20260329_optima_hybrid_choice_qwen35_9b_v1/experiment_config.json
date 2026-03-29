@@ -1,6 +1,14 @@
 {
   "experiment_name": "20260329_optima_hybrid_choice_qwen35_9b_v1",
   "paper_reference": "Biogeme official Optima hybrid-choice family, reduced official-style two latent variable specification",
+  "data_source": {
+    "data_dir": "data/Swissmetro/demographic_choice_psychometric",
+    "raw_data_file": "data/Swissmetro/demographic_choice_psychometric/raw/optima.dat",
+    "human_wide_file": "data/Swissmetro/demographic_choice_psychometric/human_cleaned_wide.csv",
+    "human_long_file": "data/Swissmetro/demographic_choice_psychometric/human_cleaned_long.csv",
+    "ai_collection_dir": "data/Swissmetro/demographic_choice_psychometric/ai_collection_qwen3.5_9b",
+    "ai_wide_file": "data/Swissmetro/demographic_choice_psychometric/ai_collection_qwen3.5_9b/ai_cleaned_wide.csv"
+  },
   "master_seed": 20260329,
   "llm_model": "qwen3.5:9b",
   "n_monte_carlo_draws_biogeme": 32,

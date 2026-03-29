@@ -11,6 +11,7 @@ from pathlib import Path
 import pandas as pd
 
 from optima_common import (
+    AI_COLLECTION_DIR,
     CONFIG,
     CHOICE_CODE_TO_NAME,
     CHOICE_LABEL_TO_CODE,
@@ -20,6 +21,7 @@ from optima_common import (
     ensure_dir,
     parse_choice_label,
     parse_indicator_value,
+    read_json,
     write_json,
 )
 from optima_questionnaire_template import (
@@ -30,7 +32,7 @@ from optima_questionnaire_template import (
     indicator_statement,
 )
 
-AI_OUTPUT_DIR = OUTPUT_DIR / "ai_collection"
+AI_OUTPUT_DIR = AI_COLLECTION_DIR
 
 
 class ChatBackend:

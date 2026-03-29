@@ -30,7 +30,7 @@ import torch
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from optima_common import CONFIG, DATA_DIR, INDICATOR_NAMES, OUTPUT_DIR, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, INDICATOR_NAMES, OUTPUT_DIR, ensure_dir, write_json
 from optima_hcm_model_spec import INDICATOR_SPECS, PARAMETER_ORDER, POSITIVE_PARAMETERS
 
 torch.set_default_dtype(torch.float64)
@@ -51,7 +51,7 @@ def load_dataset(dataset: str, max_rows: int | None = None) -> pd.DataFrame:
     if dataset == "human":
         frame = pd.read_csv(DATA_DIR / "human_cleaned_wide.csv")
     else:
-        frame = pd.read_csv(OUTPUT_DIR / "ai_collection" / "ai_cleaned_wide.csv")
+        frame = pd.read_csv(AI_COLLECTION_DIR / "ai_cleaned_wide.csv")
     frame = frame.sort_values("respondent_id").reset_index(drop=True)
     if max_rows is not None:
         frame = frame.head(int(max_rows)).copy()

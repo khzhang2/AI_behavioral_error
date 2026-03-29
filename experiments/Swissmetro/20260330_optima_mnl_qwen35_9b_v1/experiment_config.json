@@ -1,0 +1,18 @@
+{
+  "experiment_name": "20260330_optima_mnl_qwen35_9b_v1",
+  "paper_reference": "Reduced Optima multinomial logit exercise based on the retained Optima questionnaire results for qwen3.5:9b",
+  "model_type": "mnl",
+  "llm_model": "qwen3.5:9b",
+  "data_source": {
+    "data_dir": "data/Swissmetro/demographic_choice_psychometric",
+    "raw_data_file": "data/Swissmetro/demographic_choice_psychometric/raw/optima.dat",
+    "human_wide_file": "data/Swissmetro/demographic_choice_psychometric/human_cleaned_wide.csv",
+    "human_long_file": "data/Swissmetro/demographic_choice_psychometric/human_cleaned_long.csv",
+    "ai_collection_dir": "data/Swissmetro/demographic_choice_psychometric/ai_collection_qwen3.5_9b",
+    "ai_wide_file": "data/Swissmetro/demographic_choice_psychometric/ai_collection_qwen3.5_9b/ai_cleaned_wide.csv"
+  },
+  "estimated_specifications": [
+    "basic",
+    "user_characteristics_no_origin_dest"
+  ]
+}
