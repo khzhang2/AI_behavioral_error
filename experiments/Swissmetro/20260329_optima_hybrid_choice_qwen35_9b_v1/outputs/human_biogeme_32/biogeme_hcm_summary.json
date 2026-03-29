@@ -1,0 +1,8 @@
+{
+  "dataset": "human",
+  "n_rows": 708,
+  "n_draws": 32,
+  "final_loglikelihood": -6959.3126627415995,
+  "number_of_parameters": 41,
+  "number_of_threads": 27
+}

@@ -25,11 +25,5 @@ experiments = [
   "scipy<1.14",
 ]
 
-[project.scripts]
-ai-behavioral-error = "ai_behavioral_error.cli:main"
-
 [tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
+py-modules = []

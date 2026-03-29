@@ -1,0 +1,17 @@
+{
+  "n_rows_after_cleaning": 708,
+  "n_selected_indicators": 6,
+  "selected_indicators": [
+    "Envir01",
+    "Mobil05",
+    "LifSty07",
+    "Envir05",
+    "Mobil12",
+    "LifSty01"
+  ],
+  "choice_share": {
+    "0": 0.3135593220338983,
+    "1": 0.6257062146892656,
+    "2": 0.06073446327683616
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "human": {
+    "dataset": "human",
+    "n_draws": 32,
+    "biogeme_at_biogeme": null,
+    "biogeme_at_torch": null,
+    "torch_at_biogeme": -6959.3126627396905,
+    "torch_at_torch": -6959.311828006561,
+    "same_point_diff_at_biogeme": null,
+    "same_point_diff_at_torch": null
+  },
+  "ai": {
+    "dataset": "ai",
+    "n_draws": 32,
+    "biogeme_at_biogeme": null,
+    "biogeme_at_torch": null,
+    "torch_at_biogeme": -4684.826072516757,
+    "torch_at_torch": -4673.558101959855,
+    "same_point_diff_at_biogeme": null,
+    "same_point_diff_at_torch": null
+  }
+}

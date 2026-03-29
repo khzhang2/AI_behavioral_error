@@ -1,0 +1,16 @@
+{
+  "optima_data_source": "Official public Optima data packaged in the Biogeme 3.3.1 source and wheel distributions",
+  "download_artifacts": [
+    "biogeme-3.3.1-py3-none-any.whl",
+    "biogeme-3.3.1.tar.gz"
+  ],
+  "local_extraction_files": [
+    "data/raw/optima.dat"
+  ],
+  "public_references": [
+    "https://biogeme.epfl.ch/sphinx/auto_examples/hybrid_choice/optima.html",
+    "https://biogeme.epfl.ch/sphinx/auto_examples/hybrid_choice/choice_model.html",
+    "https://biogeme.epfl.ch/sphinx/auto_examples/hybrid_choice/latent_variables.html",
+    "https://transp-or.epfl.ch/documents/technicalReports/CS_OptimaDescription.pdf"
+  ]
+}

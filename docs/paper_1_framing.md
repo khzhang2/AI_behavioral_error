@@ -71,7 +71,7 @@
 1. 问题提出：LLM 正越来越多地被当作 synthetic respondents 使用，但观测到的 response variation 混合了稳定偏好结构与算法随机性。
 2. 形式化框架：定义 choice model 和方差分解目标。
 3. 识别分析：说明在不同 replication 方案下，哪些成分能识别、哪些不能识别。
-4. 实验设计：基于 Krauss、Krail 和 Axhausen（2022）的 short-distance reconstruction pilot。
+4. 实验设计：先以当前保留下来的 Optima 数据集做基线识别与 smoke test，再决定是否扩展到新的 stated-preference reconstruction 设计。
 5. 实证结果：解析稳定性、顺序效应、基线 MNL 恢复，以及基于重复运行的方差分解。
 6. Trustworthiness 讨论：稳健性、验证、审计轨迹和不确定性边界。
 

@@ -1,0 +1,53 @@
+{
+  "human_torch32_vs_biogeme32": {
+    "n_compared_parameters": 41,
+    "n_sign_matches": 41,
+    "sign_match_rate": 1.0,
+    "mean_abs_difference": 0.003637063738582573,
+    "max_abs_difference": 0.055266082372230185
+  },
+  "ai_torch32_vs_biogeme32": {
+    "n_compared_parameters": 41,
+    "n_sign_matches": 37,
+    "sign_match_rate": 0.9024390243902439,
+    "mean_abs_difference": 2.4772560593422206,
+    "max_abs_difference": 15.921607993483383
+  },
+  "human_vs_ai_biogeme32": {
+    "n_compared_parameters": 41,
+    "n_sign_matches": 26,
+    "sign_match_rate": 0.6341463414634146,
+    "mean_abs_difference": 2.1877151181102503,
+    "max_abs_difference": 14.211213643180791
+  },
+  "human_vs_ai_torch500": {
+    "n_compared_parameters": 41,
+    "n_sign_matches": 24,
+    "sign_match_rate": 0.5853658536585366,
+    "mean_abs_difference": 4.226218875799751,
+    "max_abs_difference": 20.05166172555014
+  },
+  "same_point_objective_checks": {
+    "human": {
+      "dataset": "human",
+      "n_draws": 32,
+      "biogeme_at_biogeme": null,
+      "biogeme_at_torch": null,
+      "torch_at_biogeme": -6959.3126627396905,
+      "torch_at_torch": -6959.311828006561,
+      "same_point_diff_at_biogeme": null,
+      "same_point_diff_at_torch": null
+    },
+    "ai": {
+      "dataset": "ai",
+      "n_draws": 32,
+      "biogeme_at_biogeme": null,
+      "biogeme_at_torch": null,
+      "torch_at_biogeme": -4684.826072516757,
+      "torch_at_torch": -4673.558101959855,
+      "same_point_diff_at_biogeme": null,
+      "same_point_diff_at_torch": null
+    }
+  },
+  "alignment_passed": false
+}

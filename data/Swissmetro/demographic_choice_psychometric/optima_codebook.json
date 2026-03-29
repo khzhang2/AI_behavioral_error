@@ -1,0 +1,32 @@
+{
+  "choice_alternatives": {
+    "0": "PT",
+    "1": "CAR",
+    "2": "SLOW_MODES"
+  },
+  "selected_indicators": {
+    "Envir01": "Fuel prices should be increased to reduce congestion and air pollution.",
+    "Mobil05": "I reconsider frequently my mode choice.",
+    "LifSty07": "The pleasure of having something beautiful consists in showing it.",
+    "Envir05": "I am concerned about global warming.",
+    "Mobil12": "It is very important to have a beautiful car.",
+    "LifSty01": "I always choose the best products, regardless of price."
+  },
+  "likert_scale": {
+    "1": "strongly disagree",
+    "2": "disagree",
+    "3": "somewhat disagree or neutral-low",
+    "4": "somewhat agree or neutral-high",
+    "5": "agree strongly",
+    "6": "not applicable / none of the above"
+  },
+  "key_derived_variables": {
+    "ScaledIncome": "CalculatedIncome / 1000",
+    "TimePT_scaled": "TimePT / 200",
+    "TimeCar_scaled": "TimeCar / 200",
+    "WaitingTimePT_scaled": "WaitingTimePT / 60",
+    "MarginalCostPT_scaled": "MarginalCostPT / 10",
+    "CostCarCHF_scaled": "CostCarCHF / 10",
+    "distance_km_scaled": "distance_km / 5"
+  }
+}
