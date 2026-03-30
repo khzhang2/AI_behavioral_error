@@ -30,7 +30,7 @@ import torch
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, INDICATOR_NAMES, OUTPUT_DIR, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, EXPERIMENT_DIR, INDICATOR_NAMES, OUTPUT_DIR, archive_experiment_config, ensure_dir, write_json
 from optima_hcm_model_spec import INDICATOR_SPECS, PARAMETER_ORDER, POSITIVE_PARAMETERS
 
 torch.set_default_dtype(torch.float64)
@@ -52,6 +52,10 @@ def load_dataset(dataset: str, max_rows: int | None = None) -> pd.DataFrame:
         frame = pd.read_csv(DATA_DIR / "human_cleaned_wide.csv")
     else:
         frame = pd.read_csv(AI_COLLECTION_DIR / "ai_cleaned_wide.csv")
+        valid_mask = frame["Choice"].isin([0, 1, 2])
+        for indicator_name in INDICATOR_NAMES:
+            valid_mask = valid_mask & frame[indicator_name].isin([1, 2, 3, 4, 5, 6])
+        frame = frame.loc[valid_mask].copy()
     frame = frame.sort_values("respondent_id").reset_index(drop=True)
     if max_rows is not None:
         frame = frame.head(int(max_rows)).copy()
@@ -375,6 +379,7 @@ def evaluate_loglikelihood(frame: pd.DataFrame, theta_values: dict[str, float], 
 
 def main() -> None:
     args = parse_args()
+    archive_experiment_config(EXPERIMENT_DIR)
     output_dir = ensure_dir(OUTPUT_DIR / args.output_subdir)
     frame = load_dataset(args.dataset, args.max_rows)
     draw_path = DATA_DIR / f"shared_sobol_draws_{int(args.n_draws)}.npy"

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +45,30 @@ def read_json(path: Path) -> dict[str, Any]:
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def archive_experiment_config(trial_dir: Path | None = None) -> Path:
+    source = ROOT_DIR / "experiment_config.json"
+    target_dir = ensure_dir(EXPERIMENT_DIR if trial_dir is None else trial_dir)
+    target = target_dir / "experiment_config.json"
+    if not target.exists():
+        shutil.copy2(source, target)
+        return target
+
+    index = 2
+    while True:
+        candidate = target_dir / f"experiment_config_{index}.json"
+        if not candidate.exists():
+            shutil.copy2(source, candidate)
+            return candidate
+        index += 1
+
+
+def infer_trial_dir_from_output_dir(output_dir: Path) -> Path | None:
+    for parent in [output_dir, *output_dir.parents]:
+        if parent.name == "outputs":
+            return parent.parent
+    return None
 
 
 def strip_code_fence(text: str) -> str:

@@ -1,10 +1,10 @@
 {
-  "experiment_type": "optima_hybrid_choice",
-  "experiment_name": "20260330_optima_hybrid_choice_deepseek_r1_8b_v1",
-  "paper_reference": "Optima hybrid choice examples distributed with Biogeme",
+  "experiment_type": "optima_mnl",
+  "experiment_name": "20260330_optima_mnl_deepseek_r1_8b_v1",
+  "paper_reference": "Optima hybrid choice examples distributed with Biogeme; multinomial logit diagnostics estimated on the same Optima data package",
   "paths": {
     "data_dir": "data/Swissmetro/demographic_choice_psychometric",
-    "archive_dir": "experiments/Swissmetro/20260330_optima_hybrid_choice_deepseek_r1_8b_v1",
+    "archive_dir": "experiments/Swissmetro/20260330_optima_mnl_deepseek_r1_8b_v1",
     "ai_collection_subdir": "ai_collection_deepseek_r1_8b"
   },
   "data_source": {
@@ -18,8 +18,6 @@
     "parsed_indicators_file": "data/Swissmetro/demographic_choice_psychometric/ai_collection_deepseek_r1_8b/parsed_indicators.csv",
     "parsed_choice_file": "data/Swissmetro/demographic_choice_psychometric/ai_collection_deepseek_r1_8b/parsed_choice.csv"
   },
-  "master_seed": 20260329,
-  "n_respondents": 708,
   "llm": {
     "provider": "ollama",
     "model": "deepseek-r1:8b",
@@ -30,28 +28,10 @@
     "think": false,
     "temperature": 0.1,
     "top_p": 0.95,
-    "top_k": 20,
-    "seed": 20260329,
-    "grounding_num_predict": 96,
-    "indicator_num_predict": 32,
-    "choice_num_predict": 32,
-    "timeout_sec": 240,
-    "extra_body": {}
+    "top_k": 20
   },
-  "biogeme": {
-    "optimization_algorithm": "scipy"
-  },
-  "torch": {
-    "default_device": "cuda_if_available",
-    "optimizer_backend": "scipy_lbfgsb",
-    "float_dtype": "float64"
-  },
-  "n_monte_carlo_draws_biogeme": 32,
-  "n_monte_carlo_draws_torch_compare": 32,
-  "n_monte_carlo_draws_torch_final": 500,
-  "shared_draw_dims": 2,
-  "shared_draw_names": [
-    "omega_car",
-    "omega_env"
+  "mnl_specifications": [
+    "basic",
+    "user_characteristics_no_origin_dest"
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "dataset": "ai",
+  "specification": "user_characteristics_no_origin_dest",
+  "n_rows": 568,
+  "final_loglikelihood": -336.0416698137504,
+  "null_loglikelihood": -610.2259662878122,
+  "number_of_parameters": 34,
+  "number_of_threads": 27,
+  "n_user_characteristics": 15,
+  "user_characteristics": [
+    "age_30_less",
+    "high_education",
+    "low_education",
+    "top_manager",
+    "employees",
+    "artisans",
+    "ScaledIncome",
+    "car_oriented_parents",
+    "city_center_as_kid",
+    "childSuburb",
+    "NbCar",
+    "NbBicy",
+    "NbHousehold",
+    "NbChild",
+    "work_trip"
+  ]
+}

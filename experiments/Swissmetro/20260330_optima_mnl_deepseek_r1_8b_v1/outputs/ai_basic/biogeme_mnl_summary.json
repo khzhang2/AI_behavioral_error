@@ -1,0 +1,11 @@
+{
+  "dataset": "ai",
+  "specification": "basic",
+  "n_rows": 568,
+  "final_loglikelihood": -385.93234021407494,
+  "null_loglikelihood": -610.2259662878122,
+  "number_of_parameters": 4,
+  "number_of_threads": 27,
+  "n_user_characteristics": 0,
+  "user_characteristics": []
+}

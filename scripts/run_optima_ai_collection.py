@@ -16,8 +16,10 @@ from optima_common import (
     CHOICE_CODE_TO_NAME,
     CHOICE_LABEL_TO_CODE,
     DATA_DIR,
+    EXPERIMENT_DIR,
     INDICATOR_NAMES,
     OUTPUT_DIR,
+    archive_experiment_config,
     ensure_dir,
     parse_choice_label,
     parse_indicator_value,
@@ -85,6 +87,8 @@ class ChatBackend:
         }
         if "think" in self.config:
             payload["think"] = self.config["think"]
+        if self.config.get("format"):
+            payload["format"] = self.config["format"]
         response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/api/chat", payload)
         message = response.get("message", {})
         content = str(message.get("content", ""))
@@ -109,6 +113,8 @@ class ChatBackend:
             "seed": self.config.get("seed"),
             "max_tokens": self.config.get("num_predict"),
         }
+        if self.config.get("format"):
+            payload["response_format"] = self.config["format"]
         if self.config.get("extra_body"):
             payload.update(self.config["extra_body"])
         response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/chat/completions", payload)
@@ -334,6 +340,7 @@ def write_state(profiles: pd.DataFrame, indicators_frame: pd.DataFrame, choices_
 
 def main() -> None:
     args = parse_args()
+    archive_experiment_config(EXPERIMENT_DIR)
     if not args.resume:
         initialize_outputs()
 

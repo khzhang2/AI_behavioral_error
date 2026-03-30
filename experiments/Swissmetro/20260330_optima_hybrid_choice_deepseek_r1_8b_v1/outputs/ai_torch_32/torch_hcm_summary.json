@@ -1,0 +1,14 @@
+{
+  "dataset": "ai",
+  "n_rows": 568,
+  "n_draws": 32,
+  "device": "cuda",
+  "final_loglikelihood": -776.1654979277748,
+  "runtime_seconds": 1.909059762954712,
+  "statistics_runtime_seconds": 5.016935348510742,
+  "local_torch_dir": "C:\\Users\\admin\\Documents\\Github\\AI_behavioral_error\\.python_packages\\cu118",
+  "stats_device": "cpu",
+  "inverse_method": "inverse_ridge_0",
+  "robust_status": "computed",
+  "hessian_condition_number": 41830236.89676915
+}

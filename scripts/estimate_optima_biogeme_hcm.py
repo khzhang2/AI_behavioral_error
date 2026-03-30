@@ -14,7 +14,7 @@ from biogeme import database as db
 from biogeme import models
 from biogeme.expressions import Beta, MonteCarlo, Variable, bioDraws, bioNormalCdf, log
 
-from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, DRAW_NAMES, INDICATOR_NAMES, OUTPUT_DIR, draw_generator_from_file, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, DRAW_NAMES, EXPERIMENT_DIR, INDICATOR_NAMES, OUTPUT_DIR, archive_experiment_config, draw_generator_from_file, ensure_dir, write_json
 from optima_hcm_model_spec import INDICATOR_SPECS, PARAMETER_ORDER, POSITIVE_PARAMETERS
 
 RUNTIME_PARAMETER_FILE = Path(__file__).resolve().parents[1] / "biogeme_runtime.toml"
@@ -40,6 +40,10 @@ def load_dataset(dataset: str, max_rows: int | None = None) -> pd.DataFrame:
         frame = pd.read_csv(DATA_DIR / "human_cleaned_wide.csv")
     else:
         frame = pd.read_csv(AI_COLLECTION_DIR / "ai_cleaned_wide.csv")
+        valid_mask = frame["Choice"].isin([0, 1, 2])
+        for indicator_name in INDICATOR_NAMES:
+            valid_mask = valid_mask & frame[indicator_name].isin([1, 2, 3, 4, 5, 6])
+        frame = frame.loc[valid_mask].copy()
     frame = frame.copy().sort_values("respondent_id").reset_index(drop=True)
     numeric_frame = frame.select_dtypes(include=["number", "bool"]).copy()
     if max_rows is not None:
@@ -239,6 +243,7 @@ def write_summary(results, frame: pd.DataFrame, output_dir: Path, dataset: str, 
 
 def main() -> None:
     args = parse_args()
+    archive_experiment_config(EXPERIMENT_DIR)
     output_dir = output_dir_for(args.dataset, args.n_draws, args.output_subdir)
     frame = load_dataset(args.dataset, args.max_rows)
     draw_path = DATA_DIR / f"shared_sobol_draws_{int(args.n_draws)}.npy"

@@ -11,7 +11,7 @@ from biogeme import models
 from biogeme.biogeme import BIOGEME
 from biogeme.expressions import Beta, Variable
 
-from optima_common import AI_COLLECTION_DIR, DATA_DIR, OUTPUT_DIR, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, DATA_DIR, EXPERIMENT_DIR, INDICATOR_NAMES, OUTPUT_DIR, archive_experiment_config, ensure_dir, infer_trial_dir_from_output_dir, write_json
 
 
 SHARED_USER_COLUMNS = [
@@ -48,6 +48,10 @@ def load_dataset(dataset: str, max_rows: int | None) -> pd.DataFrame:
         frame = pd.read_csv(DATA_DIR / "human_cleaned_wide.csv")
     else:
         frame = pd.read_csv(AI_COLLECTION_DIR / "ai_cleaned_wide.csv")
+        valid_mask = frame["Choice"].isin([0, 1, 2])
+        for indicator_name in INDICATOR_NAMES:
+            valid_mask = valid_mask & frame[indicator_name].isin([1, 2, 3, 4, 5, 6])
+        frame = frame.loc[valid_mask].copy()
     frame = frame.copy().sort_values("respondent_id").reset_index(drop=True)
     if "PT_AVAILABLE" not in frame.columns:
         frame["PT_AVAILABLE"] = 1
@@ -135,6 +139,8 @@ def main() -> None:
         output_dir = ensure_dir(OUTPUT_DIR / args.output_subdir)
     else:
         output_dir = ensure_dir(OUTPUT_DIR / f"{args.dataset}_mnl_{args.specification}")
+    trial_dir = infer_trial_dir_from_output_dir(output_dir) or EXPERIMENT_DIR
+    archive_experiment_config(trial_dir)
     frame = load_dataset(args.dataset, args.max_rows)
     biogeme, user_columns, threads = build_model(frame, args.specification)
     model_name = f"optima_{args.dataset}_{args.specification}_mnl"
