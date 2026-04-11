@@ -1,35 +1,35 @@
-# Experimental Method for Identifying Artificial-Intelligence Response Regimes
+# 人工智能应答模式识别的实验方法
 
-This document describes how to design and execute an experiment that identifies artificial-intelligence (AI) response error in the form of latent response regimes rather than pre-labeled error categories. The objective is methodological rather than purely empirical. Instead of beginning from a hand-written taxonomy of mistakes and then testing whether those mistakes exist, the experiment assumes that observed AI responses arise from a mixture of latent decision regimes. These regimes are then inferred from repeated choice behavior, controlled task perturbations, and a small set of structured response indicators.
+本文档描述了如何设计和执行一个实验，以识别人工智能(AI)应答错误的形式——潜在应答模式——而非预标记的错误类别。本方法的目的在于方法论创新而非纯粹经验研究。与其从手工制定的错误分类法入手，然后测试这些错误是否存在不同，本实验假设所观察到的AI应答源于潜在决策模式的混合。这些模式随后通过重复选择行为、受控任务扰动和一套结构化应答指标来推断。
 
-## 1. Conceptual framing
+## 1. 概念框架
 
-The core idea is to replace the language of “error types” with the more neutral language of latent response regimes. A latent response regime is a hidden decision state that governs how an AI respondent converts survey inputs into choices. Different regimes may correspond to different behavioral patterns. One regime may resemble a relatively human-like compensatory trade-off process. Another regime may overweight labels or semantic cues. A third regime may be less stable and more affected by scale or consistency differences. The important point is that these patterns are not imposed ex ante as semantic labels. They are inferred from the data through a latent structure.
+核心思想是用"潜在应答模式"这一更中立的语言替代"错误类型"的说法。潜在应答模式是一种隐藏的决策状态，控制着AI应答者如何将调查输入转化为选择。不同的模式可能对应不同的行为模式。一种模式可能类似于相对人类化的补偿权衡过程。另一种模式可能过度加权标签或语义线索。第三种模式可能不够稳定，更易受到尺度或一致性差异的影响。重要的是这些模式不是事先作为语义标签强加的，而是通过潜在结构从数据中推断出来的。
 
-For this reason, the first model should be a Scale-Adjusted Latent Class Choice Model (SALCM), rather than a fully developed Integrated Choice and Latent Variable (ICLV) model. The SALCM is the most defensible first step because it separates two sources of heterogeneity that are easily confounded. The first source is preference heterogeneity, represented by class-specific utility coefficients. The second source is consistency heterogeneity, represented by scale classes. This distinction is essential because some apparent “errors” are really differences in choice consistency rather than differences in substantive utility trade-offs.
+因此，首先应采用尺度调整潜在类别选择模型(SALCM)，而不是完全发达的整合选择与潜在变量模型(ICLV)。SALCM是最有防守力的第一步，因为它将两个容易混淆的异质性来源区分开来。第一个来源是偏好异质性，由类别特定的效用系数表示。第二个来源是一致性异质性，由尺度类别表示。这种区分至关重要，因为一些明显的"错误"实际上是选择一致性的差异，而不是实质性效用权衡的差异。
 
-The current repository implements precisely this first-step logic through the Optima latent response regime line.
+当前代码库通过Optima潜在应答模式线实现了这种第一步逻辑。
 
-## 2. Experimental unit
+## 2. 实验单位
 
-The experimental unit is not a single question. It is one complete AI respondent block. A block is defined by a specific model, a specific prompt arm, one sampled persona, and one full sequence of survey tasks completed within a single growing conversation. This definition is critical because latent regime identification requires repeated observations on the same block. If each block answered only one task, stable regime differences and one-off noise would be observationally confounded.
+实验单位不是单个问题。它是一个完整的AI应答者区块。区块定义为：特定模型、特定提示词设置、一个采样的人物角色，以及在单次不断增长的对话中完成的一整套调查任务。这个定义至关重要，因为潜在模式识别需要在同一区块上进行重复观测。如果每个区块仅回答一个任务，那么稳定的模式差异和一次性噪声将在观察上无法区分。
 
-In the current implementation, a block is indexed by:
+在当前实现中，区块由以下变量索引：
 
-- model identity
-- sampled respondent profile
-- prompt arm
-- full sequence of attitude and choice tasks
+- 模型身份
+- 采样的应答者档案
+- 提示词设置
+- 态度和选择任务的完整序列
 
-The repository currently supports pooled multi-model blocks, so that `qwen3.5:9b` and `deepseek-r1:8b` can both enter the same latent-regime estimation.
+代码库目前支持多模型池化区块，使得`qwen3.5:9b`和`deepseek-r1:8b`都可以进入同一潜在模式估计。
 
-## 3. Survey design
+## 3. 调查设计
 
-Each AI respondent block should contain two layers of data. The first layer is a short psychometric layer. The second layer is a repeated choice layer.
+每个AI应答者区块应包含两层数据。第一层是简短的心理测量层。第二层是重复选择层。
 
-### 3.1 Psychometric layer
+### 3.1 心理测量层
 
-The psychometric layer retains the six Optima attitude indicators already used in the existing Optima experiments:
+心理测量层保留了已用于现有Optima实验中的六个Optima态度指标：
 
 - `Envir01`
 - `Mobil05`
@@ -38,86 +38,86 @@ The psychometric layer retains the six Optima attitude indicators already used i
 - `Mobil12`
 - `LifSty01`
 
-At this stage, these indicators are not yet used as formal measurement equations in an ICLV model. However, they are collected so that the experiment remains ICLV-ready.
+在这个阶段，这些指标尚未在ICLV模型中作为正式测量方程使用。但它们被收集以保持实验对ICLV的就绪状态。
 
-### 3.2 Choice layer
+### 3.2 选择层
 
-The repeated choice layer contains sixteen tasks per respondent block. These tasks are deliberately heterogeneous.
+重复选择层每个应答者区块包含十六个任务。这些任务刻意具有异构性。
 
-- Eight tasks are core empirical tasks sampled from an Optima scenario bank derived from the retained human benchmark data.
-- Two tasks are label-mask twins.
-- Two tasks are order-randomization twins.
-- Two tasks are monotonicity diagnostics.
-- Two tasks are dominance diagnostics.
+- 八个任务是从基于保留人类基准数据的Optima情景库中采样的核心经验任务。
+- 两个任务是标签掩蔽对。
+- 两个任务是顺序随机化对。
+- 两个任务是单调性诊断。
+- 两个任务是支配性诊断。
 
-This structure is the heart of the method. The core tasks identify the main utility structure. The diagnostic tasks create exogenous perturbations that do not merely add noise, but instead reveal whether the AI block is sensitive to labels, ordering, dominance relations, or monotonicity violations.
+这个结构是该方法的核心。核心任务识别主要效用结构。诊断任务创建外生扰动，这些扰动不仅增加噪声，而是揭示AI区块是否对标签、顺序、支配关系或单调性违反敏感。
 
-## 4. Response schema
+## 4. 应答模式
 
-Each choice task should return a structured response, not a free-form explanation. A structured response is essential because it gives the later measurement-model extension a small set of reliable, machine-readable indicators rather than a long and difficult-to-validate chain of thought.
+每个选择任务应返回结构化应答，而不是自由形式的解释。结构化应答至关重要，因为它为后期的测量模型扩展提供了一小组可靠的、机器可读的指标，而不是冗长且难以验证的思维链。
 
-For each choice task, the current design collects:
+对于每个选择任务，当前设计收集：
 
-- chosen option
-- confidence on a `1` to `5` scale
-- top two decisive attributes
-- whether the respondent believes a clearly dominated option is present
+- 选中的选项
+- 1到5分尺度上的置信度
+- 前两个决定性属性
+- 应答者是否认为存在明显被支配的选项
 
-This response format is more useful than narrative self-explanation, because it directly supports the construction of behavioral diagnostics such as label-flip rates, monotonicity-compliance rates, and dominance-violation rates.
+这种应答格式比叙述性自我解释更有用，因为它直接支持构建行为诊断，如标签翻转率、单调性遵守率和支配性违反率。
 
-## 5. Identification logic
+## 5. 识别逻辑
 
-The experiment identifies latent response regimes through three kinds of variation.
+实验通过三种变异形式识别潜在应答模式。
 
-### 5.1 Within-block repetition
+### 5.1 区块内重复
 
-Repeated tasks within one respondent block allow the researcher to observe whether the same latent mechanism persists across several decisions. Without repeated tasks, there is no clean way to separate stable behavioral structure from idiosyncratic one-task variation.
+一个应答者区块内的重复任务允许研究者观察是否同样的潜在机制在多个决策中持续存在。没有重复任务，就没有清晰的方式将稳定行为结构与特异性单任务变异分开。
 
-### 5.2 Controlled exogenous perturbation
+### 5.2 受控外生扰动
 
-The experiment uses controlled task perturbations that alter presentation while preserving the underlying economic structure as much as possible.
+实验使用受控任务扰动来改变呈现方式，同时尽可能保留基础经济结构。
 
-- Label-mask twins test semantic attraction to mode names.
-- Order-randomization twins test sensitivity to ordering.
-- Monotonicity diagnostics test whether the AI respects a basic worsening of an alternative.
-- Dominance diagnostics test whether the AI avoids clearly dominated options.
+- 标签掩蔽对测试对模式名称的语义吸引。
+- 顺序随机化对测试对排序的敏感性。
+- 单调性诊断测试AI是否尊重替代方案的明显恶化。
+- 支配性诊断测试AI是否避免明确被支配的选项。
 
-Because these perturbations are experimentally assigned, they can later enter class-membership equations as observed causes of latent regime membership.
+因为这些扰动是实验分配的，它们可以在后续进入类别成员方程作为潜在模式成员的观察原因。
 
-### 5.3 Structured behavioral indicators
+### 5.3 结构化行为指标
 
-The structured fields returned after each task provide direct indicators of regime behavior. These indicators are not yet formal measurement equations in the current V1 implementation, but they make the design extendable to ICLV. They also allow immediate post-collection diagnostics.
+每个任务后返回的结构化字段提供了模式行为的直接指标。在当前V1实现中，这些指标尚未是ICLV中的正式测量方程，但它们使设计可扩展到ICLV。它们也允许收集后的即时诊断。
 
-## 6. Model ladder
+## 6. 模型等级
 
-The correct estimation sequence is not to jump directly into a complex hybrid model. It is to proceed in layers.
+正确的估计顺序不是直接跳到复杂混合模型。而是分层进行。
 
-### 6.1 Human benchmark multinomial logit model
+### 6.1 人类基准多项逻辑模型
 
-The first step is to estimate a human benchmark multinomial logit model on the retained human Optima data. This benchmark is not part of the latent-regime model itself. Instead, it defines the normative reference point against which AI regimes are compared.
+第一步是在保留的人类Optima数据上估计人类基准多项逻辑模型。这个基准不是潜在模式模型本身的一部分。相反，它定义了AI模式相比较的规范参考点。
 
-In the current repository, this role is performed by:
+在当前代码库中，这个角色由以下执行：
 
-- `scripts/estimate_optima_panel_mnl.py` with `--dataset human`
+- estimate_optima_panel_mnl.py配合`--dataset human`
 
-### 6.2 Pooled AI panel multinomial logit model
+### 6.2 池化AI面板多项逻辑模型
 
-The second step is to estimate a pooled AI panel multinomial logit model on the repeated-task AI data. This model is the non-latent baseline for the new survey design. It tells us how the pooled repeated-task AI data behave before latent regimes are introduced.
+第二步是在重复任务AI数据上估计池化AI面板多项逻辑模型。这个模型是新调查设计的非潜在基准。它告诉我们在引入潜在模式前，池化重复任务AI数据的表现。
 
-In the current repository, this role is performed by:
+在当前代码库中，这个角色由以下执行：
 
-- `scripts/estimate_optima_panel_mnl.py` with `--dataset ai_pooled`
+- `scripts/estimate_optima_panel_mnl.py`配合`--dataset ai_pooled`
 
-### 6.3 Scale-Adjusted Latent Class Choice Model
+### 6.3 尺度调整潜在类别选择模型
 
-The third step is the pooled AI SALCM. In the current design:
+第三步是池化AI SALCM。在当前设计中：
 
-- the unit of classification is the respondent block
-- there are three preference classes
-- there are two scale classes
-- one scale class is normalized to one
+- 分类单位是应答者区块
+- 有三个偏好类别
+- 有两个尺度类别
+- 一个尺度类别被归一化为一
 
-Within each preference class, the utility system contains:
+在每个偏好类别内，效用系统包含：
 
 - `ASC_PT`
 - `ASC_CAR`
@@ -127,65 +127,65 @@ Within each preference class, the utility system contains:
 - `B_WAIT`
 - `B_DIST`
 
-The scale component allows the same underlying utility pattern to be expressed with different degrees of decisiveness or consistency. This is the minimum structure needed to distinguish preference distortion from consistency distortion.
+尺度分量允许同样的基础效用模式以不同程度的决定性或一致性表现。这是区分偏好扭曲与一致性扭曲所需的最小结构。
 
-In the current repository, this role is performed by:
+在当前代码库中，这个角色由以下执行：
 
-- `scripts/estimate_optima_salcm.py`
+- estimate_optima_salcm.py
 
-## 7. Post-estimation diagnostics
+## 7. 估计后诊断
 
-The experiment should not stop at coefficient estimation. The whole point of the regime framework is to interpret regimes behaviorally rather than merely statistically.
+实验不应止于系数估计。模式框架的全部意义在于从行为而非仅统计角度解释模式。
 
-For each respondent block, the current design computes:
+对于每个应答者区块，当前设计计算：
 
-- dominance-violation rate
-- monotonicity-compliance rate
-- label-flip rate
-- order-flip rate
-- confidence mean
-- top-attribute shares
+- 支配性违反率
+- 单调性遵守率
+- 标签翻转率
+- 顺序翻转率
+- 置信度均值
+- 顶级属性份额
 
-For each class-scale combination, the current design computes a distortion summary relative to the human benchmark. That summary includes:
+对于每个类别-尺度组合，当前设计计算相对于人类基准的扭曲摘要。该摘要包括：
 
-- coefficient sign mismatches
-- normalized coefficient distance
-- mode-share deviation
-- average diagnostic-task violation rates
+- 系数符号不匹配
+- 归一化系数距离
+- 模式份额偏差
+- 平均诊断任务违反率
 
-Finally, these regime-level distortions are combined with posterior regime membership probabilities to produce a respondent-level posterior distortion score.
+最后，这些模式级扭曲与后验模式成员概率结合生成应答者级后验扭曲分数。
 
-This distortion score is descriptive in V1. It is not yet a formal trustworthiness threshold. However, it creates the bridge to a later trustworthy-artificial-intelligence formulation in which posterior regime probabilities can be mapped into use-case-specific risk.
+在V1中，这个扭曲分数是描述性的。它尚不是正式的可信度阈值。但它创建了向后期可信人工智能表述的桥梁，其中后验模式概率可映射到具体使用案例的风险。
 
-## 8. Current repository implementation
+## 8. 当前代码库实现
 
-The current latent-regime experiment line is organized around the following files.
+当前潜在模式实验线围绕以下文件组织。
 
-- `scripts/prepare_optima_latent_regime_data.py`
-- `scripts/optima_latent_regime_questionnaire.py`
-- `scripts/run_optima_latent_regime_ai_collection.py`
-- `scripts/estimate_optima_panel_mnl.py`
-- `scripts/estimate_optima_salcm.py`
-- `scripts/summarize_optima_latent_regime.py`
-- `experiment_config.json`
+- prepare_optima_latent_regime_data.py
+- optima_latent_regime_questionnaire.py
+- run_optima_latent_regime_ai_collection.py
+- estimate_optima_panel_mnl.py
+- estimate_optima_salcm.py
+- summarize_optima_latent_regime.py
+- experiment_config.json
 
-The corresponding archive directory is:
+相应的归档目录是：
 
-- `experiments/Swissmetro/20260411_optima_salcm_cross_model_v1`
+- 20260411_optima_salcm_cross_model_v1
 
-The corresponding data package is:
+相应的数据包是：
 
-- `data/Swissmetro/latent_regime_optima_v1`
+- latent_regime_optima_v1
 
-Within that data package, the experiment writes:
+在该数据包内，实验写入：
 
 - `scenario_bank.csv`
 - `respondent_profile_bank.csv`
-- model-specific block assignments
-- model-specific panel tasks
-- one collection subdirectory per model
+- 模型特定区块分配
+- 模型特定面板任务
+- 每个模型一个收集子目录
 
-Within each model-specific collection subdirectory, the experiment writes:
+在每个模型特定的收集子目录内，实验写入：
 
 - `persona_samples.csv`
 - `parsed_attitudes.csv`
@@ -196,43 +196,43 @@ Within each model-specific collection subdirectory, the experiment writes:
 - `respondent_transcripts.json`
 - `run_respondents.json`
 
-## 9. Recommended workflow
+## 9. 推荐工作流
 
-The current practical workflow is as follows.
+当前的实际工作流如下。
 
-1. Prepare the latent-regime data package.  
-   Use `scripts/prepare_optima_latent_regime_data.py`.
+1. 准备潜在模式数据包。  
+   使用prepare_optima_latent_regime_data.py。
 
-2. Run the repeated-task AI collection for each model.  
-   Use `scripts/run_optima_latent_regime_ai_collection.py --model-key ...`.
+2. 为每个模型运行重复任务AI收集。  
+   使用`scripts/run_optima_latent_regime_ai_collection.py --model-key ...`。
 
-3. Estimate the human benchmark multinomial logit model.  
-   Use `scripts/estimate_optima_panel_mnl.py --dataset human`.
+3. 估计人类基准多项逻辑模型。  
+   使用`scripts/estimate_optima_panel_mnl.py --dataset human`。
 
-4. Estimate the pooled AI panel multinomial logit model.  
-   Use `scripts/estimate_optima_panel_mnl.py --dataset ai_pooled`.
+4. 估计池化AI面板多项逻辑模型。  
+   使用`scripts/estimate_optima_panel_mnl.py --dataset ai_pooled`。
 
-5. Estimate the pooled AI SALCM.  
-   Use `scripts/estimate_optima_salcm.py`.
+5. 估计池化AI SALCM。  
+   使用estimate_optima_salcm.py。
 
-6. Write the archive summary.  
-   Use `scripts/summarize_optima_latent_regime.py`.
+6. 写入档案摘要。  
+   使用summarize_optima_latent_regime.py。
 
-This order should be preserved because each step depends conceptually on the previous one. The human benchmark defines the normative comparison point, the pooled AI panel multinomial logit model defines the non-latent baseline, and the SALCM is meaningful only relative to those two references.
+这个顺序应被保留，因为每个步骤在概念上取决于前一个。人类基准定义了规范比较点，池化AI面板多项逻辑模型定义了非潜在基准，SALCM仅相对于这两个参考意义重大。
 
-## 10. How this identifies artificial-intelligence response error
+## 10. 这如何识别人工智能应答错误
 
-This design identifies AI response error by inference rather than by prior labeling. If one class exhibits coefficients close to the human benchmark, low dominance violations, low label-flip rates, and low mode-share deviation, that class can be interpreted as relatively human-like. If another class exhibits large coefficient distortions, strong label sensitivity, or severe violations of monotonicity or dominance, that class can be interpreted as a more distorted regime. The important methodological point is that these interpretations arise after the model is estimated. They are not inserted into the experiment as ex ante semantic categories.
+该设计通过推断而非事先标记来识别AI应答错误。如果一个类别表现出接近人类基准的系数、低支配性违反、低标签翻转率和低模式份额偏差，该类别可被解释为相对人类化。如果另一个类别表现出大的系数扭曲、强标签敏感性或严重的单调性或支配性违反，该类别可被解释为更扭曲的模式。重要的方法论要点是这些解释在模型估计后产生。它们不是作为事先语义类别插入实验的。
 
-This is why the approach is methodologically stronger than a simple audit. The experiment does not begin by deciding what the error types are. It begins with a latent mixture hypothesis, supplies repeated tasks and experimental perturbations that make the latent structure identifiable, and then allows the recovered latent structure to determine how the regimes should be described.
+这是为什么该方法在方法论上强于简单审计。实验不是从决定错误类型是什么开始的。它从潜在混合假设开始，提供重复任务和实验扰动使潜在结构可识别，然后允许恢复的潜在结构确定模式应如何描述。
 
-## 11. Limitations of the current V1 design
+## 11. 当前V1设计的局限
 
-The current V1 implementation should be understood as a first-stage latent-regime design, not as the final methodological model.
+当前V1实现应被理解为第一阶段潜在模式设计，而非最终方法论模型。
 
-- It uses a SALCM rather than a full ICLV model.
-- The psychometric items are collected but are not yet formal measurement equations.
-- Dynamic regime switching across tasks is not yet modeled.
-- The current trustworthiness output is descriptive rather than threshold-based.
+- 它使用SALCM而不是完全ICLV模型。
+- 心理测量项被收集但尚未是正式测量方程。
+- 跨任务的动态模式切换尚未建模。
+- 当前可信度输出是描述性而非基于阈值的。
 
-For this reason, the current V1 design is best interpreted as the identification backbone. It establishes the repeated-task architecture, the perturbation-based measurement logic, and the block-level latent classification structure. Once these are stable, the natural V2 extension is an ICLV-SALCM in which the structured diagnostic indicators and psychometric variables become explicit measurement equations.
+因此，当前V1设计最好被解释为识别骨干。它建立了重复任务架构、基于扰动的测量逻辑和区块级潜在分类结构。一旦这些稳定，自然的V2扩展是ICLV-SALCM，其中结构化诊断指标和心理测量变量成为明确的测量方程。
