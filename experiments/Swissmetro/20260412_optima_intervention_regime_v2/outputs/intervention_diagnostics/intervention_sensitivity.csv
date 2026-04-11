@@ -1,0 +1,13 @@
+model_key,block_template_id,pair_id,manipulation_type,anchor_task_index,intervention_gap_tv,randomness_envelope,excess_intervention_gap,anchor_modal_choice,twin_modal_choice
+deepseek_r1_8b,DST0001,LABEL_1,label_mask,3,0.0,0.0,0.0,0,0
+deepseek_r1_8b,DST0001,LABEL_2,label_mask,4,0.0,0.0,0.0,0,0
+deepseek_r1_8b,DST0001,ORDER_1,order_randomization,5,1.0,0.0,1.0,0,1
+deepseek_r1_8b,DST0001,ORDER_2,order_randomization,6,1.0,0.0,1.0,0,1
+deepseek_r1_8b,DST0001,PARA_1,paraphrase,1,0.0,0.0,0.0,0,0
+deepseek_r1_8b,DST0001,PARA_2,paraphrase,2,0.0,0.0,0.0,0,0
+qwen3.5_9b,QWT0001,LABEL_1,label_mask,3,0.0,0.0,0.0,1,1
+qwen3.5_9b,QWT0001,LABEL_2,label_mask,4,0.0,0.0,0.0,1,1
+qwen3.5_9b,QWT0001,ORDER_1,order_randomization,5,0.0,0.0,0.0,0,0
+qwen3.5_9b,QWT0001,ORDER_2,order_randomization,6,0.0,0.0,0.0,1,1
+qwen3.5_9b,QWT0001,PARA_1,paraphrase,1,0.0,0.0,0.0,1,1
+qwen3.5_9b,QWT0001,PARA_2,paraphrase,2,0.0,0.0,0.0,1,1

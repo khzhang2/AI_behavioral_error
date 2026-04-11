@@ -144,7 +144,6 @@
       "distance_km_scaled"
     ],
     "paired_interventions": [
-      "paraphrase",
       "label_mask",
       "order_randomization"
     ],

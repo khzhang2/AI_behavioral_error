@@ -1,0 +1,20 @@
+{
+  "n_respondents": 4,
+  "n_tasks_per_respondent": 16,
+  "n_preference_classes": 3,
+  "n_scale_classes": 2,
+  "final_loglikelihood": -2809.78244466735,
+  "optimizer_success": true,
+  "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "posterior_probability_min": 1.0,
+  "posterior_probability_max": 1.0000000000000329,
+  "class_masses": {
+    "C1_S1": 0.03263334046790909,
+    "C1_S2": 0.013495755276487794,
+    "C2_S1": 0.3223640523263873,
+    "C2_S2": 0.13150685192923228,
+    "C3_S1": 0.4970440774420452,
+    "C3_S2": 0.0029559225579547784
+  },
+  "n_nonempty_states": 6
+}

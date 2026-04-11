@@ -181,6 +181,20 @@ def empirical_choice_share(frame: pd.DataFrame) -> dict[str, float]:
     return {str(key): float(value) for key, value in shares.items()}
 
 
+def grouped_choice_share(frame: pd.DataFrame, group_cols: list[str]) -> dict[str, dict[str, float]]:
+    if any(column not in frame.columns for column in group_cols):
+        return {}
+    chosen = frame.loc[frame["chosen"] == 1].copy()
+    payload: dict[str, dict[str, float]] = {}
+    for key, group in chosen.groupby(group_cols):
+        if not isinstance(key, tuple):
+            key = (key,)
+        group_name = "|".join(str(item) for item in key)
+        shares = group["alternative_name"].value_counts(normalize=True)
+        payload[group_name] = {str(name): float(value) for name, value in shares.items()}
+    return payload
+
+
 def main() -> None:
     args = parse_args()
     archive_experiment_config(EXPERIMENT_DIR)
@@ -214,6 +228,11 @@ def main() -> None:
         "optimizer_message": str(result.message),
         "choice_share": empirical_choice_share(frame),
     }
+    if args.dataset == "ai_pooled":
+        summary["choice_share_by_model"] = grouped_choice_share(frame, ["model_key"])
+        summary["choice_share_by_prompt_arm"] = grouped_choice_share(frame, ["prompt_arm"])
+        summary["choice_share_by_model_prompt_arm"] = grouped_choice_share(frame, ["model_key", "prompt_arm"])
+        summary["choice_share_by_task_role"] = grouped_choice_share(frame, ["task_role"])
     write_json(output_dir / "mnl_summary.json", summary)
     print(
         f"[estimate_optima_panel_mnl] dataset={args.dataset} respondents={summary['n_respondents']} "

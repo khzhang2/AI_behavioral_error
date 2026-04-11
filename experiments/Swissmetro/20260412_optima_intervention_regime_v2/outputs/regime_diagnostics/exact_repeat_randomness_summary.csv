@@ -1,0 +1,4 @@
+scope_key,exact_repeat_available,n_repeat_groups,exact_repeat_flip_rate,exact_repeat_response_entropy
+qwen3.5_9b,True,16,0.0,0.0
+deepseek_r1_8b,True,16,0.0,0.0
+pooled,True,32,0.0,0.0

@@ -1,0 +1,16 @@
+scope_key,effect_name,effect_family,n_observations,tv_distance,flip_rate,mean_confidence_shift,diagnostic_rate,exact_repeat_available,exact_repeat_flip_rate,exact_repeat_response_entropy,kappa,tv_excess_over_randomness,flip_excess_over_randomness
+qwen3.5_9b,label_mask,paired_intervention,4,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+qwen3.5_9b,order_randomization,paired_intervention,4,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+qwen3.5_9b,paraphrase,paired_intervention,4,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+qwen3.5_9b,monotonicity_diagnostic,diagnostic_rate,4,,,,0.5,False,,,1.25,,
+qwen3.5_9b,dominance_diagnostic,diagnostic_rate,4,,,,0.0,False,,,1.25,,
+deepseek_r1_8b,label_mask,paired_intervention,4,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+deepseek_r1_8b,order_randomization,paired_intervention,4,1.0,1.0,0.0,,True,0.0,0.0,1.25,1.0,1.0
+deepseek_r1_8b,paraphrase,paired_intervention,4,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+deepseek_r1_8b,monotonicity_diagnostic,diagnostic_rate,4,,,,0.5,False,,,1.25,,
+deepseek_r1_8b,dominance_diagnostic,diagnostic_rate,4,,,,1.0,False,,,1.25,,
+pooled,label_mask,paired_intervention,8,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+pooled,order_randomization,paired_intervention,8,0.888546649618249,0.8885466496182489,0.0,,True,0.0,0.0,1.25,0.888546649618249,0.8885466496182489
+pooled,paraphrase,paired_intervention,8,0.0,0.0,0.0,,True,0.0,0.0,1.25,0.0,0.0
+pooled,monotonicity_diagnostic,diagnostic_rate,8,,,,0.5,False,,,1.25,,
+pooled,dominance_diagnostic,diagnostic_rate,8,,,,0.8885466496182489,False,,,1.25,,

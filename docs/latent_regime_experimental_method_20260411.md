@@ -236,3 +236,17 @@
 - 当前可信度输出是描述性而非基于阈值的。
 
 因此，当前V1设计最好被解释为识别骨干。它建立了重复任务架构、基于扰动的测量逻辑和区块级潜在分类结构。一旦这些稳定，自然的V2扩展是ICLV-SALCM，其中结构化诊断指标和心理测量变量成为明确的测量方程。
+
+## 12. v2分析层：从随机包络到潜在机制
+
+在当前方法线上，V2分析层的目的不是引入另一个更复杂的选择模型，而是把整个识别逻辑重新组织为三个严格区分的经验对象。第一步是 exact-repeat randomness，也就是在固定模型、固定 persona、固定提示词设置和固定题卡时，系统自身的回答翻转概率。第二步是 intervention effect，也就是在不改变规范性效用结构的前提下，仅改变展示或语义表达时，行为分布发生多大变化。第三步才是 latent response regime，也就是把那些已经明显超出随机包络的系统性差异，概括为少数几个可以稳定复现的潜在机制。在 `20260412_optima_intervention_regime_v2` 这一条线上，这三个层次都进入了正式 archive：exact-repeat 由 same-template repeats 提供，intervention 由 paraphrase、label-mask 和 order-randomization twins 提供，latent regimes 则由后续的 SALCM 概括。
+
+因此，V2分析层的零假设并不是“AI 没有偏差”，而是更窄、更可操作的纯随机不稳定性假设：在设计上不应改变规范性效用的干预，其诱发的行为差异不超过 exact-repeat randomness 所形成的随机包络。若这一零假设被拒绝，则可以更有根据地说，观测到的差异并不只是同一决策器的抖动，而包含了结构性的干预敏感性。之后再进入 SALCM，研究的对象就不再是泛泛的“AI 和 human 不同”，而是这些系统性差异究竟更像 preference-like distortion，还是更像 consistency-like distortion。
+
+## 13. 当前代码库中的v2实现边界
+
+当前代码库已经支持这一分析层的主要输出，但需要明确区分不同 archive 的能力边界。`20260411_optima_salcm_cross_model_v1` 主要建立了 latent-regime 的初始骨架，其中标签掩蔽、顺序扰动、单调性和支配性诊断都已经存在，因此 intervention effect 可以直接计算，但 exact-repeat randomness 并不总是可识别。`20260412_optima_intervention_regime_v2` 则进一步把 same-template repeats 和 paraphrase twins 正式纳入了实验设计，因此 choice-level exact-repeat randomness、语义等价改写敏感性以及相对于随机包络的干预差值都可以进入 archive summary。
+
+因此，V2分析层的实现原则不是预设“总能识别随机包络”，而是先做显式判定。若存在足够严格的重复签名，就输出 empirical randomness envelope；若不存在，就明确报告该层未被识别，而不把别的变异来源误写成随机性。这样，方法论表述仍然统一，但不同 archive 的实证能力不会被混淆。
+
+在此基础上，SALCM 的 regime summary 也被重新表述。每一个 regime 不再仅仅由系数结构和模式份额偏差描述，而是同时由以下几个维度刻画：其相对 human benchmark 的系数扭曲，其标签与顺序干预敏感性，其单调性与支配性诊断表现，以及其综合 intervention signature。这样一来，潜在类别的解释就不再是简单的事后命名，而是明确锚定在“随机包络之上还剩下哪些稳定且可重复的行为签名”这一问题上。

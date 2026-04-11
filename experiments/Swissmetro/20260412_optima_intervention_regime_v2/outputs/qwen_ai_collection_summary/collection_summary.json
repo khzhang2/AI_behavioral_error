@@ -1,0 +1,12 @@
+{
+  "model_key": "qwen3.5_9b",
+  "completed_respondents": 2,
+  "target_respondents": 2,
+  "valid_attitude_rate": 1.0,
+  "valid_task_rate": 1.0,
+  "mean_label_flip_rate": 0.0,
+  "mean_order_flip_rate": 0.0,
+  "mean_monotonicity_compliance_rate": 1.0,
+  "mean_dominance_violation_rate": 0.0,
+  "mean_confidence": 5.0
+}

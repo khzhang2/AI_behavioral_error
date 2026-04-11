@@ -376,6 +376,7 @@ def main() -> None:
             )
             regime_rows.append(
                 {
+                    "state_id": f"C{class_index + 1}_S{scale_index + 1}",
                     "preference_class": class_index + 1,
                     "scale_class": scale_index + 1,
                     "scale_value": float(scale_values[scale_index]),
@@ -428,6 +429,7 @@ def main() -> None:
             for class_index in range(int(CONFIG["salcm"]["n_preference_classes"]))
             for scale_index in range(int(CONFIG["salcm"]["n_scale_classes"]))
         },
+        "n_nonempty_states": int((regime_frame["posterior_mass"] > 1e-6).sum()),
     }
     write_json(output_dir / "salcm_summary.json", summary)
     print(
