@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import json
 import math
 import re
@@ -15,6 +16,7 @@ from scipy.stats import norm, qmc
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT_DIR / "experiment_config.json").read_text(encoding="utf-8"))
 DATA_DIR = ROOT_DIR / CONFIG["paths"]["data_dir"]
+SOURCE_DATA_DIR = ROOT_DIR / CONFIG["paths"].get("source_data_dir", CONFIG["paths"]["data_dir"])
 EXPERIMENT_DIR = ROOT_DIR / CONFIG["paths"]["archive_dir"]
 OUTPUT_DIR = EXPERIMENT_DIR / "outputs"
 AI_COLLECTION_DIR = DATA_DIR / CONFIG["paths"].get("ai_collection_subdir", "ai_collection_qwen3.5_9b")
@@ -32,6 +34,75 @@ CHOICE_LABEL_TO_CODE = {"A": 0, "B": 1, "C": 2}
 CHOICE_CODE_TO_NAME = {0: "PT", 1: "CAR", 2: "SLOW_MODES"}
 CHOICE_LABEL_TO_NAME = {"A": "PT", "B": "CAR", "C": "SLOW_MODES"}
 DRAW_NAMES = ["omega_car", "omega_env"]
+TASK_ATTRIBUTE_OPTIONS = ["travel_time", "waiting_time", "cost", "distance", "availability", "mode_label"]
+
+
+def credentials_file_path(credentials_file: str) -> Path:
+    path = Path(str(credentials_file))
+    return path if path.is_absolute() else ROOT_DIR / path
+
+
+def apply_llm_credentials(config: dict[str, Any]) -> dict[str, Any]:
+    merged = dict(config)
+    credentials_file = str(merged.get("credentials_file", "")).strip()
+    credentials_key = str(merged.get("credentials_key", "")).strip()
+    if credentials_file:
+        path = credentials_file_path(credentials_file)
+        if path.exists():
+            credentials = json.loads(path.read_text(encoding="utf-8"))
+            if credentials_key:
+                nested = credentials.get(credentials_key, {})
+                credentials = nested if isinstance(nested, dict) else {}
+            if isinstance(credentials, dict):
+                for field_name in ["api_key", "api_key_env", "base_url", "provider", "model"]:
+                    if not merged.get(field_name) and credentials.get(field_name):
+                        merged[field_name] = credentials[field_name]
+                if isinstance(credentials.get("extra_body"), dict) and not merged.get("extra_body"):
+                    merged["extra_body"] = dict(credentials["extra_body"])
+    if str(merged.get("provider", "")).lower() == "poe" and not merged.get("base_url"):
+        merged["base_url"] = "https://api.poe.com/v1"
+    return merged
+
+
+def llm_models() -> list[dict[str, Any]]:
+    models = CONFIG.get("llm_models")
+    if isinstance(models, list) and models:
+        return [apply_llm_credentials(dict(model)) for model in models]
+    if "llm" in CONFIG:
+        legacy = apply_llm_credentials(dict(CONFIG["llm"]))
+        legacy.setdefault("key", legacy.get("model", "default"))
+        legacy.setdefault("collection_subdir", CONFIG["paths"].get("ai_collection_subdir", f"ai_collection_{legacy['key']}"))
+        legacy.setdefault("respondent_prefix", "AI")
+        return [legacy]
+    return []
+
+
+def llm_model_map() -> dict[str, dict[str, Any]]:
+    return {str(model["key"]): model for model in llm_models()}
+
+
+def active_llm_key() -> str:
+    model_map = llm_model_map()
+    configured = str(CONFIG.get("active_llm_key", "")).strip()
+    if configured and configured in model_map:
+        return configured
+    if model_map:
+        return next(iter(model_map))
+    return ""
+
+
+def llm_config_for(model_key: str | None = None) -> dict[str, Any]:
+    model_map = llm_model_map()
+    key = active_llm_key() if model_key is None else str(model_key)
+    if key not in model_map:
+        raise KeyError(f"Unknown llm model key: {key}")
+    return apply_llm_credentials(dict(model_map[key]))
+
+
+def ai_collection_dir_for(model_key: str | None = None) -> Path:
+    if model_key is None:
+        return AI_COLLECTION_DIR
+    return DATA_DIR / llm_config_for(model_key)["collection_subdir"]
 
 
 def ensure_dir(path: Path) -> Path:
@@ -45,6 +116,34 @@ def read_json(path: Path) -> dict[str, Any]:
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def resolve_llm_api_key(model_config: dict[str, Any]) -> str:
+    api_key = str(model_config.get("api_key", "")).strip()
+    if api_key:
+        return api_key
+
+    api_key_file = str(model_config.get("api_key_file", "")).strip()
+    if api_key_file:
+        path = ROOT_DIR / api_key_file
+        if path.exists():
+            try:
+                credential_data = json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                credential_data = {}
+            if isinstance(credential_data, dict):
+                for key in ("api_key", "token", "poe_api_key", "POE_API_KEY"):
+                    candidate = str(credential_data.get(key, "")).strip()
+                    if candidate:
+                        return candidate
+
+    api_key_env = str(model_config.get("api_key_env", "")).strip()
+    if api_key_env:
+        candidate = os.environ.get(api_key_env, "").strip()
+        if candidate:
+            return candidate
+
+    return ""
 
 
 def archive_experiment_config(trial_dir: Path | None = None) -> Path:
@@ -120,6 +219,55 @@ def parse_choice_label(text: str) -> str:
         if re.search(rf"\b{name}\b", text.upper()):
             return label
     return ""
+
+
+def parse_task_response(text: str) -> dict[str, Any]:
+    payload = parse_json_payload(text)
+    result = {
+        "choice_label": "",
+        "confidence": -1,
+        "top_attributes": [],
+        "dominated_option_seen": None,
+    }
+    if not payload:
+        result["choice_label"] = parse_choice_label(text)
+        confidence_match = re.search(r'"?confidence"?\s*[:=]\s*([1-5])', text, flags=re.IGNORECASE)
+        if confidence_match:
+            result["confidence"] = int(confidence_match.group(1))
+        return result
+
+    result["choice_label"] = parse_choice_label(json.dumps(payload, ensure_ascii=False))
+
+    confidence = payload.get("confidence", -1)
+    try:
+        confidence = int(confidence)
+    except (TypeError, ValueError):
+        confidence = -1
+    result["confidence"] = confidence if 1 <= confidence <= 5 else -1
+
+    top_attributes = payload.get("top_attributes", [])
+    if isinstance(top_attributes, str):
+        top_attributes = [top_attributes]
+    parsed_attributes: list[str] = []
+    if isinstance(top_attributes, list):
+        for item in top_attributes:
+            label = str(item).strip().lower()
+            if label in TASK_ATTRIBUTE_OPTIONS and label not in parsed_attributes:
+                parsed_attributes.append(label)
+            if len(parsed_attributes) == 2:
+                break
+    result["top_attributes"] = parsed_attributes
+
+    dominated_option_seen = payload.get("dominated_option_seen", None)
+    if isinstance(dominated_option_seen, bool):
+        result["dominated_option_seen"] = dominated_option_seen
+    elif isinstance(dominated_option_seen, str):
+        lowered = dominated_option_seen.strip().lower()
+        if lowered in {"true", "yes"}:
+            result["dominated_option_seen"] = True
+        elif lowered in {"false", "no"}:
+            result["dominated_option_seen"] = False
+    return result
 
 
 def total_variation_distance(left: pd.Series, right: pd.Series) -> float:

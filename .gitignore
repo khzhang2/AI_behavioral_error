@@ -4,10 +4,8 @@ __pycache__/
 .mypy_cache/
 .venv/
 .python_packages/
-biogeme.toml
 *.iter
-tests/*
-!tests/.gitkeep
-configs/
 **raw_interactions.jsonl
 **respondent_transcripts.json
+poe_api_credentials.local.json
+*_api_credentials.local.json

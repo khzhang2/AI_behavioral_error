@@ -1,0 +1,709 @@
+respondent_id,human_id,normalized_weight,age,sex_text,age_text,CalculatedIncome,income_text,high_education,low_education,top_manager,employees,artisans,age_30_less,ScaledIncome,car_oriented_parents,city_center_as_kid,childSuburb,NbCar,NbBicy,NbHousehold,NbChild,work_trip,other_trip,trip_purpose_text,education_text,CAR_AVAILABLE,car_availability_text,Envir01,Mobil05,LifSty07,Envir05,Mobil12,LifSty01
+H0001,10350017,0.8832827856419051,27,male,30 or younger,7000,around CHF 7000 per month,1,0,0,0,0,1,7.0,1,0,0,1,3,2,0,1,0,a work trip,high education,1,car is available for this trip,3,3,1,5,1,4
+H0002,10350085,0.954424398357919,57,male,57 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,1,5,1,3
+H0003,10350086,0.8584724543995766,58,female,58 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,2,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,2,5,2,4
+H0004,10350133,0.954424398357919,59,male,59 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,1,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,1,5,2,5
+H0005,10350197,0.8832827856419051,30,male,30 or younger,15000,around CHF 15000 per month,1,0,0,0,0,1,15.0,0,0,0,2,1,2,0,1,0,a work trip,high education,1,car is available for this trip,2,1,2,4,5,4
+H0006,10350272,0.954424398357919,42,male,42 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,0,2,3,2,3,1,0,a work trip,not high education,1,car is available for this trip,2,6,2,4,2,3
+H0007,10360011,0.954424398357919,56,male,56 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,2,3,4,2,2
+H0008,10360011,0.954424398357919,56,male,56 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,2,3,4,2,2
+H0009,10360013,0.2545934244605354,42,male,42 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,1,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,3,2,2,5,1,2
+H0010,10360016,0.8584724543995766,44,female,44 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,1,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,1,3,1,3
+H0011,10360024,0.2545934244605354,51,male,51 years old,9000,around CHF 9000 per month,0,0,1,0,0,0,9.0,1,0,0,2,5,5,3,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,2,5,2,4
+H0012,10360113,0.954424398357919,53,male,53 years old,9000,around CHF 9000 per month,0,1,1,0,0,0,9.0,0,0,1,3,3,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,3,2,2
+H0013,10360139,0.2290902236010023,46,female,46 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,1,0,2,3,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,1,1,4,1,1
+H0014,10360193,0.8832827856419051,37,male,37 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,3,6,3,5,1,5
+H0015,10360195,0.2290902236010023,52,female,52 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,0,0,0,2,4,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,2,2,4,2,4
+H0016,10360196,0.2290902236010023,52,female,52 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,0,0,0,2,4,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,2,2,4,2,4
+H0017,10360235,0.2545934244605354,61,male,61 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,1,0,0,3,5,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,5,1,2
+H0018,10360236,0.2290902236010023,48,female,48 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,0,3,5,3,-1,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,3,5,1,4
+H0019,10360286,0.3735873657560173,42,male,42 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,1,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,3,2,1,5,1,1
+H0020,10360322,0.5414274486172608,35,female,35 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,1,3,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,3,5,1,1
+H0021,10360414,0.2545934244605354,44,male,44 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,1,1,5,5,3,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,3,4,4,2
+H0022,10360414,0.2545934244605354,44,male,44 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,1,1,5,5,3,1,0,a work trip,not high education,1,car is available for this trip,1,1,3,4,4,2
+H0023,10360460,2.256576028779217,27,male,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,1,0,0,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,3,4,2,2
+H0024,10360464,5.694231137832636,17,male,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,1,0,0,1,4,4,1,1,0,a work trip,not high education,0,car is not available for this trip,2,4,2,4,3,3
+H0025,10360518,0.7944811628173415,28,female,30 or younger,15000,around CHF 15000 per month,1,0,0,1,0,1,15.0,1,0,1,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,2,2,1,5,1,4
+H0026,10360519,0.6019450605361366,29,male,30 or younger,15000,around CHF 15000 per month,1,0,0,1,0,1,15.0,1,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,3,2,4,4,3,4
+H0027,10360519,0.6019450605361366,29,male,30 or younger,15000,around CHF 15000 per month,1,0,0,1,0,1,15.0,1,0,0,2,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,3,2,4,4,3,4
+H0028,10360526,9.027458897812208,31,male,31 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,1,1,3,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,4,1,1
+H0029,10360533,0.5414274486172608,39,female,39 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,0,0,0,2,3,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,1,5,1,4
+H0030,10360536,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,1,1,1,0,0,0,1,a non-work trip,high education,1,car is available for this trip,1,2,4,5,4,2
+H0031,10360566,0.954424398357919,52,male,52 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,1,1,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,2,4,2,4
+H0032,10360624,1.423375818700105,19,male,30 or younger,-1,unknown income,0,1,0,0,0,1,-0.001,1,0,0,2,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,3,2,2,5,1,1
+H0033,10540009,0.8584724543995766,44,female,44 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,1,2,3,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,6,3,4,3,3
+H0034,10540031,0.8584724543995766,45,female,45 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,6,1,5,1,2
+H0035,10540046,0.2545934244605354,45,male,45 years old,5000,around CHF 5000 per month,0,0,0,0,0,0,5.0,1,0,1,1,1,1,-1,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,1,5,1,3
+H0036,10540130,0.954424398357919,40,male,40 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,1,2,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,1,1,5,1,2
+H0037,10540130,0.954424398357919,40,male,40 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,1,2,5,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,1,1,5,1,2
+H0038,10540178,0.954424398357919,59,male,59 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,1,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,1,4,1,4
+H0039,10540184,0.2545934244605354,63,male,63 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,-1,2,-1,0,1,a non-work trip,high education,1,car is available for this trip,4,2,3,5,1,2
+H0040,10540184,0.2545934244605354,63,male,63 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,-1,2,-1,1,0,a work trip,high education,1,car is available for this trip,4,2,3,5,1,2
+H0041,10540187,0.954424398357919,45,male,45 years old,15000,around CHF 15000 per month,0,1,0,0,0,0,15.0,1,0,1,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,4,1,3
+H0042,10540199,0.5414274486172608,22,female,30 or younger,5000,around CHF 5000 per month,0,0,0,0,0,1,5.0,1,0,0,1,2,3,-1,1,0,a work trip,not high education,1,car is available for this trip,3,1,3,4,2,2
+H0043,10540250,0.6019450605361366,25,male,30 or younger,7000,around CHF 7000 per month,0,0,0,1,0,1,7.0,1,1,0,1,2,2,-1,1,0,a work trip,not high education,1,car is available for this trip,1,3,3,4,4,4
+H0044,10540260,0.5414274486172608,20,female,30 or younger,5000,around CHF 5000 per month,0,0,0,0,0,1,5.0,1,0,0,1,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,1,5,1,3
+H0045,10540266,0.3360277669782562,41,female,41 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,4,4,1,5,1,4
+H0046,10540297,0.3735873657560173,44,male,44 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,4,2,2,5,2,2
+H0047,10540298,0.7944811628173415,33,female,33 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,1,1,0,2,-1,0,1,a non-work trip,high education,0,car is not available for this trip,4,6,3,5,2,2
+H0048,10540351,0.954424398357919,51,male,51 years old,9000,around CHF 9000 per month,0,1,0,0,1,0,9.0,1,1,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,6,3,4,2,4
+H0049,10540354,0.2290902236010023,43,female,43 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,1,0,1,2,2,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,2,5,1,2
+H0050,10540395,0.2545934244605354,47,male,47 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,1,0,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,3,2,4,1,2
+H0051,10540396,0.2290902236010023,40,female,40 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,3,2,4,1,2
+H0052,10540515,0.7944811628173415,29,female,30 or younger,7000,around CHF 7000 per month,1,0,0,1,0,1,7.0,1,0,0,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,6,2,3,2,1
+H0053,10540517,9.027458897812208,39,male,39 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,1,2,4,3,1,1,0,a work trip,not high education,1,car is available for this trip,1,4,1,4,1,2
+H0054,10540518,0.2290902236010023,41,female,41 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,1,0,0,2,4,3,1,1,0,a work trip,high education,1,car is available for this trip,1,1,1,4,2,1
+H0055,10540531,0.1999290444257219,74,male,65 or older,3250,around CHF 3250 per month,1,0,0,0,0,0,3.25,1,0,0,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,1,3,1,4,2,2
+H0056,10540548,0.954424398357919,48,male,48 years old,9000,around CHF 9000 per month,0,1,1,0,0,0,9.0,1,1,0,1,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,6,4,2,3
+H0057,10540559,0.2545934244605354,63,male,63 years old,7000,around CHF 7000 per month,0,0,1,0,0,0,7.0,0,1,0,2,2,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,4,4,2,1
+H0058,10540559,0.2545934244605354,63,male,63 years old,7000,around CHF 7000 per month,0,0,1,0,0,0,7.0,0,1,0,2,2,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,4,4,2,1
+H0059,10540563,0.3360277669782562,46,female,46 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,8,5,3,0,1,a non-work trip,high education,1,car is available for this trip,3,3,1,4,1,2
+H0060,10540672,2.029711386372872,34,female,34 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,6,1,4,1,3
+H0061,10540689,0.6019450605361366,38,male,38 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,1,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,3,2,2
+H0062,10540689,0.6019450605361366,38,male,38 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,1,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,3,2,2
+H0063,10540691,0.3360277669782562,43,female,43 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,3,2,2,5,1,1
+H0064,10540691,0.3360277669782562,43,female,43 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,3,2,2,5,1,1
+H0065,10540774,0.3735873657560173,57,male,57 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,3,3,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,3,4,3,2
+H0066,10540804,0.8832827856419051,24,male,30 or younger,10807,around CHF 10807 per month,1,0,0,0,0,1,10.807,1,0,1,-1,-1,-1,-1,0,1,a non-work trip,high education,1,car is available for this trip,3,2,3,4,3,2
+H0067,10541086,0.8584724543995766,41,female,41 years old,9000,around CHF 9000 per month,0,1,0,0,1,0,9.0,0,0,1,1,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,1,5,1,3
+H0068,10541086,0.8584724543995766,41,female,41 years old,9000,around CHF 9000 per month,0,1,0,0,1,0,9.0,0,0,1,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,4,1,5,1,3
+H0069,10980079,0.2545934244605354,40,male,40 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,2,7,5,3,0,1,a non-work trip,high education,1,car is available for this trip,4,5,1,5,1,3
+H0070,11460027,0.8584724543995766,52,female,52 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,1,0,1,2,2,0,0,1,a non-work trip,not high education,0,car is not available for this trip,3,1,2,4,1,2
+H0071,11460060,0.3735873657560173,47,male,47 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,2,6,6,4,0,1,a non-work trip,high education,1,car is available for this trip,5,2,2,5,2,3
+H0072,11460070,0.2290902236010023,56,female,56 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,1,0,2,2,1,0,1,0,a work trip,high education,1,car is available for this trip,1,3,1,4,1,2
+H0073,11460082,0.2290902236010023,58,female,58 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,1,1,0,2,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,6,3,4,2,3
+H0074,14050001,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,5,2,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,4,1,2
+H0075,14050001,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,5,2,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,4,1,2
+H0076,14050047,2.256576028779217,31,male,31 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,0,1,3,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,4,4,3,2
+H0077,14050075,0.954424398357919,44,male,44 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,4,1,5,1,3
+H0078,14050133,2.256576028779217,37,male,37 years old,15000,around CHF 15000 per month,0,1,1,0,0,0,15.0,1,1,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,3,4,2,5
+H0079,14050186,2.256576028779217,37,male,37 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,1,0,2,9,7,5,0,1,a non-work trip,not high education,1,car is available for this trip,4,1,1,4,1,1
+H0080,14050186,2.256576028779217,37,male,37 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,1,0,2,9,7,5,1,0,a work trip,not high education,1,car is available for this trip,4,1,1,4,1,1
+H0081,14050194,0.7495589495214057,-1,male,30 or younger,7000,around CHF 7000 per month,0,1,0,0,1,1,7.0,1,0,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,6,5,3,5,1,2
+H0082,14050278,0.3735873657560173,46,male,46 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,1,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,1,4,2,5,1,2
+H0083,19130092,2.029711386372872,36,female,36 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,0,1,1,1,-1,1,0,a work trip,not high education,1,car is available for this trip,2,1,2,4,2,2
+H0084,19130148,0.2290902236010023,42,female,42 years old,5000,around CHF 5000 per month,0,0,0,1,0,0,5.0,1,0,0,2,3,4,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,6,1,4,1,1
+H0085,19130149,0.2545934244605354,41,male,41 years old,3250,around CHF 3250 per month,1,0,0,1,0,0,3.25,1,0,1,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,1,1,1,4,1,4
+H0086,19130149,0.2545934244605354,41,male,41 years old,3250,around CHF 3250 per month,1,0,0,1,0,0,3.25,1,0,1,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,1,1,1,4,1,4
+H0087,19130179,0.1999290444257219,66,male,65 or older,5000,around CHF 5000 per month,1,0,0,0,1,0,5.0,1,0,0,1,2,2,0,1,0,a work trip,high education,1,car is available for this trip,2,3,2,4,2,2
+H0088,19130202,0.3735873657560173,46,male,46 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,2,7,4,1,0,1,a non-work trip,high education,1,car is available for this trip,1,1,1,5,1,5
+H0089,19130203,0.2290902236010023,52,female,52 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,2,7,4,1,1,0,a work trip,high education,1,car is available for this trip,2,3,2,5,1,2
+H0090,19130203,0.2290902236010023,52,female,52 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,2,7,4,1,1,0,a work trip,high education,1,car is available for this trip,2,3,2,5,1,2
+H0091,19130252,0.954424398357919,61,male,61 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,0,1,0,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,1,4,1,1
+H0092,19130292,0.5414274486172608,39,female,39 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,1,0,2,2,3,1,1,0,a work trip,high education,1,car is available for this trip,1,2,2,4,2,2
+H0093,19130767,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,2,2,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,3,5,3,4
+H0094,19130798,0.954424398357919,40,male,40 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,0,1,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,6,3,3,1,2
+H0095,19130798,0.954424398357919,40,male,40 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,0,1,0,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,6,3,3,1,2
+H0096,19130827,2.256576028779217,39,male,39 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,1,5,1,1
+H0097,19130855,2.029711386372872,34,female,34 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,0,0,0,2,2,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,4,4,2,2
+H0098,19130855,2.029711386372872,34,female,34 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,0,0,0,2,2,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,4,4,2,2
+H0099,19130863,0.6019450605361366,37,male,37 years old,9035,around CHF 9035 per month,1,0,0,0,0,0,9.035,0,0,0,-1,-1,-1,-1,0,1,a non-work trip,high education,1,car is available for this trip,2,3,2,5,2,3
+H0100,19130871,0.2290902236010023,51,female,51 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,0,0,0,2,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,4,4,4,2,2
+H0101,19130963,0.3360277669782562,53,female,53 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,2,3,3,1,1,0,a work trip,high education,1,car is available for this trip,2,1,1,4,1,1
+H0102,19131061,2.029711386372872,34,female,34 years old,7384,around CHF 7384 per month,0,1,0,0,0,0,7.384,0,0,0,2,6,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,3,6,6,2,1,5
+H0103,19610035,0.3360277669782562,45,female,45 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,6,4,2,0,1,a non-work trip,high education,1,car is available for this trip,5,5,2,5,1,4
+H0104,19610035,0.3360277669782562,45,female,45 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,6,4,2,1,0,a work trip,high education,1,car is available for this trip,5,5,2,5,1,4
+H0105,19610114,0.2290902236010023,52,female,52 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,1,0,2,4,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,6,2,4,2,2
+H0106,19610182,0.7944811628173415,29,female,30 or younger,5000,around CHF 5000 per month,1,0,0,0,0,1,5.0,1,0,0,1,0,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,1,2,4,1,4
+H0107,19650025,0.2545934244605354,45,male,45 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,2,2,5,2,0,1,a non-work trip,high education,1,car is available for this trip,1,1,2,3,2,2
+H0108,19650025,0.2545934244605354,45,male,45 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,2,2,5,2,1,0,a work trip,high education,1,car is available for this trip,1,1,2,3,2,2
+H0109,19650026,0.8584724543995766,42,female,42 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,2,5,2,1,0,a work trip,not high education,1,car is available for this trip,2,1,2,4,1,1
+H0110,19650041,0.6019450605361366,36,male,36 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,1,0,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,2,5,2,3
+H0111,19650072,0.954424398357919,52,male,52 years old,5000,around CHF 5000 per month,0,1,0,0,1,0,5.0,1,0,0,2,4,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,1,5,2,2
+H0112,19650138,0.3735873657560173,48,male,48 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,1,2,3,4,1,3
+H0113,19650139,0.6019450605361366,38,male,38 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,1,2,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,4,4,3,2
+H0114,19650218,2.029711386372872,37,female,37 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,2,2,4,1,1
+H0115,19650224,0.8584724543995766,48,female,48 years old,5000,around CHF 5000 per month,0,1,1,0,0,0,5.0,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,4,3,3
+H0116,19650224,0.8584724543995766,48,female,48 years old,5000,around CHF 5000 per month,0,1,1,0,0,0,5.0,1,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,3,4,3,3
+H0117,19650242,0.2290902236010023,52,female,52 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,1,2,4,4,1,0,1,a non-work trip,high education,1,car is available for this trip,4,4,3,5,1,4
+H0118,19650281,2.256576028779217,37,male,37 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,1,5,5,3,1,0,a work trip,not high education,1,car is available for this trip,3,1,1,5,1,2
+H0119,19650295,0.2545934244605354,55,male,55 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,1,2,4,1,1,0,a work trip,not high education,1,car is available for this trip,3,4,3,5,2,2
+H0120,19650327,0.8584724543995766,60,female,60 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,1,0,1,0,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,6,2,2,5,1,2
+H0121,19650425,0.5414274486172608,36,female,36 years old,5000,around CHF 5000 per month,1,0,0,1,0,0,5.0,1,0,1,1,0,1,0,1,0,a work trip,high education,1,car is available for this trip,3,3,2,4,3,4
+H0122,19650448,2.029711386372872,37,female,37 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,1,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,3,2,2
+H0123,19650575,0.2290902236010023,54,female,54 years old,5000,around CHF 5000 per month,1,0,0,1,0,0,5.0,1,0,1,1,0,1,0,0,1,a non-work trip,high education,1,car is available for this trip,1,1,4,5,1,1
+H0124,19650631,2.029711386372872,32,female,32 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,2,2,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,3,4,2,3
+H0125,19650656,0.2290902236010023,47,female,47 years old,5000,around CHF 5000 per month,0,0,0,1,0,0,5.0,1,0,1,1,0,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,2,4,2,2
+H0126,19730033,0.5414274486172608,37,female,37 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,6,1,4,2,3
+H0127,19730085,0.7944811628173415,27,female,30 or younger,5000,around CHF 5000 per month,1,0,0,0,0,1,5.0,1,1,0,1,1,2,-1,0,1,a non-work trip,high education,1,car is available for this trip,2,3,2,4,3,2
+H0128,19730092,0.2290902236010023,60,female,60 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,1,6,1,5,1,2
+H0129,19730126,2.029711386372872,28,female,30 or younger,3250,around CHF 3250 per month,0,1,0,1,0,1,3.25,1,1,0,1,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,1,3,1,2
+H0130,20860315,0.8584724543995766,42,female,42 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,1,2,5,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,5,6,3,1,1
+H0131,28000244,0.6019450605361366,38,male,38 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,1,0,1,4,5,3,1,0,a work trip,high education,1,car is available for this trip,3,3,1,4,1,3
+H0132,28000306,2.029711386372872,29,female,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,1,0,0,1,2,3,1,1,0,a work trip,not high education,0,car is not available for this trip,2,2,3,5,1,4
+H0133,28000344,0.3735873657560173,52,male,52 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,6,5,1,1,0,a work trip,high education,1,car is available for this trip,4,3,2,5,2,2
+H0134,28000344,0.3735873657560173,52,male,52 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,6,5,1,1,0,a work trip,high education,1,car is available for this trip,4,3,2,5,2,2
+H0135,28000366,0.954424398357919,42,male,42 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,1,1,2,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,5,1,2
+H0136,28000366,0.954424398357919,42,male,42 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,1,1,2,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,2,5,1,2
+H0137,28000367,0.3735873657560173,-1,traveler,30 or younger,-1,unknown income,0,1,0,0,0,1,-0.001,0,0,1,-1,-1,-1,-1,0,1,a non-work trip,not high education,1,car is available for this trip,1,4,1,5,6,4
+H0138,28000460,0.7944811628173415,37,female,37 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,1,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,4,2,1,4,1,2
+H0139,28000700,0.2290902236010023,42,female,42 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,1,6,5,3,1,0,a work trip,high education,1,car is available for this trip,2,4,1,4,1,2
+H0140,28000701,0.3735873657560173,45,male,45 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,6,5,3,0,1,a non-work trip,high education,1,car is available for this trip,4,6,3,4,2,2
+H0141,28000701,0.3735873657560173,45,male,45 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,6,5,3,0,1,a non-work trip,high education,1,car is available for this trip,4,6,3,4,2,2
+H0142,28240110,2.256576028779217,36,male,36 years old,7000,around CHF 7000 per month,0,1,1,0,0,0,7.0,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,5,1,5,1,3
+H0143,28240110,2.256576028779217,36,male,36 years old,7000,around CHF 7000 per month,0,1,1,0,0,0,7.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,5,1,5,1,3
+H0144,28240111,0.7944811628173415,31,female,31 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,1,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,1,5,1,5,1,3
+H0145,28240134,0.7944811628173415,23,female,30 or younger,10807,around CHF 10807 per month,1,0,0,0,0,1,10.807,1,0,0,-1,3,5,-1,1,0,a work trip,high education,1,car is available for this trip,4,2,2,5,1,2
+H0146,28240179,0.954424398357919,51,male,51 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,1,0,3,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,4,4,2,5,4,2
+H0147,28240202,0.6019450605361366,39,male,39 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,1,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,1,1,5,2,3
+H0148,28240264,0.379687884439486,19,male,30 or younger,9321,around CHF 9321 per month,0,0,0,0,0,1,9.321,1,0,1,1,5,5,1,1,0,a work trip,not high education,0,car is not available for this trip,3,1,3,5,1,1
+H0149,28240270,0.8832827856419051,24,male,30 or younger,10807,around CHF 10807 per month,1,0,0,0,0,1,10.807,1,0,0,2,6,4,0,1,0,a work trip,high education,1,car is available for this trip,2,3,1,4,1,4
+H0150,28240523,0.2545934244605354,41,male,41 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,2,6,4,2,0,1,a non-work trip,high education,1,car is available for this trip,3,1,2,5,1,3
+H0151,28240523,0.2545934244605354,41,male,41 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,2,6,4,2,0,1,a non-work trip,high education,1,car is available for this trip,3,1,2,5,1,3
+H0152,28240755,2.256576028779217,31,male,31 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,1,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,3,5,2,2
+H0153,28240755,2.256576028779217,31,male,31 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,1,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,2,3,5,2,2
+H0154,28240756,0.5414274486172608,30,female,30 or younger,9000,around CHF 9000 per month,1,0,0,0,0,1,9.0,1,0,0,2,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,1,4,1,2
+H0155,28240756,0.5414274486172608,30,female,30 or younger,9000,around CHF 9000 per month,1,0,0,0,0,1,9.0,1,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,2,2,1,4,1,2
+H0156,28240762,0.5414274486172608,25,female,30 or younger,7000,around CHF 7000 per month,0,0,0,1,0,1,7.0,1,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,4,4,1,1
+H0157,28240762,0.5414274486172608,25,female,30 or younger,7000,around CHF 7000 per month,0,0,0,1,0,1,7.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,4,4,1,1
+H0158,28240797,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,1,0,0,1,2,4,2,1,0,a work trip,high education,1,car is available for this trip,4,2,2,5,2,3
+H0159,28240798,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,1,0,0,1,2,4,2,1,0,a work trip,high education,1,car is available for this trip,4,2,2,4,2,3
+H0160,28240945,0.3735873657560173,61,male,61 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,1,2,0,0,1,a non-work trip,high education,1,car is available for this trip,3,2,4,3,4,4
+H0161,28240965,0.954424398357919,47,male,47 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,1,3,4,0,1,0,a work trip,not high education,1,car is available for this trip,5,1,3,5,1,4
+H0162,28240969,2.256576028779217,34,male,34 years old,7000,around CHF 7000 per month,0,1,1,0,0,0,7.0,1,0,0,2,3,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,1,5,1,1
+H0163,28240969,2.256576028779217,34,male,34 years old,7000,around CHF 7000 per month,0,1,1,0,0,0,7.0,1,0,0,2,3,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,5,1,1
+H0164,28240969,2.256576028779217,34,male,34 years old,7000,around CHF 7000 per month,0,1,1,0,0,0,7.0,1,0,0,2,3,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,5,1,1
+H0165,28240993,0.954424398357919,61,male,61 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,3,3,2
+H0166,28240993,0.954424398357919,61,male,61 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,2,3,3,2
+H0167,28241260,5.694231137832636,19,male,30 or younger,6101,around CHF 6101 per month,0,1,0,0,0,1,6.101,0,0,0,2,2,4,0,1,0,a work trip,not high education,0,car is not available for this trip,6,1,2,4,6,2
+H0168,28241263,5.694231137832636,17,male,30 or younger,6101,around CHF 6101 per month,0,1,0,0,0,1,6.101,0,0,1,2,3,4,0,1,0,a work trip,not high education,0,car is not available for this trip,5,6,4,5,6,3
+H0169,28420050,0.954424398357919,58,male,58 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,1,5,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,1,4,1,2
+H0170,28420051,3.4343260688387685,51,female,51 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,1,5,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,4,2,1,2
+H0171,28420052,0.6019450605361366,35,male,35 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,1,2,2,3,1,1,0,a work trip,high education,1,car is available for this trip,6,4,3,5,3,4
+H0172,28420168,0.2545934244605354,47,male,47 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,0,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,6,4,1,4,1,2
+H0173,28420388,0.2545934244605354,45,male,45 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,5,5,3,1,0,a work trip,high education,1,car is available for this trip,2,2,2,2,2,2
+H0174,28640122,2.029711386372872,38,female,38 years old,9000,around CHF 9000 per month,0,1,0,0,1,0,9.0,1,0,1,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,6,1,5,1,4
+H0175,30330009,0.8584724543995766,41,female,41 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,6,6,4,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,4,1,2
+H0176,30330035,0.3735873657560173,53,male,53 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,1,1,2,3,0,1,0,a work trip,high education,1,car is available for this trip,4,3,4,2,1,4
+H0177,30330106,0.7495589495214057,65,male,65 or older,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,1,1,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,3,3,3,4
+H0178,30330170,0.3360277669782562,62,female,62 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,1,0,1,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,3,5,1,3,1,5
+H0179,30330353,0.3735873657560173,53,male,53 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,3,7,5,1,1,0,a work trip,high education,1,car is available for this trip,3,2,2,4,1,3
+H0180,30330355,0.8832827856419051,33,male,33 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,2,3,1,0,1,a non-work trip,high education,1,car is available for this trip,4,4,2,2,5,4
+H0181,30330364,0.1999290444257219,73,male,65 or older,3250,around CHF 3250 per month,0,1,0,0,0,0,3.25,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,3,3,3
+H0182,30330409,0.2290902236010023,43,female,43 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,1,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,4,3,3,1,3
+H0183,30330485,0.8832827856419051,36,male,36 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,3,3,1,0,1,a non-work trip,high education,1,car is available for this trip,3,5,2,4,2,2
+H0184,30330486,0.7944811628173415,34,female,34 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,2,3,1,0,1,a non-work trip,high education,1,car is available for this trip,5,4,1,5,1,1
+H0185,30330486,0.7944811628173415,34,female,34 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,2,3,1,1,0,a work trip,high education,1,car is available for this trip,5,4,1,5,1,1
+H0186,30330513,0.3735873657560173,48,male,48 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,1,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,5,4,2,4,1,4
+H0187,30330558,0.2545934244605354,47,male,47 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,1,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,4,3,3,4
+H0188,30330565,0.5414274486172608,37,female,37 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,0,5,4,2,0,1,a non-work trip,high education,1,car is available for this trip,5,5,1,5,1,4
+H0189,30330629,0.2290902236010023,48,female,48 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,1,0,1,1,2,1,0,0,1,a non-work trip,high education,1,car is available for this trip,3,4,1,3,1,2
+H0190,30330669,2.029711386372872,33,female,33 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,3,3,2,3,2,1
+H0191,30330674,0.2545934244605354,45,male,45 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,1,0,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,4,3,3,2
+H0192,30330674,0.2545934244605354,45,male,45 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,1,0,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,4,3,3,2
+H0193,30330675,0.8584724543995766,53,female,53 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,1,0,1,3,0,0,1,a non-work trip,not high education,0,car is not available for this trip,2,3,3,4,1,1
+H0194,30330693,0.3735873657560173,44,male,44 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,1,0,1,1,1,0,1,0,a work trip,high education,1,car is available for this trip,1,2,1,3,2,4
+H0195,30330717,0.3735873657560173,64,male,64 years old,2000,around CHF 2000 per month,1,0,0,0,0,0,2.0,0,1,0,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,1,1,1,1,3,3
+H0196,30330725,0.2545934244605354,45,male,45 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,2,5,3,2
+H0197,30330751,0.954424398357919,58,male,58 years old,15000,around CHF 15000 per month,0,1,1,0,0,0,15.0,0,0,1,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,4,2,2
+H0198,30330770,0.3735873657560173,64,male,64 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,1,0,1,4,2,0,0,1,a non-work trip,high education,1,car is available for this trip,4,5,2,4,1,2
+H0199,30330795,0.954424398357919,62,male,62 years old,7384,around CHF 7384 per month,0,1,1,0,0,0,7.384,0,0,1,4,0,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,6,1,6,2,5
+H0200,30330821,0.8832827856419051,31,male,31 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,0,0,1,2,0,1,0,a work trip,high education,1,car is available for this trip,5,1,2,4,1,2
+H0201,30330833,0.3735873657560173,51,male,51 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,1,2,7,3,1,1,0,a work trip,high education,1,car is available for this trip,5,5,2,5,1,3
+H0202,30330851,0.3735873657560173,46,male,46 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,2,6,4,2,1,0,a work trip,high education,1,car is available for this trip,5,4,2,3,1,4
+H0203,30331017,0.8584724543995766,57,female,57 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,1,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,4,6,2,3,4
+H0204,30331035,0.954424398357919,57,male,57 years old,15000,around CHF 15000 per month,0,1,0,0,0,0,15.0,1,0,1,1,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,3,4,3
+H0205,30332010,0.2290902236010023,46,female,46 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,0,0,1,1,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,1,4,1,4,1,4
+H0206,30860015,0.8584724543995766,55,female,55 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,1,2,0,0,1,a non-work trip,not high education,0,car is not available for this trip,2,3,3,4,1,3
+H0207,30860018,5.121759864312539,16,female,30 or younger,5000,around CHF 5000 per month,0,1,0,0,0,1,5.0,1,0,0,2,4,4,1,1,0,a work trip,not high education,0,car is not available for this trip,3,6,3,3,6,3
+H0208,30860031,0.8584724543995766,47,female,47 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,1,1,2,1
+H0209,30860032,0.8584724543995766,47,female,47 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,1,1,2,1
+H0210,30860095,0.5414274486172608,28,female,30 or younger,7000,around CHF 7000 per month,0,0,0,1,0,1,7.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,5,2,3,3,2
+H0211,30860141,0.2290902236010023,59,female,59 years old,9000,around CHF 9000 per month,1,0,1,0,0,0,9.0,1,0,1,2,1,2,0,1,0,a work trip,high education,1,car is available for this trip,4,4,6,5,6,6
+H0212,30860157,0.2545934244605354,-1,traveler,30 or younger,15000,around CHF 15000 per month,0,1,0,0,0,1,15.0,0,0,1,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,1,4,1,2
+H0213,30860176,0.8584724543995766,-1,female,30 or younger,5000,around CHF 5000 per month,0,1,0,0,0,1,5.0,0,0,0,1,3,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,4,3,2,3
+H0214,30860197,2.029711386372872,-1,traveler,30 or younger,9000,around CHF 9000 per month,0,1,0,0,0,1,9.0,1,0,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,3,1,5,1,3
+H0215,30860240,2.029711386372872,35,female,35 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,2,3,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,1,2,6,3,1
+H0216,30860245,0.3735873657560173,43,male,43 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,0,0,0,1,2,4,2,0,1,a non-work trip,high education,1,car is available for this trip,2,5,2,4,1,2
+H0217,30860246,0.3735873657560173,43,male,43 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,0,0,0,1,2,4,2,1,0,a work trip,high education,1,car is available for this trip,2,5,2,4,1,2
+H0218,30860250,0.2290902236010023,55,female,55 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,1,0,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,5,1,5,2,3
+H0219,30860253,8.119879017681459,37,female,37 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,1,2,4,2,2
+H0220,30860274,0.2545934244605354,41,male,41 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,1,3,3,1,1,0,a work trip,high education,1,car is available for this trip,2,3,3,2,1,1
+H0221,30860310,5.121759864312539,19,female,30 or younger,15000,around CHF 15000 per month,0,1,0,1,0,1,15.0,1,0,1,2,5,5,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,4,4,2,3,3
+H0222,30860391,0.5414274486172608,37,female,37 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,0,1,5,3,1,1,0,a work trip,high education,1,car is available for this trip,2,4,4,3,2,3
+H0223,30860430,0.3360277669782562,50,female,50 years old,3250,around CHF 3250 per month,1,0,0,0,0,0,3.25,0,0,0,1,2,1,-1,0,1,a non-work trip,high education,1,car is available for this trip,2,4,2,4,3,4
+H0224,30860444,0.954424398357919,49,male,49 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,0,0,2,3,4,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,1,3,2,2
+H0225,30860491,0.2290902236010023,46,female,46 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,1,4,2,0,1,0,a work trip,high education,1,car is available for this trip,5,5,1,5,1,3
+H0226,30860540,0.3735873657560173,50,male,50 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,2,7,5,3,0,1,a non-work trip,high education,1,car is available for this trip,1,6,1,5,1,1
+H0227,30860545,0.3360277669782562,55,female,55 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,1,2,4,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,4,1,3,1,3
+H0228,30860546,0.3735873657560173,53,male,53 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,1,2,5,2,0,0,1,a non-work trip,high education,1,car is available for this trip,5,4,2,4,1,4
+H0229,30860711,0.7495589495214057,66,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,1,0,1,4,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,3,2,2
+H0230,30860712,0.7495589495214057,66,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,1,0,1,4,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,3,2,2
+H0231,30860718,0.7495589495214057,71,male,65 or older,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,6,5,3,3,6,3
+H0232,30860723,2.256576028779217,39,male,39 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,3,3,3
+H0233,30860725,0.954424398357919,55,male,55 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,0,1,0,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,5,4,3,2,6,3
+H0234,30860768,0.2545934244605354,56,male,56 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,0,0,1,1,2,2,0,1,0,a work trip,high education,1,car is available for this trip,4,5,6,5,6,4
+H0235,30860803,0.8584724543995766,57,female,57 years old,2000,around CHF 2000 per month,0,1,0,0,0,0,2.0,1,0,1,2,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,1,5,1,2
+H0236,30860804,3.818189834136154,61,male,61 years old,2000,around CHF 2000 per month,0,1,0,0,0,0,2.0,0,0,0,2,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,3,1,5,1,2
+H0237,30860804,3.818189834136154,61,male,61 years old,2000,around CHF 2000 per month,0,1,0,0,0,0,2.0,0,0,0,2,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,3,1,5,1,2
+H0238,31320656,0.2545934244605354,42,male,42 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,4,3,2,1,0,a work trip,high education,1,car is available for this trip,2,4,3,5,3,2
+H0239,31321173,0.8584724543995766,42,female,42 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,1,1,5,4,3,1,0,a work trip,not high education,1,car is available for this trip,2,4,1,2,1,2
+H0240,31321487,2.029711386372872,34,female,34 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,1,0,0,0,2,2,0,1,0,a work trip,not high education,0,car is not available for this trip,4,6,2,4,6,2
+H0241,31321592,0.3735873657560173,56,male,56 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,1,4,2,0,0,1,a non-work trip,high education,1,car is available for this trip,4,3,2,2,1,2
+H0242,32710161,0.8584724543995766,51,female,51 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,6,2,5,2,2
+H0243,39010096,2.029711386372872,24,female,30 or younger,7000,around CHF 7000 per month,0,1,0,0,1,1,7.0,1,0,1,3,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,3,2,1
+H0244,39110243,0.3735873657560173,40,male,40 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,1,2,1,4,-1,1,0,a work trip,high education,1,car is available for this trip,3,3,2,4,2,2
+H0245,39110258,0.954424398357919,-1,traveler,30 or younger,-1,unknown income,0,1,0,0,0,1,-0.001,0,0,0,-1,-1,-1,-1,1,0,a work trip,not high education,1,car is available for this trip,2,3,2,3,2,4
+H0246,39110438,0.3735873657560173,57,male,57 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,2,4,5,1,1,0,a work trip,high education,1,car is available for this trip,5,5,1,3,2,2
+H0247,39110815,0.3735873657560173,56,male,56 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,1,0,1,4,3,0,1,0,a work trip,high education,1,car is available for this trip,5,3,3,4,1,4
+H0248,39110816,0.5414274486172608,24,female,30 or younger,7000,around CHF 7000 per month,0,0,0,0,0,1,7.0,1,0,1,1,3,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,2,5,1,2
+H0249,39110987,0.954424398357919,48,male,48 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,2,4,2,4
+H0250,39110987,0.954424398357919,48,male,48 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,4,3,2,4,2,4
+H0251,39111287,0.8584724543995766,40,female,40 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,0,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,6,4,2,5,1,6
+H0252,39111325,0.2290902236010023,40,female,40 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,1,1,3,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,3,3,2,2
+H0253,39111325,0.2290902236010023,40,female,40 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,1,1,3,4,2,1,0,a work trip,not high education,1,car is available for this trip,3,4,3,3,2,2
+H0254,39111355,0.3735873657560173,45,male,45 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,2,3,2,2,2,2
+H0255,39111360,0.6019450605361366,38,male,38 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,1,1,3,5,2,0,1,a non-work trip,high education,0,car is not available for this trip,5,1,3,3,3,3
+H0256,39111360,0.6019450605361366,38,male,38 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,1,1,3,5,2,1,0,a work trip,high education,0,car is not available for this trip,5,1,3,3,3,3
+H0257,39120013,0.2290902236010023,55,female,55 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,0,0,2,2,2,-1,1,0,a work trip,high education,1,car is available for this trip,5,6,2,5,3,2
+H0258,39120015,0.5414274486172608,32,female,32 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,0,0,1,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,2,2,3,4,1,4
+H0259,39120016,0.954424398357919,40,male,40 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,3,2,2
+H0260,39120245,0.3735873657560173,44,male,44 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,1,6,6,4,1,0,a work trip,high education,1,car is available for this trip,4,1,1,3,1,3
+H0261,39120372,2.029711386372872,34,female,34 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,3,4,2,4
+H0262,39120458,0.3735873657560173,58,male,58 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,5,4,3,5,3,1
+H0263,39120509,0.3735873657560173,52,male,52 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,2,2,5,0,1,0,a work trip,high education,1,car is available for this trip,5,4,3,5,3,2
+H0264,39120999,0.8584724543995766,40,female,40 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,0,1,5,5,3,1,0,a work trip,not high education,1,car is available for this trip,4,5,1,5,2,2
+H0265,42270007,0.8584724543995766,56,female,56 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,1,0,1,0,1,0,a work trip,not high education,1,car is available for this trip,2,5,3,3,3,3
+H0266,42270059,0.5414274486172608,35,female,35 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,6,2,2,3,3
+H0267,42270059,0.5414274486172608,35,female,35 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,6,2,2,3,3
+H0268,42270136,0.8584724543995766,55,female,55 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,2,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,3,2,1,3
+H0269,42270163,0.6019450605361366,38,male,38 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,0,1,0,1,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,4,3,2,3
+H0270,42270214,0.6019450605361366,22,male,30 or younger,7000,around CHF 7000 per month,0,0,0,0,0,1,7.0,1,0,0,3,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,3,3,6,3,1,4
+H0271,42270228,0.2545934244605354,54,male,54 years old,7000,around CHF 7000 per month,0,0,0,0,1,0,7.0,0,0,0,2,0,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,3,1,4
+H0272,42270323,0.2545934244605354,44,male,44 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,4,4,1,1,0,a work trip,high education,1,car is available for this trip,4,4,2,4,2,3
+H0273,42270323,0.2545934244605354,44,male,44 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,4,4,1,1,0,a work trip,high education,1,car is available for this trip,4,4,2,4,2,3
+H0274,42270350,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,1,5,2,4
+H0275,42270350,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,4,1,5,2,4
+H0276,42270540,0.954424398357919,50,male,50 years old,5000,around CHF 5000 per month,0,1,0,0,1,0,5.0,1,0,0,1,3,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,1,3,2,2
+H0277,42270623,0.954424398357919,46,male,46 years old,7384,around CHF 7384 per month,0,1,0,0,0,0,7.384,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,2,2,3,1
+H0278,42270623,0.954424398357919,46,male,46 years old,7384,around CHF 7384 per month,0,1,0,0,0,0,7.384,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,2,2,2,3,1
+H0279,42270631,0.2545934244605354,56,male,56 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,6,3,0,0,1,a non-work trip,high education,1,car is available for this trip,4,6,3,3,1,2
+H0280,42270631,0.2545934244605354,56,male,56 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,6,3,0,0,1,a non-work trip,high education,1,car is available for this trip,4,6,3,3,1,2
+H0281,42270632,0.2545934244605354,-1,traveler,30 or younger,9000,around CHF 9000 per month,0,1,0,0,0,1,9.0,0,0,1,1,6,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,6,3,3,1,2
+H0282,42270632,0.1798661531531291,-1,traveler,30 or younger,9000,around CHF 9000 per month,0,1,0,0,0,1,9.0,0,0,1,1,6,3,0,1,0,a work trip,not high education,1,car is available for this trip,4,6,3,3,1,2
+H0283,42270747,0.2290902236010023,42,female,42 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,4,1,2
+H0284,42270911,0.2545934244605354,41,male,41 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,1,3,2,4,2,1,0,a work trip,high education,1,car is available for this trip,1,4,2,2,4,4
+H0285,42270974,0.954424398357919,44,male,44 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,2,2,2
+H0286,42270996,2.029711386372872,39,female,39 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,3,4,2,1,0,a work trip,not high education,1,car is available for this trip,4,2,2,4,1,3
+H0287,42271015,0.2290902236010023,43,female,43 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,0,0,0,1,3,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,5,4,5,6,1
+H0288,42271067,0.8584724543995766,42,female,42 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,1,1,0,1,2,2,1,1,0,a work trip,not high education,1,car is available for this trip,1,1,1,3,3,2
+H0289,42271092,0.8584724543995766,43,female,43 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,0,2,2,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,3,5,2
+H0290,42271192,0.954424398357919,41,male,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,6,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,4,3,4,1,2
+H0291,42271243,0.2545934244605354,44,male,44 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,1,4,3,2,5,3
+H0292,42271394,0.954424398357919,46,male,46 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,3,4,6,1
+H0293,42271422,2.256576028779217,35,male,35 years old,7384,around CHF 7384 per month,0,1,0,0,1,0,7.384,1,0,0,2,2,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,3,3,5,3
+H0294,42280110,0.6019450605361366,21,male,30 or younger,15000,around CHF 15000 per month,0,0,0,0,0,1,15.0,1,0,0,1,3,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,1,2,5,3,4
+H0295,42280369,0.7944811628173415,35,female,35 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,1,0,1,0,3,4,2,1,0,a work trip,high education,1,car is available for this trip,5,3,2,5,1,3
+H0296,42280523,0.954424398357919,47,male,47 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,2,1,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,5,2,1,1
+H0297,42280539,0.2545934244605354,48,male,48 years old,9035,around CHF 9035 per month,1,0,0,1,0,0,9.035,1,0,0,1,5,5,2,1,0,a work trip,high education,1,car is available for this trip,4,3,1,4,2,3
+H0298,42280540,5.121759864312539,16,female,30 or younger,6101,around CHF 6101 per month,0,1,0,0,0,1,6.101,1,0,0,1,5,5,2,0,1,a non-work trip,not high education,0,car is not available for this trip,2,2,4,4,4,2
+H0299,42280540,5.121759864312539,16,female,30 or younger,6101,around CHF 6101 per month,0,1,0,0,0,1,6.101,1,0,0,1,5,5,2,1,0,a work trip,not high education,0,car is not available for this trip,2,2,4,4,4,2
+H0300,42280588,0.3360277669782562,52,female,52 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,1,7,4,0,1,0,a work trip,high education,1,car is available for this trip,5,1,1,5,1,3
+H0301,42280650,0.954424398357919,40,male,40 years old,9000,around CHF 9000 per month,0,1,0,0,1,0,9.0,1,0,0,1,6,5,3,1,0,a work trip,not high education,1,car is available for this trip,4,5,3,4,1,3
+H0302,42330479,0.2290902236010023,43,female,43 years old,5000,around CHF 5000 per month,1,0,0,1,0,0,5.0,1,0,0,1,1,1,-1,1,0,a work trip,high education,1,car is available for this trip,3,3,3,4,2,3
+H0303,42340021,2.029711386372872,38,female,38 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,6,3,1,1
+H0304,42340130,3.818189834136154,54,male,54 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,3,4,1,1,0,a work trip,not high education,1,car is available for this trip,3,2,3,3,2,2
+H0305,42340223,0.954424398357919,41,male,41 years old,3250,around CHF 3250 per month,0,1,0,0,0,0,3.25,0,0,1,1,2,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,4,2,4,1,4
+H0306,42340325,0.954424398357919,60,male,60 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,4,1,1,4
+H0307,42340423,0.954424398357919,53,male,53 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,0,1,1,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,5,2,2
+H0308,44630015,0.954424398357919,48,male,48 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,5,5,2,1,0,a work trip,not high education,1,car is available for this trip,2,2,2,2,2,2
+H0309,44630037,2.256576028779217,39,male,39 years old,15000,around CHF 15000 per month,0,1,0,0,0,0,15.0,1,0,1,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,2,3,3
+H0310,44630038,0.5414274486172608,39,female,39 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,0,1,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,2,2,2,3,2
+H0311,44630231,0.2290902236010023,40,female,40 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,0,0,1,0,1,0,a work trip,high education,0,car is not available for this trip,5,6,2,3,6,5
+H0312,44630344,0.3735873657560173,49,male,49 years old,9000,around CHF 9000 per month,1,0,1,0,0,0,9.0,0,1,0,1,5,5,2,0,1,a non-work trip,high education,1,car is available for this trip,2,3,1,4,3,2
+H0313,44630344,0.3735873657560173,49,male,49 years old,9000,around CHF 9000 per month,1,0,1,0,0,0,9.0,0,1,0,1,5,5,2,1,0,a work trip,high education,1,car is available for this trip,2,3,1,4,3,2
+H0314,44630465,0.3735873657560173,51,male,51 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,1,1,1,1,1,2
+H0315,44630507,0.954424398357919,52,male,52 years old,5000,around CHF 5000 per month,0,1,0,0,1,0,5.0,0,0,1,2,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,1,4,1,1
+H0316,44630670,0.8584724543995766,45,female,45 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,0,0,3,2,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,4,1,1,3,1
+H0317,44630671,0.3735873657560173,50,male,50 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,1,3,2,4,2,1,0,a work trip,high education,1,car is available for this trip,1,4,1,1,3,1
+H0318,44640015,0.8584724543995766,43,female,43 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,1,2,2,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,4,1,4,2
+H0319,44640016,1.423375818700105,19,male,30 or younger,7000,around CHF 7000 per month,0,1,0,0,0,1,7.0,0,0,0,2,2,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,2,4,1,5,2
+H0320,44640117,0.3735873657560173,60,male,60 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,1,0,4,4,4,0,1,0,a work trip,high education,1,car is available for this trip,1,3,3,1,1,1
+H0321,44640165,0.954424398357919,63,male,63 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,0,0,0,1,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,3,4,1,2
+H0322,44640256,0.954424398357919,54,male,54 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,1,0,1,-1,3,-1,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,5,3,1
+H0323,44640299,0.2545934244605354,51,male,51 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,1,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,6,2,4,1,3
+H0324,44640310,0.954424398357919,60,male,60 years old,15000,around CHF 15000 per month,0,1,1,0,0,0,15.0,0,0,1,1,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,5,1,5,3,3,2
+H0325,44640310,0.954424398357919,60,male,60 years old,15000,around CHF 15000 per month,0,1,1,0,0,0,15.0,0,0,1,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,1,5,3,3,2
+H0326,44640315,0.3360277669782562,52,female,52 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,1,0,2,4,4,1,0,1,a non-work trip,high education,1,car is available for this trip,3,3,1,4,1,3
+H0327,44640316,5.121759864312539,17,female,30 or younger,15000,around CHF 15000 per month,0,1,0,0,0,1,15.0,1,0,0,3,4,4,1,1,0,a work trip,not high education,0,car is not available for this trip,4,4,2,3,2,2
+H0328,44640349,0.5414274486172608,30,female,30 or younger,9321,around CHF 9321 per month,0,0,0,0,0,1,9.321,0,0,0,2,3,3,0,1,0,a work trip,not high education,0,car is not available for this trip,5,3,2,2,1,1
+H0329,44640350,0.341514734451877,19,female,30 or younger,8418,around CHF 8418 per month,0,0,0,0,0,1,8.418,0,0,0,2,3,3,0,1,0,a work trip,not high education,0,car is not available for this trip,4,2,3,5,1,2
+H0330,44640437,0.2290902236010023,52,female,52 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,0,1,0,2,1,0,1,0,a work trip,high education,1,car is available for this trip,5,5,4,4,1,4
+H0331,44640446,0.2545934244605354,53,male,53 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,0,0,0,1,3,2,0,1,0,a work trip,high education,1,car is available for this trip,4,3,2,5,1,3
+H0332,44640461,2.256576028779217,20,male,30 or younger,3250,around CHF 3250 per month,0,1,0,0,1,1,3.25,0,1,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,3,1,5,1
+H0333,44640462,5.121759864312539,19,female,30 or younger,5000,around CHF 5000 per month,0,1,0,1,0,1,5.0,0,1,0,2,4,9,1,0,1,a non-work trip,not high education,0,car is not available for this trip,3,3,3,3,1,3
+H0334,44640508,0.5414274486172608,32,female,32 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,1,0,0,1,5,3,1,0,1,a non-work trip,high education,1,car is available for this trip,2,3,3,4,3,1
+H0335,44640516,0.8584724543995766,60,female,60 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,1,0,2,4,3,-1,1,0,a work trip,not high education,1,car is available for this trip,5,5,1,5,1,4
+H0336,44640542,0.2545934244605354,54,male,54 years old,5000,around CHF 5000 per month,0,0,0,0,0,0,5.0,0,0,1,1,0,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,3,1,2
+H0337,44640655,0.2545934244605354,54,male,54 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,1,1,1,3,0,0,1,a non-work trip,high education,1,car is available for this trip,3,3,1,2,1,4
+H0338,44670012,0.954424398357919,47,male,47 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,1,2,4,4,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,2,6,2,1
+H0339,44670197,0.8584724543995766,-1,traveler,30 or younger,-1,unknown income,0,1,0,0,0,1,-0.001,0,0,0,-1,-1,-1,-1,1,0,a work trip,not high education,1,car is available for this trip,2,1,2,5,2,1
+H0340,44670208,0.2545934244605354,50,male,50 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,1,0,0,1,5,5,1,1,0,a work trip,high education,1,car is available for this trip,5,3,1,3,1,3
+H0341,44670291,0.8584724543995766,43,female,43 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,2,3,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,1,3,2,4
+H0342,44670292,0.954424398357919,42,male,42 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,0,2,4,3,1,1,0,a work trip,not high education,1,car is available for this trip,2,2,2,3,2,2
+H0343,44670377,2.029711386372872,35,female,35 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,5,2,4,1,4
+H0344,44670378,2.256576028779217,37,male,37 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,1,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,4,1,4,3,4
+H0345,44690034,0.2290902236010023,-1,female,30 or younger,9321,around CHF 9321 per month,0,0,0,0,0,1,9.321,0,0,0,1,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,4,6,1,5,1,2
+H0346,44690050,0.954424398357919,50,male,50 years old,2000,around CHF 2000 per month,0,1,1,0,0,0,2.0,1,0,1,3,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,1,3,5,3,5,2
+H0347,44690187,0.2545934244605354,42,male,42 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,1,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,2,2,4,2,4
+H0348,44690188,2.029711386372872,33,female,33 years old,9000,around CHF 9000 per month,0,1,1,0,0,0,9.0,1,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,1,1,3,1,4
+H0349,44690328,2.697152455336688,65,female,65 or older,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,3,3,4,6
+H0350,44692020,2.029711386372872,26,female,30 or younger,5000,around CHF 5000 per month,0,1,0,1,0,1,5.0,1,0,0,1,2,3,1,1,0,a work trip,not high education,1,car is available for this trip,2,1,6,3,1,1
+H0351,47120261,0.7944811628173415,33,female,33 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,0,0,3,2,0,1,0,a work trip,high education,0,car is not available for this trip,5,1,1,4,6,4
+H0352,47120308,0.8584724543995766,53,female,53 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,1,4,1,2
+H0353,47120343,0.954424398357919,49,male,49 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,1,2,6,6,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,1,4,1,2
+H0354,47120437,3.4343260688387685,45,female,45 years old,3250,around CHF 3250 per month,0,1,1,0,0,0,3.25,0,0,1,0,3,1,0,1,0,a work trip,not high education,1,car is available for this trip,4,4,3,4,1,3
+H0355,47120490,0.2545934244605354,49,male,49 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,0,2,5,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,1,4,1,2
+H0356,47120549,0.2290902236010023,54,female,54 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,0,0,0,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,1,4,1,3
+H0357,47120623,0.954424398357919,50,male,50 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,0,0,2,4,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,5,4,2,3,2,2
+H0358,47120643,0.954424398357919,60,male,60 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,2,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,3,2,2
+H0359,47120643,0.954424398357919,60,male,60 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,2,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,3,2,2
+H0360,47120775,2.029711386372872,27,female,30 or younger,5000,around CHF 5000 per month,0,1,0,1,0,1,5.0,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,2,4,2,4
+H0361,47120871,2.256576028779217,39,male,39 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,8,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,5,1,3,3,1
+H0362,47120872,2.256576028779217,39,male,39 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,8,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,5,1,3,3,1
+H0363,47120923,0.2290902236010023,62,female,62 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,0,0,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,5,4,1,5,1,3
+H0364,47120924,0.2290902236010023,62,female,62 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,0,0,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,5,4,1,5,1,3
+H0365,47120924,0.2290902236010023,62,female,62 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,0,0,1,1,1,0,1,0,a work trip,high education,1,car is available for this trip,5,4,1,5,1,3
+H0366,47120931,2.256576028779217,38,male,38 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,3,3,4,2,2
+H0367,47120931,2.256576028779217,38,male,38 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,3,3,4,2,2
+H0368,47120932,2.256576028779217,38,male,38 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,3,3,3,4,2,2
+H0369,47130034,0.6019450605361366,20,male,30 or younger,9000,around CHF 9000 per month,0,0,0,0,0,1,9.0,0,0,0,1,7,4,0,1,0,a work trip,not high education,0,car is not available for this trip,5,1,2,5,1,2
+H0370,47130065,0.5414274486172608,37,female,37 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,1,0,0,1,6,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,5,2,4,1,3
+H0371,47130066,0.2545934244605354,40,male,40 years old,9000,around CHF 9000 per month,1,0,1,0,0,0,9.0,1,0,0,1,6,4,2,1,0,a work trip,high education,1,car is available for this trip,5,3,3,4,1,4
+H0372,47130345,1.2802760802511697,19,female,30 or younger,7000,around CHF 7000 per month,0,1,0,0,0,1,7.0,1,0,0,2,2,3,1,1,0,a work trip,not high education,1,car is available for this trip,1,2,3,3,3,2
+H0373,47130442,0.5414274486172608,37,female,37 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,4,1,1,4,1,4
+H0374,47130471,0.5414274486172608,30,female,30 or younger,9000,around CHF 9000 per month,0,0,0,0,0,1,9.0,0,0,1,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,4,4,2,4
+H0375,47130533,0.6019450605361366,32,male,32 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,1,0,1,3,5,2,0,1,0,a work trip,high education,1,car is available for this trip,4,6,2,3,2,2
+H0376,47130729,0.954424398357919,59,male,59 years old,3250,around CHF 3250 per month,0,1,0,0,1,0,3.25,1,1,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,6,1,5,1,3
+H0377,50260144,2.256576028779217,35,male,35 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,1,1,3,3
+H0378,50260165,5.121759864312539,19,female,30 or younger,7000,around CHF 7000 per month,0,1,0,1,0,1,7.0,1,0,0,2,3,4,1,0,1,a non-work trip,not high education,0,car is not available for this trip,1,5,4,3,3,2
+H0379,50260165,5.121759864312539,19,female,30 or younger,7000,around CHF 7000 per month,0,1,0,1,0,1,7.0,1,0,0,2,3,4,1,0,1,a non-work trip,not high education,0,car is not available for this trip,1,5,4,3,3,2
+H0380,50260166,0.954424398357919,53,male,53 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,2,3,4,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,3,3,3,1
+H0381,50260181,0.2545934244605354,53,male,53 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,3,3,0,0,1,a non-work trip,high education,1,car is available for this trip,5,6,6,5,1,5
+H0382,50260183,0.8584724543995766,50,female,50 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,0,1,1,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,5,3,1,5,1,2
+H0383,50260275,0.2290902236010023,53,female,53 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,0,3,2,-1,-1,1,0,a work trip,not high education,1,car is available for this trip,4,3,1,2,1,2
+H0384,50260276,0.2933964559183305,65,male,65 or older,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,1,2,3,3,-1,0,1,a non-work trip,high education,1,car is available for this trip,3,4,2,4,1,3
+H0385,50270029,3.818189834136154,49,male,49 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,3,1,3,1,3
+H0386,50270030,0.8584724543995766,49,female,49 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,3,3,3,1,3
+H0387,50270088,0.2290902236010023,57,female,57 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,0,0,0,1,1,1,0,1,0,a work trip,high education,1,car is available for this trip,4,4,6,4,6,3
+H0388,50270151,0.954424398357919,54,male,54 years old,9000,around CHF 9000 per month,0,1,1,0,0,0,9.0,1,0,0,1,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,4,4,4,4,2,3
+H0389,50270194,0.3735873657560173,40,male,40 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,1,1,4,1,0,1,0,a work trip,high education,1,car is available for this trip,1,5,4,1,1,4
+H0390,50270287,0.3360277669782562,53,female,53 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,1,3,3,0,1,0,a work trip,high education,1,car is available for this trip,3,4,1,3,1,3
+H0391,50270435,0.2545934244605354,42,male,42 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,0,2,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,4,3,2,3
+H0392,50270436,0.2545934244605354,42,male,42 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,0,2,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,4,3,2,3
+H0393,50270475,0.3735873657560173,59,male,59 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,1,0,1,2,2,0,1,0,a work trip,high education,1,car is available for this trip,4,5,1,4,1,4
+H0394,50270501,0.2933964559183305,65,male,65 or older,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,3,2,2,0,1,0,a work trip,high education,1,car is available for this trip,4,2,1,4,1,1
+H0395,50270502,0.2290902236010023,63,female,63 years old,5000,around CHF 5000 per month,0,0,0,1,0,0,5.0,1,0,1,3,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,6,3,4,1,1
+H0396,50270516,0.2545934244605354,41,male,41 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,1,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,1,4,1,2,3,3
+H0397,50270533,0.2545934244605354,40,male,40 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,4,2,1,4,1,2
+H0398,50270601,2.029711386372872,32,female,32 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,3,3,5,1
+H0399,50270611,2.029711386372872,38,female,38 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,2,3,3,1
+H0400,50270631,0.2933964559183305,65,male,65 or older,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,1,2,0,1,0,a work trip,high education,1,car is available for this trip,5,5,2,4,1,4
+H0401,50270638,0.954424398357919,61,male,61 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,6,1,3,1,1
+H0402,50270639,0.2545934244605354,50,male,50 years old,8418,around CHF 8418 per month,0,0,0,1,0,0,8.418,0,0,0,1,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,3,2,3,2
+H0403,50270844,0.6926106659335842,84,male,65 or older,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,1,4,2,1,1,4
+H0404,50760031,0.2290902236010023,51,female,51 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,2,2,0,1,0,a work trip,high education,1,car is available for this trip,1,4,2,3,2,2
+H0405,50760043,0.954424398357919,61,male,61 years old,5000,around CHF 5000 per month,0,1,0,0,1,0,5.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,6,4,3,1
+H0406,50760116,2.029711386372872,39,female,39 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,2,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,1,2,1,2
+H0407,50760137,2.029711386372872,38,female,38 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,1,2,5,5,3,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,2,4,2,3
+H0408,50760209,0.5414274486172608,32,female,32 years old,7000,around CHF 7000 per month,0,0,1,0,0,0,7.0,1,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,2,4,1,2
+H0409,50760210,0.5414274486172608,32,female,32 years old,7000,around CHF 7000 per month,0,0,1,0,0,0,7.0,1,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,3,2,4,1,2
+H0410,50760247,0.8584724543995766,58,female,58 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,1,0,1,-1,-1,-1,-1,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,1,3,2,3
+H0411,50760334,0.8584724543995766,42,female,42 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,6,2,4,1,2
+H0412,50760337,0.5414274486172608,34,female,34 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,3,2,3
+H0413,50760357,0.3735873657560173,49,male,49 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,2,4,3,0,0,1,a non-work trip,high education,1,car is available for this trip,2,3,2,4,1,4
+H0414,50760358,8.119879017681459,-1,female,30 or younger,15000,around CHF 15000 per month,0,1,0,0,0,1,15.0,1,0,0,2,4,4,0,0,1,a non-work trip,not high education,0,car is not available for this trip,2,3,3,3,4,2
+H0415,50760429,0.2545934244605354,49,male,49 years old,9000,around CHF 9000 per month,0,0,1,0,0,0,9.0,0,0,0,1,5,4,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,1,2,1,2
+H0416,50760456,0.8584724543995766,51,female,51 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,1,4,5,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,2,3,1,4
+H0417,50760485,0.954424398357919,44,male,44 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,1,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,2,3,4,2
+H0418,50780010,0.7495589495214057,70,male,65 or older,15000,around CHF 15000 per month,0,1,0,0,0,0,15.0,0,0,1,2,2,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,3,3,4,2
+H0419,50780087,0.2290902236010023,60,female,60 years old,5000,around CHF 5000 per month,0,0,0,1,0,0,5.0,0,0,0,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,6,6,5,1,3
+H0420,50780404,0.3735873657560173,56,male,56 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,3,3,1,4,3,4
+H0421,50780405,0.2545934244605354,60,male,60 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,1,3,4,1,0,1,a non-work trip,high education,1,car is available for this trip,1,4,3,5,4,1
+H0422,52720229,0.2545934244605354,64,male,64 years old,15000,around CHF 15000 per month,0,0,1,0,0,0,15.0,0,0,1,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,4,3,2,2,4,3
+H0423,52720287,0.954424398357919,59,male,59 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,4,2,3,1,2
+H0424,52720371,0.2545934244605354,44,male,44 years old,7000,around CHF 7000 per month,0,0,0,0,1,0,7.0,0,0,0,1,2,1,0,1,0,a work trip,not high education,1,car is available for this trip,6,3,1,4,6,2
+H0425,52720511,2.256576028779217,37,male,37 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,1,0,2,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,3,3,3
+H0426,52720539,0.954424398357919,60,male,60 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,1,2,2,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,2,5,2,3,4,5
+H0427,52720539,0.954424398357919,60,male,60 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,1,2,2,2,-1,1,0,a work trip,not high education,1,car is available for this trip,2,5,2,3,4,5
+H0428,52720540,0.8584724543995766,60,female,60 years old,2000,around CHF 2000 per month,0,1,0,1,0,0,2.0,1,0,1,2,2,2,-1,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,3,3,3,2
+H0429,52720549,0.954424398357919,62,male,62 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,2,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,6,6,4,6,6
+H0430,52720563,0.2545934244605354,44,male,44 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,7,4,1,0,1,a non-work trip,high education,1,car is available for this trip,2,3,6,4,3,3
+H0431,52720571,0.3735873657560173,43,male,43 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,6,6,4,0,1,a non-work trip,high education,1,car is available for this trip,2,3,2,4,2,1
+H0432,52720639,0.6019450605361366,21,male,30 or younger,15000,around CHF 15000 per month,0,0,0,1,0,1,15.0,0,0,0,1,4,5,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,2,4,3
+H0433,52720665,0.5414274486172608,25,female,30 or younger,15000,around CHF 15000 per month,0,0,0,1,0,1,15.0,0,0,0,3,8,6,-1,1,0,a work trip,not high education,1,car is available for this trip,2,4,1,2,1,2
+H0434,52730004,0.954424398357919,55,male,55 years old,5000,around CHF 5000 per month,0,1,1,0,0,0,5.0,1,0,1,4,4,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,4,6,2,6,4
+H0435,52730081,0.2545934244605354,62,male,62 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,0,2,1,2,0,0,1,a non-work trip,high education,1,car is available for this trip,1,3,3,3,5,4
+H0436,52730183,0.954424398357919,49,male,49 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,3,5,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,2,4,2,2
+H0437,52730184,2.029711386372872,21,female,30 or younger,2000,around CHF 2000 per month,0,1,0,1,0,1,2.0,0,0,0,3,5,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,4,3,4,3
+H0438,53060149,5.121759864312539,17,female,30 or younger,2000,around CHF 2000 per month,0,1,0,0,0,1,2.0,1,0,0,2,6,4,1,0,1,a non-work trip,not high education,0,car is not available for this trip,3,2,3,4,6,2
+H0439,53060150,0.954424398357919,56,male,56 years old,15000,around CHF 15000 per month,0,1,0,0,0,0,15.0,0,0,1,2,5,4,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,2,4,3,2
+H0440,53060150,0.954424398357919,56,male,56 years old,15000,around CHF 15000 per month,0,1,0,0,0,0,15.0,0,0,1,2,5,4,1,1,0,a work trip,not high education,1,car is available for this trip,2,4,2,4,3,2
+H0441,53060177,0.8584724543995766,40,female,40 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,3,1,3,1,2
+H0442,53060213,3.4343260688387685,55,female,55 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,2,2,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,4,3,3,1
+H0443,53060385,2.029711386372872,35,female,35 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,1,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,2,3,2,2
+H0444,53060385,2.029711386372872,35,female,35 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,1,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,3,2,2
+H0445,53060420,5.121759864312539,18,female,30 or younger,7000,around CHF 7000 per month,0,1,0,0,0,1,7.0,1,0,0,2,5,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,2,6,1
+H0446,53060657,0.8584724543995766,46,female,46 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,1,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,2,1,1
+H0447,53060658,0.954424398357919,44,male,44 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,2,1,3,1,3
+H0448,54200057,0.2545934244605354,43,male,43 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,1,0,1,5,5,3,1,0,a work trip,high education,1,car is available for this trip,3,4,6,3,2,2
+H0449,54200069,0.2290902236010023,41,female,41 years old,9000,around CHF 9000 per month,0,0,1,0,0,0,9.0,1,0,0,2,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,4,1,2
+H0450,54200070,0.2545934244605354,41,male,41 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,5,3,3
+H0451,54200161,0.3360277669782562,54,female,54 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,1,1,3,2,0,1,0,a work trip,high education,1,car is available for this trip,5,5,1,5,1,5
+H0452,54200167,0.3735873657560173,50,male,50 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,1,0,3,2,0,1,0,a work trip,high education,1,car is available for this trip,4,3,1,3,1,2
+H0453,54200168,0.3360277669782562,43,female,43 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,1,0,3,2,0,0,1,a non-work trip,high education,1,car is available for this trip,4,4,2,4,1,3
+H0454,54200183,0.8584724543995766,-1,female,30 or younger,5000,around CHF 5000 per month,0,1,0,1,0,1,5.0,0,0,0,1,1,1,-1,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,3,2,4
+H0455,54200233,0.2545934244605354,62,male,62 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,1,2,2,-1,1,0,a work trip,high education,1,car is available for this trip,1,6,2,1,2,2
+H0456,54200335,0.2290902236010023,40,female,40 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,1,8,2,0,1,0,a work trip,high education,1,car is available for this trip,5,5,1,3,1,4
+H0457,54200342,0.1798661531531291,67,female,65 or older,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,1,3,2,-1,1,0,a work trip,high education,1,car is available for this trip,2,4,3,4,2,3
+H0458,54200407,0.2290902236010023,58,female,58 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,4,1,4,1,3
+H0459,54200622,0.8584724543995766,63,female,63 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,0,1,4,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,4,4,3,2,4
+H0460,54200662,2.256576028779217,38,male,38 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,2,2,3,1,1,0,a work trip,not high education,1,car is available for this trip,1,2,4,4,3,2
+H0461,54200675,0.2545934244605354,41,male,41 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,1,4,3,1,1,0,a work trip,high education,1,car is available for this trip,2,3,1,4,2,3
+H0462,54200685,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,1,1,2,1,0,1,0,a work trip,high education,1,car is available for this trip,1,2,2,1,2,2
+H0463,54200749,0.8584724543995766,43,female,43 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,4,5,2,5,2,3
+H0464,54200781,0.5414274486172608,21,female,30 or younger,7000,around CHF 7000 per month,0,0,0,1,0,1,7.0,0,0,1,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,4,4,3
+H0465,54200782,0.8584724543995766,49,female,49 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,3,3,4
+H0466,54200782,0.8584724543995766,49,female,49 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,3,3,4
+H0467,54200884,0.3735873657560173,59,male,59 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,5,3,3,3,1,3
+H0468,54200981,2.029711386372872,26,female,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,0,0,0,2,4,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,2,2,3,2,1
+H0469,54201031,0.2545934244605354,40,male,40 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,1,0,0,1,6,4,2,1,0,a work trip,not high education,1,car is available for this trip,3,3,1,4,1,3
+H0470,54201091,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,5,3,4,5,2,2
+H0471,54201194,0.3735873657560173,46,male,46 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,1,0,1,0,0,1,0,0,1,a non-work trip,high education,0,car is not available for this trip,2,4,2,2,2,2
+H0472,54201201,0.2545934244605354,46,male,46 years old,5000,around CHF 5000 per month,0,0,0,1,0,0,5.0,1,0,0,1,4,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,2,1,2
+H0473,54260060,0.2933964559183305,65,male,65 or older,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,0,1,0,2,0,1,0,a work trip,high education,1,car is available for this trip,4,3,3,4,3,3
+H0474,54260075,0.2290902236010023,47,female,47 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,0,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,3,3,3
+H0475,54260076,1.2802760802511697,19,female,30 or younger,7000,around CHF 7000 per month,0,1,0,1,0,1,7.0,0,0,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,3,5,2
+H0476,54260136,0.7495589495214057,68,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,4,2,3
+H0477,54260175,0.5414274486172608,37,female,37 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,1,2,4,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,1,4,1,4
+H0478,54260212,0.8584724543995766,42,female,42 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,3,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,1,4,1,2
+H0479,54260218,0.5414274486172608,33,female,33 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,2,4,2,0,1,0,a work trip,high education,1,car is available for this trip,4,4,2,4,1,5
+H0480,54260327,0.2545934244605354,58,male,58 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,1,1,3,4,0,1,0,a work trip,not high education,1,car is available for this trip,4,2,1,4,1,3
+H0481,54260349,0.8584724543995766,40,female,40 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,4,4,3
+H0482,54260350,0.8584724543995766,40,female,40 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,3,4,3
+H0483,54260350,0.8584724543995766,40,female,40 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,3,4,3
+H0484,54260373,0.5414274486172608,29,female,30 or younger,7000,around CHF 7000 per month,1,0,0,0,0,1,7.0,1,0,1,1,1,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,4,2,4,1,3
+H0485,54260390,3.818189834136154,-1,traveler,30 or younger,-1,unknown income,0,1,0,0,0,1,-0.001,1,0,0,1,4,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,6,5,5,3,2,3
+H0486,54260409,0.954424398357919,44,male,44 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,1,2,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,3,4,4,4,2
+H0487,54260410,3.4343260688387685,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,0,1,2,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,6,4,4,4,2
+H0488,54260556,0.3360277669782562,41,female,41 years old,10807,around CHF 10807 per month,1,0,0,1,0,0,10.807,1,0,1,1,2,4,2,1,0,a work trip,high education,1,car is available for this trip,6,2,1,4,2,1
+H0489,54260567,0.2545934244605354,47,male,47 years old,9035,around CHF 9035 per month,1,0,0,1,0,0,9.035,1,0,0,3,3,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,2,2,4,2
+H0490,54260611,2.256576028779217,35,male,35 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,0,2,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,3,1,3,3
+H0491,54260612,2.256576028779217,35,male,35 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,0,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,1,3,3
+H0492,54260750,0.954424398357919,43,male,43 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,1,2,0,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,6,3,4,3,4,3
+H0493,54260897,0.6019450605361366,38,male,38 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,1,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,1,2,2,2,4,4
+H0494,54261011,2.256576028779217,38,male,38 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,2,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,5,2,2,5,2,1
+H0495,54261138,0.8584724543995766,52,female,52 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,0,0,2,1,3,0,1,0,a work trip,not high education,1,car is available for this trip,4,2,1,3,1,3
+H0496,54261408,0.954424398357919,52,male,52 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,1,2,1,1
+H0497,54261409,2.029711386372872,20,female,30 or younger,2000,around CHF 2000 per month,0,1,0,1,0,1,2.0,1,0,0,1,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,1,3,1,1
+H0498,54261413,0.954424398357919,51,male,51 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,2,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,3,3,3,3,3,2
+H0499,54261566,6.72051101457278,51,female,51 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,0,1,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,2,1,2,4
+H0500,54261567,0.954424398357919,62,male,62 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,0,0,0,1,1,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,2,1,2,4
+H0501,54420363,0.2545934244605354,55,male,55 years old,7000,around CHF 7000 per month,1,0,1,0,0,0,7.0,1,0,1,-1,-1,-1,-1,1,0,a work trip,high education,1,car is available for this trip,2,1,2,2,1,2
+H0502,54420441,0.954424398357919,59,male,59 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,0,1,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,6,6,3,3,1,3
+H0503,54420585,0.954424398357919,45,male,45 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,2,4,4,4,4,2
+H0504,54420606,0.6019450605361366,38,male,38 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,1,1,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,4,4,3,4,4,2
+H0505,54420654,0.3735873657560173,51,male,51 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,1,6,4,-1,0,1,a non-work trip,high education,1,car is available for this trip,4,5,1,4,1,2
+H0506,54420840,5.694231137832636,19,male,30 or younger,7000,around CHF 7000 per month,0,1,0,0,0,1,7.0,0,1,0,0,2,2,0,1,0,a work trip,not high education,0,car is not available for this trip,3,1,1,1,2,4
+H0507,54420907,0.8584724543995766,61,female,61 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,0,0,0,1,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,3,2,5,3,3
+H0508,54421043,0.3735873657560173,51,male,51 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,0,4,4,0,0,1,a non-work trip,high education,1,car is available for this trip,5,3,2,2,1,2
+H0509,54421043,0.3735873657560173,51,male,51 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,0,4,4,0,1,0,a work trip,high education,1,car is available for this trip,5,3,2,2,1,2
+H0510,54421085,0.954424398357919,-1,traveler,30 or younger,15000,around CHF 15000 per month,0,1,0,0,0,1,15.0,1,0,0,2,4,5,0,1,0,a work trip,not high education,1,car is available for this trip,4,3,2,4,2,2
+H0511,54421189,0.954424398357919,45,male,45 years old,15000,around CHF 15000 per month,0,1,0,0,1,0,15.0,0,1,0,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,3,4,1,4
+H0512,54421189,0.954424398357919,45,male,45 years old,15000,around CHF 15000 per month,0,1,0,0,1,0,15.0,0,1,0,2,4,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,4,3,4,1,4
+H0513,54421192,0.954424398357919,61,male,61 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,6,4,1,3,1,5
+H0514,54421201,0.2290902236010023,54,female,54 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,0,3,3,3,0,1,0,a work trip,high education,1,car is available for this trip,3,4,4,4,2,2
+H0515,54421439,0.954424398357919,42,male,42 years old,15000,around CHF 15000 per month,0,1,1,0,0,0,15.0,0,0,0,2,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,2,3,4,4,5,2
+H0516,54421440,0.2290902236010023,43,female,43 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,0,0,2,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,4,4,2
+H0517,54429999,0.2545934244605354,46,male,46 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,1,0,1,2,4,4,-1,1,0,a work trip,not high education,1,car is available for this trip,5,5,1,5,1,3
+H0518,54440058,3.4343260688387685,53,female,53 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,1,5,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,4,4,2,4
+H0519,54440122,0.954424398357919,63,male,63 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,0,2,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,2,3,1,1
+H0520,54440188,0.2290902236010023,46,female,46 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,4,2,2,0,1,0,a work trip,high education,1,car is available for this trip,1,6,2,1,3,4
+H0521,54440235,0.954424398357919,40,male,40 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,0,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,6,6,1,4,3
+H0522,54440295,0.6742017967438133,67,female,65 or older,3250,around CHF 3250 per month,0,1,0,0,0,0,3.25,1,0,1,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,3,3,2,3
+H0523,54440341,0.8584724543995766,62,female,62 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,3,3,2,2
+H0524,54440366,0.8584724543995766,45,female,45 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,1,0,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,4,3,3,3,3
+H0525,54440426,0.3735873657560173,41,male,41 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,3,3,1,1,0,a work trip,high education,1,car is available for this trip,3,1,4,3,3,3
+H0526,54440439,0.5414274486172608,28,female,30 or younger,2000,around CHF 2000 per month,0,0,0,1,0,1,2.0,1,0,0,0,0,1,0,0,1,a non-work trip,not high education,0,car is not available for this trip,4,1,1,5,1,3
+H0527,54440474,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,0,2,5,4,2,0,1,a non-work trip,high education,1,car is available for this trip,1,4,2,4,1,3
+H0528,54440474,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,0,2,5,4,2,0,1,a non-work trip,high education,1,car is available for this trip,1,4,2,4,1,3
+H0529,54440475,0.6019450605361366,39,male,39 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,0,2,5,4,2,1,0,a work trip,high education,1,car is available for this trip,1,4,2,4,1,3
+H0530,54440508,0.2545934244605354,48,male,48 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,0,2,4,4,1,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,2,3,1,4
+H0531,54440529,0.8584724543995766,44,female,44 years old,9000,around CHF 9000 per month,0,1,1,0,0,0,9.0,1,1,0,1,0,1,0,1,0,a work trip,not high education,1,car is available for this trip,1,6,3,4,2,3
+H0532,54440574,0.954424398357919,62,male,62 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,5,2,4,1,4
+H0533,54440575,0.954424398357919,62,male,62 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,5,4,1,3,2,3
+H0534,54440592,0.954424398357919,56,male,56 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,1,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,4,2,4,3
+H0535,54440796,2.256576028779217,37,male,37 years old,7000,around CHF 7000 per month,0,1,1,0,0,0,7.0,1,0,1,2,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,6,4,2,4,1,3
+H0536,54440872,3.818189834136154,48,male,48 years old,5000,around CHF 5000 per month,0,1,0,0,1,0,5.0,0,0,0,1,2,1,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,5,4,1,1
+H0537,54440987,0.2545934244605354,50,male,50 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,0,0,0,1,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,1,5,1,4
+H0538,54441127,0.954424398357919,44,male,44 years old,9000,around CHF 9000 per month,0,1,0,0,1,0,9.0,1,0,1,2,3,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,1,3,1,4
+H0539,54441132,2.256576028779217,31,male,31 years old,3250,around CHF 3250 per month,0,1,1,0,0,0,3.25,1,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,1,6,2,1,1,2
+H0540,54441132,2.256576028779217,31,male,31 years old,3250,around CHF 3250 per month,0,1,1,0,0,0,3.25,1,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,1,6,2,1,1,2
+H0541,54540006,0.6019450605361366,25,male,30 or younger,15000,around CHF 15000 per month,0,0,0,0,0,1,15.0,1,0,1,2,3,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,5,5,1,2,4,1
+H0542,54540027,0.3735873657560173,62,male,62 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,1,1,2,2,0,1,0,a work trip,high education,1,car is available for this trip,5,4,2,5,1,4
+H0543,54540180,2.256576028779217,25,male,30 or younger,15000,around CHF 15000 per month,0,1,0,0,0,1,15.0,0,0,0,3,3,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,5,1,4,4
+H0544,54540399,0.8584724543995766,52,female,52 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,1,0,2,0,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,6,6,3
+H0545,54540400,0.954424398357919,46,male,46 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,1,0,0,2,-1,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,2,4,4,2,4
+H0546,54540426,0.8584724543995766,47,female,47 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,0,0,2,4,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,3,3,3,2
+H0547,54540451,0.2545934244605354,52,male,52 years old,15000,around CHF 15000 per month,0,0,1,0,0,0,15.0,1,0,1,4,2,4,-1,1,0,a work trip,not high education,1,car is available for this trip,2,3,3,3,4,2
+H0548,54540452,0.8584724543995766,52,female,52 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,0,0,1,4,2,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,3,2,2
+H0549,54540466,0.3735873657560173,64,male,64 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,3,5,2,4
+H0550,54540632,0.6019450605361366,31,male,31 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,1,0,0,1,2,4,2,0,1,a non-work trip,high education,1,car is available for this trip,1,4,2,3,2,2
+H0551,54540662,0.8584724543995766,55,female,55 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,0,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,2,5,1,4,1,1
+H0552,54540662,0.8584724543995766,55,female,55 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,0,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,2,5,1,4,1,1
+H0553,54540663,0.8832827856419051,26,male,30 or younger,9000,around CHF 9000 per month,1,0,0,0,0,1,9.0,1,0,1,1,1,1,0,1,0,a work trip,high education,1,car is available for this trip,1,5,1,4,1,5
+H0554,54540713,0.2290902236010023,44,female,44 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,0,1,1,7,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,5,5,1,5,1,4
+H0555,54540713,0.2290902236010023,44,female,44 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,0,0,1,1,7,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,5,5,1,5,1,4
+H0556,54540811,2.029711386372872,36,female,36 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,4,4,5
+H0557,54540811,2.029711386372872,36,female,36 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,4,4,5
+H0558,54540812,0.954424398357919,45,male,45 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,0,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,4,4,3
+H0559,54540853,0.954424398357919,55,male,55 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,2,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,1,4,4,4,3,4
+H0560,54540917,0.2290902236010023,45,female,45 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,1,0,1,5,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,5,1,3,1,1
+H0561,54540918,0.2545934244605354,50,male,50 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,1,1,5,4,2,1,0,a work trip,not high education,1,car is available for this trip,5,5,2,3,1,2
+H0562,54541019,0.3735873657560173,56,male,56 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,0,2,3,2,0,1,0,a work trip,high education,1,car is available for this trip,5,6,1,6,3,3
+H0563,54541039,0.3735873657560173,40,male,40 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,2,5,5,3,1,0,a work trip,high education,1,car is available for this trip,3,4,2,4,3,3
+H0564,54541041,2.256576028779217,36,male,36 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,0,0,1,0,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,2,4,1,2
+H0565,56080065,0.2290902236010023,49,female,49 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,0,0,0,2,2,3,0,0,1,a non-work trip,high education,1,car is available for this trip,2,4,1,2,1,4
+H0566,56080089,2.256576028779217,37,male,37 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,4,2,2,4,1,2
+H0567,56080090,0.5414274486172608,36,female,36 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,1,0,0,2,4,4,2,1,0,a work trip,high education,1,car is available for this trip,4,2,3,4,2,2
+H0568,56080245,0.2290902236010023,43,female,43 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,2,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,2,2,1,2,2
+H0569,56080246,0.954424398357919,48,male,48 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,2,1,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,5,4,3,3,2
+H0570,56080315,0.8584724543995766,45,female,45 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,1,0,2,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,4,4,1,5,1,3
+H0571,56080316,0.2545934244605354,50,male,50 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,1,1,0,2,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,5,4,2,5,1,4
+H0572,56080781,0.2290902236010023,47,female,47 years old,5000,around CHF 5000 per month,1,0,1,0,0,0,5.0,0,0,0,1,0,1,0,1,0,a work trip,high education,1,car is available for this trip,1,3,3,3,6,2
+H0573,56080782,0.2290902236010023,47,female,47 years old,5000,around CHF 5000 per month,1,0,1,0,0,0,5.0,0,0,0,1,0,1,0,1,0,a work trip,high education,1,car is available for this trip,1,3,3,3,6,2
+H0574,56080828,0.954424398357919,62,male,62 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,3,2,1,4,1,2
+H0575,56080898,0.2290902236010023,48,female,48 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,1,0,0,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,1,1,1,1,3
+H0576,56080898,0.2290902236010023,48,female,48 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,1,0,0,1,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,1,1,1,1,3
+H0577,70130105,0.954424398357919,45,male,45 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,2,5,4,2,1,0,a work trip,not high education,1,car is available for this trip,4,5,6,3,2,2
+H0578,70130149,0.8584724543995766,53,female,53 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,0,1,2,6,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,3,3,2,3
+H0579,70130349,0.2290902236010023,44,female,44 years old,7000,around CHF 7000 per month,1,0,0,0,0,0,7.0,0,1,0,1,7,4,2,1,0,a work trip,high education,1,car is available for this trip,4,5,3,4,1,2
+H0580,70130388,0.2545934244605354,52,male,52 years old,9000,around CHF 9000 per month,1,0,1,0,0,0,9.0,0,1,0,1,1,1,0,1,0,a work trip,high education,1,car is available for this trip,3,4,1,5,1,2
+H0581,70130662,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,1,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,6,1,3,3,3
+H0582,70130662,0.8584724543995766,41,female,41 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,0,2,1,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,6,1,3,3,3
+H0583,70130723,0.954424398357919,55,male,55 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,2,4,2,4
+H0584,70130765,0.3735873657560173,40,male,40 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,0,1,3,1,0,1,a non-work trip,high education,1,car is available for this trip,5,1,1,5,1,5
+H0585,70130778,0.2545934244605354,45,male,45 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,1,6,5,2,0,1,a non-work trip,high education,1,car is available for this trip,2,3,2,3,1,2
+H0586,70130778,0.2545934244605354,45,male,45 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,1,6,5,2,1,0,a work trip,high education,1,car is available for this trip,2,3,2,3,1,2
+H0587,70130807,0.2545934244605354,40,male,40 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,2,6,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,3,3,3,3,3
+H0588,70130807,0.2545934244605354,40,male,40 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,2,6,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,3,3,3,3,3
+H0589,70130808,2.029711386372872,34,female,34 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,1,0,0,2,6,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,6,3,3,2,4
+H0590,70130813,0.954424398357919,57,male,57 years old,5000,around CHF 5000 per month,0,1,0,0,1,0,5.0,0,0,1,1,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,3,4,1,2
+H0591,70130835,0.6019450605361366,33,male,33 years old,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,0,0,1,2,2,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,1,1,3,2
+H0592,70130867,2.256576028779217,20,male,30 or younger,2000,around CHF 2000 per month,0,1,0,0,0,1,2.0,1,0,1,2,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,6,2,6,3
+H0593,70130868,1.2802760802511697,18,female,30 or younger,2000,around CHF 2000 per month,0,1,0,0,0,1,2.0,1,0,1,2,4,4,0,1,0,a work trip,not high education,0,car is not available for this trip,2,6,3,2,2,2
+H0594,70130905,0.3735873657560173,44,male,44 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,1,0,1,1,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,4,6,4,2,3
+H0595,70130905,0.3735873657560173,44,male,44 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,1,0,1,1,4,2,1,0,a work trip,high education,1,car is available for this trip,4,4,6,4,2,3
+H0596,70130947,0.3735873657560173,49,male,49 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,5,5,0,0,1,a non-work trip,high education,1,car is available for this trip,5,4,1,4,1,4
+H0597,70130947,0.3735873657560173,49,male,49 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,1,1,5,5,0,1,0,a work trip,high education,1,car is available for this trip,5,4,1,4,1,4
+H0598,70130998,0.6019450605361366,23,male,30 or younger,9000,around CHF 9000 per month,0,0,0,0,0,1,9.0,0,0,1,1,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,2,4,2,3
+H0599,70131064,0.2545934244605354,59,male,59 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,0,0,1,1,3,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,3,3,2,3
+H0600,70140059,0.2545934244605354,59,male,59 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,3,2,2,3,2,3
+H0601,70140078,0.2290902236010023,47,female,47 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,1,0,1,2,7,5,1,1,0,a work trip,not high education,1,car is available for this trip,5,5,1,4,1,4
+H0602,70140136,0.341514734451877,19,female,30 or younger,9000,around CHF 9000 per month,0,0,0,0,0,1,9.0,1,0,0,2,5,5,1,1,0,a work trip,not high education,1,car is available for this trip,5,1,1,3,1,4
+H0603,70140141,0.3735873657560173,61,male,61 years old,9000,around CHF 9000 per month,1,0,1,0,0,0,9.0,0,0,1,1,2,3,0,1,0,a work trip,high education,1,car is available for this trip,3,4,1,4,1,3
+H0604,70140237,0.8584724543995766,60,female,60 years old,3250,around CHF 3250 per month,0,1,0,0,0,0,3.25,1,0,0,1,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,6,3,1,3,1,1
+H0605,70140294,0.954424398357919,47,male,47 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,0,0,1,1,3,1,0,1,0,a work trip,not high education,1,car is available for this trip,3,6,2,4,2,1
+H0606,70140295,0.2545934244605354,40,male,40 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,1,1,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,2,1,4,1,4
+H0607,70140295,0.2545934244605354,40,male,40 years old,7000,around CHF 7000 per month,1,0,0,1,0,0,7.0,0,0,1,1,4,4,2,1,0,a work trip,high education,1,car is available for this trip,4,2,1,4,1,4
+H0608,70740007,0.2290902236010023,48,female,48 years old,3250,around CHF 3250 per month,0,0,0,0,0,0,3.25,1,0,0,1,6,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,1,2,1,2
+H0609,70740047,0.2290902236010023,57,female,57 years old,8418,around CHF 8418 per month,0,0,0,0,1,0,8.418,0,0,1,1,0,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,3,2,4,3,3
+H0610,70740128,0.5414274486172608,39,female,39 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,1,0,0,1,2,5,3,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,2,2,1,1
+H0611,70740135,0.5414274486172608,39,female,39 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,1,0,1,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,4,4,4,2
+H0612,70740172,0.3735873657560173,54,male,54 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,0,0,2,7,5,0,1,0,a work trip,high education,1,car is available for this trip,4,3,4,5,3,2
+H0613,70740215,0.954424398357919,40,male,40 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,1,1,4,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,1,4,2,4,2,2
+H0614,70740215,0.954424398357919,40,male,40 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,1,1,4,4,2,1,0,a work trip,not high education,1,car is available for this trip,1,4,2,4,2,2
+H0615,70740299,0.954424398357919,62,male,62 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,2,4,1,3
+H0616,70740299,0.954424398357919,62,male,62 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,2,4,1,3
+H0617,90300005,0.2545934244605354,55,male,55 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,6,5,3,5,6,4
+H0618,90300011,0.954424398357919,57,male,57 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,1,0,2,2,3,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,3,3,6,4
+H0619,90300012,0.954424398357919,57,male,57 years old,9000,around CHF 9000 per month,0,1,0,1,0,0,9.0,0,1,0,2,2,3,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,3,3,6,4
+H0620,90300075,0.8584724543995766,48,female,48 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,2,3,5,-1,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,3,2,3
+H0621,90300075,0.8584724543995766,48,female,48 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,1,0,1,2,3,5,-1,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,3,3,2,3
+H0622,90300088,2.029711386372872,22,female,30 or younger,7384,around CHF 7384 per month,0,1,0,1,0,1,7.384,1,0,1,3,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,1,4,1,2,1,3
+H0623,90300114,0.2545934244605354,54,male,54 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,1,2,4,4,0,1,0,a work trip,high education,1,car is available for this trip,1,3,2,6,2,2
+H0624,90300284,0.2545934244605354,53,male,53 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,1,1,2,1,-1,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,2,3,3
+H0625,90300309,0.6019450605361366,35,male,35 years old,5000,around CHF 5000 per month,1,0,0,1,0,0,5.0,0,0,1,1,3,1,0,1,0,a work trip,high education,1,car is available for this trip,2,6,1,4,3,3
+H0626,90300331,0.7495589495214057,67,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,2,2,3,1,4
+H0627,90300336,0.954424398357919,40,male,40 years old,5000,around CHF 5000 per month,0,1,0,0,0,0,5.0,1,0,1,0,1,1,0,0,1,a non-work trip,not high education,0,car is not available for this trip,3,4,4,2,6,1
+H0628,90300344,0.2290902236010023,63,female,63 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,1,1,0,1,0,1,0,1,0,a work trip,high education,1,car is available for this trip,3,4,1,3,2,3
+H0629,90300345,0.2545934244605354,51,male,51 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,1,0,1,5,4,0,1,0,a work trip,high education,1,car is available for this trip,4,5,2,3,1,4
+H0630,90300367,3.4343260688387685,60,female,60 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,0,1,1,1,0,1,0,a work trip,not high education,1,car is available for this trip,3,3,2,2,1,2
+H0631,90300375,0.2545934244605354,48,male,48 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,0,2,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,3,3,2,3
+H0632,90300385,2.029711386372872,23,female,30 or younger,9000,around CHF 9000 per month,0,1,0,0,0,1,9.0,1,0,0,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,3,3,3,3,2
+H0633,90300470,0.2545934244605354,42,male,42 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,1,0,1,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,4,1,4,1,3
+H0634,90300470,0.2545934244605354,42,male,42 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,1,0,1,4,4,2,1,0,a work trip,high education,1,car is available for this trip,4,4,1,4,1,3
+H0635,90300496,0.5414274486172608,39,female,39 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,1,4,4,2,1,0,a work trip,high education,1,car is available for this trip,2,4,1,5,1,2
+H0636,90300795,0.6019450605361366,-1,traveler,30 or younger,9000,around CHF 9000 per month,0,1,0,0,0,1,9.0,1,0,1,3,5,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,6,3,3,2
+H0637,90300827,0.2545934244605354,59,male,59 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,3,4,3,2,3,4
+H0638,90300827,0.2545934244605354,59,male,59 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,0,2,0,0,1,a non-work trip,high education,1,car is available for this trip,3,4,3,2,3,4
+H0639,90300837,0.2290902236010023,57,female,57 years old,15000,around CHF 15000 per month,0,0,0,1,0,0,15.0,1,0,1,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,3,2,4,1,5
+H0640,90300838,0.2545934244605354,58,male,58 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,2,3,1,1
+H0641,90300909,0.3360277669782562,41,female,41 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,2,2,2,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,2,3,2,2
+H0642,90300953,0.8584724543995766,59,female,59 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,6,1,4,1,4
+H0643,90300953,0.8584724543995766,59,female,59 years old,7000,around CHF 7000 per month,0,1,0,1,0,0,7.0,0,0,0,1,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,4,6,1,4,1,4
+H0644,90301010,0.2545934244605354,60,male,60 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,1,2,4,1,0,0,1,a non-work trip,high education,1,car is available for this trip,2,2,1,5,2,3
+H0645,90301084,0.7495589495214057,67,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,0,0,1,2,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,2,4,2,2
+H0646,90301139,0.954424398357919,54,male,54 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,1,2,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,4,2,4,3,4
+H0647,90320178,0.6019450605361366,36,male,36 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,1,1,5,5,3,1,0,a work trip,not high education,1,car is available for this trip,5,4,1,4,1,4
+H0648,90320350,0.2933964559183305,67,male,65 or older,2000,around CHF 2000 per month,1,0,0,0,0,0,2.0,0,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,5,4,4,4,3,2
+H0649,90320388,0.6019450605361366,34,male,34 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,2,5,3,1,0,a work trip,high education,1,car is available for this trip,2,4,2,3,1,2
+H0650,90320388,0.6019450605361366,34,male,34 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,1,2,2,5,3,1,0,a work trip,high education,1,car is available for this trip,2,4,2,3,1,2
+H0651,90320560,0.2545934244605354,52,male,52 years old,7000,around CHF 7000 per month,0,0,0,0,0,0,7.0,0,0,0,1,5,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,5,5,4,3,1,2
+H0652,90320647,0.8584724543995766,52,female,52 years old,9000,around CHF 9000 per month,0,1,0,0,0,0,9.0,0,0,1,1,3,3,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,2,5,2,2
+H0653,90320677,0.3735873657560173,59,male,59 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,1,4,5,0,0,1,a non-work trip,high education,1,car is available for this trip,4,5,1,4,1,2
+H0654,90320677,0.3735873657560173,59,male,59 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,0,1,0,1,4,5,0,1,0,a work trip,high education,1,car is available for this trip,4,5,1,4,1,2
+H0655,90320680,0.2638993399589509,67,female,65 or older,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,0,0,0,1,1,2,0,1,0,a work trip,high education,1,car is available for this trip,1,5,1,1,1,1
+H0656,90320692,8.119879017681459,20,female,30 or younger,15000,around CHF 15000 per month,0,1,0,1,0,1,15.0,1,0,1,2,2,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,5,1,3
+H0657,90320693,0.2545934244605354,55,male,55 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,1,2,3,4,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,2,4,4,3,2
+H0658,90320693,0.2545934244605354,55,male,55 years old,15000,around CHF 15000 per month,0,0,0,0,0,0,15.0,0,0,1,2,3,4,0,1,0,a work trip,not high education,1,car is available for this trip,3,2,4,4,3,2
+H0659,90320713,0.5414274486172608,31,female,31 years old,5000,around CHF 5000 per month,1,0,0,1,0,0,5.0,1,0,1,1,1,1,0,1,0,a work trip,high education,1,car is available for this trip,2,2,1,3,2,2
+H0660,90320748,0.557146490639904,-1,traveler,30 or younger,-1,unknown income,0,1,0,0,0,1,-0.001,0,0,0,-1,-1,-1,-1,1,0,a work trip,not high education,1,car is available for this trip,1,1,1,4,1,3
+H0661,90320770,1.2802760802511697,19,female,30 or younger,7000,around CHF 7000 per month,0,1,0,1,0,1,7.0,0,0,0,1,3,4,1,0,1,a non-work trip,not high education,0,car is not available for this trip,4,6,3,2,1,2
+H0662,90321063,0.2545934244605354,46,male,46 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,0,0,0,1,0,1,0,0,1,a non-work trip,high education,1,car is available for this trip,3,3,2,4,2,3
+H0663,90321110,0.3735873657560173,58,male,58 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,1,0,0,1,4,2,0,0,1,a non-work trip,high education,1,car is available for this trip,5,5,4,5,1,1
+H0664,90321111,0.3360277669782562,58,female,58 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,1,1,4,2,0,1,0,a work trip,high education,1,car is available for this trip,4,3,2,4,1,3
+H0665,90321322,0.3735873657560173,50,male,50 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,1,4,4,1,0,1,a non-work trip,high education,1,car is available for this trip,5,4,1,1,1,4
+H0666,90321322,0.3735873657560173,50,male,50 years old,15000,around CHF 15000 per month,1,0,0,0,0,0,15.0,1,0,0,1,4,4,1,0,1,a non-work trip,high education,1,car is available for this trip,5,4,1,1,1,4
+H0667,92460013,2.029711386372872,21,female,30 or younger,7384,around CHF 7384 per month,0,1,0,1,0,1,7.384,1,0,0,4,3,3,-1,1,0,a work trip,not high education,1,car is available for this trip,1,2,3,3,2,2
+H0668,92460014,0.8584724543995766,54,female,54 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,0,0,0,4,3,3,-1,1,0,a work trip,not high education,1,car is available for this trip,2,3,1,3,2,2
+H0669,92460049,5.121759864312539,19,female,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,1,0,0,1,4,4,0,1,0,a work trip,not high education,0,car is not available for this trip,1,2,3,1,6,3
+H0670,92460121,0.2545934244605354,48,male,48 years old,9000,around CHF 9000 per month,1,0,0,1,0,0,9.0,1,0,1,6,6,4,2,0,1,a non-work trip,high education,1,car is available for this trip,1,4,1,2,4,3
+H0671,92460123,0.2545934244605354,43,male,43 years old,9000,around CHF 9000 per month,1,0,0,0,0,0,9.0,1,0,1,1,6,6,3,1,0,a work trip,high education,1,car is available for this trip,5,3,2,4,1,3
+H0672,92460281,0.5414274486172608,39,female,39 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,4,2,4,1
+H0673,92460282,0.2545934244605354,46,male,46 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,0,0,1,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,1,3,1,4,3
+H0674,92460355,2.029711386372872,21,female,30 or younger,15000,around CHF 15000 per month,0,1,0,1,0,1,15.0,1,0,0,4,4,4,0,1,0,a work trip,not high education,1,car is available for this trip,2,2,2,3,2,2
+H0675,92460391,0.8584724543995766,44,female,44 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,1,0,0,1,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,1,2,2,2,2,2
+H0676,92460392,0.8584724543995766,44,female,44 years old,7384,around CHF 7384 per month,0,1,0,1,0,0,7.384,1,0,0,1,4,4,1,1,0,a work trip,not high education,1,car is available for this trip,1,2,2,2,2,2
+H0677,92460438,0.2290902236010023,43,female,43 years old,2000,around CHF 2000 per month,0,0,0,0,0,0,2.0,1,0,1,2,4,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,1,4,1,3
+H0678,92460449,0.7495589495214057,67,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,1,5,4,2,0,1,a non-work trip,not high education,1,car is available for this trip,3,4,2,3,2,2
+H0679,92460449,0.7495589495214057,67,male,65 or older,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,1,5,4,2,1,0,a work trip,not high education,1,car is available for this trip,3,4,2,3,2,2
+H0680,92460612,0.954424398357919,43,male,43 years old,7000,around CHF 7000 per month,0,1,0,0,1,0,7.0,1,0,0,3,12,6,4,0,1,a non-work trip,not high education,1,car is available for this trip,1,6,2,2,1,6
+H0681,92460615,1.2802760802511697,18,female,30 or younger,7000,around CHF 7000 per month,0,1,0,0,0,1,7.0,1,0,0,2,7,5,1,1,0,a work trip,not high education,0,car is not available for this trip,1,3,2,2,2,1
+H0682,92460616,11.142841162813388,17,male,30 or younger,7000,around CHF 7000 per month,0,1,0,0,0,1,7.0,1,0,0,2,7,5,1,1,0,a work trip,not high education,0,car is not available for this trip,1,3,3,1,2,3
+H0683,92460665,0.2545934244605354,46,male,46 years old,8418,around CHF 8418 per month,0,0,1,0,0,0,8.418,1,0,0,3,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,1,5,3,3,1,4
+H0684,92460719,2.256576028779217,37,male,37 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,0,0,2,3,3,1,1,0,a work trip,not high education,1,car is available for this trip,2,2,1,4,4,2
+H0685,95240129,0.2290902236010023,62,female,62 years old,5000,around CHF 5000 per month,0,0,0,1,0,0,5.0,0,0,0,1,2,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,6,1,4,1,3
+H0686,95240219,0.2545934244605354,55,male,55 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,2,3,2
+H0687,95240220,0.2545934244605354,55,male,55 years old,7000,around CHF 7000 per month,0,0,0,1,0,0,7.0,1,0,0,2,2,2,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,1,2,3,2
+H0688,95240344,2.256576028779217,27,male,30 or younger,5000,around CHF 5000 per month,0,1,0,1,0,1,5.0,1,0,1,1,2,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,4,3,5,3
+H0689,95240363,0.8832827856419051,27,male,30 or younger,9000,around CHF 9000 per month,1,0,0,0,0,1,9.0,1,0,1,1,2,2,0,1,0,a work trip,high education,1,car is available for this trip,4,2,2,3,1,3
+H0690,95240420,0.8584724543995766,40,female,40 years old,3250,around CHF 3250 per month,0,1,0,1,0,0,3.25,1,1,0,1,4,4,3,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,3,3,3,1
+H0691,95240424,2.256576028779217,27,male,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,0,0,1,1,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,2,3,4,3,4,3
+H0692,95240431,0.8584724543995766,53,female,53 years old,2000,around CHF 2000 per month,0,1,0,1,0,0,2.0,0,0,0,1,1,1,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,1,4,1,3
+H0693,95240439,0.6019450605361366,32,male,32 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,0,0,3,3,2,0,0,1,a non-work trip,high education,1,car is available for this trip,1,3,1,1,2,2
+H0694,95240444,0.6019450605361366,33,male,33 years old,9000,around CHF 9000 per month,0,0,0,0,0,0,9.0,1,0,1,2,6,6,4,0,1,a non-work trip,not high education,1,car is available for this trip,2,4,2,4,2,1
+H0695,95240547,0.3735873657560173,42,male,42 years old,15000,around CHF 15000 per month,1,0,1,0,0,0,15.0,0,0,0,2,4,4,2,0,1,a non-work trip,high education,1,car is available for this trip,4,4,2,3,1,2
+H0696,95240554,0.2290902236010023,40,female,40 years old,9035,around CHF 9035 per month,1,0,0,0,0,0,9.035,1,0,0,2,3,3,1,0,1,a non-work trip,high education,1,car is available for this trip,4,3,1,5,1,3
+H0697,95240671,2.029711386372872,27,female,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,1,0,1,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,4,2,1
+H0698,95240671,2.029711386372872,27,female,30 or younger,9000,around CHF 9000 per month,0,1,0,1,0,1,9.0,1,0,1,1,2,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,2,2,4,2,1
+H0699,95241099,5.121759864312539,17,female,30 or younger,6101,around CHF 6101 per month,0,1,0,0,0,1,6.101,1,0,1,2,5,5,2,0,1,a non-work trip,not high education,0,car is not available for this trip,3,3,3,3,6,2
+H0700,95241108,0.1999290444257219,76,male,65 or older,9000,around CHF 9000 per month,0,0,0,1,0,0,9.0,0,0,0,1,1,2,0,0,1,a non-work trip,not high education,1,car is available for this trip,4,4,3,1,1,1
+H0701,96040078,0.954424398357919,48,male,48 years old,5000,around CHF 5000 per month,0,1,0,1,0,0,5.0,1,1,0,2,3,2,0,1,0,a work trip,not high education,1,car is available for this trip,5,6,3,5,1,1
+H0702,96040370,0.8584724543995766,52,female,52 years old,15000,around CHF 15000 per month,0,1,0,1,0,0,15.0,1,0,1,2,2,3,1,0,1,a non-work trip,not high education,1,car is available for this trip,4,3,1,5,2,3
+H0703,96040427,0.3360277669782562,49,female,49 years old,5000,around CHF 5000 per month,1,0,0,0,0,0,5.0,1,0,0,2,2,2,0,1,0,a work trip,high education,1,car is available for this trip,3,4,2,4,2,2
+H0704,96040452,5.121759864312539,18,female,30 or younger,5000,around CHF 5000 per month,0,1,0,0,0,1,5.0,0,0,0,2,4,4,2,1,0,a work trip,not high education,0,car is not available for this trip,6,5,4,1,2,3
+H0705,96040493,0.3735873657560173,49,male,49 years old,15000,around CHF 15000 per month,1,0,0,1,0,0,15.0,1,1,0,1,0,2,0,1,0,a work trip,high education,1,car is available for this trip,4,5,3,5,5,5
+H0706,96040537,0.8584724543995766,46,female,46 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,0,2,1,5,0,0,1,a non-work trip,not high education,1,car is available for this trip,2,6,1,6,2,2
+H0707,96040538,0.954424398357919,49,male,49 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,0,2,1,5,0,0,1,a non-work trip,not high education,1,car is available for this trip,1,3,2,3,2,2
+H0708,96040538,0.954424398357919,49,male,49 years old,7000,around CHF 7000 per month,0,1,0,0,0,0,7.0,1,0,0,2,1,5,0,1,0,a work trip,not high education,1,car is available for this trip,1,3,2,3,2,2

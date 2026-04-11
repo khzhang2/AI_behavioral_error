@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -19,8 +18,10 @@ from optima_common import (
     EXPERIMENT_DIR,
     INDICATOR_NAMES,
     OUTPUT_DIR,
+    resolve_llm_api_key,
     archive_experiment_config,
     ensure_dir,
+    llm_config_for,
     parse_choice_label,
     parse_indicator_value,
     read_json,
@@ -45,14 +46,13 @@ class ChatBackend:
     def generate(self, messages: list[dict[str, str]], request_state: dict | None = None) -> dict:
         if self.provider == "ollama":
             return self._generate_ollama(messages)
+        if self.provider == "poe":
+            return self._generate_poe(messages)
         return self._generate_openai_compatible(messages)
 
     def _headers(self) -> dict[str, str]:
         headers = {"Content-Type": "application/json"}
-        api_key = self.config.get("api_key", "")
-        api_key_env = self.config.get("api_key_env", "")
-        if not api_key and api_key_env:
-            api_key = os.environ.get(str(api_key_env), "")
+        api_key = resolve_llm_api_key(self.config)
         if api_key:
             headers["Authorization"] = f"Bearer {api_key}"
         return headers
@@ -104,6 +104,48 @@ class ChatBackend:
             },
         }
 
+    def _generate_poe(self, messages: list[dict[str, str]]) -> dict:
+        payload = {
+            "model": self.config["model"],
+            "messages": messages,
+            "temperature": self.config.get("temperature"),
+            "top_p": self.config.get("top_p"),
+            "seed": self.config.get("seed"),
+            "max_tokens": self.config.get("num_predict"),
+        }
+        format_value = self.config.get("format")
+        if isinstance(format_value, dict):
+            payload["response_format"] = format_value
+        elif isinstance(format_value, str) and format_value.strip():
+            if format_value.strip().lower() in {"json", "json_object"}:
+                payload["response_format"] = {"type": "json_object"}
+            else:
+                payload["response_format"] = format_value
+        if self.config.get("extra_body"):
+            payload.update(self.config["extra_body"])
+        base_url = str(self.config["base_url"]).rstrip("/")
+        if not base_url.endswith("/v1"):
+            base_url = base_url + "/v1"
+        response = self._post_json(base_url + "/chat/completions", payload)
+        choice = response["choices"][0]
+        message = choice.get("message", {})
+        content = message.get("content", "")
+        if isinstance(content, list):
+            content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
+        content = str(content)
+        usage = response.get("usage", {})
+        return {
+            "raw_text": content,
+            "response_text": content.strip(),
+            "thinking_text": "",
+            "metadata": {
+                "done_reason": choice.get("finish_reason", ""),
+                "total_duration": 0,
+                "prompt_eval_count": usage.get("prompt_tokens", 0),
+                "eval_count": usage.get("completion_tokens", 0),
+            },
+        }
+
     def _generate_openai_compatible(self, messages: list[dict[str, str]]) -> dict:
         payload = {
             "model": self.config["model"],
@@ -113,8 +155,14 @@ class ChatBackend:
             "seed": self.config.get("seed"),
             "max_tokens": self.config.get("num_predict"),
         }
-        if self.config.get("format"):
-            payload["response_format"] = self.config["format"]
+        format_value = self.config.get("format")
+        if isinstance(format_value, dict):
+            payload["response_format"] = format_value
+        elif isinstance(format_value, str) and format_value.strip():
+            if format_value.strip().lower() in {"json", "json_object"}:
+                payload["response_format"] = {"type": "json_object"}
+            else:
+                payload["response_format"] = format_value
         if self.config.get("extra_body"):
             payload.update(self.config["extra_body"])
         response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/chat/completions", payload)
@@ -166,7 +214,7 @@ def read_jsonl(path: Path) -> list[dict]:
 
 
 def build_backends() -> tuple[ChatBackend, ChatBackend, ChatBackend]:
-    backend_config = dict(CONFIG["llm"])
+    backend_config = llm_config_for()
     grounding_backend = ChatBackend({**backend_config, "num_predict": int(backend_config["grounding_num_predict"])})
     indicator_backend = ChatBackend({**backend_config, "num_predict": int(backend_config["indicator_num_predict"])})
     choice_backend = ChatBackend({**backend_config, "num_predict": int(backend_config["choice_num_predict"])})
