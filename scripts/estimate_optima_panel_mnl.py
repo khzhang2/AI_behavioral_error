@@ -19,7 +19,6 @@ ALT_CODE = {"PT": 0, "CAR": 1, "SLOW_MODES": 2}
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", choices=["human", "ai_pooled"], required=True)
-    parser.add_argument("--output-subdir", required=True)
     parser.add_argument("--max-respondents", type=int, default=None)
     return parser.parse_args()
 
@@ -198,10 +197,10 @@ def grouped_choice_share(frame: pd.DataFrame, group_cols: list[str]) -> dict[str
 def main() -> None:
     args = parse_args()
     archive_experiment_config(EXPERIMENT_DIR)
-    output_dir = ensure_dir(EXPERIMENT_DIR / "outputs" / args.output_subdir)
     frame = load_long_dataset(args.dataset, args.max_respondents)
     if frame.empty:
         raise RuntimeError(f"No observations found for dataset={args.dataset}")
+    prefix = "human_baseline_mnl" if args.dataset == "human" else "ai_panel_mnl"
 
     theta_hat, final_negloglik, result = estimate(frame)
     std_error, z_value, p_value = standard_errors(result)
@@ -214,8 +213,8 @@ def main() -> None:
             "p_value": p_value,
         }
     )
-    estimates.to_csv(output_dir / "mnl_estimates.csv", index=False)
-    frame.to_csv(output_dir / "estimation_input_long.csv", index=False)
+    estimates.to_csv(EXPERIMENT_DIR / f"{prefix}_estimates.csv", index=False)
+    frame.to_csv(EXPERIMENT_DIR / f"{prefix}_estimation_input_long.csv", index=False)
 
     summary = {
         "dataset": args.dataset,
@@ -233,7 +232,7 @@ def main() -> None:
         summary["choice_share_by_prompt_arm"] = grouped_choice_share(frame, ["prompt_arm"])
         summary["choice_share_by_model_prompt_arm"] = grouped_choice_share(frame, ["model_key", "prompt_arm"])
         summary["choice_share_by_task_role"] = grouped_choice_share(frame, ["task_role"])
-    write_json(output_dir / "mnl_summary.json", summary)
+    write_json(EXPERIMENT_DIR / f"{prefix}_summary.json", summary)
     print(
         f"[estimate_optima_panel_mnl] dataset={args.dataset} respondents={summary['n_respondents']} "
         f"tasks={summary['n_tasks']} loglik={summary['final_loglikelihood']:.3f}"

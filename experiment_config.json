@@ -1,167 +1,74 @@
 {
-  "experiment_type": "optima_intervention_regime",
-  "experiment_name": "20260412_optima_intervention_regime_v2",
-  "paper_reference": "Intervention-anchored latent response regime experiment built on the Optima benchmark",
-  "paths": {
-    "source_data_dir": "data/Swissmetro/demographic_choice_psychometric",
-    "data_dir": "data/Swissmetro/latent_regime_optima_v2",
-    "archive_dir": "experiments/Swissmetro/20260412_optima_intervention_regime_v2"
-  },
-  "master_seed": 20260412,
-  "n_block_templates_per_model": 236,
-  "n_repeats_per_template": 3,
-  "active_llm_key": "qwen3.5_9b",
-  "llm_models": [
-    {
-      "key": "qwen3.5_9b",
-      "collection_subdir": "ai_collection_qwen3.5_9b",
-      "respondent_prefix": "QW",
-      "provider": "ollama",
-      "model": "qwen3.5:9b",
-      "base_url": "http://127.0.0.1:11434",
-      "api_key_env": "",
-      "api_key": "",
-      "format": "",
-      "think": false,
-      "temperature": 0.1,
-      "top_p": 0.95,
-      "top_k": 20,
-      "seed": 20260412,
-      "grounding_num_predict": 96,
-      "attitude_num_predict": 32,
-      "task_num_predict": 96,
-      "timeout_sec": 240,
-      "extra_body": {}
+  "config_base_file": "experiment_config_base.json",
+  "config_overrides": {
+    "experiment_name": "20260412_optima_intervention_regime_poe_gpt54_nano_v1",
+    "paths": {
+      "data_dir": "data/Swissmetro/latent_regime_optima_v2",
+      "archive_dir": "experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1"
     },
-    {
-      "key": "deepseek_r1_8b",
-      "collection_subdir": "ai_collection_deepseek_r1_8b",
-      "respondent_prefix": "DS",
-      "provider": "ollama",
-      "model": "deepseek-r1:8b",
-      "base_url": "http://127.0.0.1:11434",
-      "api_key_env": "",
-      "api_key": "",
-      "format": "json",
-      "think": false,
-      "temperature": 0.1,
-      "top_p": 0.95,
-      "top_k": 20,
-      "seed": 20260412,
-      "grounding_num_predict": 96,
-      "attitude_num_predict": 32,
-      "task_num_predict": 96,
-      "timeout_sec": 240,
-      "extra_body": {}
+    "master_seed": 20260412,
+    "active_llm_key": "poe_gpt54_nano",
+    "n_block_templates_per_model": 5,
+    "n_repeats_per_template": 2,
+    "collection": {
+      "max_workers": 7
+    },
+    "llm_models": [
+      {
+        "key": "poe_gpt54_nano",
+        "respondent_prefix": "PO",
+        "provider": "poe",
+        "model": "gpt-5.4-nano",
+        "base_url": "https://api.poe.com/v1",
+        "credentials_file": "api_credentials.local.json",
+        "format": "json",
+        "reasoning_effort": "none",
+        "temperature": 0.1,
+        "top_p": 0.95,
+        "top_k": 20,
+        "seed": 20260412,
+        "grounding_num_predict": 96,
+        "attitude_num_predict": 32,
+        "task_num_predict": 96,
+        "timeout_sec": 240,
+        "extra_body": {},
+        "response_decoder": {}
+      }
+    ],
+    "survey_design": {
+      "n_attitudes": 6,
+      "n_core_tasks": 6,
+      "n_paraphrase_twins": 2,
+      "n_label_mask_twins": 2,
+      "n_order_twins": 2,
+      "n_monotonicity_tasks": 2,
+      "n_dominance_tasks": 2,
+      "total_tasks": 16,
+      "prompt_families": [
+        "concise",
+        "naturalistic"
+      ],
+      "prompt_arms": [
+        "semantic_arm",
+        "neutral_arm"
+      ],
+      "option_orders": [
+        "PT|CAR|SLOW_MODES",
+        "CAR|PT|SLOW_MODES",
+        "SLOW_MODES|PT|CAR"
+      ],
+      "top_attribute_options": [
+        "travel_time",
+        "waiting_time",
+        "cost",
+        "distance",
+        "availability",
+        "mode_label"
+      ],
+      "monotonicity_multiplier": 1.25,
+      "dominance_time_penalty_min": 20.0,
+      "dominance_wait_penalty_min": 10.0,
+      "dominance_cost_penalty_chf": 6.0
     }
-  ],
-  "survey_design": {
-    "n_attitudes": 6,
-    "n_core_tasks": 6,
-    "n_paraphrase_twins": 2,
-    "n_label_mask_twins": 2,
-    "n_order_twins": 2,
-    "n_monotonicity_tasks": 2,
-    "n_dominance_tasks": 2,
-    "total_tasks": 16,
-    "prompt_families": [
-      "concise",
-      "naturalistic"
-    ],
-    "prompt_arms": [
-      "semantic_arm",
-      "neutral_arm"
-    ],
-    "option_orders": [
-      "PT|CAR|SLOW_MODES",
-      "CAR|PT|SLOW_MODES",
-      "SLOW_MODES|PT|CAR"
-    ],
-    "top_attribute_options": [
-      "travel_time",
-      "waiting_time",
-      "cost",
-      "distance",
-      "availability",
-      "mode_label"
-    ],
-    "monotonicity_multiplier": 1.25,
-    "dominance_time_penalty_min": 20.0,
-    "dominance_wait_penalty_min": 10.0,
-    "dominance_cost_penalty_chf": 6.0
-  },
-  "intervention_tests": {
-    "repeat_randomness_kappa": 1.25,
-    "bootstrap_repetitions": 200,
-    "utility_equivalent_manipulations": [
-      "paraphrase",
-      "label_mask",
-      "order_randomization"
-    ]
-  },
-  "human_baseline_mnl": {
-    "optimizer": "scipy_bfgs"
-  },
-  "panel_mnl": {
-    "optimizer": "scipy_bfgs",
-    "maxiter": 500
-  },
-  "biogeme": {
-    "optimization_algorithm": "scipy"
-  },
-  "salcm": {
-    "n_preference_classes": 3,
-    "n_scale_classes": 2,
-    "optimizer": "scipy_lbfgsb",
-    "maxiter": 800,
-    "membership_covariates": [
-      "model_is_deepseek",
-      "semantic_arm",
-      "prompt_family_naturalistic",
-      "age_30_less",
-      "high_education",
-      "ScaledIncome",
-      "CAR_AVAILABLE",
-      "block_complexity_mean"
-    ]
-  },
-  "analysis_v2": {
-    "randomness_tolerance_kappa": 1.25,
-    "exact_repeat_signature_fields": [
-      "model_key",
-      "human_id",
-      "prompt_arm",
-      "task_role",
-      "manipulation_type",
-      "scenario_id",
-      "semantic_labels",
-      "option_order",
-      "TimePT_scaled",
-      "WaitingTimePT_scaled",
-      "MarginalCostPT_scaled",
-      "TimeCar_scaled",
-      "CostCarCHF_scaled",
-      "distance_km_scaled"
-    ],
-    "paired_interventions": [
-      "paraphrase",
-      "label_mask",
-      "order_randomization"
-    ],
-    "between_block_interventions": [
-      "prompt_arm"
-    ]
-  },
-  "torch": {
-    "default_device": "cuda_if_available",
-    "float_dtype": "float64"
-  },
-  "n_monte_carlo_draws_biogeme": 32,
-  "n_monte_carlo_draws_torch_compare": 32,
-  "n_monte_carlo_draws_torch_final": 500,
-  "shared_draw_dims": 2,
-  "shared_draw_names": [
-    "omega_car",
-    "omega_env"
-  ]
+  }
 }

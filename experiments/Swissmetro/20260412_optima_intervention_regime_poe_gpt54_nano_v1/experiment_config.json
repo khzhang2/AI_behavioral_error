@@ -1,11 +1,11 @@
 {
   "experiment_type": "optima_intervention_regime",
-  "experiment_name": "20260412_optima_intervention_regime_v2",
+  "experiment_name": "20260412_optima_intervention_regime_poe_gpt54_nano_v1",
   "paper_reference": "Intervention-anchored latent response regime experiment built on the Optima benchmark",
   "paths": {
     "source_data_dir": "data/Swissmetro/demographic_choice_psychometric",
     "data_dir": "data/Swissmetro/latent_regime_optima_v2",
-    "archive_dir": "experiments/Swissmetro/20260412_optima_intervention_regime_v2"
+    "archive_dir": "experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1"
   },
   "intervention_tests": {
     "repeat_randomness_kappa": 1.25,
@@ -83,8 +83,11 @@
   ],
   "master_seed": 20260412,
   "active_llm_key": "poe_gpt54_nano",
-  "n_block_templates_per_model": 10,
-  "n_repeats_per_template": 2,
+  "n_block_templates_per_model": 100,
+  "n_repeats_per_template": 4,
+  "collection": {
+    "max_workers": 7
+  },
   "llm_models": [
     {
       "key": "poe_gpt54_nano",

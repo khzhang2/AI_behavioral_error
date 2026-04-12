@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optima Intervention Regime 流程图（更新版）</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --ink: #1a2740;
+      --muted: #51607a;
+      --card: #ffffff;
+      --focus: #1f4f99;
+    }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      color: var(--focus);
+      font-size: 30px;
+    }
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 100%;
+    }
+    .hint {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #36465d;
+      background: #fff7d7;
+      border: 1px solid #ecd88f;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid #dce2eb;
+      border-radius: 12px;
+      box-shadow: 0 2px 14px rgba(28, 38, 60, 0.08);
+      padding: 12px;
+    }
+    .example {
+      margin-top: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid #d7e2f2;
+      border-radius: 12px;
+      box-shadow: 0 2px 14px rgba(28, 38, 60, 0.06);
+      padding: 16px 18px;
+    }
+    .example h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #173a72;
+    }
+    .example p {
+      margin: 0 0 10px;
+      color: #3f4f68;
+    }
+    .example code {
+      background: #eef3fb;
+      border-radius: 6px;
+      padding: 1px 5px;
+    }
+    .example table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+      background: #ffffff;
+    }
+    .example th,
+    .example td {
+      border: 1px solid #d9e2ef;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .example th {
+      background: #eef4ff;
+      color: #213b67;
+    }
+    .glossary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .glossary-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+      border: 1px solid #dce4f1;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .glossary-card strong {
+      display: block;
+      color: #173a72;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .glossary-card span {
+      display: block;
+      color: #405069;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    .mermaid {
+      width: 100%;
+      overflow: auto;
+      min-height: 640px;
+    }
+    .tooltip {
+      position: fixed;
+      z-index: 999;
+      pointer-events: none;
+      background: rgba(20, 30, 50, 0.95);
+      color: #ffffff;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.7;
+      max-width: 380px;
+      padding: 10px 12px;
+      box-shadow: 0 8px 22px rgba(17, 25, 38, 0.26);
+      display: none;
+      white-space: pre-wrap;
+    }
+    .tooltip .title {
+      display: block;
+      color: #b7dcff;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    @media (max-width: 1080px) {
+      h1 {
+        font-size: 24px;
+      }
+      .container {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Optima Intervention-Regime 实验流程图（更新版）</h1>
+    <p>
+      这版把一次真实实验的 prepare 与 collection 流程一并画进来，包含 persona 构建、
+      choice card 生成、`block_assignments.csv`、`panel_tasks.csv`、原始 AI 输出，以及后续估计与比较。
+      节点支持鼠标悬停显示解释，并继续保留按阶段的浅色透明分组框。
+    </p>
+    <div class="hint">
+      打开页面后直接把鼠标移到图中任意节点查看说明；离开节点则自动消失。
+    </div>
+    <div class="glossary">
+      <div class="glossary-card">
+        <strong>`task`</strong>
+        <span>单道题。可以是态度题、choice card，或 diagnostic/probe 题。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`task bundle`</strong>
+        <span>一组任务内容的集合，说明“这一轮问卷里有什么题”。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`block template`</strong>
+        <span>可复用的问卷会话模板：`task bundle + ordering + probe design + output schema`。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`respondent block`</strong>
+        <span>把 `block template` 放到固定实验条件下形成的实验单元。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`run`</strong>
+        <span>对一个 `respondent block` 的一次完整实际执行，也就是“完整喂完一轮问卷”。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`persona`</strong>
+        <span>从 human profile bank 抽取并转写成 AI 受访者背景的文本画像，用于 system prompt。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`choice card`</strong>
+        <span>单张 stated-preference 选项卡，一行任务记录，包含 A/B/C 选项及其属性。</span>
+      </div>
+      <div class="glossary-card">
+        <strong>`support set`</strong>
+        <span>当前实现中的 persona 支持集是经验支持集：只使用人类数据里真实出现过的完整 profile rows，不做属性全枚举。</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="mermaid">
+%%{init: {"theme": "neutral", "flowchart": {"htmlLabels": true, "curve": "basis"}}}%%
+flowchart TD
+    A[开始：定义 use case、human benchmark 与核心假设]
+    A --> B[实验设计：构造 questionnaire-session template（block template）]
+    B --> B1[核心 choice tasks]
+    B --> B2[twin/probe tasks: paraphrase / label-mask / order-randomization / dominance / monotonicity]
+    B --> B3[结构化输出设计: confidence / top-2 attributes / dominance seen]
+
+    B1 --> C[实验配置固定]
+    B2 --> C
+    B3 --> C
+    C --> C1[设定模型、prompt arm、temperature、persona 规则、task complexity]
+    C1 --> P0[构建 persona 支持集：读取 human_respondent_profiles.csv]
+    P0 --> P0A[经验支持集：只保留观测到的完整 profile rows]
+    P0A --> P1[按 master_seed 与 model_key 打乱 profiles]
+    P1 --> P1A[若 N < n_block_templates_per_model，则重复拼接 profiles]
+    P1A --> P1B[取前 M 个 profiles：selected_profiles]
+    P1B --> P2[每个 selected profile 绑定一个 block template，并写成 persona]
+
+    C1 --> P3[构建 scenario bank：读取 human_cleaned_wide.csv choice rows]
+    P3 --> P4[抽取 core scenarios，并派生 paraphrase / label / order / monotonicity / dominance tasks]
+
+    P2 --> P5[实例化 respondent blocks：写入 block_assignments.csv]
+    C1 --> P5
+    P4 --> P6[展开 panel tasks：写入 panel_tasks.csv]
+    C1 --> P6
+
+    P5 --> D[数据采集：对 respondent block 进行重复运行]
+    P6 --> D
+    D --> D0[单次 run：1 grounding + n_attitudes + 全部 task cards]
+    D --> D1[跨 run 的 exact repeats]
+    D0 --> D2[run 内遍历 core + twin/probe + diagnostic choice cards]
+    D0 --> D3[raw AI outputs：jsonl / json / progress summary]
+
+    D1 --> E[数据整理]
+    D2 --> E
+    D3 --> E
+    E --> E1[block-level fields]
+    E --> E2[run-level fields]
+    E --> E3[task/choice panel + diagnostic outputs]
+
+    E --> F[步骤1：估计 exact-repeat 随机性基线]
+    F --> F1[计算 flip rate / entropy / choice dispersion]
+    F1 --> F2[得到按 task family × fixed configuration Ω 分层的 randomness envelope]
+
+    E --> G[步骤2：估计干预效应]
+    G --> G1[计算 paraphrase gap / label gap / order gap / dominance violation / monotonicity violation]
+    G1 --> G2[比较干预效应与 randomness envelope]
+    G2 --> G3[标记哪些干预效应显著超出随机性基线]
+
+    E --> H[步骤3：panel SALCM 建模]
+    H --> H1[输入：repeated/twin-task choice panel]
+    H --> H2[class-membership covariates: model / prompt arm / persona / task complexity / tokenization burden]
+    H --> H3[估计 preference classes + scale classes]
+
+    H3 --> I[步骤4：post-estimation regime signatures]
+    G3 --> I
+    E3 --> I
+    I --> I1[按 posterior class 汇总 diagnostic signatures: label gap / dominance compliance / monotonicity / confidence / top-2 attributes]
+    I1 --> I2[解释哪些 class 更像 trade-off regime、label-sensitive regime、low-consistency regime]
+
+    A --> J[并行：人类 benchmark 估计]
+    J --> J1[估计 human baseline model 或整理 human benchmark statistics]
+
+    I2 --> K[步骤5：AI-human distortion comparison]
+    J1 --> K
+    K --> K1[比较 overall share / subgroup share / VOT-WTP proxy / elasticity-like responses / distortion score]
+
+    K1 --> L[输出]
+    L --> L1[随机性基线]
+    L --> L2[系统性干预效应]
+    L --> L3[SALCM 对 response regimes 的压缩能力]
+    L --> L4[相对 human benchmark 的 distortion profile]
+    L --> L5[是否进入下一步 ICLV-SALCM 扩展]
+
+    subgraph S0["阶段0：定义与设计"]
+      A
+      B
+      B1
+      B2
+      B3
+      C
+      C1
+    end
+
+    subgraph S1["阶段1：支持集、persona 与问卷生成"]
+      P0
+      P0A
+      P1
+      P1A
+      P1B
+      P2
+      P3
+      P4
+      P5
+      P6
+    end
+
+    subgraph S2["阶段2：采集"]
+      D
+      D0
+      D1
+      D2
+      D3
+    end
+
+    subgraph S3["阶段3：整理"]
+      E
+      E1
+      E2
+      E3
+    end
+
+    subgraph S4["阶段4：量化基线"]
+      F
+      F1
+      F2
+    end
+
+    subgraph S5["阶段5：干预效应"]
+      G
+      G1
+      G2
+      G3
+    end
+
+    subgraph S6["阶段6：SALCM建模"]
+      H
+      H1
+      H2
+      H3
+    end
+
+    subgraph S7["阶段7：结果签名"]
+      I
+      I1
+      I2
+    end
+
+    subgraph S8["阶段8：人类基准并行"]
+      J
+      J1
+    end
+
+    subgraph S9["阶段9：失真比较与输出"]
+      K
+      K1
+      L
+      L1
+      L2
+      L3
+      L4
+      L5
+    end
+
+    classDef stage0 fill:#eef4ff,stroke:#6387ca,color:#18396d,fill-opacity:0.45
+    classDef stage1 fill:#eef9f3,stroke:#4ea57d,color:#0f4a2e,fill-opacity:0.45
+    classDef stage2 fill:#fff7eb,stroke:#cc8f3a,color:#633a00,fill-opacity:0.45
+    classDef stage3 fill:#f2ecff,stroke:#795ec6,color:#3d2a78,fill-opacity:0.45
+    classDef stage4 fill:#eef6f7,stroke:#4a8ea0,color:#12444f,fill-opacity:0.45
+    classDef stage5 fill:#faf3f8,stroke:#a15f8b,color:#542b54,fill-opacity:0.45
+    classDef stage6 fill:#eaf8f6,stroke:#2b8f81,color:#0f4c45,fill-opacity:0.45
+    classDef stage7 fill:#eef2f8,stroke:#5f6a90,color:#2e3a63,fill-opacity:0.45
+    classDef stage8 fill:#f7f2e7,stroke:#b88a40,color:#4f3a13,fill-opacity:0.45
+    classDef stage9 fill:#f5f0e7,stroke:#9a7a3e,color:#4e3a14,fill-opacity:0.45
+
+    class A,B,B1,B2,B3,C,C1 stage0
+    class P0,P0A,P1,P1A,P1B,P2,P3,P4,P5,P6 stage1
+    class D,D0,D1,D2,D3 stage2
+    class E,E1,E2,E3 stage3
+    class F,F1,F2 stage4
+    class G,G1,G2,G3 stage5
+    class H,H1,H2,H3 stage6
+    class I,I1,I2 stage7
+    class J,J1 stage8
+    class K,K1,L,L1,L2,L3,L4,L5 stage9
+      </div>
+    </div>
+    <div class="example">
+      <h2>问答次数计算例子</h2>
+      <p>
+        下面用刚才那次 small-scale smoke test 说明一次实验总共会产生多少次 AI 问答请求。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>当前例子</th>
+            <th>含义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>n_block_templates_per_model</code></td>
+            <td>10</td>
+            <td>每个模型生成 10 个问卷块模板。</td>
+          </tr>
+          <tr>
+            <td><code>n_repeats_per_template</code></td>
+            <td>2</td>
+            <td>每个模板做 2 次 exact repeat。</td>
+          </tr>
+          <tr>
+            <td><code>n_attitudes</code></td>
+            <td>6</td>
+            <td>每个 run 里有 6 道态度题。</td>
+          </tr>
+          <tr>
+            <td><code>n_core_tasks</code></td>
+            <td>6</td>
+            <td>每个 run 里有 6 张核心 choice cards。</td>
+          </tr>
+          <tr>
+            <td><code>n_paraphrase_twins</code></td>
+            <td>2</td>
+            <td>每个 run 里有 2 张 paraphrase cards。</td>
+          </tr>
+          <tr>
+            <td><code>n_label_mask_twins</code></td>
+            <td>2</td>
+            <td>每个 run 里有 2 张 label-mask cards。</td>
+          </tr>
+          <tr>
+            <td><code>n_order_twins</code></td>
+            <td>2</td>
+            <td>每个 run 里有 2 张 order-randomization cards。</td>
+          </tr>
+          <tr>
+            <td><code>n_monotonicity_tasks</code></td>
+            <td>2</td>
+            <td>每个 run 里有 2 张 monotonicity cards。</td>
+          </tr>
+          <tr>
+            <td><code>n_dominance_tasks</code></td>
+            <td>2</td>
+            <td>每个 run 里有 2 张 dominance cards。</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        所以每个 run 的 task cards 总数是：
+        <code> n_core_tasks + n_paraphrase_twins + n_label_mask_twins + n_order_twins + n_monotonicity_tasks + n_dominance_tasks = 6 + 2 + 2 + 2 + 2 + 2 = 16</code>
+      </p>
+      <p>
+        每个 run 的 AI 问答请求总数是：
+        <code>1 grounding + 6 attitudes + 16 tasks = 23</code>
+      </p>
+      <p>
+        总 runs 数是：
+        <code>n_block_templates_per_model × n_repeats_per_template = 10 × 2 = 20</code>
+      </p>
+      <p>
+        所以整次实验的总问答请求数是：
+        <code>20 × 23 = 460</code>
+      </p>
+      <p>
+        一般公式可以写成：
+        <code>总请求数 = n_block_templates_per_model × n_repeats_per_template × (1 + n_attitudes + 总 task cards)</code>
+      </p>
+    </div>
+  </div>
+  <div id="hoverTooltip" class="tooltip" aria-live="polite"></div>
+
+  <script>
+    const tooltipMap = {
+      A: {
+        title: "开始",
+        text: "从研究问题入口开始：先定义 use case、明确 human benchmark 和主要假设。"
+      },
+      B: {
+        title: "实验设计：构造 questionnaire-session template（block template）",
+        text: "block template 是一套可复用的问卷会话模板，包含 task bundle、题目顺序、twin/probe 设计和结构化输出格式。\n\n它是设计对象，不是一次实际作答。"
+      },
+      B1: {
+        title: "核心 choice tasks",
+        text: "task 是最小单位，也就是单道题。\n\n这里的 core choice tasks 是主任务，用于效用与偏好结构估计，不是 diagnostic 题。"
+      },
+      B2: {
+        title: "twin/probe tasks",
+        text: "在同一底层任务内容上生成不同变体，用于干预识别或一致性诊断。\n- paraphrase：改写措辞；\n- label-mask：更换选项标签；\n- order-randomization：改变展示顺序；\n- dominance / monotonicity：行为一致性诊断。"
+      },
+      B3: {
+        title: "结构化输出设计",
+        text: "要求 AI 返回结构化信息，便于自动解析。\n这里包括置信度、Top-2 attributes、是否看到劣势选项（dominance seen）。"
+      },
+      C: {
+        title: "实验配置固定",
+        text: "把模板、模型、任务数等参数冻结，避免在同一 run/阶段中随意变动造成可比性问题。"
+      },
+      C1: {
+        title: "设定模型与任务设置",
+        text: "明确模型版本、prompt arm、temperature、persona 规则、task complexity 等固定实验条件。\n这些条件与 block template 合在一起，才形成 respondent block。"
+      },
+      P0: {
+        title: "构建 persona 支持集：读取 human_respondent_profiles.csv",
+        text: "当前实现不是从年龄、收入、教育等属性做全枚举生成 persona，而是先从 `human_respondent_profiles.csv` 读取一批完整的人类 profile rows。\n\n这些 rows 构成 persona 的候选支持集。"
+      },
+      P0A: {
+        title: "经验支持集",
+        text: "这里的 support set 是经验支持集：只保留人类数据里真实观测到的完整 profile combinations。\n\n当前代码不做属性正交设计，也不做人口统计变量的全枚举。这样保留了真实变量之间的联合结构，但不能保证覆盖所有可能组合。"
+      },
+      P1: {
+        title: "按 master_seed 与 model_key 打乱 profiles",
+        text: "代码先把 profile bank 做一次可重复的随机打乱。\n\n随机种子是 `master_seed + len(model_key)`。因此不同模型键可以得到不同但可复现的 persona 顺序。"
+      },
+      P1A: {
+        title: "若 N < M，则重复拼接 profiles",
+        text: "记 `N = profile_bank` 行数，`M = n_block_templates_per_model`。\n\n如果 `N < M`，当前代码会把 profile bank 重复拼接若干次，直到行数不少于 `M`。这意味着当模板数超过 profile 数时，一部分 persona 会被重复使用。"
+      },
+      P1B: {
+        title: "取前 M 个 profiles",
+        text: "打乱后直接取前 `M` 个 profiles，形成 `selected_profiles`。\n\n如果 `N >= M`，这相当于无放回随机抽样；如果 `N < M`，这相当于重复后再截取，因此会出现重复 persona。"
+      },
+      P2: {
+        title: "每个 selected profile 绑定一个 block template，并写成 persona",
+        text: "当前实现里，基本是一份 selected profile 对应一个 `block template`。\n\n之后在问卷脚本中，会把 profile 中的性别、年龄、收入、出行目的、家庭车辆与自行车数量、教育、父母是否偏车、童年居住环境等字段写进 system prompt，形成 AI 的 persona 文本。"
+      },
+      P3: {
+        title: "构建 scenario bank",
+        text: "scenario bank 不是从 persona 表里来，而是从 `human_cleaned_wide.csv` 的 choice rows 构造。\n\n每一行代表一组可用的出行选项属性，用来后续生成 core choice cards。"
+      },
+      P4: {
+        title: "抽取 core scenarios，并派生 twin/probe tasks",
+        text: "先从 scenario bank 无放回抽取 `n_core_tasks` 个核心场景，再按 survey design 派生 paraphrase、label-mask、order-randomization、monotonicity、dominance 任务。\n\n这些派生任务共享同一底层场景，但通过措辞、标签、顺序或属性扰动构成不同 probe。"
+      },
+      P5: {
+        title: "实例化 respondent blocks：block_assignments.csv",
+        text: "把 `selected_profiles`、`block template` 与固定实验条件绑定起来，并按 `n_repeats_per_template` 展开 planned runs。\n\n`block_assignments.csv` 的每一行都对应一个 planned run，包含 `respondent_id`、`block_template_id`、`run_repeat`、`prompt_arm`、`prompt_family` 等字段。"
+      },
+      P6: {
+        title: "展开 panel tasks：panel_tasks.csv",
+        text: "把每个 planned run 需要回答的全部 task cards 展开成任务表。\n\n`panel_tasks.csv` 的一行对应一道 task，包含 `task_index`、`task_role`、`manipulation_type`、`display_A_alt/B/C`、`option_order` 等字段。\n\n当前大实验里每个 run 有 16 行 task cards。"
+      },
+      D: {
+        title: "数据采集：对 respondent block 进行重复运行",
+        text: "respondent block = block template + fixed experimental configuration。\n\n固定条件通常包括 model、prompt arm、persona、temperature，必要时还可包括语言版本或标签版本。\n\n它是实验单元；对它执行一次完整问卷，就是一次 run。真正的 collection 阶段不会重新生成模板，只会读取 `block_assignments.csv` 和 `panel_tasks.csv`。"
+      },
+      D0: {
+        title: "单次 run",
+        text: "一次 run = 对一个 respondent block 完整执行一轮问卷。\n\n当前代码顺序是：1 次 grounding + `n_attitudes` 次态度题 + `total_tasks` 次 task cards。\n\n以刚才的小实验为例：`1 + 6 + 16 = 23` 次问答请求。若总 runs 是 `20`，则总请求数就是 `20 × 23 = 460`。"
+      },
+      D1: {
+        title: "跨 run 的 exact repeats",
+        text: "在完全相同的 respondent block 上重复执行多次 run，用来估计 within-block randomness。\n\n这里固定的不只是问卷模板，还包括 model、prompt arm、persona、temperature 等条件。\n\n注意 repeats 的数量是在 prepare 阶段通过 `n_repeats_per_template` 写进 `block_assignments.csv` 的。"
+      },
+      D2: {
+        title: "run 内遍历 core + twin/probe + diagnostic cards",
+        text: "twin/probe 不是额外的独立 run，而是同一轮问卷里的 task cards。\n\n也就是说，一个 run 会顺序回答全部 core tasks 与 twin/probe tasks；之后再把同一底层任务的不同版本做对比。"
+      },
+      D3: {
+        title: "raw AI outputs",
+        text: "collection 期间首先写出的都是原始 AI 记录。\n\n当前实验结构里，`outputs/` 只存原始 AI 数据：`raw_interactions.jsonl`、`respondent_transcripts.json`、`run_respondents.json`、`ai_collection_summary.json`。"
+      },
+      E: {
+        title: "数据整理",
+        text: "将原始 AI 记录与 prepare 阶段生成的任务表重新拼接，整理成后续估计可直接使用的 panel 数据。"
+      },
+      E1: {
+        title: "block-level fields",
+        text: "描述 respondent block 或其对应模板层面的字段。\n例子：`block_template_id`、`respondent_id`、`prompt_arm`、`prompt_family`、`persona`、`block_complexity_mean`。"
+      },
+      E2: {
+        title: "run-level fields",
+        text: "与单次 run 相关字段，例如 `run_repeat`、开始/结束时间、valid rate、每次 run 的完成状态等。"
+      },
+      E3: {
+        title: "task/choice panel + diagnostic outputs",
+        text: "每个 task 的选择记录与诊断输出。\n其中 task 是单题；choice panel 是一组有组织的选择题；diagnostic outputs 包括 `choice_label`、`confidence`、`top_attribute_1/2`、支配违规、单调违规以及 paraphrase/label/order 对比结果。"
+      },
+      F: {
+        title: "步骤1：估计 exact-repeat 随机性基线",
+        text: "第一层识别：AI 同一任务重复跑时到底有多少随机波动。"
+      },
+      F1: {
+        title: "计算 flip rate / entropy / choice dispersion",
+        text: "flip rate：同一任务重复回答是否翻转；\nentropy：选择分布不确定性；\nchoice dispersion：分布分散程度。"
+      },
+      F2: {
+        title: "按 task family × fixed configuration Ω 分层的 randomness envelope",
+        text: "randomness envelope 原则上应按固定实验配置 Ω 来分层。\n\n这里的 Ω 至少可以包含 model、prompt arm、persona、temperature、task complexity；否则不同条件下的波动会被错误混在一起。"
+      },
+      G: {
+        title: "步骤2：估计干预效应",
+        text: "在有了随机性基线后，再看干预是否造成额外变化。"
+      },
+      G1: {
+        title: "计算多类干预 gap",
+        text: "分别计算 paraphrase、label、order 的干预差异，以及 dominance / monotonicity 违例率。"
+      },
+      G2: {
+        title: "比较干预效应与随机性包络",
+        text: "若干预差异落在随机性包络内，多半是噪声；若显著超出，说明有结构性干预效应。"
+      },
+      G3: {
+        title: "标记哪些干预效应显著超出随机性基线",
+        text: "这里的作用是识别哪些效应是系统性的而非纯随机。\n\n它为后面的 regime signature 提供证据，但不是一个“是否启动 SALCM”的开关。"
+      },
+      H: {
+        title: "步骤3：panel SALCM 建模",
+        text: "面板 SALCM 在 repeated/twin 任务数据上估计潜在行为 regime。"
+      },
+      H1: {
+        title: "输入：repeated/twin-task choice panel",
+        text: "使用重复与 twin 任务的面板选择数据，保留层级结构与配对关系。"
+      },
+      H2: {
+        title: "class-membership covariates",
+        text: "用于决定 regime 分配概率的协变量；本图包括 model、prompt arm、persona、task complexity、tokenization burden。"
+      },
+      H3: {
+        title: "估计 preference + scale classes",
+        text: "分别估计偏好类与一致性尺度类，分离“偏好失真”与“决策噪声/不一致”来源。"
+      },
+      I: {
+        title: "步骤4：post-estimation regime signatures",
+        text: "结合 posterior classes、系统性干预效应和诊断输出，汇总每个 regime 的行为特征签名。"
+      },
+      I1: {
+        title: "按 posterior class 汇总 diagnostic signatures",
+        text: "按 posterior class 汇总 label gap、dominance compliance、monotonicity、confidence 和 top-2 attributes。\n\n这些是用于 class interpretation 的 diagnostic signatures，也为后续 ICLV 扩展预留 measurement indicators；它们不是当前 SALCM likelihood 中的 measurement equations。"
+      },
+      I2: {
+        title: "regime 解释",
+        text: "先给经验标签（如 trade-off regime、label-sensitive regime、low-consistency regime），再解释其行为含义。"
+      },
+      J: {
+        title: "并行：人类 benchmark 估计",
+        text: "当前画法默认 human benchmark 是外部 benchmark 线，因此从研究起点并行分出。\n\n如果以后 human side 也共用同一套新问卷设计，则更适合从 B 或 C 处分出。"
+      },
+      J1: {
+        title: "估计 human baseline / 人类统计",
+        text: "可为人类基准 MNL 或统计特征，用于后续对照 AI 的偏移方向和程度。"
+      },
+      K: {
+        title: "步骤5：AI-human distortion comparison",
+        text: "将 AI 与人类输出映射到同一指标上做系统对比。"
+      },
+      K1: {
+        title: "比较关键失真指标",
+        text: "对比总体/子群 share、VOT-WTP proxy、弹性类响应、失真分数，识别 AI 的主要偏差维度。"
+      },
+      L: {
+        title: "输出",
+        text: "总结全局结论与后续扩展建议，形成可复用实验结论模板。"
+      },
+      L1: {
+        title: "输出项：随机性基线",
+        text: "给出每类任务、模型与 prompt arm 下的重复性波动度。"
+      },
+      L2: {
+        title: "输出项：系统性干预效应",
+        text: "报告显著超出随机性基线的干预效应及其稳健性。"
+      },
+      L3: {
+        title: "输出项：SALCM 压缩能力",
+        text: "检验 SALCM 能否在少量 regime 下解释 response regimes 的异质性。"
+      },
+      L4: {
+        title: "输出项：human benchmark 扭曲剖面",
+        text: "相对人类基准给出 AI 的偏差方向与失真结构。"
+      },
+      L5: {
+        title: "输出项：是否进入下一步",
+        text: "评估是否继续扩展到 ICLV-SALCM（是否加入更多属性层或个体属性层）。"
+      }
+    };
+
+    function getNodeKeyFromElement(el) {
+      const id = (el && el.id ? el.id : "").trim();
+      if (!id) {
+        return "";
+      }
+      const patterns = [
+        /^flowchart-(.+)-\d+$/,
+        /^flowchart-(.+)$/,
+        /^(.+)-\d+$/
+      ];
+      for (const pattern of patterns) {
+        const match = id.match(pattern);
+        if (match) {
+          return match[1];
+        }
+      }
+      return id;
+    }
+
+    function tooltipEntryForTarget(target) {
+      if (!target || !target.closest) {
+        return null;
+      }
+      const node = target.closest("g.node");
+      if (!node) {
+        return null;
+      }
+      const nodeKey = getNodeKeyFromElement(node);
+      if (tooltipMap[nodeKey]) {
+        return { node, entry: tooltipMap[nodeKey] };
+      }
+      return null;
+    }
+
+    function showTooltip(text, title, event) {
+      const tip = document.getElementById("hoverTooltip");
+      const full = `<span class="title">${title}</span>${text}`;
+      tip.innerHTML = full.replaceAll("\n", "<br>");
+      tip.style.display = "block";
+      const offsetX = 14;
+      const offsetY = 14;
+      const x = Math.min(window.innerWidth - 420, event.clientX + offsetX);
+      const y = Math.min(window.innerHeight - 120, event.clientY + offsetY);
+      tip.style.left = `${x}px`;
+      tip.style.top = `${y}px`;
+    }
+
+    function hideTooltip() {
+      document.getElementById("hoverTooltip").style.display = "none";
+    }
+
+    function attachTooltips() {
+      const svg = document.querySelector(".mermaid svg");
+      if (!svg) {
+        return false;
+      }
+      const nodes = Array.from(svg.querySelectorAll("g.node"));
+      let foundNodes = false;
+
+      nodes.forEach((node) => {
+        const nodeKey = getNodeKeyFromElement(node);
+        const entry = tooltipMap[nodeKey];
+        if (node.dataset && node.dataset.tooltipTitleBound === "1") {
+          return;
+        }
+        if (entry) {
+          node.style.cursor = "pointer";
+          const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+          title.textContent = `${entry.title}\n${entry.text}`;
+          node.appendChild(title);
+          foundNodes = true;
+        }
+        node.dataset.tooltipTitleBound = "1";
+      });
+
+      if (svg.dataset && svg.dataset.tooltipEventsBound !== "1") {
+        svg.addEventListener("mouseover", (event) => {
+          const hit = tooltipEntryForTarget(event.target);
+          if (!hit) {
+            return;
+          }
+          showTooltip(hit.entry.text, hit.entry.title, event);
+        });
+
+        svg.addEventListener("mousemove", (event) => {
+          const hit = tooltipEntryForTarget(event.target);
+          if (!hit) {
+            hideTooltip();
+            return;
+          }
+          showTooltip(hit.entry.text, hit.entry.title, event);
+        });
+
+        svg.addEventListener("mouseout", (event) => {
+          const related = event.relatedTarget;
+          const currentHit = tooltipEntryForTarget(event.target);
+          const nextHit = tooltipEntryForTarget(related);
+          if (currentHit && nextHit && currentHit.node === nextHit.node) {
+            return;
+          }
+          if (currentHit && !nextHit) {
+            hideTooltip();
+          }
+        });
+
+        svg.addEventListener("mouseleave", hideTooltip);
+        svg.dataset.tooltipEventsBound = "1";
+      }
+
+      return foundNodes;
+    }
+
+    function waitForDiagramAndAttach(remaining = 20) {
+      if (attachTooltips() || remaining <= 0) {
+        return;
+      }
+      setTimeout(() => waitForDiagramAndAttach(remaining - 1), 120);
+    }
+
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: "loose",
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+      waitForDiagramAndAttach();
+    });
+  </script>
+</body>
+</html>

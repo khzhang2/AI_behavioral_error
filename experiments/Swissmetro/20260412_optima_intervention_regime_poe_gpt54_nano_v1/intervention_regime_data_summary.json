@@ -1,0 +1,17 @@
+{
+  "experiment_name": "20260412_optima_intervention_regime_poe_gpt54_nano_v1",
+  "source_data_dir": "/Users/kaihangzhang/Downloads/GitHub/Research codes repo/AI_behavioral_error/data/Swissmetro/demographic_choice_psychometric",
+  "scenario_bank_rows": 708,
+  "profile_bank_rows": 708,
+  "llm_models": [
+    {
+      "model_key": "poe_gpt54_nano",
+      "n_block_templates": 100,
+      "n_runs": 400,
+      "n_tasks": 6400,
+      "semantic_arm_share": 0.53,
+      "naturalistic_prompt_share": 0.54,
+      "mean_block_complexity": 0.5262769283578276
+    }
+  ]
+}

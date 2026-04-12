@@ -1,11 +1,9 @@
 {
   "experiment_type": "optima_intervention_regime",
-  "experiment_name": "20260412_optima_intervention_regime_v2",
+  "experiment_name": "optima_intervention_regime_base",
   "paper_reference": "Intervention-anchored latent response regime experiment built on the Optima benchmark",
   "paths": {
-    "source_data_dir": "data/Swissmetro/demographic_choice_psychometric",
-    "data_dir": "data/Swissmetro/latent_regime_optima_v2",
-    "archive_dir": "experiments/Swissmetro/20260412_optima_intervention_regime_v2"
+    "source_data_dir": "data/Swissmetro/demographic_choice_psychometric"
   },
   "intervention_tests": {
     "repeat_randomness_kappa": 1.25,
@@ -80,66 +78,5 @@
   "shared_draw_names": [
     "omega_car",
     "omega_env"
-  ],
-  "master_seed": 20260412,
-  "active_llm_key": "poe_gpt54_nano",
-  "n_block_templates_per_model": 10,
-  "n_repeats_per_template": 2,
-  "llm_models": [
-    {
-      "key": "poe_gpt54_nano",
-      "respondent_prefix": "PO",
-      "provider": "poe",
-      "model": "gpt-5.4-nano",
-      "base_url": "https://api.poe.com/v1",
-      "credentials_file": "api_credentials.local.json",
-      "format": "json",
-      "reasoning_effort": "none",
-      "temperature": 0.1,
-      "top_p": 0.95,
-      "top_k": 20,
-      "seed": 20260412,
-      "grounding_num_predict": 96,
-      "attitude_num_predict": 32,
-      "task_num_predict": 96,
-      "timeout_sec": 240,
-      "extra_body": {},
-      "response_decoder": {}
-    }
-  ],
-  "survey_design": {
-    "n_attitudes": 6,
-    "n_core_tasks": 6,
-    "n_paraphrase_twins": 2,
-    "n_label_mask_twins": 2,
-    "n_order_twins": 2,
-    "n_monotonicity_tasks": 2,
-    "n_dominance_tasks": 2,
-    "total_tasks": 16,
-    "prompt_families": [
-      "concise",
-      "naturalistic"
-    ],
-    "prompt_arms": [
-      "semantic_arm",
-      "neutral_arm"
-    ],
-    "option_orders": [
-      "PT|CAR|SLOW_MODES",
-      "CAR|PT|SLOW_MODES",
-      "SLOW_MODES|PT|CAR"
-    ],
-    "top_attribute_options": [
-      "travel_time",
-      "waiting_time",
-      "cost",
-      "distance",
-      "availability",
-      "mode_label"
-    ],
-    "monotonicity_multiplier": 1.25,
-    "dominance_time_penalty_min": 20.0,
-    "dominance_wait_penalty_min": 10.0,
-    "dominance_cost_penalty_chf": 6.0
-  }
+  ]
 }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Optima Experiment Workflow"
+  short_description: "Run the Optima workflow end to end in this repo."
+  default_prompt: "Use this skill to work through the Optima intervention-regime experiment workflow in this repository from experiment_config setup through prepare, AI collection, estimation, and experiment summaries."

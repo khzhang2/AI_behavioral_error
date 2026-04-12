@@ -6,6 +6,8 @@ This is an academic research codebase studying whether LLM-generated synthetic r
 
 Python runtime: `.\.venv\Scripts\python.exe` (Windows)
 
+Repo-local skill for the current end-to-end experiment workflow: [optima-experiment-workflow](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/.codex/skills/optima-experiment-workflow/SKILL.md).
+
 ## Directory Structure
 
 ```
@@ -27,12 +29,10 @@ AI_behavioral_error/
 ├── scripts/                       # All runnable scripts (flat structure)
 ├── experiments/                   # Archived experiment outputs (read-only after generation)
 │   └── Swissmetro/
-│       ├── 20260329_optima_hybrid_choice_qwen35_9b_v1/
-│       ├── 20260330_optima_hybrid_choice_deepseek_r1_8b_v1/
-│       ├── 20260330_optima_mnl_deepseek_r1_8b_v1/
-│       └── 20260330_optima_mnl_qwen35_9b_v1/
+│       └── YYYYMMDD_<keywords>_<version>/
 ├── docs/                          # Documentation and audit notes
-├── experiment_config.json         # Active experiment configuration (single source of truth)
+├── experiment_config.json         # Active experiment overrides
+├── experiment_config_base.json    # Reusable experiment base template
 ├── biogeme.toml                   # Biogeme default parameter file (gitignored)
 ├── biogeme_runtime.toml           # Biogeme runtime overrides (written by scripts, gitignored)
 ├── pyproject.toml                 # Python project metadata and dependencies
@@ -43,23 +43,32 @@ AI_behavioral_error/
 
 All runnable Python scripts in a flat structure. No sub-packages. Scripts import from each other directly:
 
-### `experiments/`
+### experiments
 
-Archived outputs only. Each experiment run is stored under `Swissmetro/<date>_<model>_<type>_v<version>/`. Contains:
+Archived outputs only. Each experiment run is stored under `experiments/Swissmetro/YYYYMMDD_<keywords>_<model_name>_<version>/`. Each experiment folder must correspond to exactly one model. Contains:
 
-- `experiment_config.json` (and numbered variants `experiment_config_N.json`) - snapshots of the active config at run time.
-- `outputs/` - organized by estimation method and draw count:
-  - `{dataset}_biogeme_{n_draws}/` - Biogeme HCM outputs
-  - `{dataset}_torch_{n_draws}/` - Torch HCM outputs
-  - `{dataset}_mnl_{spec}/` - Biogeme MNL outputs (e.g. `ai_basic`, `human_user_no_od`)
-  - `aggregate/` - comparison summaries and the experiment summary Markdown
+- `experiment_config.json` - the single full final config used for that experiment.
+- `outputs/` - only raw AI collection files such as `raw_interactions.jsonl`, `respondent_transcripts.json`, `run_respondents.json`, and `ai_collection_summary.json`.
+- experiment-root files - derived AI panels, parameter estimates, diagnostics, and one `experiment_summary.md`.
 
 
 ## Key Conventions
 
 - All paths are resolved relative to the project root via `optima_common.ROOT_DIR = Path(__file__).resolve().parents[1]`.
-- The active experiment is determined entirely by `experiment_config.json`. Changing `paths.archive_dir` or `llm.model` switches the target experiment.
+- The active experiment is determined by `experiment_config.json` plus `experiment_config_base.json`. The overrides in `experiment_config.json` take precedence.
+- Each experiment-ready config must contain exactly one `llm_models` entry.
 - AI collection supports resume via `--resume` flag; it replays `raw_interactions.jsonl` to rebuild state.
 - Invalid LLM responses trigger a single repair attempt before moving on.
 - Sobol draws are pre-generated and shared across all estimation methods to ensure identical Monte Carlo integration.
 - Biogeme `*.iter` files and `biogeme.toml` / `biogeme_runtime.toml` are gitignored; the runtime TOML is rewritten on each Biogeme estimation run.
+- `experiment_config.json` now keeps only tuning/active overrides and points to a reusable base template through `config_base_file`.
+- The complete experiment definition is now stored in `experiment_config_base.json`; the final merged version is written once into `experiments/.../experiment_config.json` during `archive_experiment_config` calls.
+- Experiment-level knobs such as `active_llm_key`, `llm_models`, `n_block_templates_per_model`, `n_repeats_per_template`, and `survey_design` should stay in `experiment_config.json`.
+- 对于 Poe 模型，更推荐继续在 `llm_models` 中保留统一格式：
+  - `provider`
+  - `model`
+  - `base_url`
+  - `credentials_file`
+- `api_credentials.local.json` 只保留 `api_key` 或 `api_key_env`。
+- 如果 `api_key` 为空，代码会自动尝试从系统环境变量 `POE_API_KEY` 读取。
+- 如果不同模型的输出字段结构不同，可在 `llm_models` 中提供 `response_decoder` 来覆盖默认解析路径。

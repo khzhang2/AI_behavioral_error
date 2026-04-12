@@ -18,6 +18,7 @@ from optima_common import (
     EXPERIMENT_DIR,
     INDICATOR_NAMES,
     OUTPUT_DIR,
+    decode_chat_response,
     resolve_llm_api_key,
     archive_experiment_config,
     ensure_dir,
@@ -90,18 +91,12 @@ class ChatBackend:
         if self.config.get("format"):
             payload["format"] = self.config["format"]
         response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/api/chat", payload)
-        message = response.get("message", {})
-        content = str(message.get("content", ""))
+        decoded = decode_chat_response(response, self.config, "ollama")
         return {
-            "raw_text": content,
-            "response_text": content.strip(),
-            "thinking_text": "",
-            "metadata": {
-                "done_reason": response.get("done_reason", ""),
-                "total_duration": response.get("total_duration", 0),
-                "prompt_eval_count": response.get("prompt_eval_count", 0),
-                "eval_count": response.get("eval_count", 0),
-            },
+            "raw_text": decoded["response_text"],
+            "response_text": decoded["response_text"],
+            "thinking_text": decoded["thinking_text"],
+            "metadata": decoded["metadata"],
         }
 
     def _generate_poe(self, messages: list[dict[str, str]]) -> dict:
@@ -113,6 +108,9 @@ class ChatBackend:
             "seed": self.config.get("seed"),
             "max_tokens": self.config.get("num_predict"),
         }
+        reasoning_effort = str(self.config.get("reasoning_effort", "")).strip()
+        if reasoning_effort:
+            payload["reasoning_effort"] = reasoning_effort
         format_value = self.config.get("format")
         if isinstance(format_value, dict):
             payload["response_format"] = format_value
@@ -127,23 +125,12 @@ class ChatBackend:
         if not base_url.endswith("/v1"):
             base_url = base_url + "/v1"
         response = self._post_json(base_url + "/chat/completions", payload)
-        choice = response["choices"][0]
-        message = choice.get("message", {})
-        content = message.get("content", "")
-        if isinstance(content, list):
-            content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
-        content = str(content)
-        usage = response.get("usage", {})
+        decoded = decode_chat_response(response, self.config, "poe")
         return {
-            "raw_text": content,
-            "response_text": content.strip(),
-            "thinking_text": "",
-            "metadata": {
-                "done_reason": choice.get("finish_reason", ""),
-                "total_duration": 0,
-                "prompt_eval_count": usage.get("prompt_tokens", 0),
-                "eval_count": usage.get("completion_tokens", 0),
-            },
+            "raw_text": decoded["response_text"],
+            "response_text": decoded["response_text"],
+            "thinking_text": decoded["thinking_text"],
+            "metadata": decoded["metadata"],
         }
 
     def _generate_openai_compatible(self, messages: list[dict[str, str]]) -> dict:
@@ -155,6 +142,9 @@ class ChatBackend:
             "seed": self.config.get("seed"),
             "max_tokens": self.config.get("num_predict"),
         }
+        reasoning_effort = str(self.config.get("reasoning_effort", "")).strip()
+        if reasoning_effort:
+            payload["reasoning_effort"] = reasoning_effort
         format_value = self.config.get("format")
         if isinstance(format_value, dict):
             payload["response_format"] = format_value
@@ -166,23 +156,12 @@ class ChatBackend:
         if self.config.get("extra_body"):
             payload.update(self.config["extra_body"])
         response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/chat/completions", payload)
-        choice = response["choices"][0]
-        message = choice.get("message", {})
-        content = message.get("content", "")
-        if isinstance(content, list):
-            content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
-        content = str(content)
-        usage = response.get("usage", {})
+        decoded = decode_chat_response(response, self.config, "openai_compatible")
         return {
-            "raw_text": content,
-            "response_text": content.strip(),
-            "thinking_text": "",
-            "metadata": {
-                "done_reason": choice.get("finish_reason", ""),
-                "total_duration": 0,
-                "prompt_eval_count": usage.get("prompt_tokens", 0),
-                "eval_count": usage.get("completion_tokens", 0),
-            },
+            "raw_text": decoded["response_text"],
+            "response_text": decoded["response_text"],
+            "thinking_text": decoded["thinking_text"],
+            "metadata": decoded["metadata"],
         }
 
 

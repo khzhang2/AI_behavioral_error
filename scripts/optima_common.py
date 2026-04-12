@@ -4,7 +4,6 @@ import os
 import json
 import math
 import re
-import shutil
 from pathlib import Path
 from typing import Any
 
@@ -14,12 +13,55 @@ from scipy.stats import norm, qmc
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-CONFIG = json.loads((ROOT_DIR / "experiment_config.json").read_text(encoding="utf-8"))
+CONFIG_PATH = ROOT_DIR / "experiment_config.json"
+
+
+def _read_json_file(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _config_path(value: str) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else ROOT_DIR / path
+
+
+def _deep_merge(base: dict[str, Any], overrides: dict[str, Any]) -> dict[str, Any]:
+    merged = dict(base)
+    for key, override_value in overrides.items():
+        if isinstance(merged.get(key), dict) and isinstance(override_value, dict):
+            merged[key] = _deep_merge(merged[key], override_value)
+        else:
+            merged[key] = override_value
+    return merged
+
+
+def _load_experiment_config() -> dict[str, Any]:
+    raw = _read_json_file(CONFIG_PATH)
+    if not isinstance(raw, dict):
+        raise ValueError("experiment_config.json must be a JSON object.")
+
+    base_file = str(raw.get("config_base_file", "")).strip()
+    overrides = raw.get("config_overrides")
+
+    if not base_file:
+        return raw
+
+    if not isinstance(overrides, dict):
+        overrides = {}
+
+    base = _read_json_file(_config_path(base_file))
+    if not isinstance(base, dict):
+        raise ValueError(f"config_base_file '{base_file}' must point to a JSON object.")
+
+    return _deep_merge(base, overrides)
+
+
+CONFIG = _load_experiment_config()
 DATA_DIR = ROOT_DIR / CONFIG["paths"]["data_dir"]
 SOURCE_DATA_DIR = ROOT_DIR / CONFIG["paths"].get("source_data_dir", CONFIG["paths"]["data_dir"])
 EXPERIMENT_DIR = ROOT_DIR / CONFIG["paths"]["archive_dir"]
 OUTPUT_DIR = EXPERIMENT_DIR / "outputs"
-AI_COLLECTION_DIR = DATA_DIR / CONFIG["paths"].get("ai_collection_subdir", "ai_collection_qwen3.5_9b")
+AI_COLLECTION_DIR = EXPERIMENT_DIR
 
 INDICATOR_NAMES = ["Envir01", "Mobil05", "LifSty07", "Envir05", "Mobil12", "LifSty01"]
 INDICATOR_TEXT = {
@@ -42,23 +84,37 @@ def credentials_file_path(credentials_file: str) -> Path:
     return path if path.is_absolute() else ROOT_DIR / path
 
 
+def load_credentials_payload(config: dict[str, Any]) -> dict[str, Any]:
+    credentials_file = str(config.get("credentials_file", config.get("api_key_file", ""))).strip()
+    credentials_key = str(config.get("credentials_key", "")).strip()
+    if not credentials_file:
+        return {}
+
+    path = credentials_file_path(credentials_file)
+    if not path.exists():
+        return {}
+
+    try:
+        credentials = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    if credentials_key:
+        nested = credentials.get(credentials_key, {})
+        credentials = nested if isinstance(nested, dict) else {}
+
+    return credentials if isinstance(credentials, dict) else {}
+
+
 def apply_llm_credentials(config: dict[str, Any]) -> dict[str, Any]:
     merged = dict(config)
-    credentials_file = str(merged.get("credentials_file", "")).strip()
-    credentials_key = str(merged.get("credentials_key", "")).strip()
-    if credentials_file:
-        path = credentials_file_path(credentials_file)
-        if path.exists():
-            credentials = json.loads(path.read_text(encoding="utf-8"))
-            if credentials_key:
-                nested = credentials.get(credentials_key, {})
-                credentials = nested if isinstance(nested, dict) else {}
-            if isinstance(credentials, dict):
-                for field_name in ["api_key", "api_key_env", "base_url", "provider", "model"]:
-                    if not merged.get(field_name) and credentials.get(field_name):
-                        merged[field_name] = credentials[field_name]
-                if isinstance(credentials.get("extra_body"), dict) and not merged.get("extra_body"):
-                    merged["extra_body"] = dict(credentials["extra_body"])
+    credentials = load_credentials_payload(merged)
+    if credentials:
+        for field_name in ["api_key", "api_key_env", "base_url", "provider", "model"]:
+            if not merged.get(field_name) and credentials.get(field_name):
+                merged[field_name] = credentials[field_name]
+        if isinstance(credentials.get("extra_body"), dict) and not merged.get("extra_body"):
+            merged["extra_body"] = dict(credentials["extra_body"])
     if str(merged.get("provider", "")).lower() == "poe" and not merged.get("base_url"):
         merged["base_url"] = "https://api.poe.com/v1"
     return merged
@@ -75,6 +131,15 @@ def llm_models() -> list[dict[str, Any]]:
         legacy.setdefault("respondent_prefix", "AI")
         return [legacy]
     return []
+
+
+def active_model_config() -> dict[str, Any]:
+    models = llm_models()
+    if not models:
+        raise ValueError("No llm_models are configured.")
+    if len(models) != 1:
+        raise ValueError("Each experiment_config must contain exactly one llm_models entry for the experiment-ready workflow.")
+    return models[0]
 
 
 def llm_model_map() -> dict[str, dict[str, Any]]:
@@ -100,9 +165,17 @@ def llm_config_for(model_key: str | None = None) -> dict[str, Any]:
 
 
 def ai_collection_dir_for(model_key: str | None = None) -> Path:
-    if model_key is None:
-        return AI_COLLECTION_DIR
-    return DATA_DIR / llm_config_for(model_key)["collection_subdir"]
+    if model_key is not None:
+        llm_config_for(model_key)
+    return AI_COLLECTION_DIR
+
+
+def experiment_artifact_path(filename: str) -> Path:
+    return EXPERIMENT_DIR / filename
+
+
+def raw_output_path(filename: str) -> Path:
+    return OUTPUT_DIR / filename
 
 
 def ensure_dir(path: Path) -> Path:
@@ -118,24 +191,147 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+def configured_indicator_names() -> list[str]:
+    survey_config = CONFIG.get("survey_design", {})
+    n_attitudes = int(survey_config.get("n_attitudes", len(INDICATOR_NAMES)))
+    n_attitudes = max(0, min(n_attitudes, len(INDICATOR_NAMES)))
+    return INDICATOR_NAMES[:n_attitudes]
+
+
+def survey_total_tasks() -> int:
+    survey_config = CONFIG.get("survey_design", {})
+    component_total = sum(
+        int(survey_config.get(key, 0))
+        for key in [
+            "n_core_tasks",
+            "n_paraphrase_twins",
+            "n_label_mask_twins",
+            "n_order_twins",
+            "n_monotonicity_tasks",
+            "n_dominance_tasks",
+        ]
+    )
+    if component_total > 0:
+        return component_total
+    return int(survey_config.get("total_tasks", 0))
+
+
+def nested_response_value(payload: Any, path: str) -> Any:
+    current = payload
+    for part in str(path).split("."):
+        token = part.strip()
+        if not token:
+            continue
+        if isinstance(current, list):
+            if not token.isdigit():
+                return None
+            index = int(token)
+            if index < 0 or index >= len(current):
+                return None
+            current = current[index]
+            continue
+        if isinstance(current, dict):
+            if token not in current:
+                return None
+            current = current[token]
+            continue
+        return None
+    return current
+
+
+def normalize_response_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, list):
+        parts: list[str] = []
+        for item in value:
+            if isinstance(item, dict):
+                if item.get("type") == "text" and "text" in item:
+                    parts.append(str(item.get("text", "")))
+                elif "text" in item:
+                    parts.append(str(item.get("text", "")))
+                elif "content" in item:
+                    parts.append(str(item.get("content", "")))
+            else:
+                parts.append(str(item))
+        return "".join(parts)
+    return str(value)
+
+
+def _number_or_zero(value: Any) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+def response_decoder_config(model_config: dict[str, Any], provider: str) -> dict[str, str]:
+    if provider == "ollama":
+        defaults = {
+            "response_text_path": "message.content",
+            "thinking_text_path": "message.thinking",
+            "done_reason_path": "done_reason",
+            "total_duration_path": "total_duration",
+            "prompt_eval_count_path": "prompt_eval_count",
+            "eval_count_path": "eval_count",
+        }
+    else:
+        defaults = {
+            "response_text_path": "choices.0.message.content",
+            "thinking_text_path": "choices.0.message.reasoning_content",
+            "done_reason_path": "choices.0.finish_reason",
+            "total_duration_path": "",
+            "prompt_eval_count_path": "usage.prompt_tokens",
+            "eval_count_path": "usage.completion_tokens",
+        }
+
+    override = model_config.get("response_decoder", {})
+    if isinstance(override, dict):
+        for key, value in override.items():
+            if value is not None:
+                defaults[str(key)] = str(value)
+    return defaults
+
+
+def decode_chat_response(response: dict[str, Any], model_config: dict[str, Any], provider: str) -> dict[str, Any]:
+    decoder = response_decoder_config(model_config, provider)
+
+    def read(path_key: str) -> Any:
+        path = str(decoder.get(path_key, "")).strip()
+        return nested_response_value(response, path) if path else None
+
+    return {
+        "response_text": normalize_response_text(read("response_text_path")).strip(),
+        "thinking_text": normalize_response_text(read("thinking_text_path")).strip(),
+        "metadata": {
+            "done_reason": str(read("done_reason_path") or ""),
+            "total_duration": _number_or_zero(read("total_duration_path")),
+            "prompt_eval_count": _number_or_zero(read("prompt_eval_count_path")),
+            "eval_count": _number_or_zero(read("eval_count_path")),
+        },
+    }
+
+
+def default_api_key_env_names(model_config: dict[str, Any]) -> list[str]:
+    provider = str(model_config.get("provider", "")).strip().lower()
+    if provider == "poe":
+        return ["POE_API_KEY"]
+    if provider in {"openai", "openai_compatible"}:
+        return ["OPENAI_API_KEY"]
+    return []
+
+
 def resolve_llm_api_key(model_config: dict[str, Any]) -> str:
     api_key = str(model_config.get("api_key", "")).strip()
     if api_key:
         return api_key
 
-    api_key_file = str(model_config.get("api_key_file", "")).strip()
-    if api_key_file:
-        path = ROOT_DIR / api_key_file
-        if path.exists():
-            try:
-                credential_data = json.loads(path.read_text(encoding="utf-8"))
-            except Exception:
-                credential_data = {}
-            if isinstance(credential_data, dict):
-                for key in ("api_key", "token", "poe_api_key", "POE_API_KEY"):
-                    candidate = str(credential_data.get(key, "")).strip()
-                    if candidate:
-                        return candidate
+    credential_data = load_credentials_payload(model_config)
+    if credential_data:
+        for key in ("api_key", "token", "poe_api_key", "POE_API_KEY"):
+            candidate = str(credential_data.get(key, "")).strip()
+            if candidate:
+                return candidate
 
     api_key_env = str(model_config.get("api_key_env", "")).strip()
     if api_key_env:
@@ -143,24 +339,19 @@ def resolve_llm_api_key(model_config: dict[str, Any]) -> str:
         if candidate:
             return candidate
 
+    for env_name in default_api_key_env_names(model_config):
+        candidate = os.environ.get(env_name, "").strip()
+        if candidate:
+            return candidate
+
     return ""
 
 
 def archive_experiment_config(trial_dir: Path | None = None) -> Path:
-    source = ROOT_DIR / "experiment_config.json"
     target_dir = ensure_dir(EXPERIMENT_DIR if trial_dir is None else trial_dir)
     target = target_dir / "experiment_config.json"
-    if not target.exists():
-        shutil.copy2(source, target)
-        return target
-
-    index = 2
-    while True:
-        candidate = target_dir / f"experiment_config_{index}.json"
-        if not candidate.exists():
-            shutil.copy2(source, candidate)
-            return candidate
-        index += 1
+    write_json(target, CONFIG)
+    return target
 
 
 def infer_trial_dir_from_output_dir(output_dir: Path) -> Path | None:

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-from optima_common import CONFIG, DATA_DIR, SOURCE_DATA_DIR, archive_experiment_config, ensure_dir, write_json
+from optima_common import CONFIG, EXPERIMENT_DIR, OUTPUT_DIR, SOURCE_DATA_DIR, archive_experiment_config, ensure_dir, experiment_artifact_path, llm_config_for, write_json
 
 
 CORE_COLUMNS = [
@@ -61,6 +62,12 @@ PROFILE_COLUMNS = [
     "Mobil12",
     "LifSty01",
 ]
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model-key", required=True)
+    return parser.parse_args()
 
 
 def alternative_proxies(row: pd.Series) -> dict[str, float]:
@@ -309,55 +316,48 @@ def build_model_blocks(model_config: dict, profiles: pd.DataFrame, scenario_bank
 
 
 def main() -> None:
+    args = parse_args()
     archive_experiment_config()
-    ensure_dir(DATA_DIR)
+    ensure_dir(EXPERIMENT_DIR)
+    ensure_dir(OUTPUT_DIR)
     source_human = pd.read_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv")
     source_profiles = pd.read_csv(SOURCE_DATA_DIR / "human_respondent_profiles.csv")
 
     scenario_bank = scenario_bank_from_human_data(source_human)
     profile_bank = source_profiles[PROFILE_COLUMNS].copy()
 
-    scenario_bank.to_csv(DATA_DIR / "scenario_bank.csv", index=False)
-    profile_bank.to_csv(DATA_DIR / "respondent_profile_bank.csv", index=False)
+    scenario_bank.to_csv(experiment_artifact_path("scenario_bank.csv"), index=False)
+    profile_bank.to_csv(experiment_artifact_path("respondent_profile_bank.csv"), index=False)
 
-    pooled_blocks: list[pd.DataFrame] = []
-    model_summaries: list[dict] = []
-    for model_config in CONFIG["llm_models"]:
-        collection_dir = ensure_dir(DATA_DIR / model_config["collection_subdir"])
-        block_frame, task_frame = build_model_blocks(model_config, profile_bank, scenario_bank)
-        block_frame.to_csv(DATA_DIR / f"block_assignments_{model_config['key']}.csv", index=False)
-        task_frame.to_csv(DATA_DIR / f"panel_tasks_{model_config['key']}.csv", index=False)
-        pooled_blocks.append(block_frame)
-        model_summaries.append(
-            {
-                "model_key": model_config["key"],
-                "collection_subdir": model_config["collection_subdir"],
-                "n_blocks": int(len(block_frame)),
-                "n_tasks": int(len(task_frame)),
-                "semantic_arm_share": float(block_frame["semantic_arm"].mean()),
-                "mean_block_complexity": float(block_frame["block_complexity_mean"].mean()),
-            }
-        )
-        for filename in [
-            "persona_samples.csv",
-            "parsed_attitudes.csv",
-            "parsed_task_responses.csv",
-            "ai_panel_long.csv",
-            "ai_panel_block.csv",
-            "raw_interactions.jsonl",
-            "respondent_transcripts.json",
-            "run_respondents.json",
-        ]:
-            target = collection_dir / filename
-            if not target.exists():
-                if filename.endswith(".jsonl"):
-                    target.write_text("", encoding="utf-8")
-                elif filename.endswith(".json"):
-                    write_json(target, {})
+    model_config = llm_config_for(args.model_key)
+    collection_dir = ensure_dir(OUTPUT_DIR)
+    block_frame, task_frame = build_model_blocks(model_config, profile_bank, scenario_bank)
+    block_frame.to_csv(experiment_artifact_path("block_assignments.csv"), index=False)
+    task_frame.to_csv(experiment_artifact_path("panel_tasks.csv"), index=False)
+    model_summaries = [
+        {
+            "model_key": model_config["key"],
+            "n_blocks": int(len(block_frame)),
+            "n_tasks": int(len(task_frame)),
+            "semantic_arm_share": float(block_frame["semantic_arm"].mean()),
+            "mean_block_complexity": float(block_frame["block_complexity_mean"].mean()),
+        }
+    ]
+    for filename in [
+        "raw_interactions.jsonl",
+        "respondent_transcripts.json",
+        "run_respondents.json",
+        "ai_collection_summary.json",
+    ]:
+        target = collection_dir / filename
+        if not target.exists():
+            if filename.endswith(".jsonl"):
+                target.write_text("", encoding="utf-8")
+            elif filename.endswith(".json"):
+                write_json(target, {})
 
-    pd.concat(pooled_blocks, ignore_index=True).to_csv(DATA_DIR / "pooled_block_assignments.csv", index=False)
     write_json(
-        DATA_DIR / "latent_regime_data_summary.json",
+        experiment_artifact_path("latent_regime_data_summary.json"),
         {
             "experiment_name": CONFIG["experiment_name"],
             "source_data_dir": str(SOURCE_DATA_DIR.relative_to(Path.cwd())) if SOURCE_DATA_DIR.is_relative_to(Path.cwd()) else str(SOURCE_DATA_DIR),
@@ -367,8 +367,8 @@ def main() -> None:
         },
     )
     print(
-        f"[prepare_optima_latent_regime_data] scenarios={len(scenario_bank)} profiles={len(profile_bank)} "
-        f"models={len(CONFIG['llm_models'])}"
+        f"[prepare_optima_latent_regime_data] model={model_config['key']} scenarios={len(scenario_bank)} "
+        f"profiles={len(profile_bank)}"
     )
 
 

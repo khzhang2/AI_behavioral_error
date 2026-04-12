@@ -10,7 +10,6 @@ from optima_common import CONFIG, EXPERIMENT_DIR, ai_collection_dir_for, ensure_
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output-subdir", required=True)
     parser.add_argument("--max-templates-per-model", type=int, default=None)
     return parser.parse_args()
 
@@ -153,7 +152,6 @@ def bootstrap_h0(intervention_frame: pd.DataFrame) -> dict:
 
 def main() -> None:
     args = parse_args()
-    output_dir = ensure_dir(EXPERIMENT_DIR / "outputs" / args.output_subdir)
     frame = load_task_responses(args.max_templates_per_model)
     if frame.empty:
         raise RuntimeError("No parsed task responses found for intervention diagnostics.")
@@ -162,9 +160,9 @@ def main() -> None:
     intervention_frame = intervention_summary(frame, repeat_frame)
     block_frame = block_diagnostics(frame, repeat_frame, intervention_frame)
 
-    repeat_frame.to_csv(output_dir / "exact_repeat_randomness.csv", index=False)
-    intervention_frame.to_csv(output_dir / "intervention_sensitivity.csv", index=False)
-    block_frame.to_csv(output_dir / "block_intervention_diagnostics.csv", index=False)
+    repeat_frame.to_csv(EXPERIMENT_DIR / "exact_repeat_randomness.csv", index=False)
+    intervention_frame.to_csv(EXPERIMENT_DIR / "intervention_sensitivity.csv", index=False)
+    block_frame.to_csv(EXPERIMENT_DIR / "block_intervention_diagnostics.csv", index=False)
 
     summary = {
         "n_rows": int(len(frame)),
@@ -176,7 +174,7 @@ def main() -> None:
         "mean_excess_intervention_gap": float(intervention_frame["excess_intervention_gap"].mean()) if not intervention_frame.empty else np.nan,
         "h0_test": bootstrap_h0(intervention_frame),
     }
-    write_json(output_dir / "intervention_metrics_summary.json", summary)
+    write_json(EXPERIMENT_DIR / "intervention_metrics_summary.json", summary)
     print(
         f"[estimate_optima_intervention_metrics] templates={summary['n_block_templates']} "
         f"mean_repeat_flip={summary['mean_exact_repeat_flip_rate']:.4f} mean_excess_gap={summary['mean_excess_intervention_gap']:.4f}"

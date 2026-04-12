@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import argparse
 import math
 
 import numpy as np
 import pandas as pd
 
-from optima_common import CONFIG, DATA_DIR, SOURCE_DATA_DIR, archive_experiment_config, ensure_dir, llm_models, write_json
+from optima_common import CONFIG, EXPERIMENT_DIR, OUTPUT_DIR, SOURCE_DATA_DIR, archive_experiment_config, ensure_dir, experiment_artifact_path, llm_config_for, llm_models, survey_total_tasks, write_json
 
 
 CORE_COLUMNS = [
@@ -60,6 +61,12 @@ PROFILE_COLUMNS = [
     "Mobil12",
     "LifSty01",
 ]
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model-key", required=True)
+    return parser.parse_args()
 
 
 def alternative_proxy(row: pd.Series) -> dict[str, float]:
@@ -220,6 +227,17 @@ def build_model_data(model_config: dict, profiles: pd.DataFrame, scenario_bank: 
     rng = np.random.default_rng(int(CONFIG["master_seed"]) + 1000 * (model_index + 1))
     n_templates = int(CONFIG["n_block_templates_per_model"])
     n_repeats = int(CONFIG["n_repeats_per_template"])
+    n_core_tasks = int(survey_config["n_core_tasks"])
+    n_paraphrase_twins = int(survey_config["n_paraphrase_twins"])
+    n_label_mask_twins = int(survey_config["n_label_mask_twins"])
+    n_order_twins = int(survey_config["n_order_twins"])
+    n_monotonicity_tasks = int(survey_config["n_monotonicity_tasks"])
+    n_dominance_tasks = int(survey_config["n_dominance_tasks"])
+    total_tasks = int(survey_total_tasks())
+    if n_paraphrase_twins + n_label_mask_twins + n_order_twins > n_core_tasks:
+        raise ValueError("The total number of paraphrase, label-mask, and order twins cannot exceed n_core_tasks.")
+    if n_monotonicity_tasks + n_dominance_tasks > n_core_tasks:
+        raise ValueError("The total number of monotonicity and dominance tasks cannot exceed n_core_tasks.")
     prompt_arms = list(survey_config["prompt_arms"])
     prompt_families = list(survey_config["prompt_families"])
     option_orders = list(survey_config["option_orders"])
@@ -238,7 +256,7 @@ def build_model_data(model_config: dict, profiles: pd.DataFrame, scenario_bank: 
         prompt_arm = str(rng.choice(prompt_arms))
         prompt_family = str(rng.choice(prompt_families))
         semantic_labels = prompt_arm == "semantic_arm"
-        scenario_indices = rng.choice(len(scenario_bank), size=int(survey_config["n_core_tasks"]), replace=False)
+        scenario_indices = rng.choice(len(scenario_bank), size=n_core_tasks, replace=False)
         core_scenarios = scenario_bank.iloc[scenario_indices].reset_index(drop=True)
 
         template_rows: list[dict] = []
@@ -264,34 +282,40 @@ def build_model_data(model_config: dict, profiles: pd.DataFrame, scenario_bank: 
                 )
             )
 
-        paraphrase_map = {1: 7, 2: 8}
-        for anchor_index, task_position in paraphrase_map.items():
+        next_task_index = n_core_tasks + 1
+
+        paraphrase_anchors = list(range(1, 1 + n_paraphrase_twins))
+        for pair_index, anchor_index in enumerate(paraphrase_anchors, start=1):
             row = dict(template_rows[anchor_index - 1])
-            row["task_index"] = task_position
+            row["task_index"] = next_task_index
             row["task_role"] = "paraphrase_twin"
-            row["pair_id"] = f"PARA_{anchor_index}"
+            row["pair_id"] = f"PARA_{pair_index}"
             row["manipulation_type"] = "paraphrase"
             row["anchor_task_index"] = anchor_index
             row["paraphrase_variant"] = "alternate"
             template_rows.append(row)
+            next_task_index += 1
 
-        label_map = {3: 9, 4: 10}
-        for anchor_index, task_position in label_map.items():
+        label_start = 1 + n_paraphrase_twins
+        label_anchors = list(range(label_start, label_start + n_label_mask_twins))
+        for pair_index, anchor_index in enumerate(label_anchors, start=1):
             row = dict(template_rows[anchor_index - 1])
-            row["task_index"] = task_position
+            row["task_index"] = next_task_index
             row["task_role"] = "label_mask_twin"
-            row["pair_id"] = f"LABEL_{anchor_index - 2}"
+            row["pair_id"] = f"LABEL_{pair_index}"
             row["manipulation_type"] = "label_mask"
             row["anchor_task_index"] = anchor_index
             row["semantic_labels"] = int(not semantic_labels)
             template_rows.append(row)
+            next_task_index += 1
 
-        order_map = {5: 11, 6: 12}
-        for anchor_index, task_position in order_map.items():
+        order_start = 1 + n_paraphrase_twins + n_label_mask_twins
+        order_anchors = list(range(order_start, order_start + n_order_twins))
+        for pair_index, anchor_index in enumerate(order_anchors, start=1):
             row = dict(template_rows[anchor_index - 1])
-            row["task_index"] = task_position
+            row["task_index"] = next_task_index
             row["task_role"] = "order_twin"
-            row["pair_id"] = f"ORDER_{anchor_index - 4}"
+            row["pair_id"] = f"ORDER_{pair_index}"
             row["manipulation_type"] = "order_randomization"
             row["anchor_task_index"] = anchor_index
             order_candidates = [order for order in option_orders if order != row["option_order"]]
@@ -300,26 +324,30 @@ def build_model_data(model_config: dict, profiles: pd.DataFrame, scenario_bank: 
             row["display_B_alt"] = row["option_order"].split("|")[1]
             row["display_C_alt"] = row["option_order"].split("|")[2]
             template_rows.append(row)
+            next_task_index += 1
 
-        mono_map = {1: 13, 2: 14}
-        for anchor_index, task_position in mono_map.items():
+        mono_anchors = list(range(1, 1 + n_monotonicity_tasks))
+        for pair_index, anchor_index in enumerate(mono_anchors, start=1):
             row = worsen_task(dict(template_rows[anchor_index - 1]), float(survey_config["monotonicity_multiplier"]))
-            row["task_index"] = task_position
+            row["task_index"] = next_task_index
             row["task_role"] = "monotonicity"
-            row["pair_id"] = f"MONO_{anchor_index}"
+            row["pair_id"] = f"MONO_{pair_index}"
             row["manipulation_type"] = "monotonicity"
             row["anchor_task_index"] = anchor_index
             template_rows.append(row)
+            next_task_index += 1
 
-        dom_map = {3: 15, 4: 16}
-        for anchor_index, task_position in dom_map.items():
+        dom_start = 1 + n_monotonicity_tasks
+        dom_anchors = list(range(dom_start, dom_start + n_dominance_tasks))
+        for pair_index, anchor_index in enumerate(dom_anchors, start=1):
             row = dominance_task(dict(template_rows[anchor_index - 1]), survey_config)
-            row["task_index"] = task_position
+            row["task_index"] = next_task_index
             row["task_role"] = "dominance"
-            row["pair_id"] = f"DOM_{anchor_index - 2}"
+            row["pair_id"] = f"DOM_{pair_index}"
             row["manipulation_type"] = "dominance"
             row["anchor_task_index"] = anchor_index
             template_rows.append(row)
+            next_task_index += 1
 
         template_rows = sorted(template_rows, key=lambda item: item["task_index"])
         template_complexities = [row["complexity_score"] for row in template_rows if row["task_role"] == "core"]
@@ -339,13 +367,13 @@ def build_model_data(model_config: dict, profiles: pd.DataFrame, scenario_bank: 
                     "prompt_family_naturalistic": int(prompt_family == "naturalistic"),
                     "block_complexity_mean": float(np.mean(template_complexities)),
                     "block_complexity_sd": float(np.std(template_complexities)),
-                    "task_count": int(survey_config["total_tasks"]),
-                    "core_task_count": int(survey_config["n_core_tasks"]),
-                    "paraphrase_pair_count": int(survey_config["n_paraphrase_twins"]),
-                    "label_pair_count": int(survey_config["n_label_mask_twins"]),
-                    "order_pair_count": int(survey_config["n_order_twins"]),
-                    "monotonicity_task_count": int(survey_config["n_monotonicity_tasks"]),
-                    "dominance_task_count": int(survey_config["n_dominance_tasks"]),
+                    "task_count": total_tasks,
+                    "core_task_count": n_core_tasks,
+                    "paraphrase_pair_count": n_paraphrase_twins,
+                    "label_pair_count": n_label_mask_twins,
+                    "order_pair_count": n_order_twins,
+                    "monotonicity_task_count": n_monotonicity_tasks,
+                    "dominance_task_count": n_dominance_tasks,
                 }
             )
             block_rows.append(block_row)
@@ -359,56 +387,49 @@ def build_model_data(model_config: dict, profiles: pd.DataFrame, scenario_bank: 
 
 
 def main() -> None:
+    args = parse_args()
     archive_experiment_config()
-    ensure_dir(DATA_DIR)
+    ensure_dir(EXPERIMENT_DIR)
+    ensure_dir(OUTPUT_DIR)
     source_human = pd.read_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv")
     source_profiles = pd.read_csv(SOURCE_DATA_DIR / "human_respondent_profiles.csv")
 
     scenario_bank = scenario_bank_from_human(source_human)
     profile_bank = source_profiles[PROFILE_COLUMNS].copy()
-    scenario_bank.to_csv(DATA_DIR / "scenario_bank.csv", index=False)
-    profile_bank.to_csv(DATA_DIR / "respondent_profile_bank.csv", index=False)
+    scenario_bank.to_csv(experiment_artifact_path("scenario_bank.csv"), index=False)
+    profile_bank.to_csv(experiment_artifact_path("respondent_profile_bank.csv"), index=False)
 
-    pooled_blocks = []
-    summaries = []
-    for model_config in llm_models():
-        collection_dir = ensure_dir(DATA_DIR / model_config["collection_subdir"])
-        block_frame, task_frame = build_model_data(model_config, profile_bank, scenario_bank)
-        block_frame.to_csv(DATA_DIR / f"block_assignments_{model_config['key']}.csv", index=False)
-        task_frame.to_csv(DATA_DIR / f"panel_tasks_{model_config['key']}.csv", index=False)
-        pooled_blocks.append(block_frame)
-        summaries.append(
-            {
-                "model_key": model_config["key"],
-                "collection_subdir": model_config["collection_subdir"],
-                "n_block_templates": int(block_frame["block_template_id"].nunique()),
-                "n_runs": int(len(block_frame)),
-                "n_tasks": int(len(task_frame)),
-                "semantic_arm_share": float(block_frame["semantic_arm"].mean()),
-                "naturalistic_prompt_share": float(block_frame["prompt_family_naturalistic"].mean()),
-                "mean_block_complexity": float(block_frame["block_complexity_mean"].mean()),
-            }
-        )
-        for filename in [
-            "persona_samples.csv",
-            "parsed_attitudes.csv",
-            "parsed_task_responses.csv",
-            "ai_panel_long.csv",
-            "ai_panel_block.csv",
-            "raw_interactions.jsonl",
-            "respondent_transcripts.json",
-            "run_respondents.json",
-        ]:
-            target = collection_dir / filename
-            if not target.exists():
-                if filename.endswith(".jsonl"):
-                    target.write_text("", encoding="utf-8")
-                elif filename.endswith(".json"):
-                    write_json(target, {})
+    model_config = llm_config_for(args.model_key)
+    collection_dir = ensure_dir(OUTPUT_DIR)
+    block_frame, task_frame = build_model_data(model_config, profile_bank, scenario_bank)
+    block_frame.to_csv(experiment_artifact_path("block_assignments.csv"), index=False)
+    task_frame.to_csv(experiment_artifact_path("panel_tasks.csv"), index=False)
+    summaries = [
+        {
+            "model_key": model_config["key"],
+            "n_block_templates": int(block_frame["block_template_id"].nunique()),
+            "n_runs": int(len(block_frame)),
+            "n_tasks": int(len(task_frame)),
+            "semantic_arm_share": float(block_frame["semantic_arm"].mean()),
+            "naturalistic_prompt_share": float(block_frame["prompt_family_naturalistic"].mean()),
+            "mean_block_complexity": float(block_frame["block_complexity_mean"].mean()),
+        }
+    ]
+    for filename in [
+        "raw_interactions.jsonl",
+        "respondent_transcripts.json",
+        "run_respondents.json",
+        "ai_collection_summary.json",
+    ]:
+        target = collection_dir / filename
+        if not target.exists():
+            if filename.endswith(".jsonl"):
+                target.write_text("", encoding="utf-8")
+            elif filename.endswith(".json"):
+                write_json(target, {})
 
-    pd.concat(pooled_blocks, ignore_index=True).to_csv(DATA_DIR / "pooled_block_assignments.csv", index=False)
     write_json(
-        DATA_DIR / "intervention_regime_data_summary.json",
+        experiment_artifact_path("intervention_regime_data_summary.json"),
         {
             "experiment_name": CONFIG["experiment_name"],
             "source_data_dir": str(SOURCE_DATA_DIR),
@@ -417,9 +438,9 @@ def main() -> None:
             "llm_models": summaries,
         },
     )
-    total_runs = sum(item["n_runs"] for item in summaries)
     print(
-        f"[prepare_optima_intervention_regime_data] scenarios={len(scenario_bank)} profiles={len(profile_bank)} total_runs={total_runs}"
+        f"[prepare_optima_intervention_regime_data] model={model_config['key']} scenarios={len(scenario_bank)} "
+        f"profiles={len(profile_bank)} total_runs={int(len(block_frame))}"
     )
 
 

@@ -12,19 +12,22 @@ import pandas as pd
 
 from optima_common import (
     CONFIG,
-    DATA_DIR,
     EXPERIMENT_DIR,
-    INDICATOR_NAMES,
+    OUTPUT_DIR,
     TASK_ATTRIBUTE_OPTIONS,
     archive_experiment_config,
-    ai_collection_dir_for,
+    configured_indicator_names,
+    decode_chat_response,
     ensure_dir,
+    experiment_artifact_path,
     llm_config_for,
     parse_choice_label,
     parse_indicator_value,
     parse_task_response,
+    raw_output_path,
     resolve_llm_api_key,
     read_json,
+    survey_total_tasks,
     write_json,
 )
 from optima_latent_regime_questionnaire import (
@@ -127,15 +130,11 @@ class ChatBackend:
             if self.config.get("format"):
                 payload["format"] = self.config["format"]
             response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/api/chat", payload)
-            content = str(response.get("message", {}).get("content", ""))
+            decoded = decode_chat_response(response, self.config, "ollama")
             return {
-                "response_text": content.strip(),
-                "metadata": {
-                    "done_reason": response.get("done_reason", ""),
-                    "total_duration": response.get("total_duration", 0),
-                    "prompt_eval_count": response.get("prompt_eval_count", 0),
-                    "eval_count": response.get("eval_count", 0),
-                },
+                "response_text": decoded["response_text"],
+                "thinking_text": decoded["thinking_text"],
+                "metadata": decoded["metadata"],
             }
 
         if self.provider == "poe":
@@ -147,6 +146,9 @@ class ChatBackend:
                 "seed": self.config.get("seed"),
                 "max_tokens": int(num_predict),
             }
+            reasoning_effort = str(self.config.get("reasoning_effort", "")).strip()
+            if reasoning_effort:
+                payload["reasoning_effort"] = reasoning_effort
             format_value = self.config.get("format")
             if isinstance(format_value, dict):
                 payload["response_format"] = format_value
@@ -161,19 +163,11 @@ class ChatBackend:
             if not base_url.endswith("/v1"):
                 base_url = base_url + "/v1"
             response = self._post_json(base_url + "/chat/completions", payload)
-            choice = response["choices"][0]
-            content = choice.get("message", {}).get("content", "")
-            if isinstance(content, list):
-                content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
-            usage = response.get("usage", {})
+            decoded = decode_chat_response(response, self.config, "poe")
             return {
-                "response_text": str(content).strip(),
-                "metadata": {
-                    "done_reason": choice.get("finish_reason", ""),
-                    "total_duration": 0,
-                    "prompt_eval_count": usage.get("prompt_tokens", 0),
-                    "eval_count": usage.get("completion_tokens", 0),
-                },
+                "response_text": decoded["response_text"],
+                "thinking_text": decoded["thinking_text"],
+                "metadata": decoded["metadata"],
             }
 
         payload = {
@@ -184,6 +178,9 @@ class ChatBackend:
             "seed": self.config.get("seed"),
             "max_tokens": int(num_predict),
         }
+        reasoning_effort = str(self.config.get("reasoning_effort", "")).strip()
+        if reasoning_effort:
+            payload["reasoning_effort"] = reasoning_effort
         format_value = self.config.get("format")
         if isinstance(format_value, dict):
             payload["response_format"] = format_value
@@ -195,25 +192,18 @@ class ChatBackend:
         if self.config.get("extra_body"):
             payload.update(self.config["extra_body"])
         response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/chat/completions", payload)
-        choice = response["choices"][0]
-        content = choice.get("message", {}).get("content", "")
-        if isinstance(content, list):
-            content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
-        usage = response.get("usage", {})
+        decoded = decode_chat_response(response, self.config, "openai_compatible")
         return {
-            "response_text": str(content).strip(),
-            "metadata": {
-                "done_reason": choice.get("finish_reason", ""),
-                "total_duration": 0,
-                "prompt_eval_count": usage.get("prompt_tokens", 0),
-                "eval_count": usage.get("completion_tokens", 0),
-            },
+            "response_text": decoded["response_text"],
+            "thinking_text": decoded["thinking_text"],
+            "metadata": decoded["metadata"],
         }
 
 
-def initialize_outputs(base_dir: Path, experiment_name: str, target_respondents: int) -> None:
+def initialize_outputs(base_dir: Path, raw_dir: Path, experiment_name: str, target_respondents: int) -> None:
     ensure_dir(base_dir)
-    (base_dir / "raw_interactions.jsonl").write_text("", encoding="utf-8")
+    ensure_dir(raw_dir)
+    (raw_dir / "raw_interactions.jsonl").write_text("", encoding="utf-8")
     for filename in [
         "persona_samples.csv",
         "parsed_attitudes.csv",
@@ -224,9 +214,9 @@ def initialize_outputs(base_dir: Path, experiment_name: str, target_respondents:
         target = base_dir / filename
         if target.exists():
             target.unlink()
-    write_json(base_dir / "respondent_transcripts.json", {"experiment_name": experiment_name, "respondents": {}})
+    write_json(raw_dir / "respondent_transcripts.json", {"experiment_name": experiment_name, "respondents": {}})
     write_json(
-        base_dir / "run_respondents.json",
+        raw_dir / "run_respondents.json",
         {
             "experiment_name": experiment_name,
             "target_respondents": int(target_respondents),
@@ -265,7 +255,7 @@ def chosen_alternative_name(task_row: pd.Series, choice_label: str) -> str:
 
 def update_progress(base_dir: Path, experiment_name: str, target_respondents: int, completed_respondents: int) -> None:
     write_json(
-        base_dir / "run_respondents.json",
+        raw_output_path("run_respondents.json"),
         {
             "experiment_name": experiment_name,
             "target_respondents": int(target_respondents),
@@ -276,7 +266,7 @@ def update_progress(base_dir: Path, experiment_name: str, target_respondents: in
 
 
 def update_transcripts(base_dir: Path, respondent_id: str, persona: dict, turns: list[dict]) -> None:
-    path = base_dir / "respondent_transcripts.json"
+    path = raw_output_path("respondent_transcripts.json")
     payload = read_json(path) if path.exists() else {"experiment_name": CONFIG["experiment_name"], "respondents": {}}
     payload.setdefault("respondents", {})
     payload["respondents"][respondent_id] = {"persona": json_safe(persona), "turns": json_safe(turns)}
@@ -439,31 +429,43 @@ def finalize_outputs(base_dir: Path, model_key: str, block_frame: pd.DataFrame, 
     else:
         pd.DataFrame().to_csv(base_dir / "ai_panel_long.csv", index=False)
         pd.DataFrame().to_csv(base_dir / "ai_panel_block.csv", index=False)
+    progress = read_json(raw_output_path("run_respondents.json")) if raw_output_path("run_respondents.json").exists() else {}
+    summary = {
+        "experiment_name": CONFIG["experiment_name"],
+        "model_key": model_key,
+        "target_respondents": int(progress.get("target_respondents", 0)),
+        "completed_respondents": int(progress.get("completed_respondents", 0)),
+        "valid_attitude_rate": float(pd.read_csv(attitudes_path)["is_valid_indicator"].mean()) if attitudes_path.exists() and attitudes_path.stat().st_size > 0 else None,
+        "valid_task_rate": float(tasks["is_valid_task_response"].mean()) if not tasks.empty else None,
+    }
+    write_json(raw_output_path("ai_collection_summary.json"), summary)
 
 
 def main() -> None:
     args = parse_args()
     archive_experiment_config(EXPERIMENT_DIR)
     llm_config = llm_config_for(args.model_key)
-    base_dir = ai_collection_dir_for(args.model_key)
-    total_tasks = int(CONFIG["survey_design"]["total_tasks"])
+    base_dir = EXPERIMENT_DIR
+    raw_dir = OUTPUT_DIR
+    indicator_names = configured_indicator_names()
+    total_tasks = int(survey_total_tasks())
 
-    block_frame = pd.read_csv(DATA_DIR / f"block_assignments_{args.model_key}.csv")
-    task_frame = pd.read_csv(DATA_DIR / f"panel_tasks_{args.model_key}.csv")
+    block_frame = pd.read_csv(experiment_artifact_path("block_assignments.csv"))
+    task_frame = pd.read_csv(experiment_artifact_path("panel_tasks.csv"))
     if args.n_respondents is not None:
         keep_ids = block_frame.head(int(args.n_respondents))["respondent_id"].tolist()
         block_frame = block_frame.loc[block_frame["respondent_id"].isin(keep_ids)].copy()
         task_frame = task_frame.loc[task_frame["respondent_id"].isin(keep_ids)].copy()
 
-    if not args.resume or not (base_dir / "run_respondents.json").exists():
-        initialize_outputs(base_dir, CONFIG["experiment_name"], len(block_frame))
+    if not args.resume or not raw_output_path("run_respondents.json").exists():
+        initialize_outputs(base_dir, raw_dir, CONFIG["experiment_name"], len(block_frame))
     completed = completed_ids(base_dir, total_tasks)
     update_progress(base_dir, CONFIG["experiment_name"], len(block_frame), len(completed))
 
     backend = ChatBackend(llm_config)
     attitudes_path = base_dir / "parsed_attitudes.csv"
     tasks_path = base_dir / "parsed_task_responses.csv"
-    raw_path = base_dir / "raw_interactions.jsonl"
+    raw_path = raw_output_path("raw_interactions.jsonl")
 
     for _, persona in block_frame.iterrows():
         respondent_id = str(persona["respondent_id"])
@@ -495,11 +497,11 @@ def main() -> None:
         attitude_rows: list[dict] = []
         task_rows: list[dict] = []
 
-        for question_offset, indicator_name in enumerate(INDICATOR_NAMES, start=1):
+        for question_offset, indicator_name in enumerate(indicator_names, start=1):
             prompt = build_attitude_prompt(
                 indicator_name,
                 question_offset,
-                len(INDICATOR_NAMES) + total_tasks,
+                len(indicator_names) + total_tasks,
                 previous_answer_strings(attitude_rows, task_rows),
             )
             message_snapshot = list(messages)
@@ -537,8 +539,8 @@ def main() -> None:
         for _, task_row in respondent_tasks.iterrows():
             prompt = build_task_prompt(
                 task_row.to_dict(),
-                len(INDICATOR_NAMES) + int(task_row["task_index"]),
-                len(INDICATOR_NAMES) + total_tasks,
+                len(indicator_names) + int(task_row["task_index"]),
+                len(indicator_names) + total_tasks,
                 previous_answer_strings(attitude_rows, task_rows),
             )
             message_snapshot = list(messages)

@@ -7,5 +7,5 @@ __pycache__/
 *.iter
 **raw_interactions.jsonl
 **respondent_transcripts.json
-poe_api_credentials.local.json
+api_credentials.local.json
 *_api_credentials.local.json

@@ -9,7 +9,7 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.special import logsumexp, softmax
 
-from optima_common import CONFIG, DATA_DIR, EXPERIMENT_DIR, archive_experiment_config, ai_collection_dir_for, ensure_dir, write_json
+from optima_common import CONFIG, DATA_DIR, EXPERIMENT_DIR, archive_experiment_config, ai_collection_dir_for, ensure_dir, survey_total_tasks, write_json
 
 
 CHOICE_NAMES = ["PT", "CAR", "SLOW_MODES"]
@@ -18,7 +18,6 @@ PREF_NAMES = ["ASC_PT", "ASC_CAR", "B_COST", "B_TIME_PT", "B_TIME_CAR", "B_WAIT"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output-subdir", required=True)
     parser.add_argument("--max-respondents-per-model", type=int, default=None)
     return parser.parse_args()
 
@@ -26,7 +25,7 @@ def parse_args() -> argparse.Namespace:
 def load_ai_data(max_respondents_per_model: int | None) -> tuple[pd.DataFrame, pd.DataFrame]:
     long_frames = []
     block_frames = []
-    total_tasks = int(CONFIG["survey_design"]["total_tasks"])
+    total_tasks = int(survey_total_tasks())
     for model_config in CONFIG["llm_models"]:
         base_dir = ai_collection_dir_for(model_config["key"])
         long_path = base_dir / "ai_panel_long.csv"
@@ -265,7 +264,7 @@ def posterior_probabilities(theta: np.ndarray, matrices: dict, covariate_names: 
 
 
 def human_baseline_estimates() -> dict[str, float]:
-    path = EXPERIMENT_DIR / "outputs" / "human_baseline_mnl" / "mnl_estimates.csv"
+    path = EXPERIMENT_DIR / "human_baseline_mnl_estimates.csv"
     if not path.exists():
         return {name: np.nan for name in PREF_NAMES}
     frame = pd.read_csv(path)
@@ -274,7 +273,7 @@ def human_baseline_estimates() -> dict[str, float]:
 
 
 def human_choice_share() -> dict[str, float]:
-    path = EXPERIMENT_DIR / "outputs" / "human_baseline_mnl" / "mnl_summary.json"
+    path = EXPERIMENT_DIR / "human_baseline_mnl_summary.json"
     if not path.exists():
         return {}
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -301,14 +300,13 @@ def safe_weighted_mean(values: pd.Series, weights: pd.Series) -> float:
 def main() -> None:
     args = parse_args()
     archive_experiment_config(EXPERIMENT_DIR)
-    output_dir = ensure_dir(EXPERIMENT_DIR / "outputs" / args.output_subdir)
     long_frame, block_frame = load_ai_data(args.max_respondents_per_model)
     if long_frame.empty or block_frame.empty:
         raise RuntimeError("No valid pooled AI panel data available for SALCM estimation.")
 
     covariate_names = list(CONFIG["salcm"]["membership_covariates"])
     matrices = build_matrices(long_frame, block_frame, covariate_names)
-    mnl_path = EXPERIMENT_DIR / "outputs" / "pooled_ai_panel_mnl" / "mnl_estimates.csv"
+    mnl_path = EXPERIMENT_DIR / "ai_panel_mnl_estimates.csv"
     mnl_estimates = pd.read_csv(mnl_path) if mnl_path.exists() else None
     theta0 = initial_theta(covariate_names, mnl_estimates)
     result = minimize(
@@ -320,9 +318,9 @@ def main() -> None:
     )
     theta_hat = np.array(result.x, dtype=float)
     parameter_frame = pd.DataFrame({"parameter_name": parameter_names(covariate_names), "estimate": theta_hat})
-    parameter_frame.to_csv(output_dir / "salcm_estimates.csv", index=False)
-    long_frame.to_csv(output_dir / "estimation_input_long.csv", index=False)
-    block_frame.to_csv(output_dir / "estimation_input_block.csv", index=False)
+    parameter_frame.to_csv(EXPERIMENT_DIR / "ai_salcm_estimates.csv", index=False)
+    long_frame.to_csv(EXPERIMENT_DIR / "ai_salcm_estimation_input_long.csv", index=False)
+    block_frame.to_csv(EXPERIMENT_DIR / "ai_salcm_estimation_input_block.csv", index=False)
 
     posterior, class_prob, scale_values = posterior_probabilities(theta_hat, matrices, covariate_names)
     posterior_rows = []
@@ -338,7 +336,7 @@ def main() -> None:
                 state_pointer += 1
         posterior_rows.append(row)
     posterior_frame = pd.DataFrame(posterior_rows)
-    posterior_frame.to_csv(output_dir / "salcm_posterior_membership.csv", index=False)
+    posterior_frame.to_csv(EXPERIMENT_DIR / "ai_salcm_posterior_membership.csv", index=False)
 
     human_estimates = human_baseline_estimates()
     human_share = human_choice_share()
@@ -400,7 +398,7 @@ def main() -> None:
     regime_frame["label_flip_rate_max"] = regime_frame["label_flip_rate"].max()
     regime_frame["regime_label"] = regime_frame.apply(regime_label, axis=1)
     regime_frame = regime_frame.drop(columns=["normalized_coefficient_distance_min", "label_flip_rate_max"])
-    regime_frame.to_csv(output_dir / "salcm_regime_summaries.csv", index=False)
+    regime_frame.to_csv(EXPERIMENT_DIR / "ai_salcm_regime_summaries.csv", index=False)
 
     block_scores = []
     regime_score = regime_frame.set_index(["preference_class", "scale_class"])[
@@ -412,7 +410,7 @@ def main() -> None:
             for scale_index in range(int(CONFIG["salcm"]["n_scale_classes"])):
                 score += float(posterior[respondent_index, class_index, scale_index]) * float(regime_score.loc[(class_index + 1, scale_index + 1)])
         block_scores.append({"respondent_id": respondent_id, "posterior_distortion_score": score})
-    pd.DataFrame(block_scores).to_csv(output_dir / "salcm_block_distortion_scores.csv", index=False)
+    pd.DataFrame(block_scores).to_csv(EXPERIMENT_DIR / "ai_salcm_block_distortion_scores.csv", index=False)
 
     summary = {
         "n_respondents": int(len(matrices["respondent_ids"])),
@@ -431,7 +429,7 @@ def main() -> None:
         },
         "n_nonempty_states": int((regime_frame["posterior_mass"] > 1e-6).sum()),
     }
-    write_json(output_dir / "salcm_summary.json", summary)
+    write_json(EXPERIMENT_DIR / "ai_salcm_summary.json", summary)
     print(
         f"[estimate_optima_salcm] respondents={summary['n_respondents']} tasks={summary['n_tasks_per_respondent']} "
         f"loglik={summary['final_loglikelihood']:.3f}"
