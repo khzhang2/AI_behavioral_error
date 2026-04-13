@@ -1,0 +1,78 @@
+{
+  "dataset": "ai_pooled",
+  "n_rows_long": 23037,
+  "n_respondents": 480,
+  "n_tasks": 7679,
+  "final_loglikelihood": -2283.5382146466627,
+  "null_loglikelihood": -8664.672452909797,
+  "optimizer_success": false,
+  "optimizer_message": "Desired error not necessarily achieved due to precision loss.",
+  "choice_share": {
+    "CAR": 0.8743325953900247,
+    "SLOW_MODES": 0.06654512306289881,
+    "PT": 0.059122281547076445
+  },
+  "choice_share_by_model": {
+    "deepseek_chat": {
+      "CAR": 0.8743325953900247,
+      "SLOW_MODES": 0.06654512306289881,
+      "PT": 0.059122281547076445
+    }
+  },
+  "choice_share_by_prompt_arm": {
+    "neutral_arm": {
+      "CAR": 0.8719951923076923,
+      "SLOW_MODES": 0.06881009615384616,
+      "PT": 0.059194711538461536
+    },
+    "semantic_arm": {
+      "CAR": 0.8761204320845782,
+      "SLOW_MODES": 0.06481268673868076,
+      "PT": 0.05906688117674098
+    }
+  },
+  "choice_share_by_model_prompt_arm": {
+    "deepseek_chat|neutral_arm": {
+      "CAR": 0.8719951923076923,
+      "SLOW_MODES": 0.06881009615384616,
+      "PT": 0.059194711538461536
+    },
+    "deepseek_chat|semantic_arm": {
+      "CAR": 0.8761204320845782,
+      "SLOW_MODES": 0.06481268673868076,
+      "PT": 0.05906688117674098
+    }
+  },
+  "choice_share_by_task_role": {
+    "core": {
+      "CAR": 0.8857242097950677,
+      "SLOW_MODES": 0.06599513720041682,
+      "PT": 0.04828065300451546
+    },
+    "dominance": {
+      "CAR": 0.80625,
+      "PT": 0.13854166666666667,
+      "SLOW_MODES": 0.05520833333333333
+    },
+    "label_mask_twin": {
+      "CAR": 0.9010416666666666,
+      "SLOW_MODES": 0.057291666666666664,
+      "PT": 0.041666666666666664
+    },
+    "monotonicity": {
+      "CAR": 0.8572916666666667,
+      "SLOW_MODES": 0.08541666666666667,
+      "PT": 0.057291666666666664
+    },
+    "order_twin": {
+      "CAR": 0.903125,
+      "SLOW_MODES": 0.06145833333333333,
+      "PT": 0.035416666666666666
+    },
+    "paraphrase_twin": {
+      "CAR": 0.8697916666666666,
+      "SLOW_MODES": 0.075,
+      "PT": 0.05520833333333333
+    }
+  }
+}

@@ -1,5 +1,0 @@
-model_key,block_template_id,respondent_id,run_repeat,exact_repeat_flip_rate_mean,response_entropy_mean,intervention_gap_tv_mean,excess_intervention_gap_mean
-deepseek_r1_8b,DST0001,DS0001_R1,1,0.0,0.0,0.3333333333333333,0.3333333333333333
-deepseek_r1_8b,DST0001,DS0001_R2,2,0.0,0.0,0.3333333333333333,0.3333333333333333
-qwen3.5_9b,QWT0001,QW0001_R1,1,0.0,0.0,0.0,0.0
-qwen3.5_9b,QWT0001,QW0001_R2,2,0.0,0.0,0.0,0.0

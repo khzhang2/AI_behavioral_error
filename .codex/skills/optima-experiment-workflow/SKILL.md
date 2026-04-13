@@ -1,15 +1,15 @@
 ---
 name: optima-experiment-workflow
-description: Plan or execute the end-to-end Optima intervention-regime experiment workflow in this repository. Use when Codex needs to set or review experiment_config.json, create a new single-model experiment folder, generate personas and choice cards before AI collection, run or resume AI questionnaire collection, estimate intervention metrics or discrete-choice models after collection, interpret the five error dimensions, or enforce this repo's experiment record rules.
+description: Run post-AI analysis for a completed Optima intervention-regime experiment in this repository. Use when Codex needs to validate that AI questionnaire collection has finished, inspect whether the collected responses are complete enough for analysis, run intervention metrics or discrete-choice estimation after collection, interpret the five error dimensions, or write the final Chinese experiment summary. Do not use this skill to launch or resume AI questionnaire collection.
 ---
 
 # Optima Experiment Workflow
 
 ## Overview
 
-Use this skill for the current experiment-ready workflow in this repository. Treat the workflow as four linked stages: parameter design in `experiment_config.json`, pre-AI preparation of personas and questionnaire tasks, AI questionnaire collection, and post-AI estimation plus experiment summaries.
+Use this skill only for post-AI analysis in the current intervention-regime workflow. Start from an experiment folder that should already contain AI collection outputs. Do not use this skill to prepare personas, generate questionnaire tasks, run AI collection, or resume interrupted collection.
 
-Use the current intervention-regime line as the default workflow. Treat older hybrid-choice or legacy multi-output layouts as reference only unless the user explicitly asks for them.
+Use the current intervention-regime line as the default analysis workflow. Treat older hybrid-choice or legacy multi-output layouts as reference only unless the user explicitly asks for them.
 
 ## Define the main objects first
 
@@ -22,97 +22,47 @@ In this repository, one full questionnaire run means:
 
 `1 grounding + n_attitudes + total task cards`
 
-## Fix the experiment target before doing anything else
+## Confirm the target experiment first
 
 Work with one experiment folder and one model at a time.
 
 - Use the naming rule `YYYYMMDD_<keywords>_<version>`.
 - Keep one experiment folder for one model only.
 - Keep `llm_models` in `experiment_config.json` to one entry only for the active experiment-ready workflow.
-- Archive the final merged configuration into the experiment folder's single `experiment_config.json`.
+- Treat `paths.archive_dir / experiment_name` as the real experiment folder.
 
-If the user changes `n_block_templates_per_model`, `n_repeats_per_template`, or anything in `survey_design`, run the prepare script again before running AI collection. The collection script reads the already-generated `block_assignments.csv` and `panel_tasks.csv`; it does not regenerate them from config on the fly.
+## Validate AI collection before any estimation
 
-## Edit parameters in the right file
+Always check completion first. Do this before running any post-AI script.
 
-Use `experiment_config.json` as the main tuning file. Treat `experiment_config_base.json` as stable defaults.
+Read at least:
 
-The fields most likely to change between experiments are:
+- `outputs/run_respondents.json`
+- `parsed_task_responses.csv`
+- `parsed_attitudes.csv`
 
-- `experiment_name`
-- `paths.archive_dir`
-- `active_llm_key`
-- `llm_models[0]`
-- `n_block_templates_per_model`
-- `n_repeats_per_template`
-- `collection.max_workers`
-- `survey_design`
+Use this logic.
 
-When the provider is Poe, keep the model entry in `llm_models`. Put `provider`, `model`, `base_url`, sampling parameters, and decoder settings there. Keep only the secret in `api_credentials.local.json` or the environment variable such as `POE_API_KEY`.
+1. Compare `completed_respondents` and `target_respondents` in `outputs/run_respondents.json`.
+2. Check whether the parsed task table is present and nonempty.
+3. Check whether respondents expected to be complete actually have the full number of task rows needed for analysis.
 
-To count expected requests, use:
+If the AI collection is not complete, stop there.
 
-`total requests = n_block_templates_per_model × n_repeats_per_template × (1 + n_attitudes + total task cards)`
+- Report that the experiment is not ready for post-AI analysis.
+- State the completion counts or missing files.
+- Do not run AI questionnaire collection.
+- Do not resume AI questionnaire collection.
 
-And use:
-
-`total task cards = n_core_tasks + n_paraphrase_twins + n_label_mask_twins + n_order_twins + n_monotonicity_tasks + n_dominance_tasks`
-
-## Run the pre-AI prepare stage
-
-Run:
+This skill must never launch:
 
 ```bash
-./.venv/bin/python scripts/prepare_optima_intervention_regime_data.py --model-key <model_key>
+./.venv/bin/python scripts/run_optima_intervention_regime_ai_collection.py ...
 ```
 
-This stage does the following.
+or any other AI collection command.
 
-1. Read the human profile bank and scenario bank.
-2. Construct personas from human profiles.
-3. Construct core choice cards and twin or probe cards from scenarios and `survey_design`.
-4. Expand planned runs into `block_assignments.csv`.
-5. Expand all task cards into `panel_tasks.csv`.
-6. Initialize the experiment folder and the raw AI output files under `outputs/`.
-
-Treat these files as the key pre-AI artifacts in the experiment root:
-
-- `scenario_bank.csv`
-- `respondent_profile_bank.csv`
-- `block_assignments.csv`
-- `panel_tasks.csv`
-- `experiment_config.json`
-
-## Run the AI questionnaire collection
-
-Run:
-
-```bash
-./.venv/bin/python scripts/run_optima_intervention_regime_ai_collection.py --model-key <model_key> --max-workers <N>
-```
-
-Or resume:
-
-```bash
-./.venv/bin/python scripts/run_optima_intervention_regime_ai_collection.py --model-key <model_key> --max-workers <N> --resume
-```
-
-Use these rules when reasoning about performance and restart behavior.
-
-- Keep one respondent serial inside a run: `grounding -> attitudes -> tasks`.
-- Allow different respondents to run in parallel.
-- Treat `--max-workers` as respondent-level parallelism, not task-level parallelism.
-- Expect low CPU usage when the bottleneck is the remote API rather than local computation.
-
-The intervention collection script writes incrementally.
-
-- Each grounding, attitude, or task response is appended immediately to `outputs/raw_interactions.jsonl`.
-- Parsed rows are appended immediately to `parsed_attitudes.csv` and `parsed_task_responses.csv`.
-- `outputs/respondent_transcripts.json` and `outputs/run_respondents.json` are updated during collection.
-
-Because of this, `--resume` should continue from unfinished respondents and, within those respondents, from the next unfinished question when the needed rows already exist on disk.
-
-## Know where the collection outputs go
+## Know where the inputs and outputs live
 
 Use this storage rule consistently.
 
@@ -123,18 +73,21 @@ Use this storage rule consistently.
 - `outputs/run_respondents.json`
 - `outputs/ai_collection_summary.json`
 
-The experiment root stores all derived AI data and all estimation outputs:
+The experiment root stores shared derived AI data, shared diagnostics, and the final report:
 
 - `persona_samples.csv`
 - `parsed_attitudes.csv`
 - `parsed_task_responses.csv`
 - `ai_panel_long.csv`
 - `ai_panel_block.csv`
-- all diagnostics, MNL outputs, SALCM outputs, and summaries
+- all shared diagnostics and summaries
+- `hcm/ai`, `hcm/human`
+- `mnl/ai`, `mnl/human`
+- `salcm/ai`, `salcm/human`
 
 ## Run the post-AI estimation sequence
 
-Use this order for the current intervention-regime workflow.
+After the experiment passes the completion check, use this order for the current intervention-regime workflow.
 
 1. Estimate intervention and randomness metrics:
 
@@ -187,7 +140,7 @@ Use the following mapping when interpreting one completed experiment.
    Focus on `dominance violation rate` and `monotonicity compliance rate`.
 
 5. Human-relative distortion:
-   Read `human_baseline_mnl_summary.json`, `ai_panel_mnl_summary.json`, and `ai_salcm_regime_summaries.csv`.
+   Read `mnl/human/human_baseline_mnl_summary.json`, `mnl/ai/ai_panel_mnl_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
    Start with `choice share` differences. Treat `VOT/WTP` or elasticity-style interpretation more cautiously when the optimizer reports precision loss or iteration limits.
 
 ## Follow the experiment record rules
@@ -198,9 +151,7 @@ Keep the experiment archive clean.
 - Do not store diagnostics or estimation results under `outputs/`.
 - Keep one root `experiment_summary.md` only.
 - Keep `experiment_summary.md` short and decision-oriented.
-- Prefer writing the summary after the main analysis scripts finish, not during collection.
-
-When the user asks for a new experiment, create a new experiment folder name rather than reusing an old archive unless they explicitly want to overwrite or continue the old one.
+- Prefer writing the summary after the main analysis scripts finish.
 
 ## Write the experiment report in Chinese
 

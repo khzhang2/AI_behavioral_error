@@ -2,11 +2,13 @@
 
 ## Project Overview
 
-This is an academic research codebase studying whether LLM-generated synthetic respondents can reproduce human behavioral patterns in discrete choice models. The project uses the Optima dataset (Swissmetro travel survey) as the benchmark, collects AI survey responses via LLMs, and compares the estimated Hybrid Choice Models (HCM) and Multinomial Logit (MNL) models between human and AI respondents.
+This is an academic research codebase studying whether LLM-generated synthetic respondents can reproduce human behavioral patterns in discrete choice models. The project uses the Optima dataset (Swissmetro travel survey) as the benchmark, collects AI survey responses via LLMs, and compares human and AI behavior using intervention diagnostics, panel Multinomial Logit (MNL), and SALCM.
+
+Legacy HCM estimation files are retained for reference only and are not part of the current default experiment workflow.
 
 Python runtime: `.\.venv\Scripts\python.exe` (Windows)
 
-Repo-local skill for the current end-to-end experiment workflow: [optima-experiment-workflow](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/.codex/skills/optima-experiment-workflow/SKILL.md).
+Repo-local skill for post-AI analysis only: [optima-experiment-workflow](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/.codex/skills/optima-experiment-workflow/SKILL.md). Use it to validate collection completion and run analysis; do not use it to launch AI questionnaire collection.
 
 ## Directory Structure
 
@@ -49,7 +51,8 @@ Archived outputs only. Each experiment run is stored under `experiments/Swissmet
 
 - `experiment_config.json` - the single full final config used for that experiment.
 - `outputs/` - only raw AI collection files such as `raw_interactions.jsonl`, `respondent_transcripts.json`, `run_respondents.json`, and `ai_collection_summary.json`.
-- experiment-root files - derived AI panels, parameter estimates, diagnostics, and one `experiment_summary.md`.
+- experiment-root files - shared derived AI panels, shared diagnostics, questionnaire-construction outputs, and one `experiment_summary.md`.
+- `hcm/ai`, `hcm/human`, `mnl/ai`, `mnl/human`, `salcm/ai`, `salcm/human` - model-specific estimation inputs and outputs.
 
 
 ## Key Conventions
@@ -62,7 +65,7 @@ Archived outputs only. Each experiment run is stored under `experiments/Swissmet
 - Sobol draws are pre-generated and shared across all estimation methods to ensure identical Monte Carlo integration.
 - Biogeme `*.iter` files and `biogeme.toml` / `biogeme_runtime.toml` are gitignored; the runtime TOML is rewritten on each Biogeme estimation run.
 - `experiment_config.json` now keeps only tuning/active overrides and points to a reusable base template through `config_base_file`.
-- The complete experiment definition is now stored in `experiment_config_base.json`; the final merged version is written once into `experiments/.../experiment_config.json` during `archive_experiment_config` calls.
+- The complete experiment definition is now stored in `experiment_config_base.json`; `paths.archive_dir` is the parent archive directory, and the real experiment folder is `paths.archive_dir / experiment_name`. The final merged version is written once into that experiment folder's `experiment_config.json` during `archive_experiment_config` calls.
 - Experiment-level knobs such as `active_llm_key`, `llm_models`, `n_block_templates_per_model`, `n_repeats_per_template`, and `survey_design` should stay in `experiment_config.json`.
 - 对于 Poe 模型，更推荐继续在 `llm_models` 中保留统一格式：
   - `provider`

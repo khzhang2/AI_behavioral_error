@@ -1,9 +1,0 @@
-[MonteCarlo]
-number_of_draws = 32
-
-[MultiThreading]
-number_of_threads = 27
-
-[Estimation]
-optimization_algorithm = "simple_bounds"
-save_iterations = "False"

@@ -1,0 +1,18 @@
+{
+  "dataset": "human",
+  "n_rows": 708,
+  "n_respondents": 708,
+  "n_tasks": 708,
+  "n_draws": 32,
+  "final_loglikelihood": -8343.103662141046,
+  "null_loglikelihood": -730.9414243423039,
+  "number_of_parameters": 41,
+  "number_of_threads": 7,
+  "optimizer_success": true,
+  "optimizer_message": "Biogeme estimate completed",
+  "output_files": [
+    "human_baseline_biogeme_hcm_estimation_input_long.csv",
+    "human_baseline_biogeme_hcm_estimates.csv",
+    "human_baseline_biogeme_hcm_summary.json"
+  ]
+}

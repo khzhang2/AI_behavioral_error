@@ -1,4 +1,4 @@
 interface:
-  display_name: "Optima Experiment Workflow"
-  short_description: "Run the Optima workflow end to end in this repo."
-  default_prompt: "Use this skill to work through the Optima intervention-regime experiment workflow in this repository from experiment_config setup through prepare, AI collection, estimation, and experiment summaries."
+  display_name: "Optima Post-AI Analysis"
+  short_description: "Validate completion and run post-AI analysis only."
+  default_prompt: "Use this skill only for post-AI analysis of a completed Optima intervention-regime experiment in this repository. First validate that AI collection has finished; if it has not, report that and stop. Do not launch or resume AI questionnaire collection."

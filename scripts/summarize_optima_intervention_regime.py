@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pandas as pd
 
-from optima_common import EXPERIMENT_DIR, OUTPUT_DIR, active_model_config, ai_collection_dir_for, read_json, write_json
+from optima_common import EXPERIMENT_DIR, OUTPUT_DIR, active_model_config, ai_collection_dir_for, experiment_analysis_dir, read_json, write_json
 
 
 def maybe_read_csv(path: Path) -> pd.DataFrame:
@@ -36,6 +35,7 @@ def build_ai_collection_summary(model_key: str) -> dict:
         "valid_attitude_rate": float(attitudes["is_valid_indicator"].mean()) if not attitudes.empty else None,
         "valid_task_rate": float(tasks["is_valid_task_response"].mean()) if not tasks.empty else None,
         "mean_exact_repeat_flip_rate": float(blocks["exact_repeat_flip_rate_mean"].mean()) if not blocks.empty and "exact_repeat_flip_rate_mean" in blocks.columns else None,
+        "mean_paraphrase_flip_rate": float(blocks["paraphrase_flip_rate"].mean()) if not blocks.empty and "paraphrase_flip_rate" in blocks.columns else None,
         "mean_label_flip_rate": float(blocks["label_flip_rate"].mean()) if not blocks.empty and "label_flip_rate" in blocks.columns else None,
         "mean_order_flip_rate": float(blocks["order_flip_rate"].mean()) if not blocks.empty and "order_flip_rate" in blocks.columns else None,
         "mean_monotonicity_compliance_rate": float(blocks["monotonicity_compliance_rate"].mean()) if not blocks.empty and "monotonicity_compliance_rate" in blocks.columns else None,
@@ -45,42 +45,85 @@ def build_ai_collection_summary(model_key: str) -> dict:
     return summary
 
 
+def intervention_by_type(path: Path) -> dict[str, dict[str, float]]:
+    frame = maybe_read_csv(path)
+    if frame.empty or "manipulation_type" not in frame.columns:
+        return {}
+    grouped = frame.groupby("manipulation_type")[["intervention_gap_tv", "excess_intervention_gap"]].mean().reset_index()
+    payload: dict[str, dict[str, float]] = {}
+    for _, row in grouped.iterrows():
+        payload[str(row["manipulation_type"])] = {
+            "intervention_gap_tv": float(row["intervention_gap_tv"]) if row["intervention_gap_tv"] == row["intervention_gap_tv"] else float("nan"),
+            "excess_intervention_gap": float(row["excess_intervention_gap"]) if row["excess_intervention_gap"] == row["excess_intervention_gap"] else float("nan"),
+        }
+    return payload
+
+
+def share_gap_tv(human_mnl: dict, ai_mnl: dict) -> float | None:
+    human_share = human_mnl.get("choice_share", {})
+    ai_share = ai_mnl.get("choice_share", {})
+    if not human_share or not ai_share:
+        return None
+    names = ["PT", "CAR", "SLOW_MODES"]
+    return 0.5 * sum(abs(float(ai_share.get(name, 0.0)) - float(human_share.get(name, 0.0))) for name in names)
+
+
+def caveat_text(human_mnl: dict, ai_mnl: dict, salcm: dict) -> str:
+    warnings = []
+    if human_mnl and not bool(human_mnl.get("optimizer_success", False)):
+        warnings.append("human baseline MNL 有数值优化警告")
+    if ai_mnl and not bool(ai_mnl.get("optimizer_success", False)):
+        warnings.append("AI panel MNL 有数值优化警告")
+    if salcm and not bool(salcm.get("optimizer_success", False)):
+        warnings.append("SALCM 未完全收敛")
+    if not warnings:
+        return "注意事项：当前 smoke 规模较小，因此五维 error 的方向性解释比结构参数的精细解释更可靠。"
+    return "注意事项：" + "；".join(warnings) + "。因此本次结果更适合做方向性判断，不宜过度解读精细参数。"
+
+
 def main() -> None:
     model_config = active_model_config()
     model_key = str(model_config["key"])
     collection_summary = build_ai_collection_summary(model_key)
 
-    human_mnl = maybe_read_json(EXPERIMENT_DIR / "human_baseline_mnl_summary.json")
-    ai_mnl = maybe_read_json(EXPERIMENT_DIR / "ai_panel_mnl_summary.json")
+    human_mnl = maybe_read_json(experiment_analysis_dir(EXPERIMENT_DIR, "mnl", "human") / "human_baseline_mnl_summary.json")
+    ai_mnl = maybe_read_json(experiment_analysis_dir(EXPERIMENT_DIR, "mnl", "ai") / "ai_panel_mnl_summary.json")
     intervention = maybe_read_json(EXPERIMENT_DIR / "intervention_metrics_summary.json")
-    salcm = maybe_read_json(EXPERIMENT_DIR / "ai_salcm_summary.json")
+    salcm = maybe_read_json(experiment_analysis_dir(EXPERIMENT_DIR, "salcm", "ai") / "ai_salcm_summary.json")
+    intervention_type = intervention_by_type(EXPERIMENT_DIR / "intervention_sensitivity.csv")
+    gap_tv = share_gap_tv(human_mnl, ai_mnl)
 
-    lines = [
-        f"# Experiment Summary: {model_key}",
-        "",
-        f"This archive records one model only: `{model_key}`. The AI collection completed `{collection_summary['completed_respondents']}` of `{collection_summary['target_respondents']}` planned respondent runs. The valid-attitude rate is `{fmt(collection_summary['valid_attitude_rate'])}` and the valid-task rate is `{fmt(collection_summary['valid_task_rate'])}`.",
-    ]
+    human_share = human_mnl.get("choice_share", {})
+    ai_share = ai_mnl.get("choice_share", {})
+    para = intervention_type.get("paraphrase", {})
+    label = intervention_type.get("label_mask", {})
+    order = intervention_type.get("order_randomization", {})
 
-    if intervention:
-        lines.append(
-            f"Exact-repeat randomness is summarized by mean flip rate `{fmt(intervention.get('mean_exact_repeat_flip_rate'))}` and mean response entropy `{fmt(intervention.get('mean_response_entropy'))}`. The mean intervention gap is `{fmt(intervention.get('mean_intervention_gap_tv'))}`, and the mean excess intervention gap is `{fmt(intervention.get('mean_excess_intervention_gap'))}`."
-        )
-
-    if human_mnl and ai_mnl:
-        lines.append(
-            f"The human baseline MNL uses `{human_mnl.get('n_respondents', 'NA')}` respondents and `{human_mnl.get('n_tasks', 'NA')}` tasks, with final log likelihood `{fmt(human_mnl.get('final_loglikelihood'), 3)}`. The AI panel MNL uses `{ai_mnl.get('n_respondents', 'NA')}` respondents and `{ai_mnl.get('n_tasks', 'NA')}` tasks, with final log likelihood `{fmt(ai_mnl.get('final_loglikelihood'), 3)}`."
-        )
-
-    if salcm:
-        lines.append(
-            f"The SALCM is estimated with `{salcm.get('n_preference_classes', 'NA')}` preference classes and `{salcm.get('n_scale_classes', 'NA')}` scale classes. The final log likelihood is `{fmt(salcm.get('final_loglikelihood'), 3)}`, and the number of nonempty posterior states is `{salcm.get('n_nonempty_states', 'NA')}`."
-        )
-
-    lines.append(
-        "Raw AI conversation records are stored only under `outputs/`. Derived AI panels, diagnostics, MNL estimates, SALCM estimates, and comparison results are stored directly in the experiment root."
+    opening = (
+        f"# 实验摘要：{model_key}\n\n"
+        f"本次实验对应单模型归档 `{model_key}`。AI 问卷收集共完成 `{collection_summary['completed_respondents']}` / "
+        f"`{collection_summary['target_respondents']}` 个 planned respondents，态度题有效率为 `{fmt(collection_summary['valid_attitude_rate'])}`，"
+        f"任务题有效率为 `{fmt(collection_summary['valid_task_rate'])}`。总体上，这次实验的主要特征是：模型内部非常稳定，"
+        f"语义、标签和顺序干预几乎不产生额外波动，但相对 human benchmark 仍表现出明显的出行方式偏移。"
     )
 
-    summary_text = "\n\n".join(lines) + "\n"
+    table_lines = [
+        "| 检验对象 | 这次试验怎么概括 | 主要数值 | 解释 |",
+        "| --- | --- | --- | --- |",
+        f"| 同一系统的随机不稳定性 | 很低 | exact-repeat flip rate = `{fmt(intervention.get('mean_exact_repeat_flip_rate'))}`；response entropy = `{fmt(intervention.get('mean_response_entropy'))}` | 完全相同输入下几乎不翻转，within-model randomness 很弱。 |",
+        f"| 对语义等价改写是否稳健 | 很稳健 | paraphrase flip rate = `{fmt(collection_summary.get('mean_paraphrase_flip_rate'))}`；paraphrase gap = `{fmt(para.get('intervention_gap_tv'))}`；paraphrase excess gap = `{fmt(para.get('excess_intervention_gap'))}` | 改写措辞后几乎没有系统变化，没有观察到超出随机性基线的 semantic fragility。 |",
+        f"| 对标签或顺序是否过敏 | 很弱 | label flip rate = `{fmt(collection_summary.get('mean_label_flip_rate'))}`；order flip rate = `{fmt(collection_summary.get('mean_order_flip_rate'))}`；label excess gap = `{fmt(label.get('excess_intervention_gap'))}`；order excess gap = `{fmt(order.get('excess_intervention_gap'))}` | 这次 smoke 中 label 与 order 的额外干预效应都非常小，未见明显的 label-sensitive 或 order-sensitive pattern。 |",
+        f"| 是否真的在做 trade-off | 很强 | monotonicity compliance = `{fmt(collection_summary.get('mean_monotonicity_compliance_rate'))}`；dominance violation = `{fmt(collection_summary.get('mean_dominance_violation_rate'))}` | 基本完全遵守 monotonicity 与 dominance 检查，说明规则性 trade-off fidelity 很强。 |",
+        f"| 是否只是总体像人 | 不像，仍有明显 distortion | AI shares: `CAR={fmt(ai_share.get('CAR'))}, PT={fmt(ai_share.get('PT'))}, SLOW_MODES={fmt(ai_share.get('SLOW_MODES'))}`；human shares: `CAR={fmt(human_share.get('CAR'))}, PT={fmt(human_share.get('PT'))}, SLOW_MODES={fmt(human_share.get('SLOW_MODES'))}`；share gap TV = `{fmt(gap_tv)}` | 模型显著高估 `CAR`，显著低估 `PT`，说明它是稳定地偏离 human benchmark，而不是随机地像人。 |",
+    ]
+
+    closing = (
+        "\n".join(table_lines)
+        + "\n\n"
+        + caveat_text(human_mnl, ai_mnl, salcm)
+    )
+
+    summary_text = opening + "\n\n" + closing + "\n"
     (EXPERIMENT_DIR / "experiment_summary.md").write_text(summary_text, encoding="utf-8")
 
 

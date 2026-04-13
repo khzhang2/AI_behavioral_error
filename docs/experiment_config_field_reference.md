@@ -13,7 +13,10 @@
 
 在当前 experiment-ready 约定下，每个实验文件夹只对应一个 model，目录结构应理解为：
 
-- experiment root：派生 AI 数据、参数估计、diagnostics、`experiment_summary.md`
+- experiment root：共享派生 AI 数据、共享 diagnostics、问卷构造产物、`experiment_summary.md`
+- `hcm/ai`、`hcm/human`：HCM 输入与结果
+- `mnl/ai`、`mnl/human`：MNL 输入与结果
+- `salcm/ai`、`salcm/human`：SALCM 输入与结果
 - `outputs/`：只保留原始 AI 问答文件，如 `raw_interactions.jsonl`、`respondent_transcripts.json`、`run_respondents.json`、`ai_collection_summary.json`
 
 | 字段路径 | 建议文件 | 类型 | 当前代码用途 | 含义 | 示例 |
@@ -22,9 +25,8 @@
 | `config_overrides` | `experiment_config.json` | `object` | `scripts/optima_common.py` | 对 base 配置的覆盖层；优先级高于 base | `{...}` |
 | `config_overrides.experiment_name` | `experiment_config.json` | `str` | 多个脚本归档与输出命名 | 当前实验名 | `"20260412_optima_intervention_regime_v2"` |
 | `config_overrides.paths` | `experiment_config.json` | `object` | `scripts/optima_common.py` | 当前实验路径设置 | `{...}` |
-| `config_overrides.paths.data_dir` | `experiment_config.json` | `str` | 部分脚本与兼容层 | 当前实验数据目录；在 experiment-ready 工作流中不再是主输出目录 | `"data/Swissmetro/latent_regime_optima_v2"` |
-| `config_overrides.paths.archive_dir` | `experiment_config.json` | `str` | 归档输出脚本 | 当前实验 archive 目录 | `"experiments/Swissmetro/20260412_optima_intervention_regime_v2"` |
-| `paths.source_data_dir` | `experiment_config_base.json` | `str` | 数据准备脚本 | 人类基准与源数据目录 | `"data/Swissmetro/demographic_choice_psychometric"` |
+| `config_overrides.paths.archive_dir` | `experiment_config.json` | `str` | 归档输出脚本 | 实验归档父目录；真实实验目录为 `paths.archive_dir / experiment_name` | `"experiments/Swissmetro"` |
+| `paths.source_data_dir` | `experiment_config_base.json` | `str` | 数据准备脚本、人类基准估计、兼容旧脚本 | 当前唯一的人类基准与源数据目录 | `"data/Swissmetro/demographic_choice_psychometric"` |
 | `master_seed` | `experiment_config.json` | `int` | 数据准备、bootstrap、抽样 | 主随机种子 | `20260412` |
 | `active_llm_key` | `experiment_config.json` | `str` | `llm_config_for()` | 默认使用哪一个 `llm_models[].key` | `"qwen3.5_9b"` |
 | `n_block_templates_per_model` | `experiment_config.json` | `int` | `prepare_optima_intervention_regime_data.py` | 每个模型生成多少个问卷块模板 | `236` |

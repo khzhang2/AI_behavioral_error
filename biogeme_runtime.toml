@@ -2,7 +2,7 @@
 number_of_draws = 32
 
 [MultiThreading]
-number_of_threads = 27
+number_of_threads = 7
 
 [Estimation]
 optimization_algorithm = "scipy"

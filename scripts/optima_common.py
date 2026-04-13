@@ -57,9 +57,9 @@ def _load_experiment_config() -> dict[str, Any]:
 
 
 CONFIG = _load_experiment_config()
-DATA_DIR = ROOT_DIR / CONFIG["paths"]["data_dir"]
-SOURCE_DATA_DIR = ROOT_DIR / CONFIG["paths"].get("source_data_dir", CONFIG["paths"]["data_dir"])
-EXPERIMENT_DIR = ROOT_DIR / CONFIG["paths"]["archive_dir"]
+SOURCE_DATA_DIR = ROOT_DIR / CONFIG["paths"]["source_data_dir"]
+ARCHIVE_PARENT_DIR = ROOT_DIR / CONFIG["paths"]["archive_dir"]
+EXPERIMENT_DIR = ARCHIVE_PARENT_DIR / CONFIG["experiment_name"]
 OUTPUT_DIR = EXPERIMENT_DIR / "outputs"
 AI_COLLECTION_DIR = EXPERIMENT_DIR
 
@@ -117,6 +117,8 @@ def apply_llm_credentials(config: dict[str, Any]) -> dict[str, Any]:
             merged["extra_body"] = dict(credentials["extra_body"])
     if str(merged.get("provider", "")).lower() == "poe" and not merged.get("base_url"):
         merged["base_url"] = "https://api.poe.com/v1"
+    if str(merged.get("provider", "")).lower() == "deepseek" and not merged.get("base_url"):
+        merged["base_url"] = "https://api.deepseek.com"
     return merged
 
 
@@ -181,6 +183,13 @@ def raw_output_path(filename: str) -> Path:
 def ensure_dir(path: Path) -> Path:
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+def experiment_analysis_dir(base_dir: Path, family: str, dataset: str | None = None) -> Path:
+    path = Path(base_dir) / str(family)
+    if dataset is not None and str(dataset).strip():
+        path = path / str(dataset)
+    return ensure_dir(path)
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -316,6 +325,8 @@ def default_api_key_env_names(model_config: dict[str, Any]) -> list[str]:
     provider = str(model_config.get("provider", "")).strip().lower()
     if provider == "poe":
         return ["POE_API_KEY"]
+    if provider == "deepseek":
+        return ["DEEPSEEK_API_KEY", "DeepSeek_API_KEY"]
     if provider in {"openai", "openai_compatible"}:
         return ["OPENAI_API_KEY"]
     return []
@@ -328,7 +339,7 @@ def resolve_llm_api_key(model_config: dict[str, Any]) -> str:
 
     credential_data = load_credentials_payload(model_config)
     if credential_data:
-        for key in ("api_key", "token", "poe_api_key", "POE_API_KEY"):
+        for key in ("api_key", "token", "poe_api_key", "POE_API_KEY", "deepseek_api_key", "DEEPSEEK_API_KEY", "DeepSeek_API_KEY"):
             candidate = str(credential_data.get(key, "")).strip()
             if candidate:
                 return candidate

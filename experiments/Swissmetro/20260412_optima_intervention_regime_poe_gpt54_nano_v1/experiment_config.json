@@ -4,8 +4,7 @@
   "paper_reference": "Intervention-anchored latent response regime experiment built on the Optima benchmark",
   "paths": {
     "source_data_dir": "data/Swissmetro/demographic_choice_psychometric",
-    "data_dir": "data/Swissmetro/latent_regime_optima_v2",
-    "archive_dir": "experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1"
+    "archive_dir": "experiments/Swissmetro"
   },
   "intervention_tests": {
     "repeat_randomness_kappa": 1.25,
@@ -27,16 +26,15 @@
     "optimization_algorithm": "scipy"
   },
   "salcm": {
-    "n_preference_classes": 3,
+    "n_preference_classes": 2,
     "n_scale_classes": 2,
     "optimizer": "scipy_lbfgsb",
-    "maxiter": 800,
+    "maxiter": 3000,
+    "maxfun": 300000,
+    "ftol": 1e-08,
     "membership_covariates": [
-      "model_is_deepseek",
       "semantic_arm",
       "prompt_family_naturalistic",
-      "age_30_less",
-      "high_education",
       "ScaledIncome",
       "CAR_AVAILABLE",
       "block_complexity_mean"

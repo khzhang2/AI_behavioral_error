@@ -167,6 +167,14 @@ class ChatBackend:
             "seed": self.config.get("seed"),
             "max_tokens": int(num_predict),
         }
+        if self.provider == "deepseek":
+            thinking_value = self.config.get("thinking")
+            if isinstance(thinking_value, dict) and thinking_value:
+                payload["thinking"] = dict(thinking_value)
+            else:
+                thinking_mode = str(self.config.get("thinking_mode", "")).strip().lower()
+                if thinking_mode in {"thinking", "enabled", "on"}:
+                    payload["thinking"] = {"type": "enabled"}
         reasoning_effort = str(self.config.get("reasoning_effort", "")).strip()
         if reasoning_effort:
             payload["reasoning_effort"] = reasoning_effort

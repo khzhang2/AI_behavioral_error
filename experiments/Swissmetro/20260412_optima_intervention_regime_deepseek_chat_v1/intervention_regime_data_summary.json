@@ -1,0 +1,17 @@
+{
+  "experiment_name": "20260412_optima_intervention_regime_deepseek_chat_v1",
+  "source_data_dir": "/Users/kaihangzhang/Downloads/GitHub/Research codes repo/AI_behavioral_error/data/Swissmetro/demographic_choice_psychometric",
+  "scenario_bank_rows": 708,
+  "profile_bank_rows": 708,
+  "llm_models": [
+    {
+      "model_key": "deepseek_chat",
+      "n_block_templates": 120,
+      "n_runs": 480,
+      "n_tasks": 7680,
+      "semantic_arm_share": 0.5666666666666667,
+      "naturalistic_prompt_share": 0.55,
+      "mean_block_complexity": 0.5306703918092182
+    }
+  ]
+}

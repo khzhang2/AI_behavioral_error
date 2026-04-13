@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from optima_common import CONFIG, DATA_DIR, DRAW_NAMES, INDICATOR_NAMES, generate_shared_sobol_draws, write_json
+from optima_common import CONFIG, SOURCE_DATA_DIR, DRAW_NAMES, INDICATOR_NAMES, generate_shared_sobol_draws, write_json
 
 
 def age_text(age_value: float) -> str:
@@ -81,7 +81,7 @@ def build_choice_long(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    raw_path = DATA_DIR / "raw" / "optima.dat"
+    raw_path = SOURCE_DATA_DIR / "raw" / "optima.dat"
     frame = pd.read_csv(raw_path, sep="\t")
 
     frame = frame.loc[frame["Choice"] != -1].copy()
@@ -179,9 +179,9 @@ def main() -> None:
     ]
     profile_frame = frame[profile_columns].copy()
 
-    frame.to_csv(DATA_DIR / "human_cleaned_wide.csv", index=False)
-    choice_long.to_csv(DATA_DIR / "human_cleaned_long.csv", index=False)
-    profile_frame.to_csv(DATA_DIR / "human_respondent_profiles.csv", index=False)
+    frame.to_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv", index=False)
+    choice_long.to_csv(SOURCE_DATA_DIR / "human_cleaned_long.csv", index=False)
+    profile_frame.to_csv(SOURCE_DATA_DIR / "human_respondent_profiles.csv", index=False)
 
     n_rows = len(frame)
     draws_500 = generate_shared_sobol_draws(
@@ -191,11 +191,11 @@ def main() -> None:
         seed=int(CONFIG["master_seed"]),
     )
     draws_32 = draws_500[:, : int(CONFIG["n_monte_carlo_draws_biogeme"]), :].copy()
-    with (DATA_DIR / "shared_sobol_draws_500.npy").open("wb") as handle:
+    with (SOURCE_DATA_DIR / "shared_sobol_draws_500.npy").open("wb") as handle:
         import numpy as np
 
         np.save(handle, draws_500)
-    with (DATA_DIR / "shared_sobol_draws_32.npy").open("wb") as handle:
+    with (SOURCE_DATA_DIR / "shared_sobol_draws_32.npy").open("wb") as handle:
         import numpy as np
 
         np.save(handle, draws_32)
@@ -206,7 +206,7 @@ def main() -> None:
         "selected_indicators": INDICATOR_NAMES,
         "choice_share": frame["Choice"].value_counts(normalize=True).sort_index().to_dict(),
     }
-    write_json(DATA_DIR / "human_benchmark_sample_summary.json", summary)
+    write_json(SOURCE_DATA_DIR / "human_benchmark_sample_summary.json", summary)
     print(f"[prepare_optima_data] rows={n_rows} respondents={n_rows} draws32={draws_32.shape} draws500={draws_500.shape}")
 
 

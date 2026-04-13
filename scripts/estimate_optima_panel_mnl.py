@@ -9,7 +9,7 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from optima_common import CONFIG, DATA_DIR, EXPERIMENT_DIR, SOURCE_DATA_DIR, archive_experiment_config, ai_collection_dir_for, ensure_dir, write_json
+from optima_common import CONFIG, EXPERIMENT_DIR, SOURCE_DATA_DIR, archive_experiment_config, ai_collection_dir_for, experiment_analysis_dir, write_json
 
 
 PARAMETER_NAMES = ["ASC_PT", "ASC_CAR", "B_COST", "B_TIME_PT", "B_TIME_CAR", "B_WAIT", "B_DIST"]
@@ -201,6 +201,7 @@ def main() -> None:
     if frame.empty:
         raise RuntimeError(f"No observations found for dataset={args.dataset}")
     prefix = "human_baseline_mnl" if args.dataset == "human" else "ai_panel_mnl"
+    output_dir = experiment_analysis_dir(EXPERIMENT_DIR, "mnl", "human" if args.dataset == "human" else "ai")
 
     theta_hat, final_negloglik, result = estimate(frame)
     std_error, z_value, p_value = standard_errors(result)
@@ -213,8 +214,8 @@ def main() -> None:
             "p_value": p_value,
         }
     )
-    estimates.to_csv(EXPERIMENT_DIR / f"{prefix}_estimates.csv", index=False)
-    frame.to_csv(EXPERIMENT_DIR / f"{prefix}_estimation_input_long.csv", index=False)
+    estimates.to_csv(output_dir / f"{prefix}_estimates.csv", index=False)
+    frame.to_csv(output_dir / f"{prefix}_estimation_input_long.csv", index=False)
 
     summary = {
         "dataset": args.dataset,
@@ -232,7 +233,7 @@ def main() -> None:
         summary["choice_share_by_prompt_arm"] = grouped_choice_share(frame, ["prompt_arm"])
         summary["choice_share_by_model_prompt_arm"] = grouped_choice_share(frame, ["model_key", "prompt_arm"])
         summary["choice_share_by_task_role"] = grouped_choice_share(frame, ["task_role"])
-    write_json(EXPERIMENT_DIR / f"{prefix}_summary.json", summary)
+    write_json(output_dir / f"{prefix}_summary.json", summary)
     print(
         f"[estimate_optima_panel_mnl] dataset={args.dataset} respondents={summary['n_respondents']} "
         f"tasks={summary['n_tasks']} loglik={summary['final_loglikelihood']:.3f}"
