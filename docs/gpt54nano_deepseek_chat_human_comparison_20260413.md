@@ -1,6 +1,6 @@
 # GPT-5.4-nano、DeepSeek-chat 与 human benchmark 对比报告
 
-本文整理当前代码库中两次已经完成的正式实验，并把它们与 human benchmark 做并列对比。目标不是重复解释整个项目，而是回答四个更具体的问题：第一，两次实验的参数与问卷结构是什么；第二，相关数据和结果文件在哪里；第三，`GPT-5.4-nano` 与 `DeepSeek-chat` 相对于 human 的行为偏差有何异同；第四，收敛后的 SALCM 说明了什么。
+本文整理当前代码库中两次已经完成的正式实验，并把它们与 human benchmark 做并列对比。目标不是重复解释整个项目，而是回答五个更具体的问题：第一，两次实验的参数与问卷结构是什么；第二，相关数据和结果文件在哪里；第三，`GPT-5.4-nano` 与 `DeepSeek-chat` 相对于 human 的行为偏差有何异同；第四，当前 HCM / 有限 ICLV 结果能告诉我们什么；第五，收敛后的 SALCM 说明了什么。
 
 ## 1. 对比对象与实验目录
 
@@ -17,10 +17,15 @@
 - `data/Swissmetro/demographic_choice_psychometric/human_cleaned_wide.csv`
 - `data/Swissmetro/demographic_choice_psychometric/human_respondent_profiles.csv`
 
-两次 AI 实验各自使用自己的归档配置文件：
+两次 AI 实验的配置文件：
 
 - `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/experiment_config.json`
 - `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/experiment_config.json`
+
+两次 AI 实验报告：
+
+- [../experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/experiment_summary.md](../experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/experiment_summary.md)
+- [../experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/experiment_summary.md](../experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/experiment_summary.md)
 
 ## 2. 共同问卷结构与运行规模
 
@@ -88,6 +93,10 @@
 | `mnl/ai/ai_panel_mnl_summary.json` | AI pooled MNL 汇总 |
 | `mnl/human/human_baseline_mnl_estimates.csv` | human baseline MNL 系数 |
 | `mnl/human/human_baseline_mnl_summary.json` | human baseline MNL 汇总 |
+| `hcm/ai/ai_biogeme_hcm_estimates.csv` | AI side HCM / 有限 ICLV 系数 |
+| `hcm/ai/ai_biogeme_hcm_summary.json` | AI side HCM / 有限 ICLV 汇总 |
+| `hcm/human/human_baseline_biogeme_hcm_estimates.csv` | human baseline HCM 系数 |
+| `hcm/human/human_baseline_biogeme_hcm_summary.json` | human baseline HCM 汇总 |
 | `salcm/ai/ai_salcm_estimates.csv` | SALCM 参数 |
 | `salcm/ai/ai_salcm_summary.json` | SALCM 汇总 |
 | `salcm/ai/ai_salcm_regime_summaries.csv` | 各 latent regimes 的解释性统计 |
@@ -142,7 +151,68 @@
 
 `DeepSeek-chat` 在 `B_WAIT` 上反而更接近 human，而 `GPT-5.4-nano` 的 `B_WAIT` 甚至变成轻微正值，这进一步说明 GPT 这边的效用结构更失真。
 
-## 7. 修改后的 SALCM 设定
+## 7. HCM / 有限 ICLV 结果能告诉我们什么
+
+当前仓库已经补上了一个基于 Biogeme 的 panel HCM，也就是有限形式的 `ICLV`。它继续使用 legacy HCM 的两个潜变量、六个 attitude indicators 和相同的 measurement mapping，但 choice likelihood 只使用 `core` tasks。
+
+对应结果文件在：
+
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai/ai_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai/ai_biogeme_hcm_summary.json`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/human/human_baseline_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai/ai_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai/ai_biogeme_hcm_summary.json`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/human/human_baseline_biogeme_hcm_estimates.csv`
+
+先看 HCM 进入估计的样本规模：
+
+| HCM 输入样本 | `GPT-5.4-nano` | `DeepSeek-chat` | human |
+| --- | --- | --- | --- |
+| respondents | `400` | `479` | `708` |
+| core tasks | `2400` | `2874` | `708` |
+| 每个 respondent 的 core tasks | `6` | `6` | `1` |
+
+这里有两个需要先定义的点。第一，`HCM input` 指的是进入 HCM 估计脚本的有效样本，而不是原始 collection 总数。第二，`core task` 指的是原始 stated choice 选项卡，不包含 `paraphrase`、`label-mask`、`order-randomization`、`monotonicity`、`dominance` 这些诊断题。
+
+如果只看 HCM 输入样本中的 core-task choice shares，结果与前面的 MNL 结论一致：
+
+| 指标 | `GPT-5.4-nano` | `DeepSeek-chat` |
+| --- | --- | --- |
+| `PT` share | `0.1138` | `0.0484` |
+| `CAR` share | `0.8804` | `0.8855` |
+| `SLOW_MODES` share | `0.0058` | `0.0661` |
+
+也就是说，即使用 HCM 只看 core tasks，行为模式仍然没变：`GPT-5.4-nano` 继续几乎压掉 `SLOW_MODES`，`DeepSeek-chat` 继续把 `PT` 压得更狠。
+
+但当前这版 HCM 的核心限制非常明确：**参数几乎完全停在初始化点**。三边的 HCM 结果里，真正非零的参数只有四个，而且都正好等于初始化值：
+
+| 参数 | human | `GPT-5.4-nano` | `DeepSeek-chat` |
+| --- | --- | --- | --- |
+| `SIGMA_CAR` | `0.5` | `0.5` | `0.5` |
+| `SIGMA_ENV` | `0.5` | `0.5` | `0.5` |
+| `DELTA_1` | `0.5` | `0.5` | `0.5` |
+| `DELTA_2` | `0.5` | `0.5` | `0.5` |
+| 其他 37 个参数 | `0.0` | `0.0` | `0.0` |
+
+这意味着什么，需要说清楚。
+
+第一，当前 HCM 脚本已经把数据链路跑通了。也就是说，问卷结构、六个 attitude indicators、人口统计变量和 core-task choice outcomes 的确足以支撑一个“可以运行”的有限 ICLV / HCM。
+
+第二，当前这版 HCM **还没有产生可解释的结构估计**。因为当所有 utility parameters、latent-variable structural coefficients、measurement intercepts 和 loadings 都停在初始值时，就不能据此解释 latent variables 的经济含义，也不能据此解释 AI 与 human 为什么不同。
+
+第三，因此当前 HCM 对三者对比的贡献，主要还停留在“可行性验证”和“样本筛选后行为模式复核”这两层，而不是“识别出新的潜变量机制”。更直白地说：这版 HCM 现在告诉我们，问卷的数据结构是够的，但数值优化和模型识别还不够好。
+
+所以，如果问“当前 HCM 能不能解释 GPT 与 DeepSeek 为什么和 human 不一样”，答案是：
+
+- 目前**不能靠 HCM 参数本身来解释**。
+- 目前最多只能说：在 HCM 只保留 core tasks 之后，两种 AI 与 human 的偏差方向并没有消失。
+- 真正对机制更有信息量的，当前仍然是前面的 MNL 和后面的 SALCM。
+
+因此，当前最稳妥的结论是：
+
+`HCM / 有限 ICLV 在数据结构上是可行的，但在当前数值实现下仍处于“能跑通、未识别”的阶段；它暂时不能提供比 MNL 和 SALCM 更强的行为机制解释。`
+
+## 8. 修改后的 SALCM 设定
 
 两边最终用于比较的 SALCM 都不是最初的 `3 × 2` 设定，而是收敛优先的简化版本。原因是原始规格在部分实验上未能稳定收敛。
 
@@ -159,9 +229,9 @@
 
 两边在这个规格下都收敛了。
 
-## 8. SALCM 提示了什么
+## 9. SALCM 提示了什么
 
-### 8.1 `GPT-5.4-nano`
+### 9.1 `GPT-5.4-nano`
 
 `GPT-5.4-nano` 的 SALCM 结果在：
 
@@ -182,7 +252,7 @@ posterior masses 为：
 
 还要注意：文件中的 `regime_label` 是启发式命名，不能完全按字面读。例如 `human_like_tradeoff` 只能理解成“在 AI 内部相对更像 human 的那一类”，不能理解成“真的接近 human”。
 
-### 8.2 `DeepSeek-chat`
+### 9.2 `DeepSeek-chat`
 
 `DeepSeek-chat` 的 SALCM 结果在：
 
@@ -203,7 +273,7 @@ posterior masses 为：
 
 这里文件中 `label_sensitive` 这个启发式标签尤其要谨慎，因为这次 DeepSeek 的 `label_flip_rate` 基本是 `0`。因此该标签不能按字面理解成“真的对 label 敏感”，更稳妥的解释是“另一种更失真的偏好类”。
 
-## 9. GPT 与 DeepSeek 相对 human 的共同点与差异
+## 10. GPT 与 DeepSeek 相对 human 的共同点与差异
 
 ### 9.1 共同点
 
@@ -225,7 +295,7 @@ posterior masses 为：
 
 `GPT-5.4-nano` 则更像一个“偏车且更容易受次生因素影响”的模型。它对 order 更敏感，rule fidelity 更弱，且几乎消灭了 `SLOW_MODES`。所以 GPT 的偏差不是单纯的 `CAR > PT`，而是更全面地把非车方式压缩掉了。
 
-## 10. 能否找到 AI 与 human 行为不同的原因
+## 11. 能否找到 AI 与 human 行为不同的原因
 
 如果这里的“原因”指的是行为机制层面的解释，那么可以找到比较明确的线索；如果指严格因果机制，则当前结果还不够。
 
@@ -252,7 +322,7 @@ posterior masses 为：
 - 更低的 rule violations
 - 但仍稳定地把 `PT` 压得远低于 human
 
-## 11. 重新运行与复查时去哪里找东西
+## 12. 重新运行与复查时去哪里找东西
 
 如果以后要复查这两次实验，最有用的路径如下。
 
@@ -262,6 +332,7 @@ posterior masses 为：
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
 - AI MNL：`mnl/ai/ai_panel_mnl_estimates.csv`、`mnl/ai/ai_panel_mnl_summary.json`
+- HCM：`hcm/ai/ai_biogeme_hcm_estimates.csv`、`hcm/ai/ai_biogeme_hcm_summary.json`
 - SALCM：`salcm/ai/ai_salcm_estimates.csv`、`salcm/ai/ai_salcm_summary.json`、`salcm/ai/ai_salcm_regime_summaries.csv`
 - 中文摘要：`experiment_summary.md`
 
@@ -271,6 +342,7 @@ posterior masses 为：
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
 - AI MNL：`mnl/ai/ai_panel_mnl_estimates.csv`、`mnl/ai/ai_panel_mnl_summary.json`
+- HCM：`hcm/ai/ai_biogeme_hcm_estimates.csv`、`hcm/ai/ai_biogeme_hcm_summary.json`
 - SALCM：`salcm/ai/ai_salcm_estimates.csv`、`salcm/ai/ai_salcm_summary.json`、`salcm/ai/ai_salcm_regime_summaries.csv`
 - 中文摘要：`experiment_summary.md`
 
