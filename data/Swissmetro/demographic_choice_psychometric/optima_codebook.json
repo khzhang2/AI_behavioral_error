@@ -22,6 +22,8 @@
   },
   "key_derived_variables": {
     "ScaledIncome": "CalculatedIncome / 1000",
+    "TimePT_non_wait": "max(TimePT - WaitingTimePT, 0)",
+    "TimePT_non_wait_scaled": "TimePT_non_wait / 200",
     "TimePT_scaled": "TimePT / 200",
     "TimeCar_scaled": "TimeCar / 200",
     "WaitingTimePT_scaled": "WaitingTimePT / 60",

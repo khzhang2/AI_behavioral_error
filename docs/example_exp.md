@@ -2,8 +2,8 @@
 
 先给结论版：
 
-1. `708 personas` 不是“已经生成好的 708 个 AI persona”，而是 `708` 条人类 profile 记录组成的经验支持集。来源见 [prepare_optima_intervention_regime_data.py](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/scripts/prepare_optima_intervention_regime_data.py)。
-2. `n_block_templates_per_model = 100` 的意思是：从这 `708` 条 profile 支持集里，先随机打乱，再取 `100` 条 `selected_profiles`，每一条 profile 绑定一个 `block template`。
+1. `884 personas` 不是“已经生成好的 884 个 AI persona”，而是 `884` 条人类 profile 记录组成的经验支持集。来源见 [prepare_optima_intervention_regime_data.py](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/scripts/prepare_optima_intervention_regime_data.py)。
+2. `n_block_templates_per_model = 100` 的意思是：从这 `884` 条 profile 支持集里，先随机打乱，再取 `100` 条 `selected_profiles`，每一条 profile 绑定一个 `block template`。
 3. 所以在当前实现里，`100 templates` 基本就对应 `100` 个被抽中的 persona-profile 实例。
 4. 如果 `n_repeats_per_template = 4`，那么每个 template 会展开成 `4` 个 `respondent_id`，也就是 `4` 次完整问卷执行。
 5. 因此总 `respondents = 100 × 4 = 400`。
@@ -22,14 +22,14 @@
 
 - `n_block_templates_per_model = 100`
 - `n_repeats_per_template = 4`
-- 支持集里有 `708` 条 human profiles
+- 支持集里有 `884` 条 human profiles
 
 那么当前代码做的是：
 
-1. 读取 `708` 条 human profile rows  
+1. 读取 `884` 条 human profile rows  
 这些 rows 构成经验支持集，不是属性全枚举空间。
 
-2. 随机打乱这 `708` 条 rows  
+2. 随机打乱这 `884` 条 rows  
 不是按原文件顺序取前 `100` 个。  
 是先打乱，再取前 `100` 个。  
 所以不是“截断前 100 个人”，而是“随机抽出的 100 个完整 profiles”。
@@ -72,7 +72,7 @@
 
 如果把当前结构写成公式，就是：
 
-- 支持集大小：`708`
+- 支持集大小：`884`
 - 抽中的 persona-template 单元数：`100`
 - 每个单元重复：`4`
 - 总 respondents：`100 × 4 = 400`
@@ -274,4 +274,3 @@
 - `2` 道 dominance tasks
 
 所以每种 diagnostic 都只作用于其中一小部分题，不是全局替换。
-

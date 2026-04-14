@@ -34,6 +34,7 @@ You are answering a stated-preference transport survey.
 - PT means public transport.
 - CAR means driving a car.
 - SLOW_MODES means walking, cycling, and other non-motorized modes.
+- PT travel time excludes the waiting time shown on the next line.
 - Waiting time means the time spent waiting before boarding public transport.
 - Availability means whether that option can actually be used for this trip.
 - Some later tasks deliberately test whether your answers are stable under wording, label, order, dominance, or monotonicity changes.
@@ -82,7 +83,8 @@ def option_lines(task_row: dict[str, Any]) -> list[str]:
             header += f": {alternative}"
         rows.append(header)
         if alternative == "PT":
-            rows.append(f"- Travel time: {int(round(float(task_row['TimePT'])))} minutes")
+            pt_travel_time = float(task_row.get("TimePT_non_wait", max(float(task_row["TimePT"]) - float(task_row["WaitingTimePT"]), 0.0)))
+            rows.append(f"- Travel time: {int(round(pt_travel_time))} minutes")
             rows.append(f"- Waiting time: {int(round(float(task_row['WaitingTimePT'])))} minutes")
             rows.append(f"- Marginal cost: CHF {float(task_row['MarginalCostPT']):.2f}")
         elif alternative == "CAR":

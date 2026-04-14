@@ -2,6 +2,8 @@
 
 本文整理当前代码库中两次已经完成的正式实验，并把它们与 human benchmark 做并列对比。目标不是重复解释整个项目，而是回答五个更具体的问题：第一，两次实验的参数与问卷结构是什么；第二，相关数据和结果文件在哪里；第三，`GPT-5.4-nano` 与 `DeepSeek-chat` 相对于 human 的行为偏差有何异同；第四，当前 HCM / 有限 ICLV 结果能告诉我们什么；第五，收敛后的 SALCM 说明了什么。
 
+校正说明（2026-04-14）：在这份报告初稿之后，仓库修复了两个人类基准侧错误。第一，旧的人类 panel MNL worker sample 过滤应使用 `OccupStat in {1, 2}`，而不是 `TripPurpose != 3`。第二，原始 `TimePT` 已经包含 waiting time，因此不能再和 `WaitingTimePT` 做重复计入。现在这份报告的结构 baseline 已经统一改成 `atasoy_2011_replication`，也就是 Atasoy 2011 paper-style `base logit`。两次 AI 实验的归档回答仍然来自修复前的 PT 问卷文案，所以 AI 侧 legacy HCM / SALCM 结果在这里仍只适合做有限方向性对照。
+
 ## 1. 对比对象与实验目录
 
 本报告比较以下三个对象。
@@ -14,6 +16,7 @@
 
 其中 human benchmark 的核心输入文件是：
 
+- `data/Swissmetro/demographic_choice_psychometric/raw/optima.dat`
 - `data/Swissmetro/demographic_choice_psychometric/human_cleaned_wide.csv`
 - `data/Swissmetro/demographic_choice_psychometric/human_respondent_profiles.csv`
 
@@ -77,8 +80,8 @@
 
 ```bash
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset human
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset ai_pooled
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs 20260412_optima_intervention_regime_poe_gpt54_nano_v1 20260412_optima_intervention_regime_deepseek_chat_v1
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```
@@ -89,10 +92,10 @@
 | --- | --- |
 | `outputs/ai_collection_summary.json` | AI collection 的完成情况与基础质量统计 |
 | `intervention_metrics_summary.json` | exact-repeat 随机性与干预效应总结 |
-| `mnl/ai/ai_panel_mnl_estimates.csv` | AI pooled MNL 系数 |
-| `mnl/ai/ai_panel_mnl_summary.json` | AI pooled MNL 汇总 |
-| `mnl/human/human_baseline_mnl_estimates.csv` | human baseline MNL 系数 |
-| `mnl/human/human_baseline_mnl_summary.json` | human baseline MNL 汇总 |
+| `atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv` | AI side Atasoy 2011 base logit 系数 |
+| `atasoy_2011_replication/ai_atasoy_base_logit_summary.json` | AI side Atasoy 2011 base logit 汇总 |
+| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_estimates.csv` | human Atasoy 2011 base logit 系数 |
+| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_summary.json` | human Atasoy 2011 base logit 汇总 |
 | `hcm/ai/ai_biogeme_hcm_estimates.csv` | AI side HCM / 有限 ICLV 系数 |
 | `hcm/ai/ai_biogeme_hcm_summary.json` | AI side HCM / 有限 ICLV 汇总 |
 | `hcm/human/human_baseline_biogeme_hcm_estimates.csv` | human baseline HCM 系数 |
@@ -108,7 +111,7 @@
 
 | 指标 | `GPT-5.4-nano` | `DeepSeek-chat` | human benchmark |
 | --- | --- | --- | --- |
-| completed respondents | `400 / 400` | `480 / 480` | `708` |
+| completed respondents | `400 / 400` | `480 / 480` | `896` |
 | valid task rate | `1.0000` | `0.9999` | — |
 | exact-repeat flip rate | `0.0730` | `0.0639` | — |
 | response entropy | `0.0806` | `0.0710` | — |
@@ -116,10 +119,10 @@
 | order flip rate | `0.1313` | `0.0219` | — |
 | monotonicity compliance | `0.9550` | `0.9906` | — |
 | dominance violation | `0.0625` | `0.0083` | — |
-| choice share: `CAR` | `0.8667` | `0.8743` | `0.6257` |
-| choice share: `PT` | `0.1239` | `0.0591` | `0.3136` |
-| choice share: `SLOW_MODES` | `0.0094` | `0.0665` | `0.0607` |
-| share gap TV vs human | `0.2410` | `0.2544` | `0.0000` |
+| base-model share: `PMM` | `0.8468` | `0.8818` | `0.6231` |
+| base-model share: `PT` | `0.1437` | `0.0546` | `0.3209` |
+| base-model share: `SM` | `0.0095` | `0.0636` | `0.0560` |
+| base-model share gap TV vs human | `0.2236` | `0.2662` | `0.0000` |
 
 从这个表可以直接读出三点。
 
@@ -127,33 +130,45 @@
 
 第二，`DeepSeek-chat` 在 consistency 和 rule fidelity 上明显强于 `GPT-5.4-nano`。它的 order flip 更低，dominance violation 更低，monotonicity compliance 更高。
 
-第三，`DeepSeek-chat` 并没有因此更接近 human。两者都显著高估 `CAR`。`GPT-5.4-nano` 几乎把 `SLOW_MODES` 压没，而 `DeepSeek-chat` 的 `SLOW_MODES` 更接近 human，但它把 `PT` 压得更狠。
+第三，即使改成 Atasoy 2011 的 base logit 作为统一结构 baseline，两者也都没有变成“接近 human”的模型。两者都显著高估 `PMM`。`GPT-5.4-nano` 几乎把 `SM` 压没，而 `DeepSeek-chat` 的 `SM` 更接近 human，但它把 `PT` 压得更狠。
 
-## 6. MNL 系数对比
+这里还需要单独说明一点：这一行 human 数值来自 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`，对应的是 Atasoy 2011 paper-style `base logit` 在 `1906` 个 public Optima observations 上的复现结果。
 
-为了理解“为什么 choice share 会偏”，最直接的方法是比较 MNL 系数。
+## 6. Atasoy 2011 Base Logit 系数对比
+
+为了理解“为什么 base-model share 会偏”，最直接的方法是比较同一套 Atasoy 2011 `base logit` 系数。
+
+这一节现在是三边完全同口径的结构比较：human 列来自 public `optima.dat` 的 paper replication，AI 两列来自两个实验目录现有输出上的 Atasoy-style base logit 估计，不需要重新对 AI 发请求。
 
 | 参数 | human | `GPT-5.4-nano` | `DeepSeek-chat` |
 | --- | --- | --- | --- |
-| `ASC_PT` | `-0.1341` | `4.3931` | `1.1391` |
-| `ASC_CAR` | `0.1293` | `5.5798` | `2.9574` |
-| `B_COST` | `-0.1588` | `-0.0421` | `-0.0735` |
-| `B_TIME_PT` | `-0.0071` | `-0.0231` | `-0.0268` |
-| `B_TIME_CAR` | `-0.0271` | `-0.0264` | `-0.0353` |
-| `B_WAIT` | `-0.0408` | `0.0044` | `-0.0442` |
-| `B_DIST` | `-0.2626` | `-0.0277` | `-0.0679` |
+| `ASCPMM` | `-0.4134` | `0.5854` | `1.5112` |
+| `ASCSM` | `-0.4700` | `-3.6773` | `-1.7185` |
+| `beta_cost` | `-0.0592` | `-0.0616` | `-0.0789` |
+| `beta_time_pmm` | `-0.0299` | `-0.0339` | `-0.0321` |
+| `beta_time_pt` | `-0.0121` | `-0.0285` | `-0.0304` |
+| `beta_distance` | `-0.2273` | `-0.0649` | `-0.0597` |
+| `beta_ncars` | `1.0010` | `0.0196` | `0.2746` |
+| `beta_nchildren` | `0.1535` | `0.1426` | `-0.1098` |
+| `beta_language` | `1.0925` | `0.6555` | `0.6282` |
+| `beta_work` | `-0.5824` | `0.3010` | `0.0396` |
+| `beta_urban` | `0.2862` | `-0.2695` | `-0.2958` |
+| `beta_student` | `3.2073` | `0.4543` | `1.1936` |
+| `beta_nbikes` | `0.3469` | `-0.3733` | `0.2645` |
 
-这张表说明，两者与 human 的差异主要来自两类来源。
+这张表说明，两种 AI 与 human 的差异主要来自三类来源。
 
-第一类是 mode-specific default preference，也就是 mode constants 明显过大。尤其 `ASC_CAR`，两种 AI 都远高于 human。
+第一类是 mode-specific default preference，也就是 `ASCPMM` 被大幅抬高，而 `ASCSM` 被大幅压低。两种 AI 都更容易把 private motorized modes 当成默认选项。
 
-第二类是对成本和距离惩罚的削弱。两种 AI 的 `B_COST` 和 `B_DIST` 绝对值都明显小于 human。`GPT-5.4-nano` 这一点更极端，因此它更容易把 `CAR` 作为默认选项。
+第二类是对 `distance` 的惩罚被显著削弱。human 的 `beta_distance` 大约是 `-0.227`，而两种 AI 都只有大约 `-0.06` 左右。这意味着 AI 对 slow modes 的距离负担明显不够敏感。
 
-`DeepSeek-chat` 在 `B_WAIT` 上反而更接近 human，而 `GPT-5.4-nano` 的 `B_WAIT` 甚至变成轻微正值，这进一步说明 GPT 这边的效用结构更失真。
+第三类是 socio-demographic slope 的方向开始偏离 human。最明显的是 `beta_work` 和 `beta_urban`：human 都是朝向 `PT` 的方向，但两种 AI 都反过来变成更偏 `PMM`。`GPT-5.4-nano` 还出现了 `beta_nbikes < 0`，而 `DeepSeek-chat` 则把 `beta_ncars` 压得几乎消失。
 
 ## 7. HCM / 有限 ICLV 结果能告诉我们什么
 
 当前仓库已经补上了一个基于 Biogeme 的 panel HCM，也就是有限形式的 `ICLV`。它继续使用 legacy HCM 的两个潜变量、六个 attitude indicators 和相同的 measurement mapping，但 choice likelihood 只使用 `core` tasks。
+
+这一节保留的是历史归档 HCM 结果。当前环境里缺少 `biogeme`，所以这次修正没有把 HCM 归档文件重跑一遍。因此下面 human HCM 的 `708` 个 observations 仍然是修正前归档值，而不是当前修正后的人类基准样本规模。
 
 对应结果文件在：
 
@@ -174,7 +189,7 @@
 
 这里有两个需要先定义的点。第一，`HCM input` 指的是进入 HCM 估计脚本的有效样本，而不是原始 collection 总数。第二，`core task` 指的是原始 stated choice 选项卡，不包含 `paraphrase`、`label-mask`、`order-randomization`、`monotonicity`、`dominance` 这些诊断题。
 
-如果只看 HCM 输入样本中的 core-task choice shares，结果与前面的 MNL 结论一致：
+如果只看 HCM 输入样本中的 core-task choice shares，结果与前面的 Atasoy base-model 结论一致：
 
 | 指标 | `GPT-5.4-nano` | `DeepSeek-chat` |
 | --- | --- | --- |
@@ -206,11 +221,11 @@
 
 - 目前**不能靠 HCM 参数本身来解释**。
 - 目前最多只能说：在 HCM 只保留 core tasks 之后，两种 AI 与 human 的偏差方向并没有消失。
-- 真正对机制更有信息量的，当前仍然是前面的 MNL 和后面的 SALCM。
+- 真正对机制更有信息量的，当前仍然是前面的 Atasoy 2011 base logit 和后面的 SALCM。
 
 因此，当前最稳妥的结论是：
 
-`HCM / 有限 ICLV 在数据结构上是可行的，但在当前数值实现下仍处于“能跑通、未识别”的阶段；它暂时不能提供比 MNL 和 SALCM 更强的行为机制解释。`
+`HCM / 有限 ICLV 在数据结构上是可行的，但在当前数值实现下仍处于“能跑通、未识别”的阶段；它暂时不能提供比 Atasoy 2011 base logit 和 SALCM 更强的行为机制解释。`
 
 ## 8. 修改后的 SALCM 设定
 
@@ -331,7 +346,7 @@ posterior masses 为：
 - 实验目录：`experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/`
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
-- AI MNL：`mnl/ai/ai_panel_mnl_estimates.csv`、`mnl/ai/ai_panel_mnl_summary.json`
+- AI base model：`atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`
 - HCM：`hcm/ai/ai_biogeme_hcm_estimates.csv`、`hcm/ai/ai_biogeme_hcm_summary.json`
 - SALCM：`salcm/ai/ai_salcm_estimates.csv`、`salcm/ai/ai_salcm_summary.json`、`salcm/ai/ai_salcm_regime_summaries.csv`
 - 中文摘要：`experiment_summary.md`
@@ -341,7 +356,7 @@ posterior masses 为：
 - 实验目录：`experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/`
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
-- AI MNL：`mnl/ai/ai_panel_mnl_estimates.csv`、`mnl/ai/ai_panel_mnl_summary.json`
+- AI base model：`atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`
 - HCM：`hcm/ai/ai_biogeme_hcm_estimates.csv`、`hcm/ai/ai_biogeme_hcm_summary.json`
 - SALCM：`salcm/ai/ai_salcm_estimates.csv`、`salcm/ai/ai_salcm_summary.json`、`salcm/ai/ai_salcm_regime_summaries.csv`
 - 中文摘要：`experiment_summary.md`
@@ -359,8 +374,8 @@ posterior masses 为：
 
 ```bash
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset human
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset ai_pooled
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs 20260412_optima_intervention_regime_poe_gpt54_nano_v1 20260412_optima_intervention_regime_deepseek_chat_v1
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```

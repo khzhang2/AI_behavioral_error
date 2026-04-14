@@ -9,7 +9,16 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from optima_common import CONFIG, EXPERIMENT_DIR, SOURCE_DATA_DIR, archive_experiment_config, ai_collection_dir_for, experiment_analysis_dir, write_json
+from optima_common import (
+    CONFIG,
+    EXPERIMENT_DIR,
+    SOURCE_DATA_DIR,
+    archive_experiment_config,
+    ai_collection_dir_for,
+    experiment_analysis_dir,
+    pt_non_wait_time,
+    write_json,
+)
 
 
 PARAMETER_NAMES = ["ASC_PT", "ASC_CAR", "B_COST", "B_TIME_PT", "B_TIME_CAR", "B_WAIT", "B_DIST"]
@@ -24,7 +33,19 @@ def parse_args() -> argparse.Namespace:
 
 
 def human_long() -> pd.DataFrame:
-    frame = pd.read_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv").copy().sort_values("respondent_id").reset_index(drop=True)
+    frame = pd.read_csv(SOURCE_DATA_DIR / "raw" / "optima.dat", sep="\t")
+    frame = frame.loc[frame["Choice"] != -1].copy()
+    frame = frame.loc[frame["OccupStat"].isin([1, 2])].copy()
+    frame = frame.loc[frame["NbTrajects"] != 1].copy()
+    frame = frame.loc[frame["TimePT"] != 0].copy()
+    frame = frame.loc[frame["TimeCar"] != 0].copy()
+    frame = frame.loc[frame["distance_km"] != 0].copy()
+    frame = frame.loc[~((frame["Choice"] == 1) & (frame["CarAvail"] == 3))].copy()
+    frame["normalized_weight"] = frame["Weight"] * len(frame) / frame["Weight"].sum()
+    frame["respondent_id"] = [f"H{index + 1:04d}" for index in range(len(frame))]
+    frame["CAR_AVAILABLE"] = (frame["CarAvail"] != 3).astype(int)
+    frame["TimePT_non_wait"] = pt_non_wait_time(frame["TimePT"], frame["WaitingTimePT"])
+    frame = frame.copy().sort_values("respondent_id").reset_index(drop=True)
     rows = []
     for _, row in frame.iterrows():
         rows.extend(
@@ -39,7 +60,8 @@ def human_long() -> pd.DataFrame:
                     "alternative_code": 0,
                     "chosen": int(int(row["Choice"]) == 0),
                     "alt_available": 1,
-                    "alt_time": float(row["TimePT"]),
+                    "alt_time": float(row["TimePT_non_wait"]),
+                    "alt_time_non_wait": float(row["TimePT_non_wait"]),
                     "alt_waiting": float(row["WaitingTimePT"]),
                     "alt_cost": float(row["MarginalCostPT"]),
                     "alt_distance": 0.0,
@@ -55,6 +77,7 @@ def human_long() -> pd.DataFrame:
                     "chosen": int(int(row["Choice"]) == 1),
                     "alt_available": int(row["CAR_AVAILABLE"]),
                     "alt_time": float(row["TimeCar"]),
+                    "alt_time_non_wait": float(row["TimeCar"]),
                     "alt_waiting": 0.0,
                     "alt_cost": float(row["CostCarCHF"]),
                     "alt_distance": 0.0,
@@ -70,6 +93,7 @@ def human_long() -> pd.DataFrame:
                     "chosen": int(int(row["Choice"]) == 2),
                     "alt_available": 1,
                     "alt_time": 0.0,
+                    "alt_time_non_wait": 0.0,
                     "alt_waiting": 0.0,
                     "alt_cost": 0.0,
                     "alt_distance": float(row["distance_km"]),
@@ -92,6 +116,13 @@ def pooled_ai_long() -> pd.DataFrame:
     pooled = pd.concat(frames, ignore_index=True)
     pooled = pooled.loc[pooled["is_valid_task_response"] == 1].copy()
     pooled["dataset"] = "ai"
+    if "alt_time_non_wait" not in pooled.columns:
+        pooled["alt_time_non_wait"] = pooled["alt_time"]
+        pt_mask = pooled["alternative_name"].astype(str) == "PT"
+        pooled.loc[pt_mask, "alt_time_non_wait"] = pt_non_wait_time(
+            pooled.loc[pt_mask, "alt_time"],
+            pooled.loc[pt_mask, "alt_waiting"],
+        )
     return pooled
 
 
@@ -112,8 +143,9 @@ def utility_matrix(frame: pd.DataFrame, theta: np.ndarray) -> np.ndarray:
     is_pt = frame["alternative_name"].to_numpy() == "PT"
     is_car = frame["alternative_name"].to_numpy() == "CAR"
     is_slow = frame["alternative_name"].to_numpy() == "SLOW_MODES"
-    utility[is_pt] = asc_pt + b_cost * frame.loc[is_pt, "alt_cost"] + b_time_pt * frame.loc[is_pt, "alt_time"] + b_wait * frame.loc[is_pt, "alt_waiting"]
-    utility[is_car] = asc_car + b_cost * frame.loc[is_car, "alt_cost"] + b_time_car * frame.loc[is_car, "alt_time"]
+    time_column = "alt_time_non_wait" if "alt_time_non_wait" in frame.columns else "alt_time"
+    utility[is_pt] = asc_pt + b_cost * frame.loc[is_pt, "alt_cost"] + b_time_pt * frame.loc[is_pt, time_column] + b_wait * frame.loc[is_pt, "alt_waiting"]
+    utility[is_car] = asc_car + b_cost * frame.loc[is_car, "alt_cost"] + b_time_car * frame.loc[is_car, time_column]
     utility[is_slow] = b_dist * frame.loc[is_slow, "alt_distance"]
     utility[frame["alt_available"].to_numpy(dtype=int) == 0] = -1.0e10
     return utility

@@ -6,17 +6,37 @@ import math
 import numpy as np
 import pandas as pd
 
-from optima_common import CONFIG, EXPERIMENT_DIR, OUTPUT_DIR, SOURCE_DATA_DIR, archive_experiment_config, ensure_dir, experiment_artifact_path, llm_config_for, llm_models, survey_total_tasks, write_json
+from optima_common import (
+    CONFIG,
+    COST_SCALE,
+    DISTANCE_SCALE,
+    EXPERIMENT_DIR,
+    OUTPUT_DIR,
+    SOURCE_DATA_DIR,
+    TIME_SCALE,
+    WAIT_SCALE,
+    archive_experiment_config,
+    ensure_dir,
+    ensure_pt_non_wait_columns,
+    experiment_artifact_path,
+    llm_config_for,
+    llm_models,
+    pt_non_wait_time,
+    survey_total_tasks,
+    write_json,
+)
 
 
 CORE_COLUMNS = [
     "TimePT",
+    "TimePT_non_wait",
     "WaitingTimePT",
     "MarginalCostPT",
     "TimeCar",
     "CostCarCHF",
     "distance_km",
     "TimePT_scaled",
+    "TimePT_non_wait_scaled",
     "WaitingTimePT_scaled",
     "MarginalCostPT_scaled",
     "TimeCar_scaled",
@@ -69,9 +89,19 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def sync_pt_time_fields(row: dict) -> dict:
+    updated = dict(row)
+    updated["TimePT_non_wait"] = float(pt_non_wait_time(updated["TimePT_non_wait"], 0.0))
+    updated["TimePT"] = float(updated["TimePT_non_wait"]) + float(updated["WaitingTimePT"])
+    updated["TimePT_non_wait_scaled"] = float(updated["TimePT_non_wait"]) / TIME_SCALE
+    updated["TimePT_scaled"] = float(updated["TimePT"]) / TIME_SCALE
+    updated["WaitingTimePT_scaled"] = float(updated["WaitingTimePT"]) / WAIT_SCALE
+    return updated
+
+
 def alternative_proxy(row: pd.Series) -> dict[str, float]:
     return {
-        "PT": float(row["TimePT_scaled"] + row["WaitingTimePT_scaled"] + row["MarginalCostPT_scaled"]),
+        "PT": float(row["TimePT_non_wait_scaled"] + row["WaitingTimePT_scaled"] + row["MarginalCostPT_scaled"]),
         "CAR": float(row["TimeCar_scaled"] + row["CostCarCHF_scaled"]) if int(row["CAR_AVAILABLE"]) == 1 else 1.0e6,
         "SLOW_MODES": float(row["distance_km_scaled"]),
     }
@@ -79,7 +109,7 @@ def alternative_proxy(row: pd.Series) -> dict[str, float]:
 
 def scenario_bank_from_human(frame: pd.DataFrame) -> pd.DataFrame:
     scenario = frame[["respondent_id", "human_id", *CORE_COLUMNS]].copy()
-    pt_proxy = frame["TimePT_scaled"] + frame["WaitingTimePT_scaled"] + frame["MarginalCostPT_scaled"]
+    pt_proxy = frame["TimePT_non_wait_scaled"] + frame["WaitingTimePT_scaled"] + frame["MarginalCostPT_scaled"]
     car_proxy = frame["TimeCar_scaled"] + frame["CostCarCHF_scaled"]
     slow_proxy = frame["distance_km_scaled"]
     scenario["pt_proxy"] = pt_proxy
@@ -145,12 +175,14 @@ def build_task_row(
         "complexity_score": float(base_row["complexity_score"]),
         "CAR_AVAILABLE": int(base_row["CAR_AVAILABLE"]),
         "TimePT": float(base_row["TimePT"]),
+        "TimePT_non_wait": float(base_row["TimePT_non_wait"]),
         "WaitingTimePT": float(base_row["WaitingTimePT"]),
         "MarginalCostPT": float(base_row["MarginalCostPT"]),
         "TimeCar": float(base_row["TimeCar"]),
         "CostCarCHF": float(base_row["CostCarCHF"]),
         "distance_km": float(base_row["distance_km"]),
         "TimePT_scaled": float(base_row["TimePT_scaled"]),
+        "TimePT_non_wait_scaled": float(base_row["TimePT_non_wait_scaled"]),
         "WaitingTimePT_scaled": float(base_row["WaitingTimePT_scaled"]),
         "MarginalCostPT_scaled": float(base_row["MarginalCostPT_scaled"]),
         "TimeCar_scaled": float(base_row["TimeCar_scaled"]),
@@ -168,12 +200,11 @@ def worsen_task(row: dict, multiplier: float) -> dict:
     target = min(proxy, key=proxy.get)
     updated["target_alternative_name"] = target
     if target == "PT":
-        updated["TimePT"] *= multiplier
+        updated["TimePT_non_wait"] *= multiplier
         updated["WaitingTimePT"] *= multiplier
         updated["MarginalCostPT"] *= multiplier
-        updated["TimePT_scaled"] *= multiplier
-        updated["WaitingTimePT_scaled"] *= multiplier
         updated["MarginalCostPT_scaled"] *= multiplier
+        updated = sync_pt_time_fields(updated)
     elif target == "CAR":
         updated["TimeCar"] *= multiplier
         updated["CostCarCHF"] *= multiplier
@@ -191,33 +222,32 @@ def dominance_task(row: dict, survey_config: dict) -> dict:
     penalty_wait = float(survey_config["dominance_wait_penalty_min"])
     penalty_cost = float(survey_config["dominance_cost_penalty_chf"])
     if int(updated["CAR_AVAILABLE"]) == 1:
-        pt_proxy = float(updated["TimePT_scaled"] + updated["WaitingTimePT_scaled"] + updated["MarginalCostPT_scaled"])
+        pt_proxy = float(updated["TimePT_non_wait_scaled"] + updated["WaitingTimePT_scaled"] + updated["MarginalCostPT_scaled"])
         car_proxy = float(updated["TimeCar_scaled"] + updated["CostCarCHF_scaled"])
         if car_proxy <= pt_proxy:
             updated["dominated_alternative_name"] = "PT"
             updated["dominance_reason"] = "PT is clearly worse than CAR on the displayed burden attributes."
-            updated["TimePT"] = max(float(updated["TimePT"]), float(updated["TimeCar"]) + penalty_time)
+            updated["TimePT_non_wait"] = max(float(updated["TimePT_non_wait"]), float(updated["TimeCar"]) + penalty_time)
             updated["WaitingTimePT"] = max(float(updated["WaitingTimePT"]), penalty_wait)
             updated["MarginalCostPT"] = max(float(updated["MarginalCostPT"]), float(updated["CostCarCHF"]) + penalty_cost)
-            updated["TimePT_scaled"] = updated["TimePT"] / 200.0
-            updated["WaitingTimePT_scaled"] = updated["WaitingTimePT"] / 60.0
-            updated["MarginalCostPT_scaled"] = updated["MarginalCostPT"] / 10.0
+            updated["MarginalCostPT_scaled"] = updated["MarginalCostPT"] / COST_SCALE
+            updated = sync_pt_time_fields(updated)
         else:
             updated["dominated_alternative_name"] = "CAR"
             updated["dominance_reason"] = "CAR is clearly worse than PT on the displayed burden attributes."
-            updated["TimeCar"] = max(float(updated["TimeCar"]), float(updated["TimePT"]) + float(updated["WaitingTimePT"]) + penalty_time)
+            pt_total = float(updated["TimePT_non_wait"]) + float(updated["WaitingTimePT"])
+            updated["TimeCar"] = max(float(updated["TimeCar"]), pt_total + penalty_time)
             updated["CostCarCHF"] = max(float(updated["CostCarCHF"]), float(updated["MarginalCostPT"]) + penalty_cost)
-            updated["TimeCar_scaled"] = updated["TimeCar"] / 200.0
-            updated["CostCarCHF_scaled"] = updated["CostCarCHF"] / 10.0
+            updated["TimeCar_scaled"] = updated["TimeCar"] / TIME_SCALE
+            updated["CostCarCHF_scaled"] = updated["CostCarCHF"] / COST_SCALE
     else:
         updated["dominated_alternative_name"] = "PT"
         updated["dominance_reason"] = "PT is deliberately made much worse than the other displayed options."
-        updated["TimePT"] = max(float(updated["TimePT"]), 90.0)
+        updated["TimePT_non_wait"] = max(float(updated["TimePT_non_wait"]), 90.0)
         updated["WaitingTimePT"] = max(float(updated["WaitingTimePT"]), 25.0)
         updated["MarginalCostPT"] = max(float(updated["MarginalCostPT"]), 12.0)
-        updated["TimePT_scaled"] = updated["TimePT"] / 200.0
-        updated["WaitingTimePT_scaled"] = updated["WaitingTimePT"] / 60.0
-        updated["MarginalCostPT_scaled"] = updated["MarginalCostPT"] / 10.0
+        updated["MarginalCostPT_scaled"] = updated["MarginalCostPT"] / COST_SCALE
+        updated = sync_pt_time_fields(updated)
     return updated
 
 
@@ -391,7 +421,7 @@ def main() -> None:
     archive_experiment_config()
     ensure_dir(EXPERIMENT_DIR)
     ensure_dir(OUTPUT_DIR)
-    source_human = pd.read_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv")
+    source_human = ensure_pt_non_wait_columns(pd.read_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv"))
     source_profiles = pd.read_csv(SOURCE_DATA_DIR / "human_respondent_profiles.csv")
 
     scenario_bank = scenario_bank_from_human(source_human)

@@ -25,6 +25,7 @@ from optima_common import (
     parse_choice_label,
     parse_indicator_value,
     parse_task_response,
+    pt_non_wait_time,
     raw_output_path,
     resolve_llm_api_key,
     read_json,
@@ -566,7 +567,20 @@ def build_ai_panel_long(block_frame: pd.DataFrame, task_frame: pd.DataFrame, res
                     "observed_choice_code": int(row.get("choice_code", -1)),
                     "is_valid_task_response": int(row.get("is_valid_task_response", 0)),
                     "alt_available": 1 if alternative_name != "CAR" else int(row["CAR_AVAILABLE"]),
-                    "alt_time": float(row["TimePT"] if alternative_name == "PT" else row["TimeCar"] if alternative_name == "CAR" else 0.0),
+                    "alt_time": float(
+                        row.get("TimePT_non_wait", pt_non_wait_time(row["TimePT"], row["WaitingTimePT"]))
+                        if alternative_name == "PT"
+                        else row["TimeCar"]
+                        if alternative_name == "CAR"
+                        else 0.0
+                    ),
+                    "alt_time_non_wait": float(
+                        row.get("TimePT_non_wait", pt_non_wait_time(row["TimePT"], row["WaitingTimePT"]))
+                        if alternative_name == "PT"
+                        else row["TimeCar"]
+                        if alternative_name == "CAR"
+                        else 0.0
+                    ),
                     "alt_waiting": float(row["WaitingTimePT"] if alternative_name == "PT" else 0.0),
                     "alt_cost": float(row["MarginalCostPT"] if alternative_name == "PT" else row["CostCarCHF"] if alternative_name == "CAR" else 0.0),
                     "alt_distance": float(row["distance_km"] if alternative_name == "SLOW_MODES" else 0.0),

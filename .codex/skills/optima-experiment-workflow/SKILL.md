@@ -81,8 +81,8 @@ The experiment root stores shared derived AI data, shared diagnostics, and the f
 - `ai_panel_long.csv`
 - `ai_panel_block.csv`
 - all shared diagnostics and summaries
+- `atasoy_2011_replication/`
 - `hcm/ai`, `hcm/human`
-- `mnl/ai`, `mnl/human`
 - `salcm/ai`, `salcm/human`
 
 ## Run the post-AI estimation sequence
@@ -95,16 +95,16 @@ After the experiment passes the completion check, use this order for the current
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
 ```
 
-2. Estimate the human baseline panel multinomial logit:
+2. Reproduce the paper's human base logit and continuous model:
 
 ```bash
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset human
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ```
 
-3. Estimate the AI panel multinomial logit:
+3. Estimate the AI-side Atasoy 2011 base logit:
 
 ```bash
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset ai_pooled
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
 
 4. Estimate the scale-adjusted latent class model:
@@ -140,7 +140,7 @@ Use the following mapping when interpreting one completed experiment.
    Focus on `dominance violation rate` and `monotonicity compliance rate`.
 
 5. Human-relative distortion:
-   Read `mnl/human/human_baseline_mnl_summary.json`, `mnl/ai/ai_panel_mnl_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
+   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_summary.json`, `atasoy_2011_replication/ai_atasoy_base_logit_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
    Start with `choice share` differences. Treat `VOT/WTP` or elasticity-style interpretation more cautiously when the optimizer reports precision loss or iteration limits.
 
 ## Follow the experiment record rules

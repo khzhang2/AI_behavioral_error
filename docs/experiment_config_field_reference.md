@@ -14,8 +14,8 @@
 在当前 experiment-ready 约定下，每个实验文件夹只对应一个 model，目录结构应理解为：
 
 - experiment root：共享派生 AI 数据、共享 diagnostics、问卷构造产物、`experiment_summary.md`
+- `atasoy_2011_replication/`：当前默认 base-model 结果
 - `hcm/ai`、`hcm/human`：HCM 输入与结果
-- `mnl/ai`、`mnl/human`：MNL 输入与结果
 - `salcm/ai`、`salcm/human`：SALCM 输入与结果
 - `outputs/`：只保留原始 AI 问答文件，如 `raw_interactions.jsonl`、`respondent_transcripts.json`、`run_respondents.json`、`ai_collection_summary.json`
 
@@ -79,9 +79,9 @@
 | `intervention_tests.repeat_randomness_kappa` | `experiment_config_base.json` | `float` | 指标与分析脚本 | 随机性容忍系数 | `1.25` |
 | `intervention_tests.bootstrap_repetitions` | `experiment_config_base.json` | `int` | 指标脚本 | bootstrap 次数 | `200` |
 | `intervention_tests.utility_equivalent_manipulations` | `experiment_config_base.json` | `list[str]` | 指标脚本 | 视为 utility-equivalent 的干预类型 | `["paraphrase", "label_mask", "order_randomization"]` |
-| `human_baseline_mnl.optimizer` | `experiment_config_base.json` | `str` | benchmark 估计脚本 | 人类基准 MNL 优化器 | `"scipy_bfgs"` |
-| `panel_mnl.optimizer` | `experiment_config_base.json` | `str` | panel MNL 脚本 | AI panel MNL 优化器 | `"scipy_bfgs"` |
-| `panel_mnl.maxiter` | `experiment_config_base.json` | `int` | panel MNL 脚本 | 最大迭代次数 | `500` |
+| `human_baseline_mnl.optimizer` | `experiment_config_base.json` | `str` | legacy MNL 脚本 | 旧版人类基准 MNL 优化器；当前默认 base model 不再归档到 `experiments/*/mnl/` | `"scipy_bfgs"` |
+| `panel_mnl.optimizer` | `experiment_config_base.json` | `str` | legacy panel MNL 脚本 | 旧版 AI panel MNL 优化器；当前默认结构比较改用 `atasoy_2011_replication/` | `"scipy_bfgs"` |
+| `panel_mnl.maxiter` | `experiment_config_base.json` | `int` | legacy panel MNL 脚本 | 旧版 MNL 最大迭代次数 | `500` |
 | `biogeme.optimization_algorithm` | `experiment_config_base.json` | `str` | Biogeme 估计脚本 | Biogeme 优化方法 | `"scipy"` |
 | `salcm.n_preference_classes` | `experiment_config_base.json` | `int` | SALCM 脚本 | 偏好类数量 | `3` |
 | `salcm.n_scale_classes` | `experiment_config_base.json` | `int` | SALCM 脚本 | 尺度类数量 | `2` |

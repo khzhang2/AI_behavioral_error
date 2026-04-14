@@ -14,5 +14,6 @@
     "human_baseline_biogeme_hcm_estimation_input_long.csv",
     "human_baseline_biogeme_hcm_estimates.csv",
     "human_baseline_biogeme_hcm_summary.json"
-  ]
+  ],
+  "correction_note": "Historical archive value. This human HCM summary was not recomputed on 2026-04-14 because the current environment does not provide the biogeme package. The archived 708-row human HCM output therefore still reflects the pre-fix sample and PT-time definition."
 }

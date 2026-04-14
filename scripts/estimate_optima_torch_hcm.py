@@ -30,7 +30,7 @@ import torch
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, EXPERIMENT_DIR, INDICATOR_NAMES, OUTPUT_DIR, archive_experiment_config, ensure_dir, write_json
+from optima_common import AI_COLLECTION_DIR, CONFIG, DATA_DIR, EXPERIMENT_DIR, INDICATOR_NAMES, OUTPUT_DIR, archive_experiment_config, ensure_dir, ensure_pt_non_wait_columns, write_json
 from optima_hcm_model_spec import INDICATOR_SPECS, PARAMETER_ORDER, POSITIVE_PARAMETERS
 
 torch.set_default_dtype(torch.float64)
@@ -56,6 +56,9 @@ def load_dataset(dataset: str, max_rows: int | None = None) -> pd.DataFrame:
         for indicator_name in INDICATOR_NAMES:
             valid_mask = valid_mask & frame[indicator_name].isin([1, 2, 3, 4, 5, 6])
         frame = frame.loc[valid_mask].copy()
+    frame = ensure_pt_non_wait_columns(frame)
+    if "TimePT_non_wait_scaled" in frame.columns:
+        frame["TimePT_scaled"] = frame["TimePT_non_wait_scaled"]
     frame = frame.sort_values("respondent_id").reset_index(drop=True)
     if max_rows is not None:
         frame = frame.head(int(max_rows)).copy()

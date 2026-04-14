@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-This is an academic research codebase studying whether LLM-generated synthetic respondents can reproduce human behavioral patterns in discrete choice models. The project uses the Optima dataset (Swissmetro travel survey) as the benchmark, collects AI survey responses via LLMs, and compares human and AI behavior using intervention diagnostics, panel Multinomial Logit (MNL), and SALCM.
+This is an academic research codebase studying whether LLM-generated synthetic respondents can reproduce human behavioral patterns in discrete choice models. The project uses the Optima dataset (Swissmetro travel survey) as the benchmark, collects AI survey responses via LLMs, and compares human and AI behavior using intervention diagnostics, the Atasoy 2011 paper-style base logit replication, and SALCM.
 
-Legacy HCM estimation files are retained for reference only and are not part of the current default experiment workflow.
-
-Python runtime: `.\.venv\Scripts\python.exe` (Windows)
+Python environment:
+- `.\.venv\Scripts\python.exe` (Windows)
+- `./.venv/bin/python` (Mac/Linux)
 
 Repo-local skill for post-AI analysis only: [optima-experiment-workflow](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/.codex/skills/optima-experiment-workflow/SKILL.md). Use it to validate collection completion and run analysis; do not use it to launch AI questionnaire collection.
 
@@ -52,7 +52,7 @@ Archived outputs only. Each experiment run is stored under `experiments/Swissmet
 - `experiment_config.json` - the single full final config used for that experiment.
 - `outputs/` - only raw AI collection files such as `raw_interactions.jsonl`, `respondent_transcripts.json`, `run_respondents.json`, and `ai_collection_summary.json`.
 - experiment-root files - shared derived AI panels, shared diagnostics, questionnaire-construction outputs, and one `experiment_summary.md`.
-- `hcm/ai`, `hcm/human`, `mnl/ai`, `mnl/human`, `salcm/ai`, `salcm/human` - model-specific estimation inputs and outputs.
+- `atasoy_2011_replication/`, `hcm/ai`, `hcm/human`, `salcm/ai`, `salcm/human` - model-specific estimation inputs and outputs.
 
 
 ## Key Conventions

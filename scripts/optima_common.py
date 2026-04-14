@@ -58,10 +58,15 @@ def _load_experiment_config() -> dict[str, Any]:
 
 CONFIG = _load_experiment_config()
 SOURCE_DATA_DIR = ROOT_DIR / CONFIG["paths"]["source_data_dir"]
+DATA_DIR = SOURCE_DATA_DIR
 ARCHIVE_PARENT_DIR = ROOT_DIR / CONFIG["paths"]["archive_dir"]
 EXPERIMENT_DIR = ARCHIVE_PARENT_DIR / CONFIG["experiment_name"]
 OUTPUT_DIR = EXPERIMENT_DIR / "outputs"
 AI_COLLECTION_DIR = EXPERIMENT_DIR
+TIME_SCALE = 200.0
+WAIT_SCALE = 60.0
+COST_SCALE = 10.0
+DISTANCE_SCALE = 5.0
 
 INDICATOR_NAMES = ["Envir01", "Mobil05", "LifSty07", "Envir05", "Mobil12", "LifSty01"]
 INDICATOR_TEXT = {
@@ -77,6 +82,24 @@ CHOICE_CODE_TO_NAME = {0: "PT", 1: "CAR", 2: "SLOW_MODES"}
 CHOICE_LABEL_TO_NAME = {"A": "PT", "B": "CAR", "C": "SLOW_MODES"}
 DRAW_NAMES = ["omega_car", "omega_env"]
 TASK_ATTRIBUTE_OPTIONS = ["travel_time", "waiting_time", "cost", "distance", "availability", "mode_label"]
+
+
+def pt_non_wait_time(total_time: Any, waiting_time: Any):
+    value = total_time - waiting_time
+    if hasattr(value, "clip"):
+        return value.clip(lower=0.0)
+    return max(float(value), 0.0)
+
+
+def ensure_pt_non_wait_columns(frame: pd.DataFrame) -> pd.DataFrame:
+    work = frame.copy()
+    if "TimePT" not in work.columns or "WaitingTimePT" not in work.columns:
+        return work
+    if "TimePT_non_wait" not in work.columns:
+        work["TimePT_non_wait"] = pt_non_wait_time(work["TimePT"], work["WaitingTimePT"])
+    if "TimePT_non_wait_scaled" not in work.columns:
+        work["TimePT_non_wait_scaled"] = work["TimePT_non_wait"] / TIME_SCALE
+    return work
 
 
 def credentials_file_path(credentials_file: str) -> Path:

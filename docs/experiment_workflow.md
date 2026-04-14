@@ -125,7 +125,8 @@ The experiment root stores shared derived AI data, shared diagnostics, and the f
 - `parsed_task_responses.csv`
 - `ai_panel_long.csv`
 - `ai_panel_block.csv`
-- all diagnostics, MNL outputs, SALCM outputs, and summaries
+- `atasoy_2011_replication/` for the current base-model outputs
+- all diagnostics, HCM outputs, SALCM outputs, and summaries
 
 ## Run the post-AI estimation sequence
 
@@ -137,16 +138,16 @@ Use this order for the current intervention-regime workflow.
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
 ```
 
-2. Estimate the human baseline panel multinomial logit:
+2. Reproduce the paper's human base logit and continuous model:
 
 ```bash
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset human
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ```
 
-3. Estimate the AI panel multinomial logit:
+3. Estimate the AI-side Atasoy 2011 base logit on the archived experiment outputs:
 
 ```bash
-./.venv/bin/python scripts/estimate_optima_panel_mnl.py --dataset ai_pooled
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
 
 4. Estimate the scale-adjusted latent class model:
@@ -182,7 +183,7 @@ Use the following mapping when interpreting one completed experiment.
    Focus on `dominance violation rate` and `monotonicity compliance rate`.
 
 5. Human-relative distortion:
-   Read `mnl/human/human_baseline_mnl_summary.json`, `mnl/ai/ai_panel_mnl_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
+   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_summary.json`, `atasoy_2011_replication/ai_atasoy_base_logit_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
    Start with `choice share` differences. Treat `VOT/WTP` or elasticity-style interpretation more cautiously when the optimizer reports precision loss or iteration limits.
 
 ## Follow the experiment record rules
@@ -191,7 +192,7 @@ Keep the experiment archive clean.
 
 - Do not mix multiple models in one experiment folder.
 - Do not store diagnostics or estimation results under `outputs/`.
-- Keep HCM, MNL, and SALCM results under `hcm/ai`, `hcm/human`, `mnl/ai`, `mnl/human`, `salcm/ai`, and `salcm/human`.
+- Keep current base-model results under `atasoy_2011_replication/`, HCM results under `hcm/ai` and `hcm/human`, and SALCM results under `salcm/ai` and `salcm/human`.
 - Keep one root `experiment_summary.md` only.
 - Keep `experiment_summary.md` short and decision-oriented.
 - Prefer writing the summary after the main analysis scripts finish, not during collection.

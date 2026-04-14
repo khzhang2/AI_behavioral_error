@@ -14,7 +14,7 @@ from biogeme import database as db
 from biogeme import models
 from biogeme.expressions import Beta, MonteCarlo, Variable, bioDraws, bioNormalCdf, log
 
-from optima_common import INDICATOR_NAMES, ROOT_DIR, draw_generator_from_file, ensure_dir, experiment_analysis_dir, write_json
+from optima_common import INDICATOR_NAMES, ROOT_DIR, draw_generator_from_file, ensure_dir, ensure_pt_non_wait_columns, experiment_analysis_dir, pt_non_wait_time, write_json
 from optima_hcm_model_spec import INDICATOR_SPECS, PARAMETER_ORDER, POSITIVE_PARAMETERS
 
 
@@ -210,7 +210,14 @@ def ai_task_observation_frame(long_frame: pd.DataFrame) -> pd.DataFrame:
             "PT_AVAILABLE": int(group.loc[group["alternative_code"] == 0, "alt_available"].iloc[0]),
             "CAR_AVAILABLE": int(group.loc[group["alternative_code"] == 1, "alt_available"].iloc[0]),
             "SLOW_AVAILABLE": int(group.loc[group["alternative_code"] == 2, "alt_available"].iloc[0]),
-            "TimePT": float(group.loc[group["alternative_code"] == 0, "alt_time"].iloc[0]),
+            "TimePT": float(
+                group.loc[group["alternative_code"] == 0, "alt_time_non_wait"].iloc[0]
+                if "alt_time_non_wait" in group.columns
+                else pt_non_wait_time(
+                    group.loc[group["alternative_code"] == 0, "alt_time"].iloc[0],
+                    group.loc[group["alternative_code"] == 0, "alt_waiting"].iloc[0],
+                )
+            ),
             "TimeCar": float(group.loc[group["alternative_code"] == 1, "alt_time"].iloc[0]),
             "WaitingTimePT": float(group.loc[group["alternative_code"] == 0, "alt_waiting"].iloc[0]),
             "MarginalCostPT": float(group.loc[group["alternative_code"] == 0, "alt_cost"].iloc[0]),
@@ -288,8 +295,11 @@ def prepare_ai_inputs(experiment_dir: Path, config: dict, max_respondents: int |
 
 def prepare_human_inputs(config: dict, max_respondents: int | None) -> pd.DataFrame:
     path = source_data_dir(config) / "human_cleaned_wide.csv"
-    frame = pd.read_csv(path).copy().sort_values("respondent_id").reset_index(drop=True)
+    frame = ensure_pt_non_wait_columns(pd.read_csv(path))
+    frame = frame.copy().sort_values("respondent_id").reset_index(drop=True)
     frame = frame.loc[validate_indicator_columns(frame)].copy()
+    frame["TimePT"] = frame["TimePT_non_wait"]
+    frame["TimePT_scaled"] = frame["TimePT_non_wait_scaled"]
     keep_columns = [
         "respondent_id",
         "normalized_weight",

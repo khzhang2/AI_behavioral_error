@@ -1,0 +1,26 @@
+{
+  "experiment_name": "20260412_optima_intervention_regime_poe_gpt54_nano_v1",
+  "n_core_rows_long": 7200,
+  "n_core_tasks": 2400,
+  "n_respondents": 400,
+  "metrics": {
+    "log_likelihood": -523.981069068721,
+    "market_shares": {
+      "PT": 0.14370553292980934,
+      "PMM": 0.8467713381819277,
+      "SM": 0.009523128888262778
+    },
+    "value_of_time_chf_per_hour": {
+      "PMM": 33.05883723968476,
+      "PT": 27.81060498593544
+    },
+    "elasticities": {
+      "PMM_cost": -0.04214159387442416,
+      "PMM_time": -0.1490929816122993,
+      "PT_cost": -0.12264041719771272,
+      "PT_time": -1.3690598816687989
+    }
+  },
+  "optimizer_success": false,
+  "optimizer_message": "Desired error not necessarily achieved due to precision loss."
+}

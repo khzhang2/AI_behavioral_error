@@ -9,7 +9,7 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.special import logsumexp, softmax
 
-from optima_common import CONFIG, EXPERIMENT_DIR, archive_experiment_config, ai_collection_dir_for, experiment_analysis_dir, survey_total_tasks, write_json
+from optima_common import CONFIG, EXPERIMENT_DIR, archive_experiment_config, ai_collection_dir_for, experiment_analysis_dir, pt_non_wait_time, survey_total_tasks, write_json
 
 
 CHOICE_NAMES = ["PT", "CAR", "SLOW_MODES"]
@@ -91,7 +91,10 @@ def build_matrices(long_frame: pd.DataFrame, block_frame: pd.DataFrame, covariat
         j = int(row["alternative_code"])
         availability[i, t, j] = float(row["alt_available"])
         cost[i, t, j] = float(row["alt_cost"])
-        time[i, t, j] = float(row["alt_time"])
+        if j == 0:
+            time[i, t, j] = float(row.get("alt_time_non_wait", pt_non_wait_time(row["alt_time"], row["alt_waiting"])))
+        else:
+            time[i, t, j] = float(row["alt_time"])
         waiting[i, t, j] = float(row["alt_waiting"])
         distance[i, t, j] = float(row["alt_distance"])
         if int(row["chosen"]) == 1:

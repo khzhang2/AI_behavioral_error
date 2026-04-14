@@ -4,7 +4,19 @@ from pathlib import Path
 
 import pandas as pd
 
-from optima_common import CONFIG, SOURCE_DATA_DIR, DRAW_NAMES, INDICATOR_NAMES, generate_shared_sobol_draws, write_json
+from optima_common import (
+    CONFIG,
+    COST_SCALE,
+    DISTANCE_SCALE,
+    DRAW_NAMES,
+    INDICATOR_NAMES,
+    SOURCE_DATA_DIR,
+    TIME_SCALE,
+    WAIT_SCALE,
+    generate_shared_sobol_draws,
+    pt_non_wait_time,
+    write_json,
+)
 
 
 def age_text(age_value: float) -> str:
@@ -34,11 +46,11 @@ def build_choice_long(frame: pd.DataFrame) -> pd.DataFrame:
                     "alternative_code": 0,
                     "alternative_name": "PT",
                     "availability": 1,
-                    "travel_time": row["TimePT"],
+                    "travel_time": row["TimePT_non_wait"],
                     "waiting_time": row["WaitingTimePT"],
                     "travel_cost": row["MarginalCostPT"],
                     "distance_km": row["distance_km"],
-                    "scaled_time": row["TimePT_scaled"],
+                    "scaled_time": row["TimePT_non_wait_scaled"],
                     "scaled_waiting": row["WaitingTimePT_scaled"],
                     "scaled_cost": row["MarginalCostPT_scaled"],
                     "scaled_distance": row["distance_km_scaled"],
@@ -86,7 +98,7 @@ def main() -> None:
 
     frame = frame.loc[frame["Choice"] != -1].copy()
     frame = frame.loc[~((frame["Choice"] == 1) & (frame["CarAvail"] == 3))].copy()
-    frame = frame.loc[frame["TripPurpose"] != 3].copy()
+    frame = frame.loc[frame["OccupStat"].isin([1, 2])].copy()
     frame = frame.loc[frame["NbTrajects"] != 1].copy()
     frame = frame.loc[frame["TimePT"] != 0].copy()
     frame = frame.loc[frame["TimeCar"] != 0].copy()
@@ -103,12 +115,14 @@ def main() -> None:
     frame["SLOW_AVAILABLE"] = 1
 
     frame["ScaledIncome"] = frame["CalculatedIncome"] / 1000.0
-    frame["TimePT_scaled"] = frame["TimePT"] / 200.0
-    frame["TimeCar_scaled"] = frame["TimeCar"] / 200.0
-    frame["WaitingTimePT_scaled"] = frame["WaitingTimePT"] / 60.0
-    frame["MarginalCostPT_scaled"] = frame["MarginalCostPT"] / 10.0
-    frame["CostCarCHF_scaled"] = frame["CostCarCHF"] / 10.0
-    frame["distance_km_scaled"] = frame["distance_km"] / 5.0
+    frame["TimePT_non_wait"] = pt_non_wait_time(frame["TimePT"], frame["WaitingTimePT"])
+    frame["TimePT_non_wait_scaled"] = frame["TimePT_non_wait"] / TIME_SCALE
+    frame["TimePT_scaled"] = frame["TimePT"] / TIME_SCALE
+    frame["TimeCar_scaled"] = frame["TimeCar"] / TIME_SCALE
+    frame["WaitingTimePT_scaled"] = frame["WaitingTimePT"] / WAIT_SCALE
+    frame["MarginalCostPT_scaled"] = frame["MarginalCostPT"] / COST_SCALE
+    frame["CostCarCHF_scaled"] = frame["CostCarCHF"] / COST_SCALE
+    frame["distance_km_scaled"] = frame["distance_km"] / DISTANCE_SCALE
 
     frame["high_education"] = (frame["Education"] >= 6).astype(int)
     frame["low_education"] = (frame["Education"] <= 3).astype(int)
@@ -164,12 +178,14 @@ def main() -> None:
         "car_availability_text",
         *INDICATOR_NAMES,
         "TimePT",
+        "TimePT_non_wait",
         "WaitingTimePT",
         "MarginalCostPT",
         "TimeCar",
         "CostCarCHF",
         "distance_km",
         "TimePT_scaled",
+        "TimePT_non_wait_scaled",
         "TimeCar_scaled",
         "WaitingTimePT_scaled",
         "MarginalCostPT_scaled",

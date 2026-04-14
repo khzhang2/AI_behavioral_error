@@ -1,25 +1,15 @@
-# Experiment Summary: poe_gpt54_nano
+# 实验摘要：poe_gpt54_nano
 
-This archive records one model only: `poe_gpt54_nano`. The AI collection completed `400` of `400` planned respondent runs. The valid-attitude rate is `1.0000` and the valid-task rate is `1.0000`.
+本次实验对应单模型归档 `poe_gpt54_nano`。AI 问卷收集共完成 `400 / 400` 个 planned respondents，态度题有效率为 `1.0000`，任务题有效率为 `1.0000`。总体上，这次实验的主要特征是：模型内部随机性不算高，但相对 human 的最大问题仍然是稳定的结构性偏差，而不是纯随机乱答。
 
-The main conclusion from this experiment is that the largest error is not pure randomness, but distortion relative to the human benchmark. The model shows some repeated-response instability, but the stronger pattern is a persistent over-selection of `CAR` and under-selection of `PT` and `SLOW_MODES`.
-
-For within-model randomness, the mean exact-repeat flip rate is `0.0730` and the mean response entropy is `0.0806`. This indicates low-to-moderate instability under exactly repeated inputs. The model is therefore not fully deterministic, but repeated randomness is not the dominant source of error in this experiment.
-
-For semantic invariance, the error is comparatively weak. The mean paraphrase flip rate is `0.0313`, the mean paraphrase intervention gap is `0.0313`, and the mean paraphrase excess gap is `-0.0583`. This means paraphrase responses do change sometimes, but not more than what would be expected from the repeated-response randomness baseline.
-
-For label and order sensitivity, the two effects separate clearly. Label sensitivity is weak, with mean label flip rate `0.0388` and mean label excess gap `-0.0610`. Order sensitivity is much stronger, with mean order flip rate `0.1313` and mean order excess gap `0.0435`. In this experiment, the model is better described as order-sensitive than label-sensitive.
-
-For trade-off fidelity, the model broadly follows basic consistency rules, but not perfectly. The mean monotonicity compliance rate is `0.9550`, and the mean dominance violation rate is `0.0625`. This suggests that the model usually performs coherent trade-off reasoning, while still showing a nontrivial rate of rule violations.
-
-For validity relative to the human benchmark, distortion is substantial. The AI choice shares are `CAR = 0.8667`, `PT = 0.1239`, and `SLOW_MODES = 0.0094`, whereas the human benchmark shares are `CAR = 0.6257`, `PT = 0.3136`, and `SLOW_MODES = 0.0607`. The total variation share gap is `0.2410`. This is the strongest error dimension in the present experiment.
-
-The overall ranking of the five error dimensions is: human-relative distortion first, order sensitivity second, repeated-response randomness third, trade-off fidelity error fourth, and semantic invariance plus label sensitivity as the weakest errors. The MNL and SALCM outputs are useful for directional interpretation, but they should still be treated cautiously because the AI panel MNL reports precision loss and the SALCM stopped at the iteration limit.
+校正说明（2026-04-14）：本归档不再把 `mnl/` 作为默认结构 baseline。当前默认 base model 已改为 `atasoy_2011_replication/`。对 `GPT-5.4-nano` 来说，AI-side Atasoy base logit 预测份额为 `PMM = 0.8468`、`PT = 0.1437`、`SM = 0.0095`，而 human paper replication 的对应值为 `0.6231 / 0.3209 / 0.0560`，总变差距离为 `0.2236`。
 
 | 检验对象 | 这次试验怎么概括 | 主要数值 | 解释 |
 | --- | --- | --- | --- |
 | 同一系统的随机不稳定性 | `低到中等` | exact-repeat flip rate = `0.0730`；response entropy = `0.0806` | 完全相同输入下会有一些翻转，但幅度不算高。说明有随机性，但不是主要问题。 |
-| 对语义等价改写是否稳健 | `较稳健` | paraphrase flip rate = `0.0313`；paraphrase gap = `0.0313`；paraphrase excess gap = `-0.0583` | 改写措辞后确实会有少量变化，但平均上没有超出重复随机性的基线，所以目前更像轻微 prompt fragility，而不是强语义不变性 failure。 |
-| 对标签/顺序是否过敏 | `标签弱，顺序明显` | label flip rate = `0.0388`；label excess gap = `-0.0610`；order flip rate = `0.1313`；order excess gap = `0.0435` | 标签掩码影响不大，但顺序随机化影响明显高得多。这个模型更像是 `order-sensitive`，而不是典型 `label-sensitive regime`。 |
-| 是否真的在做 trade-off | `大体在做，但不完全稳定` | monotonicity compliance = `0.9550`；dominance violation = `0.0625` | 大多数时候遵守基本理性规则，所以不是“完全不做 trade-off”。但仍有约 `4.5%` monotonicity failure 和 `6.25%` dominance failure，说明 fidelity 不是满分。 |
-| 是否只是“总体像人” | `不像，失真明显` | AI shares: `CAR 0.8667 / PT 0.1239 / SLOW 0.0094`；human shares: `CAR 0.6257 / PT 0.3136 / SLOW 0.0607`；share gap 的总变差距离 = `0.2410` | 这是这次最强的 error。模型显著过度偏向 `CAR`，显著低估 `PT`，几乎不选 `SLOW_MODES`。relative-to-human validity 明显不足。 |
+| 对语义等价改写是否稳健 | `较稳健` | paraphrase flip rate = `0.0313`；paraphrase gap = `0.0313`；paraphrase excess gap = `-0.0583` | 改写措辞后会有少量变化，但平均上没有超出重复随机性的基线。 |
+| 对标签或顺序是否过敏 | `标签弱，顺序明显` | label flip rate = `0.0388`；label excess gap = `-0.0610`；order flip rate = `0.1313`；order excess gap = `0.0435` | 标签掩码影响不大，但顺序随机化影响明显更强。这个模型更像 `order-sensitive`。 |
+| 是否真的在做 trade-off | `大体在做，但不完全稳定` | monotonicity compliance = `0.9550`；dominance violation = `0.0625` | 大多数时候遵守基本理性规则，但仍有一部分明显的 rule violations。 |
+| 是否只是“总体像人” | `不像，失真明显` | AI Atasoy shares: `PMM=0.8468, PT=0.1437, SM=0.0095`；human Atasoy shares: `PMM=0.6231, PT=0.3209, SM=0.0560`；share gap TV = `0.2236` | 在统一的 Atasoy 2011 base logit 下，模型显著过度偏向 `PMM`，显著压低 `PT` 和 `SM`。 |
+
+注意事项：human Atasoy base logit 有数值优化警告；AI Atasoy base logit 有数值优化警告；SALCM 未完全收敛。因此本次结果更适合做方向性判断，不宜过度解读精细参数。更具体的结构比较请看 `atasoy_2011_replication/ai_atasoy_analysis.md`。
