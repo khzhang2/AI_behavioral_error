@@ -94,15 +94,13 @@
 | `intervention_metrics_summary.json` | exact-repeat 随机性与干预效应总结 |
 | `atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv` | AI side Atasoy 2011 base logit 系数 |
 | `atasoy_2011_replication/ai_atasoy_base_logit_summary.json` | AI side Atasoy 2011 base logit 汇总 |
-| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_estimates.csv` | human Atasoy 2011 base logit 系数 |
-| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_summary.json` | human Atasoy 2011 base logit 汇总 |
-| `hcm/ai/ai_biogeme_hcm_estimates.csv` | AI side HCM / 有限 ICLV 系数 |
-| `hcm/ai/ai_biogeme_hcm_summary.json` | AI side HCM / 有限 ICLV 汇总 |
-| `hcm/human/human_baseline_biogeme_hcm_estimates.csv` | human baseline HCM 系数 |
-| `hcm/human/human_baseline_biogeme_hcm_summary.json` | human baseline HCM 汇总 |
-| `salcm/ai/ai_salcm_estimates.csv` | SALCM 参数 |
-| `salcm/ai/ai_salcm_summary.json` | SALCM 汇总 |
-| `salcm/ai/ai_salcm_regime_summaries.csv` | 各 latent regimes 的解释性统计 |
+| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit/base_logit_estimates.csv` | human Atasoy 2011 base logit 系数 |
+| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit/base_logit_summary.json` | human Atasoy 2011 base logit 汇总 |
+| `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/hcm/hcm_summary.json` | human Atasoy 2011 exact HCM 汇总 |
+| `hcm/ai_atasoy_hcm_summary.json` | AI side Atasoy 2011 exact HCM 汇总（新主线实验） |
+| `salcm/ai_salcm_estimates.csv` | SALCM 参数 |
+| `salcm/ai_salcm_summary.json` | SALCM 汇总 |
+| `salcm/ai_salcm_regime_summaries.csv` | 各 latent regimes 的解释性统计 |
 | `experiment_summary.md` | 中文实验摘要 |
 
 ## 5. 关键行为指标对比
@@ -166,26 +164,24 @@
 
 ## 7. HCM / 有限 ICLV 结果能告诉我们什么
 
-当前仓库已经补上了一个基于 Biogeme 的 panel HCM，也就是有限形式的 `ICLV`。它继续使用 legacy HCM 的两个潜变量、六个 attitude indicators 和相同的 measurement mapping，但 choice likelihood 只使用 `core` tasks。
+当前仓库的默认 HCM 主线已经切换到 Atasoy 2011 的 fixed-normalization exact HCM。旧的 Biogeme panel HCM 仍然保留为历史脚本，但不再是默认结构基准。
 
-这一节保留的是历史归档 HCM 结果。当前环境里缺少 `biogeme`，所以这次修正没有把 HCM 归档文件重跑一遍。因此下面 human HCM 的 `708` 个 observations 仍然是修正前归档值，而不是当前修正后的人类基准样本规模。
+这一节保留的是 AI 侧历史归档 HCM 结果。当前默认 human 结构基准已经改成 `atasoy_2011_replication/base_logit/` 与 `atasoy_2011_replication/hcm/`，因此 experiment 目录中的旧 `hcm/human` 归档已经不再保留。
 
 对应结果文件在：
 
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai/ai_biogeme_hcm_estimates.csv`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai/ai_biogeme_hcm_summary.json`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/human/human_baseline_biogeme_hcm_estimates.csv`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai/ai_biogeme_hcm_estimates.csv`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai/ai_biogeme_hcm_summary.json`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/human/human_baseline_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai_biogeme_hcm_summary.json`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai_biogeme_hcm_summary.json`
 
 先看 HCM 进入估计的样本规模：
 
-| HCM 输入样本 | `GPT-5.4-nano` | `DeepSeek-chat` | human |
-| --- | --- | --- | --- |
-| respondents | `400` | `479` | `708` |
-| core tasks | `2400` | `2874` | `708` |
-| 每个 respondent 的 core tasks | `6` | `6` | `1` |
+| HCM 输入样本 | `GPT-5.4-nano` | `DeepSeek-chat` |
+| --- | --- | --- |
+| respondents | `400` | `479` |
+| core tasks | `2400` | `2874` |
+| 每个 respondent 的 core tasks | `6` | `6` |
 
 这里有两个需要先定义的点。第一，`HCM input` 指的是进入 HCM 估计脚本的有效样本，而不是原始 collection 总数。第二，`core task` 指的是原始 stated choice 选项卡，不包含 `paraphrase`、`label-mask`、`order-randomization`、`monotonicity`、`dominance` 这些诊断题。
 
@@ -199,15 +195,15 @@
 
 也就是说，即使用 HCM 只看 core tasks，行为模式仍然没变：`GPT-5.4-nano` 继续几乎压掉 `SLOW_MODES`，`DeepSeek-chat` 继续把 `PT` 压得更狠。
 
-但当前这版 HCM 的核心限制非常明确：**参数几乎完全停在初始化点**。三边的 HCM 结果里，真正非零的参数只有四个，而且都正好等于初始化值：
+但当前这版 HCM 的核心限制非常明确：**AI 侧参数几乎完全停在初始化点**。两边 AI 结果里，真正非零的参数只有四个，而且都正好等于初始化值：
 
-| 参数 | human | `GPT-5.4-nano` | `DeepSeek-chat` |
-| --- | --- | --- | --- |
-| `SIGMA_CAR` | `0.5` | `0.5` | `0.5` |
-| `SIGMA_ENV` | `0.5` | `0.5` | `0.5` |
-| `DELTA_1` | `0.5` | `0.5` | `0.5` |
-| `DELTA_2` | `0.5` | `0.5` | `0.5` |
-| 其他 37 个参数 | `0.0` | `0.0` | `0.0` |
+| 参数 | `GPT-5.4-nano` | `DeepSeek-chat` |
+| --- | --- | --- |
+| `SIGMA_CAR` | `0.5` | `0.5` |
+| `SIGMA_ENV` | `0.5` | `0.5` |
+| `DELTA_1` | `0.5` | `0.5` |
+| `DELTA_2` | `0.5` | `0.5` |
+| 其他 37 个参数 | `0.0` | `0.0` |
 
 这意味着什么，需要说清楚。
 
@@ -250,8 +246,8 @@
 
 `GPT-5.4-nano` 的 SALCM 结果在：
 
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai/ai_salcm_summary.json`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai/ai_salcm_regime_summaries.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai_salcm_summary.json`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai_salcm_regime_summaries.csv`
 
 posterior masses 为：
 
@@ -271,8 +267,8 @@ posterior masses 为：
 
 `DeepSeek-chat` 的 SALCM 结果在：
 
-- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/salcm/ai/ai_salcm_summary.json`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/salcm/ai/ai_salcm_regime_summaries.csv`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/salcm/ai_salcm_summary.json`
+- `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/salcm/ai_salcm_regime_summaries.csv`
 
 posterior masses 为：
 
@@ -347,8 +343,8 @@ posterior masses 为：
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
 - AI base model：`atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`
-- HCM：`hcm/ai/ai_biogeme_hcm_estimates.csv`、`hcm/ai/ai_biogeme_hcm_summary.json`
-- SALCM：`salcm/ai/ai_salcm_estimates.csv`、`salcm/ai/ai_salcm_summary.json`、`salcm/ai/ai_salcm_regime_summaries.csv`
+- HCM：`hcm/ai_biogeme_hcm_estimates.csv`、`hcm/ai_biogeme_hcm_summary.json`
+- SALCM：`salcm/ai_salcm_estimates.csv`、`salcm/ai_salcm_summary.json`、`salcm/ai_salcm_regime_summaries.csv`
 - 中文摘要：`experiment_summary.md`
 
 ### `DeepSeek-chat`
@@ -357,8 +353,8 @@ posterior masses 为：
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
 - AI base model：`atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`
-- HCM：`hcm/ai/ai_biogeme_hcm_estimates.csv`、`hcm/ai/ai_biogeme_hcm_summary.json`
-- SALCM：`salcm/ai/ai_salcm_estimates.csv`、`salcm/ai/ai_salcm_summary.json`、`salcm/ai/ai_salcm_regime_summaries.csv`
+- HCM：`hcm/ai_biogeme_hcm_estimates.csv`、`hcm/ai_biogeme_hcm_summary.json`
+- SALCM：`salcm/ai_salcm_estimates.csv`、`salcm/ai_salcm_summary.json`、`salcm/ai_salcm_regime_summaries.csv`
 - 中文摘要：`experiment_summary.md`
 
 ### human benchmark

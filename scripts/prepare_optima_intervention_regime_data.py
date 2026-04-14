@@ -11,8 +11,10 @@ from optima_common import (
     COST_SCALE,
     DISTANCE_SCALE,
     EXPERIMENT_DIR,
+    INDICATOR_NAMES,
     OUTPUT_DIR,
     SOURCE_DATA_DIR,
+    SOURCE_OBSERVATION_COLUMN,
     TIME_SCALE,
     WAIT_SCALE,
     archive_experiment_config,
@@ -47,8 +49,16 @@ CORE_COLUMNS = [
 
 PROFILE_COLUMNS = [
     "respondent_id",
+    SOURCE_OBSERVATION_COLUMN,
     "human_id",
     "normalized_weight",
+    "Weight",
+    "LangCode",
+    "UrbRur",
+    "OccupStat",
+    "TripPurpose",
+    "Education",
+    "Region",
     "age",
     "sex_text",
     "age_text",
@@ -74,12 +84,7 @@ PROFILE_COLUMNS = [
     "education_text",
     "CAR_AVAILABLE",
     "car_availability_text",
-    "Envir01",
-    "Mobil05",
-    "LifSty07",
-    "Envir05",
-    "Mobil12",
-    "LifSty01",
+    *INDICATOR_NAMES,
 ]
 
 
@@ -108,7 +113,7 @@ def alternative_proxy(row: pd.Series) -> dict[str, float]:
 
 
 def scenario_bank_from_human(frame: pd.DataFrame) -> pd.DataFrame:
-    scenario = frame[["respondent_id", "human_id", *CORE_COLUMNS]].copy()
+    scenario = frame[["respondent_id", SOURCE_OBSERVATION_COLUMN, "human_id", *CORE_COLUMNS]].copy()
     pt_proxy = frame["TimePT_non_wait_scaled"] + frame["WaitingTimePT_scaled"] + frame["MarginalCostPT_scaled"]
     car_proxy = frame["TimeCar_scaled"] + frame["CostCarCHF_scaled"]
     slow_proxy = frame["distance_km_scaled"]
@@ -153,8 +158,16 @@ def build_task_row(
         "block_template_id": block_template_id,
         "run_repeat": int(run_repeat),
         "human_respondent_id": str(profile_row["respondent_id"]),
+        SOURCE_OBSERVATION_COLUMN: int(profile_row[SOURCE_OBSERVATION_COLUMN]),
         "human_id": int(profile_row["human_id"]),
         "normalized_weight": float(profile_row["normalized_weight"]),
+        "Weight": float(profile_row["Weight"]),
+        "LangCode": int(profile_row["LangCode"]),
+        "UrbRur": int(profile_row["UrbRur"]),
+        "OccupStat": int(profile_row["OccupStat"]),
+        "TripPurpose": int(profile_row["TripPurpose"]),
+        "Education": int(profile_row["Education"]),
+        "Region": int(profile_row["Region"]),
         "prompt_arm": prompt_arm,
         "semantic_arm": int(prompt_arm == "semantic_arm"),
         "prompt_family": prompt_family,

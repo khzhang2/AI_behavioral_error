@@ -6,8 +6,8 @@ from optima_common import INDICATOR_TEXT, TASK_ATTRIBUTE_OPTIONS
 
 
 LIKERT_SCALE_TEXT = (
-    "Use this 1-6 scale: 1 means strongly disagree, 2 means disagree, 3 means slightly disagree or mixed, "
-    "4 means slightly agree or mixed, 5 means agree, and 6 means strongly agree."
+    "Use this 1-5 scale: 1 means strongly disagree, 2 means disagree, 3 means neutral, "
+    "4 means agree, and 5 means strongly agree."
 )
 
 
@@ -41,7 +41,7 @@ You are answering a stated-preference transport survey.
 - {arm_text}
 - {family_text}
 - First you confirm the persona with a short JSON reply.
-- Then you answer six attitude statements one by one.
+- Then you answer seven attitude statements one by one.
 - Then you answer sixteen travel-choice questions one by one.
 - Every answer must be JSON only.
 """

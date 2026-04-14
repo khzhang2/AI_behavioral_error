@@ -1,24 +1,23 @@
 {
   "experiment_name": "20260412_optima_intervention_regime_deepseek_chat_v1",
-  "n_core_rows_long": 8637,
   "n_core_tasks": 2879,
   "n_respondents": 480,
   "metrics": {
-    "log_likelihood": -772.5991039583157,
+    "log_likelihood": -1092.8202151134024,
     "market_shares": {
-      "PT": 0.05462775506312183,
-      "PMM": 0.8817767590589547,
-      "SM": 0.06359548587792355
-    },
-    "value_of_time_chf_per_hour": {
-      "PMM": 24.446068221389567,
-      "PT": 23.121404091365992
+      "PT": 0.05726888883190868,
+      "PMM": 0.872755410178176,
+      "SM": 0.06997570098991525
     },
     "elasticities": {
-      "PMM_cost": -0.03210099059092808,
-      "PMM_time": -0.10081747569827922,
-      "PT_cost": -0.20130311278279264,
-      "PT_time": -1.9244694369149886
+      "PMM_cost": -0.04787000858799806,
+      "PMM_time": -0.09844985197744219,
+      "PT_cost": -0.2466448433153183,
+      "PT_time": -1.6233412796925708
+    },
+    "value_of_time_chf_per_hour": {
+      "PMM": 16.05356615825318,
+      "PT": 15.273594962109122
     }
   },
   "optimizer_success": false,

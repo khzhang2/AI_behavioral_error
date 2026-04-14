@@ -11,6 +11,8 @@ Use this skill only for post-AI analysis in the current intervention-regime work
 
 Use the current intervention-regime line as the default analysis workflow. Treat older hybrid-choice or legacy multi-output layouts as reference only unless the user explicitly asks for them.
 
+The current local small-model backend in this repository is `mlx`. The default small Qwen experiment key is `mlx_qwen35_0p8b`.
+
 ## Define the main objects first
 
 - `task`: one question. It can be one attitude question or one choice card.
@@ -54,6 +56,14 @@ If the AI collection is not complete, stop there.
 - Do not run AI questionnaire collection.
 - Do not resume AI questionnaire collection.
 
+Exception: if the user explicitly asks for a partial-sample analysis after intentionally stopping collection, you may run the analysis only when the derived AI tables are internally consistent for the completed respondents. In that case, use the explicit flag:
+
+```bash
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name> --allow-partial
+```
+
+and make it clear in the report that the outputs come from a partial sample rather than the planned full collection.
+
 This skill must never launch:
 
 ```bash
@@ -82,8 +92,8 @@ The experiment root stores shared derived AI data, shared diagnostics, and the f
 - `ai_panel_block.csv`
 - all shared diagnostics and summaries
 - `atasoy_2011_replication/`
-- `hcm/ai`, `hcm/human`
-- `salcm/ai`, `salcm/human`
+- `hcm/`
+- `salcm/`
 
 ## Run the post-AI estimation sequence
 
@@ -101,7 +111,7 @@ After the experiment passes the completion check, use this order for the current
 ./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ```
 
-3. Estimate the AI-side Atasoy 2011 base logit:
+3. Estimate the AI-side Atasoy 2011 base logit and exact HCM:
 
 ```bash
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
@@ -140,7 +150,7 @@ Use the following mapping when interpreting one completed experiment.
    Focus on `dominance violation rate` and `monotonicity compliance rate`.
 
 5. Human-relative distortion:
-   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_summary.json`, `atasoy_2011_replication/ai_atasoy_base_logit_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
+   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit/base_logit_summary.json`, `atasoy_2011_replication/ai_atasoy_base_logit_summary.json`, and `salcm/ai_salcm_regime_summaries.csv`.
    Start with `choice share` differences. Treat `VOT/WTP` or elasticity-style interpretation more cautiously when the optimizer reports precision loss or iteration limits.
 
 ## Follow the experiment record rules

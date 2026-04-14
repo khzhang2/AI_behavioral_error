@@ -1,0 +1,142 @@
+{
+  "experiment_type": "optima_intervention_regime",
+  "experiment_name": "20260414_optima_intervention_regime_atasoy_qwen35_0p8b_smallfull_v1",
+  "paper_reference": "Intervention-anchored latent response regime experiment built on the Optima benchmark",
+  "paths": {
+    "source_data_dir": "data/Swissmetro/demographic_choice_psychometric",
+    "archive_dir": "experiments/Swissmetro"
+  },
+  "intervention_tests": {
+    "repeat_randomness_kappa": 1.25,
+    "bootstrap_repetitions": 200,
+    "utility_equivalent_manipulations": [
+      "paraphrase",
+      "label_mask",
+      "order_randomization"
+    ]
+  },
+  "biogeme": {
+    "optimization_algorithm": "scipy"
+  },
+  "salcm": {
+    "n_preference_classes": 3,
+    "n_scale_classes": 2,
+    "optimizer": "scipy_lbfgsb",
+    "maxiter": 800,
+    "membership_covariates": [
+      "model_is_deepseek",
+      "semantic_arm",
+      "prompt_family_naturalistic",
+      "age_30_less",
+      "high_education",
+      "ScaledIncome",
+      "CAR_AVAILABLE",
+      "block_complexity_mean"
+    ]
+  },
+  "analysis_v2": {
+    "randomness_tolerance_kappa": 1.25,
+    "exact_repeat_signature_fields": [
+      "model_key",
+      "source_observation_id",
+      "prompt_arm",
+      "task_role",
+      "manipulation_type",
+      "scenario_id",
+      "semantic_labels",
+      "option_order",
+      "TimePT_scaled",
+      "WaitingTimePT_scaled",
+      "MarginalCostPT_scaled",
+      "TimeCar_scaled",
+      "CostCarCHF_scaled",
+      "distance_km_scaled"
+    ],
+    "paired_interventions": [
+      "paraphrase",
+      "label_mask",
+      "order_randomization"
+    ],
+    "between_block_interventions": [
+      "prompt_arm"
+    ]
+  },
+  "torch": {
+    "default_device": "cuda_if_available",
+    "float_dtype": "float64"
+  },
+  "n_monte_carlo_draws_biogeme": 32,
+  "n_monte_carlo_draws_torch_compare": 32,
+  "n_monte_carlo_draws_torch_final": 500,
+  "shared_draw_dims": 2,
+  "shared_draw_names": [
+    "omega_car",
+    "omega_env"
+  ],
+  "master_seed": 20260414,
+  "active_llm_key": "mlx_qwen35_0p8b",
+  "n_block_templates_per_model": 24,
+  "n_repeats_per_template": 4,
+  "collection": {
+    "max_workers": 1
+  },
+  "llm_models": [
+    {
+      "key": "mlx_qwen35_0p8b",
+      "respondent_prefix": "Q8",
+      "provider": "mlx",
+      "model": "mlx-community/Qwen3.5-0.8B-5bit",
+      "base_url": "",
+      "credentials_file": "",
+      "api_key": "",
+      "api_key_env": "",
+      "format": "",
+      "reasoning_effort": "",
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": null,
+      "seed": 20260414,
+      "timeout_sec": null,
+      "extra_body": {},
+      "response_decoder": {},
+      "grounding_num_predict": 96,
+      "attitude_num_predict": 32,
+      "task_num_predict": 96
+    }
+  ],
+  "survey_design": {
+    "n_attitudes": 7,
+    "n_core_tasks": 6,
+    "n_paraphrase_twins": 2,
+    "n_label_mask_twins": 2,
+    "n_order_twins": 2,
+    "n_monotonicity_tasks": 2,
+    "n_dominance_tasks": 2,
+    "total_tasks": 16,
+    "prompt_families": [
+      "concise",
+      "naturalistic"
+    ],
+    "prompt_arms": [
+      "semantic_arm",
+      "neutral_arm"
+    ],
+    "option_orders": [
+      "PT|CAR|SLOW_MODES",
+      "CAR|PT|SLOW_MODES",
+      "SLOW_MODES|PT|CAR"
+    ],
+    "top_attribute_options": [
+      "travel_time",
+      "waiting_time",
+      "cost",
+      "distance",
+      "availability",
+      "mode_label"
+    ],
+    "monotonicity_multiplier": 1.25,
+    "dominance_time_penalty_min": 20.0,
+    "dominance_wait_penalty_min": 10.0,
+    "dominance_cost_penalty_chf": 6.0
+  }
+}

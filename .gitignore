@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .venv/
+.venv-arm64/
 .python_packages/
 *.iter
 **raw_interactions.jsonl

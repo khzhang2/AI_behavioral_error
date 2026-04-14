@@ -14,13 +14,6 @@
       "order_randomization"
     ]
   },
-  "human_baseline_mnl": {
-    "optimizer": "scipy_bfgs"
-  },
-  "panel_mnl": {
-    "optimizer": "scipy_bfgs",
-    "maxiter": 500
-  },
   "biogeme": {
     "optimization_algorithm": "scipy"
   },
@@ -44,7 +37,7 @@
     "randomness_tolerance_kappa": 1.25,
     "exact_repeat_signature_fields": [
       "model_key",
-      "human_id",
+      "source_observation_id",
       "prompt_arm",
       "task_role",
       "manipulation_type",

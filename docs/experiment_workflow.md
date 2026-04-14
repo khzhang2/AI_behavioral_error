@@ -45,6 +45,10 @@ The fields most likely to change between experiments are:
 
 When the provider is Poe, keep the model entry in `llm_models`. Put `provider`, `model`, `base_url`, sampling parameters, and decoder settings there. Keep only the secret in `api_credentials.local.json` or the environment variable such as `POE_API_KEY`.
 
+When the provider is `mlx`, keep the model entry in `llm_models` and set `model` to a `mlx_lm.load()`-compatible Hugging Face MLX repo id. The current default small-model experiment uses `mlx_qwen35_0p8b` with `mlx-community/Qwen3.5-0.8B-5bit`. This path is local-only and does not use `base_url`, credentials, or any HTTP service.
+
+For config-shape consistency, keep the optional backend fields in the `mlx` entry as explicit empty placeholders rather than dropping them. In the current repository convention, string placeholders are `""`, object placeholders are `{}`, and optional numeric placeholders such as `top_k` or `timeout_sec` are `null`.
+
 To count expected requests, use:
 
 `total requests = n_block_templates_per_model × n_repeats_per_template × (1 + n_attitudes + total task cards)`
@@ -97,6 +101,7 @@ Use these rules when reasoning about performance and restart behavior.
 - Keep one respondent serial inside a run: `grounding -> attitudes -> tasks`.
 - Allow different respondents to run in parallel.
 - Treat `--max-workers` as respondent-level parallelism, not task-level parallelism.
+- When `provider = "mlx"`, the script forces the effective worker count to `1` even if the config or CLI asks for more.
 - Expect low CPU usage when the bottleneck is the remote API rather than local computation.
 
 The intervention collection script writes incrementally.
@@ -144,11 +149,21 @@ Use this order for the current intervention-regime workflow.
 ./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ```
 
-3. Estimate the AI-side Atasoy 2011 base logit on the archived experiment outputs:
+3. Estimate the AI-side Atasoy 2011 base logit and exact HCM on the archived experiment outputs:
 
 ```bash
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
+
+This step now first reorganizes the AI outputs into the same Atasoy-style estimation input schema used by the human replication, and then calls the same base-logit and exact-HCM estimation functions as the human script. The AI experiment archive therefore keeps human-style outputs such as `base_logit_estimates.csv`, `base_logit_summary.json`, `base_logit_human_comparison.csv`, `hcm_utility_estimates.csv`, `hcm_attitude_estimates.csv`, `hcm_measurement_estimates.csv`, `hcm_human_comparison.csv`, and `hcm_summary.json`, while also writing the existing `ai_atasoy_*` alias files for backward compatibility.
+
+If a collection was intentionally stopped early and you explicitly want a partial-sample Atasoy analysis, use:
+
+```bash
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name> --allow-partial
+```
+
+The default behavior still requires a complete collection. The `--allow-partial` flag is only for explicit partial-sample analysis and the resulting summaries will mark the run as partial.
 
 4. Estimate the scale-adjusted latent class model:
 
@@ -183,7 +198,7 @@ Use the following mapping when interpreting one completed experiment.
    Focus on `dominance violation rate` and `monotonicity compliance rate`.
 
 5. Human-relative distortion:
-   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit_summary.json`, `atasoy_2011_replication/ai_atasoy_base_logit_summary.json`, and `salcm/ai/ai_salcm_regime_summaries.csv`.
+   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit/base_logit_summary.json`, `atasoy_2011_replication/base_logit_summary.json`, and `salcm/ai_salcm_regime_summaries.csv`.
    Start with `choice share` differences. Treat `VOT/WTP` or elasticity-style interpretation more cautiously when the optimizer reports precision loss or iteration limits.
 
 ## Follow the experiment record rules
@@ -192,7 +207,7 @@ Keep the experiment archive clean.
 
 - Do not mix multiple models in one experiment folder.
 - Do not store diagnostics or estimation results under `outputs/`.
-- Keep current base-model results under `atasoy_2011_replication/`, HCM results under `hcm/ai` and `hcm/human`, and SALCM results under `salcm/ai` and `salcm/human`.
+- Keep current base-model results under `atasoy_2011_replication/`, HCM results under `hcm/`, and SALCM results under `salcm/`. Do not keep `human/` subfolders inside AI experiment archives.
 - Keep one root `experiment_summary.md` only.
 - Keep `experiment_summary.md` short and decision-oriented.
 - Prefer writing the summary after the main analysis scripts finish, not during collection.

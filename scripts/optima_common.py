@@ -14,6 +14,20 @@ from scipy.stats import norm, qmc
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT_DIR / "experiment_config.json"
+LLM_OPTIONAL_STRING_FIELDS = [
+    "base_url",
+    "credentials_file",
+    "credentials_key",
+    "api_key",
+    "api_key_env",
+    "reasoning_effort",
+]
+LLM_OPTIONAL_NULL_FIELDS = ["top_k", "timeout_sec"]
+LLM_OPTIONAL_OBJECT_FIELDS = ["extra_body", "response_decoder"]
+
+
+def _string_or_empty(value: Any) -> str:
+    return "" if value is None else str(value)
 
 
 def _read_json_file(path: Path) -> dict[str, Any]:
@@ -40,7 +54,7 @@ def _load_experiment_config() -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise ValueError("experiment_config.json must be a JSON object.")
 
-    base_file = str(raw.get("config_base_file", "")).strip()
+    base_file = _string_or_empty(raw.get("config_base_file", "")).strip()
     overrides = raw.get("config_overrides")
 
     if not base_file:
@@ -67,15 +81,21 @@ TIME_SCALE = 200.0
 WAIT_SCALE = 60.0
 COST_SCALE = 10.0
 DISTANCE_SCALE = 5.0
+ATASOY_HUMAN_REPLICATION_DIR = DATA_DIR / "atasoy_2011_replication"
+ATASOY_BASE_LOGIT_DIR = ATASOY_HUMAN_REPLICATION_DIR / "base_logit"
+ATASOY_HCM_DIR = ATASOY_HUMAN_REPLICATION_DIR / "hcm"
+SOURCE_OBSERVATION_COLUMN = "source_observation_id"
+VALID_INDICATOR_VALUES = (1, 2, 3, 4, 5)
 
-INDICATOR_NAMES = ["Envir01", "Mobil05", "LifSty07", "Envir05", "Mobil12", "LifSty01"]
+INDICATOR_NAMES = ["Envir01", "Envir02", "Envir05", "Envir06", "Mobil10", "Mobil11", "Mobil16"]
 INDICATOR_TEXT = {
     "Envir01": "Fuel prices should be increased to reduce congestion and air pollution.",
-    "Mobil05": "I reconsider frequently my mode choice.",
-    "LifSty07": "The pleasure of having something beautiful consists in showing it.",
+    "Envir02": "More public transportation is needed, even if taxes are set to pay the additional costs.",
     "Envir05": "I am concerned about global warming.",
-    "Mobil12": "It is very important to have a beautiful car.",
-    "LifSty01": "I always choose the best products, regardless of price.",
+    "Envir06": "Actions and decision making are needed to limit greenhouse gas emissions.",
+    "Mobil10": "It is difficult to take the public transport when I travel with my children.",
+    "Mobil11": "It is difficult to take the public transport when I carry bags or luggage.",
+    "Mobil16": "I do not like changing the mean of transport when I am traveling.",
 }
 CHOICE_LABEL_TO_CODE = {"A": 0, "B": 1, "C": 2}
 CHOICE_CODE_TO_NAME = {0: "PT", 1: "CAR", 2: "SLOW_MODES"}
@@ -107,9 +127,24 @@ def credentials_file_path(credentials_file: str) -> Path:
     return path if path.is_absolute() else ROOT_DIR / path
 
 
+def normalize_llm_config_shape(config: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(config)
+    for field_name in LLM_OPTIONAL_STRING_FIELDS:
+        normalized[field_name] = _string_or_empty(normalized.get(field_name, "")).strip()
+    format_value = normalized.get("format", "")
+    normalized["format"] = "" if format_value is None else format_value
+    for field_name in LLM_OPTIONAL_NULL_FIELDS:
+        normalized.setdefault(field_name, None)
+    for field_name in LLM_OPTIONAL_OBJECT_FIELDS:
+        field_value = normalized.get(field_name)
+        normalized[field_name] = field_value if isinstance(field_value, dict) else {}
+    return normalized
+
+
 def load_credentials_payload(config: dict[str, Any]) -> dict[str, Any]:
-    credentials_file = str(config.get("credentials_file", config.get("api_key_file", ""))).strip()
-    credentials_key = str(config.get("credentials_key", "")).strip()
+    normalized = normalize_llm_config_shape(config)
+    credentials_file = normalized["credentials_file"] or _string_or_empty(config.get("api_key_file", "")).strip()
+    credentials_key = normalized["credentials_key"]
     if not credentials_file:
         return {}
 
@@ -130,7 +165,7 @@ def load_credentials_payload(config: dict[str, Any]) -> dict[str, Any]:
 
 
 def apply_llm_credentials(config: dict[str, Any]) -> dict[str, Any]:
-    merged = dict(config)
+    merged = normalize_llm_config_shape(config)
     credentials = load_credentials_payload(merged)
     if credentials:
         for field_name in ["api_key", "api_key_env", "base_url", "provider", "model"]:
@@ -138,11 +173,11 @@ def apply_llm_credentials(config: dict[str, Any]) -> dict[str, Any]:
                 merged[field_name] = credentials[field_name]
         if isinstance(credentials.get("extra_body"), dict) and not merged.get("extra_body"):
             merged["extra_body"] = dict(credentials["extra_body"])
-    if str(merged.get("provider", "")).lower() == "poe" and not merged.get("base_url"):
+    if _string_or_empty(merged.get("provider", "")).lower() == "poe" and not merged.get("base_url"):
         merged["base_url"] = "https://api.poe.com/v1"
-    if str(merged.get("provider", "")).lower() == "deepseek" and not merged.get("base_url"):
+    if _string_or_empty(merged.get("provider", "")).lower() == "deepseek" and not merged.get("base_url"):
         merged["base_url"] = "https://api.deepseek.com"
-    return merged
+    return normalize_llm_config_shape(merged)
 
 
 def llm_models() -> list[dict[str, Any]]:
@@ -173,7 +208,7 @@ def llm_model_map() -> dict[str, dict[str, Any]]:
 
 def active_llm_key() -> str:
     model_map = llm_model_map()
-    configured = str(CONFIG.get("active_llm_key", "")).strip()
+    configured = _string_or_empty(CONFIG.get("active_llm_key", "")).strip()
     if configured and configured in model_map:
         return configured
     if model_map:
@@ -297,25 +332,15 @@ def _number_or_zero(value: Any) -> int:
         return 0
 
 
-def response_decoder_config(model_config: dict[str, Any], provider: str) -> dict[str, str]:
-    if provider == "ollama":
-        defaults = {
-            "response_text_path": "message.content",
-            "thinking_text_path": "message.thinking",
-            "done_reason_path": "done_reason",
-            "total_duration_path": "total_duration",
-            "prompt_eval_count_path": "prompt_eval_count",
-            "eval_count_path": "eval_count",
-        }
-    else:
-        defaults = {
-            "response_text_path": "choices.0.message.content",
-            "thinking_text_path": "choices.0.message.reasoning_content",
-            "done_reason_path": "choices.0.finish_reason",
-            "total_duration_path": "",
-            "prompt_eval_count_path": "usage.prompt_tokens",
-            "eval_count_path": "usage.completion_tokens",
-        }
+def response_decoder_config(model_config: dict[str, Any]) -> dict[str, str]:
+    defaults = {
+        "response_text_path": "choices.0.message.content",
+        "thinking_text_path": "choices.0.message.reasoning_content",
+        "done_reason_path": "choices.0.finish_reason",
+        "total_duration_path": "",
+        "prompt_eval_count_path": "usage.prompt_tokens",
+        "eval_count_path": "usage.completion_tokens",
+    }
 
     override = model_config.get("response_decoder", {})
     if isinstance(override, dict):
@@ -325,11 +350,11 @@ def response_decoder_config(model_config: dict[str, Any], provider: str) -> dict
     return defaults
 
 
-def decode_chat_response(response: dict[str, Any], model_config: dict[str, Any], provider: str) -> dict[str, Any]:
-    decoder = response_decoder_config(model_config, provider)
+def decode_chat_response(response: dict[str, Any], model_config: dict[str, Any]) -> dict[str, Any]:
+    decoder = response_decoder_config(model_config)
 
     def read(path_key: str) -> Any:
-        path = str(decoder.get(path_key, "")).strip()
+        path = _string_or_empty(decoder.get(path_key, "")).strip()
         return nested_response_value(response, path) if path else None
 
     return {
@@ -345,7 +370,7 @@ def decode_chat_response(response: dict[str, Any], model_config: dict[str, Any],
 
 
 def default_api_key_env_names(model_config: dict[str, Any]) -> list[str]:
-    provider = str(model_config.get("provider", "")).strip().lower()
+    provider = _string_or_empty(model_config.get("provider", "")).strip().lower()
     if provider == "poe":
         return ["POE_API_KEY"]
     if provider == "deepseek":
@@ -356,18 +381,18 @@ def default_api_key_env_names(model_config: dict[str, Any]) -> list[str]:
 
 
 def resolve_llm_api_key(model_config: dict[str, Any]) -> str:
-    api_key = str(model_config.get("api_key", "")).strip()
+    api_key = _string_or_empty(model_config.get("api_key", "")).strip()
     if api_key:
         return api_key
 
     credential_data = load_credentials_payload(model_config)
     if credential_data:
         for key in ("api_key", "token", "poe_api_key", "POE_API_KEY", "deepseek_api_key", "DEEPSEEK_API_KEY", "DeepSeek_API_KEY"):
-            candidate = str(credential_data.get(key, "")).strip()
+            candidate = _string_or_empty(credential_data.get(key, "")).strip()
             if candidate:
                 return candidate
 
-    api_key_env = str(model_config.get("api_key_env", "")).strip()
+    api_key_env = _string_or_empty(model_config.get("api_key_env", "")).strip()
     if api_key_env:
         candidate = os.environ.get(api_key_env, "").strip()
         if candidate:
@@ -423,8 +448,8 @@ def parse_indicator_value(text: str) -> int:
                 value = int(payload[key])
             except (TypeError, ValueError):
                 value = -1
-            return value if 1 <= value <= 6 else -1
-    match = re.search(r"\b([1-6])\b", text)
+            return value if value in VALID_INDICATOR_VALUES else -1
+    match = re.search(r"\b([1-5])\b", text)
     return int(match.group(1)) if match else -1
 
 

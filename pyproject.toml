@@ -20,6 +20,7 @@ dependencies = [
 experiments = [
   "biogeme==3.2.12",
   "matplotlib<3.9",
+  "mlx-lm==0.31.2",
   "numpy<2",
   "pandas<2.3",
   "scipy<1.14",

@@ -1,26 +1,22 @@
 # 20260412_optima_intervention_regime_poe_gpt54_nano_v1 Atasoy 2011 analysis
 
-This note applies the Atasoy, Glerum, and Bierlaire (2011) base logit specification to the existing AI core-choice outputs of this experiment without sending any new model requests.
+This note applies the same Atasoy 2011 base logit and fixed-normalization continuous HCM estimation code used by the human replication to the AI outputs in this experiment.
+
+The AI estimation input is first reorganized into the same Atasoy-style row format as the human replication. The current sample contains `2400` core-task observations from `400` completed AI respondents.
 
 ## Base logit
 
-The AI-side Atasoy-style base logit uses the six `core` tasks only. It keeps the paper utility structure and merges the missing socio-demographic controls from the original human source respondent linked through `human_id`.
-
 | Metric | Human paper replication | This AI experiment |
 | --- | ---: | ---: |
-| log-likelihood | -1067.356 | -523.981 |
-| PMM VOT (CHF/hour) | 30.35 | 33.06 |
-| PT VOT (CHF/hour) | 12.24 | 27.81 |
-| PMM share | 0.6231 | 0.8468 |
-| PT share | 0.3209 | 0.1437 |
-| SM share | 0.0560 | 0.0095 |
+| log-likelihood | -1067.356 | -779.660 |
+| PMM VOT (CHF/hour) | 30.35 | 19.56 |
+| PT VOT (CHF/hour) | 12.24 | 18.55 |
+| PMM share | 0.6231 | 0.8666 |
+| PT share | 0.3209 | 0.1277 |
+| SM share | 0.0560 | 0.0058 |
 
-## Exact HCM feasibility
+## Exact HCM
 
-The exact Atasoy 2011 continuous HCM is not feasible from the current AI outputs.
+The exact Atasoy 2011 continuous HCM is not feasible from these AI outputs.
 
 Missing required indicators: Envir02, Envir06, Mobil10, Mobil11, Mobil16
-
-The current intervention-regime AI survey collected only these six attitude questions:
-
-Envir01, Envir05, LifSty01, LifSty07, Mobil05, Mobil12

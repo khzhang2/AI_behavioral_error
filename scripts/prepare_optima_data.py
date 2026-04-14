@@ -11,11 +11,11 @@ from optima_common import (
     DRAW_NAMES,
     INDICATOR_NAMES,
     SOURCE_DATA_DIR,
+    SOURCE_OBSERVATION_COLUMN,
     TIME_SCALE,
     WAIT_SCALE,
     generate_shared_sobol_draws,
     pt_non_wait_time,
-    write_json,
 )
 
 
@@ -34,79 +34,38 @@ def income_text(value: float) -> str:
     return f"around CHF {int(round(value))} per month"
 
 
-def build_choice_long(frame: pd.DataFrame) -> pd.DataFrame:
-    rows = []
-    for _, row in frame.iterrows():
-        rows.extend(
-            [
-                {
-                    "respondent_id": row["respondent_id"],
-                    "human_id": row["human_id"],
-                    "Choice": row["Choice"],
-                    "alternative_code": 0,
-                    "alternative_name": "PT",
-                    "availability": 1,
-                    "travel_time": row["TimePT_non_wait"],
-                    "waiting_time": row["WaitingTimePT"],
-                    "travel_cost": row["MarginalCostPT"],
-                    "distance_km": row["distance_km"],
-                    "scaled_time": row["TimePT_non_wait_scaled"],
-                    "scaled_waiting": row["WaitingTimePT_scaled"],
-                    "scaled_cost": row["MarginalCostPT_scaled"],
-                    "scaled_distance": row["distance_km_scaled"],
-                },
-                {
-                    "respondent_id": row["respondent_id"],
-                    "human_id": row["human_id"],
-                    "Choice": row["Choice"],
-                    "alternative_code": 1,
-                    "alternative_name": "CAR",
-                    "availability": row["CAR_AVAILABLE"],
-                    "travel_time": row["TimeCar"],
-                    "waiting_time": 0,
-                    "travel_cost": row["CostCarCHF"],
-                    "distance_km": row["distance_km"],
-                    "scaled_time": row["TimeCar_scaled"],
-                    "scaled_waiting": 0,
-                    "scaled_cost": row["CostCarCHF_scaled"],
-                    "scaled_distance": row["distance_km_scaled"],
-                },
-                {
-                    "respondent_id": row["respondent_id"],
-                    "human_id": row["human_id"],
-                    "Choice": row["Choice"],
-                    "alternative_code": 2,
-                    "alternative_name": "SLOW_MODES",
-                    "availability": 1,
-                    "travel_time": 0,
-                    "waiting_time": 0,
-                    "travel_cost": 0,
-                    "distance_km": row["distance_km"],
-                    "scaled_time": 0,
-                    "scaled_waiting": 0,
-                    "scaled_cost": 0,
-                    "scaled_distance": row["distance_km_scaled"],
-                },
-            ]
-        )
-    return pd.DataFrame(rows)
+def education_text(value: float) -> str:
+    education = int(value)
+    if education >= 7:
+        return "university education"
+    if education >= 6:
+        return "applied higher education"
+    if education >= 5:
+        return "high school education"
+    if education >= 3:
+        return "vocational or secondary education"
+    if education >= 1:
+        return "compulsory education"
+    return "education not reported"
+
+
+def trip_purpose_text(value: float) -> str:
+    trip_purpose = int(value)
+    if trip_purpose == 1:
+        return "a work-related trip"
+    if trip_purpose == 2:
+        return "a mixed work-and-leisure trip"
+    if trip_purpose == 3:
+        return "a leisure-related trip"
+    return "a trip with unreported purpose"
 
 
 def main() -> None:
     raw_path = SOURCE_DATA_DIR / "raw" / "optima.dat"
     frame = pd.read_csv(raw_path, sep="\t")
+    frame[SOURCE_OBSERVATION_COLUMN] = frame.index.astype(int) + 1
 
-    frame = frame.loc[frame["Choice"] != -1].copy()
-    frame = frame.loc[~((frame["Choice"] == 1) & (frame["CarAvail"] == 3))].copy()
-    frame = frame.loc[frame["OccupStat"].isin([1, 2])].copy()
-    frame = frame.loc[frame["NbTrajects"] != 1].copy()
-    frame = frame.loc[frame["TimePT"] != 0].copy()
-    frame = frame.loc[frame["TimeCar"] != 0].copy()
-    frame = frame.loc[frame["distance_km"] != 0].copy()
-    for indicator_name in INDICATOR_NAMES:
-        frame = frame.loc[frame[indicator_name].between(1, 6)].copy()
-
-    frame = frame.reset_index(drop=True)
+    frame = frame.loc[frame["Choice"] != -1].copy().reset_index(drop=True)
     frame["normalized_weight"] = frame["Weight"] * len(frame) / frame["Weight"].sum()
     frame["respondent_id"] = [f"H{index + 1:04d}" for index in range(len(frame))]
     frame["human_id"] = frame["ID"]
@@ -125,7 +84,7 @@ def main() -> None:
     frame["distance_km_scaled"] = frame["distance_km"] / DISTANCE_SCALE
 
     frame["high_education"] = (frame["Education"] >= 6).astype(int)
-    frame["low_education"] = (frame["Education"] <= 3).astype(int)
+    frame["low_education"] = frame["Education"].isin([1, 2, 3]).astype(int)
     frame["top_manager"] = (frame["SocioProfCat"] == 1).astype(int)
     frame["employees"] = (frame["SocioProfCat"] == 6).astype(int)
     frame["artisans"] = (frame["SocioProfCat"] == 5).astype(int)
@@ -133,24 +92,30 @@ def main() -> None:
     frame["car_oriented_parents"] = (frame["FreqCarPar"] > frame["FreqTrainPar"]).astype(int)
     frame["city_center_as_kid"] = frame["ResidChild"].isin([1, 2]).astype(int)
     frame["childSuburb"] = frame["ResidChild"].isin([3, 4]).astype(int)
-    frame["work_trip"] = (frame["TripPurpose"] == 1).astype(int)
-    frame["other_trip"] = (frame["TripPurpose"] != 1).astype(int)
+    frame["work_trip"] = frame["TripPurpose"].isin([1, 2]).astype(int)
+    frame["other_trip"] = 1 - frame["work_trip"]
 
     frame["sex_text"] = frame["Gender"].map({1: "male", 2: "female"}).fillna("traveler")
     frame["age_text"] = frame["age"].apply(age_text)
     frame["income_text"] = frame["CalculatedIncome"].apply(income_text)
-    frame["education_text"] = frame["high_education"].map({1: "high education", 0: "not high education"})
-    frame["trip_purpose_text"] = frame["work_trip"].map({1: "a work trip", 0: "a non-work trip"})
+    frame["education_text"] = frame["Education"].apply(education_text)
+    frame["trip_purpose_text"] = frame["TripPurpose"].apply(trip_purpose_text)
     frame["car_availability_text"] = frame["CAR_AVAILABLE"].map(
         {1: "car is available for this trip", 0: "car is not available for this trip"}
     )
 
-    choice_long = build_choice_long(frame)
-
     profile_columns = [
+        SOURCE_OBSERVATION_COLUMN,
         "respondent_id",
         "human_id",
         "normalized_weight",
+        "Weight",
+        "LangCode",
+        "UrbRur",
+        "OccupStat",
+        "TripPurpose",
+        "Education",
+        "Region",
         "age",
         "sex_text",
         "age_text",
@@ -196,7 +161,6 @@ def main() -> None:
     profile_frame = frame[profile_columns].copy()
 
     frame.to_csv(SOURCE_DATA_DIR / "human_cleaned_wide.csv", index=False)
-    choice_long.to_csv(SOURCE_DATA_DIR / "human_cleaned_long.csv", index=False)
     profile_frame.to_csv(SOURCE_DATA_DIR / "human_respondent_profiles.csv", index=False)
 
     n_rows = len(frame)
@@ -216,14 +180,10 @@ def main() -> None:
 
         np.save(handle, draws_32)
 
-    summary = {
-        "n_rows_after_cleaning": int(n_rows),
-        "n_selected_indicators": len(INDICATOR_NAMES),
-        "selected_indicators": INDICATOR_NAMES,
-        "choice_share": frame["Choice"].value_counts(normalize=True).sort_index().to_dict(),
-    }
-    write_json(SOURCE_DATA_DIR / "human_benchmark_sample_summary.json", summary)
-    print(f"[prepare_optima_data] rows={n_rows} respondents={n_rows} draws32={draws_32.shape} draws500={draws_500.shape}")
+    print(
+        f"[prepare_optima_data] rows={n_rows} respondents={n_rows} "
+        f"draws32={draws_32.shape} draws500={draws_500.shape}"
+    )
 
 
 if __name__ == "__main__":

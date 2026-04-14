@@ -14,9 +14,9 @@
 在当前 experiment-ready 约定下，每个实验文件夹只对应一个 model，目录结构应理解为：
 
 - experiment root：共享派生 AI 数据、共享 diagnostics、问卷构造产物、`experiment_summary.md`
-- `atasoy_2011_replication/`：当前默认 base-model 结果
-- `hcm/ai`、`hcm/human`：HCM 输入与结果
-- `salcm/ai`、`salcm/human`：SALCM 输入与结果
+- `atasoy_2011_replication/`：按人类 Atasoy 复现同一行格式整理后的 AI 输入表，以及当前默认 base-model 结果
+- `hcm/`：AI-side Atasoy 2011 exact HCM 结果；当前主线会同时写出人类风格文件名和 `ai_atasoy_*` 兼容别名
+- `salcm/`：AI-side SALCM 输入与结果
 - `outputs/`：只保留原始 AI 问答文件，如 `raw_interactions.jsonl`、`respondent_transcripts.json`、`run_respondents.json`、`ai_collection_summary.json`
 
 | 字段路径 | 建议文件 | 类型 | 当前代码用途 | 含义 | 示例 |
@@ -31,28 +31,28 @@
 | `active_llm_key` | `experiment_config.json` | `str` | `llm_config_for()` | 默认使用哪一个 `llm_models[].key` | `"qwen3.5_9b"` |
 | `n_block_templates_per_model` | `experiment_config.json` | `int` | `prepare_optima_intervention_regime_data.py` | 每个模型生成多少个问卷块模板 | `236` |
 | `n_repeats_per_template` | `experiment_config.json` | `int` | `prepare_optima_intervention_regime_data.py` | 每个 template 做多少次 exact repeat | `3` |
+| `collection.max_workers` | `experiment_config.json` | `int` | collection 脚本 | 受访者级并发上限；当 `provider = "mlx"` 时会被强制降为 `1` | `1` |
 | `llm_models` | `experiment_config.json` | `list[object]` | 所有 collection / summarize / estimate 脚本 | 模型列表；experiment-ready 工作流要求这里只有一个条目 | `[{...}]` |
 | `llm_models[].key` | `experiment_config.json` | `str` | `active_llm_key`、`--model-key`、输出目录命名 | 模型条目的内部唯一键名；CLI 应优先使用这个字段，而不是 `model` | `"poe_gpt54_nano"` |
 | `llm_models[].respondent_prefix` | `experiment_config.json` | `str` | 数据准备脚本 | `respondent_id` / `block_template_id` 前缀 | `"PO"` |
-| `llm_models[].provider` | `experiment_config.json` | `str` | collection 脚本 | 后端类型；决定走 `ollama`、`poe` 或 OpenAI-compatible 分支 | `"poe"` |
-| `llm_models[].model` | `experiment_config.json` | `str` | collection 脚本 | 真正发送给后端的模型名 | `"gpt-5.4-nano"` |
-| `llm_models[].base_url` | `experiment_config.json` | `str` | collection 脚本 | 后端根地址 | `"https://api.poe.com/v1"` |
-| `llm_models[].credentials_file` | `experiment_config.json` | `str` | `optima_common.py` | 本地凭据文件路径 | `"api_credentials.local.json"` |
+| `llm_models[].provider` | `experiment_config.json` | `str` | collection 脚本 | 后端类型；远程 API 用 `poe` / `deepseek`，本地小模型固定用 `mlx` | `"mlx"` |
+| `llm_models[].model` | `experiment_config.json` | `str` | collection 脚本 | 对远程后端是真实模型名；对 `mlx` 固定表示 `mlx_lm.load()` 可直接加载的模型标识 | `"mlx-community/Qwen3.5-0.8B-5bit"` |
+| `llm_models[].base_url` | `experiment_config.json` | `str` | collection 脚本 | 远程后端根地址；`mlx` 运行时忽略，但建议保留为空字符串以保持条目形状一致 | `"https://api.poe.com/v1"` |
+| `llm_models[].credentials_file` | `experiment_config.json` | `str` | `optima_common.py` | 本地凭据文件路径；`mlx` 运行时忽略，但建议保留为空字符串以保持条目形状一致 | `"api_credentials.local.json"` |
 | `llm_models[].api_key` | `experiment_config.json` 或本地文件 | `str` | `resolve_llm_api_key()` | 直接写死的 API key；不推荐入库 | `""` |
 | `llm_models[].api_key_env` | `experiment_config.json` 或本地文件 | `str` | `resolve_llm_api_key()` | 显式指定环境变量名 | `"POE_API_KEY"` |
-| `llm_models[].format` | `experiment_config.json` | `str` 或 `object` | collection 脚本 | 输出格式控制；对 OpenAI-compatible 分支会转成 `response_format` | `"json"` |
-| `llm_models[].think` | `experiment_config.json` | `bool` | `ollama` 分支 | 是否打开 `ollama` 的 `think` 参数 | `false` |
-| `llm_models[].reasoning_effort` | `experiment_config.json` | `str` | Poe / OpenAI-compatible 分支 | 显式传给兼容 OpenAI 的 `reasoning_effort` 字段 | `"none"` |
+| `llm_models[].format` | `experiment_config.json` | `str` 或 `object` | collection 脚本 | 输出格式控制；对 OpenAI-compatible 分支会转成 `response_format`；`mlx` 运行时忽略，但建议保留为空字符串或空对象 | `"json"` |
+| `llm_models[].reasoning_effort` | `experiment_config.json` | `str` | Poe / OpenAI-compatible 分支 | 显式传给兼容 OpenAI 的 `reasoning_effort` 字段；`mlx` 运行时忽略，但建议保留为空字符串 | `"none"` |
 | `llm_models[].temperature` | `experiment_config.json` | `float` | collection 脚本 | 温度参数 | `0.1` |
-| `llm_models[].top_p` | `experiment_config.json` | `float` | collection 脚本 | nucleus sampling 参数 | `0.95` |
-| `llm_models[].top_k` | `experiment_config.json` | `int` | `ollama` 分支 | `top_k` 参数 | `20` |
+| `llm_models[].top_p` | `experiment_config.json` | `float` | collection 脚本 | nucleus sampling 参数；`mlx` 也直接使用这个值 | `0.95` |
+| `llm_models[].top_k` | `experiment_config.json` | `int` 或 `null` | 当前 collection 代码不读取 | 当前只建议作为形状一致的占位字段保留；`mlx` 推荐写 `null` | `null` |
 | `llm_models[].seed` | `experiment_config.json` | `int` | collection 脚本 | 请求级随机种子 | `20260412` |
 | `llm_models[].grounding_num_predict` | `experiment_config.json` | `int` | collection 脚本 | grounding 阶段生成长度 | `96` |
 | `llm_models[].attitude_num_predict` | `experiment_config.json` | `int` | collection 脚本 | attitude 阶段生成长度 | `32` |
 | `llm_models[].task_num_predict` | `experiment_config.json` | `int` | collection 脚本 | task 阶段生成长度 | `96` |
-| `llm_models[].timeout_sec` | `experiment_config.json` | `int` | collection 脚本 | HTTP 请求超时秒数 | `240` |
-| `llm_models[].extra_body` | `experiment_config.json` | `object` | Poe / OpenAI-compatible 分支 | 厂商私有字段透传口 | `{"custom_flag": true}` |
-| `llm_models[].response_decoder` | `experiment_config.json` | `object` | `optima_common.py` | 针对单个模型覆盖默认响应解析路径 | `{...}` |
+| `llm_models[].timeout_sec` | `experiment_config.json` | `int` 或 `null` | collection 脚本 | HTTP 请求超时秒数；只对远程 API 后端生效；`mlx` 推荐保留为 `null` 占位 | `240` |
+| `llm_models[].extra_body` | `experiment_config.json` | `object` | Poe / OpenAI-compatible 分支 | 厂商私有字段透传口；`mlx` 运行时忽略，但建议保留为空对象 | `{"custom_flag": true}` |
+| `llm_models[].response_decoder` | `experiment_config.json` | `object` | `optima_common.py` | 针对远程 chat completion 响应覆盖默认解析路径；`mlx` 运行时忽略，但建议保留为空对象 | `{...}` |
 | `llm_models[].response_decoder.response_text_path` | `experiment_config.json` | `str` | `decode_chat_response()` | 正式输出文本路径 | `"choices.0.message.content"` |
 | `llm_models[].response_decoder.thinking_text_path` | `experiment_config.json` | `str` | `decode_chat_response()` | thinking / reasoning 文本路径 | `"choices.0.message.reasoning_content"` |
 | `llm_models[].response_decoder.done_reason_path` | `experiment_config.json` | `str` | `decode_chat_response()` | finish reason 路径 | `"choices.0.finish_reason"` |
@@ -60,7 +60,7 @@
 | `llm_models[].response_decoder.prompt_eval_count_path` | `experiment_config.json` | `str` | `decode_chat_response()` | prompt token 路径 | `"usage.prompt_tokens"` |
 | `llm_models[].response_decoder.eval_count_path` | `experiment_config.json` | `str` | `decode_chat_response()` | completion token 路径 | `"usage.completion_tokens"` |
 | `survey_design` | `experiment_config.json` | `object` | 数据准备、collection、估计 | 问卷结构参数 | `{...}` |
-| `survey_design.n_attitudes` | `experiment_config.json` | `int` | intervention / latent collection 脚本 | 每次 run 采集多少道态度题 | `6` |
+| `survey_design.n_attitudes` | `experiment_config.json` | `int` | intervention / latent collection 脚本 | 每次 run 采集多少道态度题；当前默认 Atasoy exact HCM 为 `7` | `7` |
 | `survey_design.n_core_tasks` | `experiment_config.json` | `int` | 数据准备脚本 | 核心 choice tasks 数 | `6` |
 | `survey_design.n_paraphrase_twins` | `experiment_config.json` | `int` | 数据准备脚本 | paraphrase twin 数 | `2` |
 | `survey_design.n_label_mask_twins` | `experiment_config.json` | `int` | 数据准备脚本 | label-mask twin 数 | `2` |
@@ -79,9 +79,6 @@
 | `intervention_tests.repeat_randomness_kappa` | `experiment_config_base.json` | `float` | 指标与分析脚本 | 随机性容忍系数 | `1.25` |
 | `intervention_tests.bootstrap_repetitions` | `experiment_config_base.json` | `int` | 指标脚本 | bootstrap 次数 | `200` |
 | `intervention_tests.utility_equivalent_manipulations` | `experiment_config_base.json` | `list[str]` | 指标脚本 | 视为 utility-equivalent 的干预类型 | `["paraphrase", "label_mask", "order_randomization"]` |
-| `human_baseline_mnl.optimizer` | `experiment_config_base.json` | `str` | legacy MNL 脚本 | 旧版人类基准 MNL 优化器；当前默认 base model 不再归档到 `experiments/*/mnl/` | `"scipy_bfgs"` |
-| `panel_mnl.optimizer` | `experiment_config_base.json` | `str` | legacy panel MNL 脚本 | 旧版 AI panel MNL 优化器；当前默认结构比较改用 `atasoy_2011_replication/` | `"scipy_bfgs"` |
-| `panel_mnl.maxiter` | `experiment_config_base.json` | `int` | legacy panel MNL 脚本 | 旧版 MNL 最大迭代次数 | `500` |
 | `biogeme.optimization_algorithm` | `experiment_config_base.json` | `str` | Biogeme 估计脚本 | Biogeme 优化方法 | `"scipy"` |
 | `salcm.n_preference_classes` | `experiment_config_base.json` | `int` | SALCM 脚本 | 偏好类数量 | `3` |
 | `salcm.n_scale_classes` | `experiment_config_base.json` | `int` | SALCM 脚本 | 尺度类数量 | `2` |

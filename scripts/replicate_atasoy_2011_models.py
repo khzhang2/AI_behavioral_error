@@ -31,6 +31,22 @@ PAPER_BASE_TARGETS = {
     "beta_nbikes": 0.347,
 }
 
+PAPER_BASE_TARGETS_TEXT = {
+    "ASCPMM": "-0.413",
+    "ASCSM": "-0.470",
+    "beta_cost": "-0.0592",
+    "beta_time_pmm": "-0.0299",
+    "beta_time_pt": "-0.0121",
+    "beta_distance": "-0.227",
+    "beta_ncars": "1.000",
+    "beta_nchildren": "0.154",
+    "beta_language": "1.090",
+    "beta_work": "-0.582",
+    "beta_urban": "0.286",
+    "beta_student": "3.210",
+    "beta_nbikes": "0.347",
+}
+
 PAPER_CONTINUOUS_UTILITY_TARGETS = {
     "ASCPMM": -0.599,
     "ASCSM": -0.772,
@@ -49,6 +65,24 @@ PAPER_CONTINUOUS_UTILITY_TARGETS = {
     "beta_Aenv": 0.393,
 }
 
+PAPER_CONTINUOUS_UTILITY_TARGETS_TEXT = {
+    "ASCPMM": "-0.599",
+    "ASCSM": "-0.772",
+    "beta_cost": "-0.0559",
+    "beta_time_pmm": "-0.0294",
+    "beta_time_pt": "-0.0119",
+    "beta_distance": "-0.224",
+    "beta_ncars": "0.970",
+    "beta_nchildren": "0.215",
+    "beta_language": "1.060",
+    "beta_work": "-0.583",
+    "beta_urban": "0.283",
+    "beta_student": "3.260",
+    "beta_nbikes": "0.385",
+    "beta_Acar": "-0.574",
+    "beta_Aenv": "0.393",
+}
+
 PAPER_CONTINUOUS_ATTITUDE_TARGETS = {
     "Acar": 3.020,
     "Aenv": 3.230,
@@ -61,6 +95,20 @@ PAPER_CONTINUOUS_ATTITUDE_TARGETS = {
     "theta_basel_zurich": -0.2560,
     "theta_east": -0.2280,
     "theta_graubunden": -0.3030,
+}
+
+PAPER_CONTINUOUS_ATTITUDE_TARGETS_TEXT = {
+    "Acar": "3.020",
+    "Aenv": "3.230",
+    "theta_ncars": "0.1040",
+    "theta_educ": "0.2350",
+    "theta_nbikes": "0.0845",
+    "theta_age": "0.00445",
+    "theta_valais": "-0.2230",
+    "theta_bern": "-0.3610",
+    "theta_basel_zurich": "-0.2560",
+    "theta_east": "-0.2280",
+    "theta_graubunden": "-0.3030",
 }
 
 PAPER_TABLES = {
@@ -127,6 +175,8 @@ CONTINUOUS_ATTITUDE_ORDER = [
 PRO_CAR_INDICATORS = ["Mobil10", "Mobil11", "Mobil16"]
 ENV_INDICATORS = ["Envir01", "Envir02", "Envir05", "Envir06"]
 ALL_CONTINUOUS_INDICATORS = PRO_CAR_INDICATORS + ENV_INDICATORS
+FIXED_PRO_CAR_REFERENCE = "Mobil10"
+FIXED_ENV_REFERENCE = "Envir05"
 
 
 def parse_args() -> argparse.Namespace:
@@ -138,6 +188,38 @@ def parse_args() -> argparse.Namespace:
 def ensure_dir(path: Path) -> Path:
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+def decimal_places(display_text: str) -> int:
+    text = str(display_text)
+    if "." not in text:
+        return 0
+    return len(text.split(".", 1)[1])
+
+
+def strict_comparison_row(
+    section: str,
+    name: str,
+    paper_value: float,
+    our_value: float,
+    digits: int,
+    block: str,
+) -> dict[str, object]:
+    paper_display = f"{paper_value:.{digits}f}"
+    our_display = f"{our_value:.{digits}f}"
+    return {
+        "section": section,
+        "block": block,
+        "name": name,
+        "paper_value": float(paper_value),
+        "our_value": float(our_value),
+        "paper_display": paper_display,
+        "our_display": our_display,
+        "digits": int(digits),
+        "rounded_match": int(paper_display == our_display),
+        "status": "match" if paper_display == our_display else "mismatch",
+        "gap": float(our_value - paper_value),
+    }
 
 
 def approx_standard_errors(result) -> np.ndarray | None:
@@ -157,22 +239,29 @@ def approx_standard_errors(result) -> np.ndarray | None:
     return np.sqrt(diagonal)
 
 
+def add_atasoy_covariates(frame: pd.DataFrame) -> pd.DataFrame:
+    work = frame.copy()
+    for column in ["NbCar", "NbChild", "NbBicy"]:
+        work[column] = pd.to_numeric(work[column], errors="coerce")
+        work[f"{column}_0"] = work[column].clip(lower=0)
+    work["French"] = (work["LangCode"] == 1).astype(int)
+    work["Urban"] = (work["UrbRur"] == 2).astype(int)
+    work["Student"] = (work["OccupStat"] == 8).astype(int)
+    work["WorkTrip"] = work["TripPurpose"].isin([1, 2]).astype(int)
+    work["EducHigh"] = (work["Education"] >= 6).astype(int)
+    work["AgeTerm"] = (pd.to_numeric(work["age"], errors="coerce") - 45).clip(lower=0)
+    work["Valais"] = (work["Region"] == 2).astype(int)
+    work["Bern"] = (work["Region"] == 4).astype(int)
+    work["BaselZurich"] = work["Region"].isin([5, 6]).astype(int)
+    work["East"] = (work["Region"] == 7).astype(int)
+    work["Graubunden"] = (work["Region"] == 8).astype(int)
+    return work
+
+
 def prepare_replication_frame() -> pd.DataFrame:
     frame = pd.read_csv(RAW_DATA_FILE, sep="\t")
     frame = frame.loc[frame["Choice"] != -1].copy().reset_index(drop=True)
-    for column in ["NbCar", "NbChild", "NbBicy"]:
-        frame[f"{column}_0"] = frame[column].clip(lower=0)
-    frame["French"] = (frame["LangCode"] == 1).astype(int)
-    frame["Urban"] = (frame["UrbRur"] == 2).astype(int)
-    frame["Student"] = (frame["OccupStat"] == 8).astype(int)
-    frame["WorkTrip"] = frame["TripPurpose"].isin([1, 2]).astype(int)
-    frame["EducHigh"] = (frame["Education"] >= 6).astype(int)
-    frame["AgeTerm"] = (frame["age"] - 45).clip(lower=0)
-    frame["Valais"] = (frame["Region"] == 2).astype(int)
-    frame["Bern"] = (frame["Region"] == 4).astype(int)
-    frame["BaselZurich"] = frame["Region"].isin([5, 6]).astype(int)
-    frame["East"] = (frame["Region"] == 7).astype(int)
-    frame["Graubunden"] = (frame["Region"] == 8).astype(int)
+    frame = add_atasoy_covariates(frame)
     frame["Weight"] = frame["Weight"].astype(float)
     return frame
 
@@ -477,6 +566,23 @@ def search_continuous_normalization(frame: pd.DataFrame) -> tuple[pd.DataFrame, 
     return search_table, best_bundle
 
 
+def fixed_continuous_initial_result(
+    frame: pd.DataFrame,
+    ref_pro_car_indicator: str,
+    ref_env_indicator: str,
+):
+    start = continuous_start_vector()
+    return minimize(
+        continuous_negative_log_likelihood,
+        start,
+        args=(frame, ref_pro_car_indicator, ref_env_indicator),
+        method="L-BFGS-B",
+        bounds=[(None, None)] * (len(start) - len(ALL_CONTINUOUS_INDICATORS))
+        + [(math.log(1.0e-3), math.log(20.0))] * len(ALL_CONTINUOUS_INDICATORS),
+        options={"maxiter": 80, "ftol": 1.0e-7, "gtol": 1.0e-5},
+    )
+
+
 def estimate_continuous_model(
     frame: pd.DataFrame,
     ref_pro_car_indicator: str,
@@ -645,18 +751,136 @@ def estimate_continuous_model(
     }
 
 
-def gap_rows(targets: dict[str, float], actuals: dict[str, float], prefix: str) -> list[dict[str, object]]:
-    rows = []
-    for key, target_value in targets.items():
+def build_base_comparison_frame(base_results: dict[str, object]) -> pd.DataFrame:
+    rows: list[dict[str, object]] = []
+    for _, row in base_results["estimates_table"].iterrows():
+        paper_text = PAPER_BASE_TARGETS_TEXT[str(row["parameter_name"])]
         rows.append(
-            {
-                "metric_name": f"{prefix}_{key}",
-                "paper_value": float(target_value),
-                "our_value": float(actuals[key]),
-                "gap": float(actuals[key] - target_value),
-            }
+            strict_comparison_row(
+                section="base_parameter",
+                name=str(row["parameter_name"]),
+                paper_value=float(row["paper_estimate"]),
+                our_value=float(row["estimate"]),
+                digits=decimal_places(paper_text),
+                block="base_logit",
+            )
         )
-    return rows
+    rows.append(
+        strict_comparison_row(
+            section="base_metric",
+            name="log_likelihood",
+            paper_value=PAPER_TABLES["base_loglik"],
+            our_value=float(base_results["metrics"]["log_likelihood"]),
+            digits=1,
+            block="base_logit",
+        )
+    )
+    for key, value in PAPER_TABLES["base_market_shares"].items():
+        rows.append(
+            strict_comparison_row(
+                section="base_metric",
+                name=f"market_share_{key}",
+                paper_value=float(value),
+                our_value=float(base_results["metrics"]["market_shares"][key]),
+                digits=4,
+                block="base_logit",
+            )
+        )
+    for key, value in PAPER_TABLES["base_elasticities"].items():
+        rows.append(
+            strict_comparison_row(
+                section="base_metric",
+                name=f"elasticity_{key}",
+                paper_value=float(value),
+                our_value=float(base_results["metrics"]["elasticities"][key]),
+                digits=3,
+                block="base_logit",
+            )
+        )
+    for key, value in PAPER_TABLES["base_vot"].items():
+        rows.append(
+            strict_comparison_row(
+                section="base_metric",
+                name=f"value_of_time_{key}",
+                paper_value=float(value),
+                our_value=float(base_results["metrics"]["value_of_time_chf_per_hour"][key]),
+                digits=2,
+                block="base_logit",
+            )
+        )
+    return pd.DataFrame(rows)
+
+
+def build_hcm_comparison_frame(continuous_results: dict[str, object]) -> pd.DataFrame:
+    rows: list[dict[str, object]] = []
+    for _, row in continuous_results["utility_table"].iterrows():
+        paper_text = PAPER_CONTINUOUS_UTILITY_TARGETS_TEXT[str(row["parameter_name"])]
+        rows.append(
+            strict_comparison_row(
+                section="hcm_utility_parameter",
+                name=str(row["parameter_name"]),
+                paper_value=float(row["paper_estimate"]),
+                our_value=float(row["estimate"]),
+                digits=decimal_places(paper_text),
+                block="hcm",
+            )
+        )
+    for _, row in continuous_results["attitude_table"].iterrows():
+        paper_text = PAPER_CONTINUOUS_ATTITUDE_TARGETS_TEXT[str(row["parameter_name"])]
+        rows.append(
+            strict_comparison_row(
+                section="hcm_attitude_parameter",
+                name=str(row["parameter_name"]),
+                paper_value=float(row["paper_estimate"]),
+                our_value=float(row["estimate"]),
+                digits=decimal_places(paper_text),
+                block="hcm",
+            )
+        )
+    rows.append(
+        strict_comparison_row(
+            section="hcm_metric",
+            name="choice_log_likelihood",
+            paper_value=PAPER_TABLES["continuous_choice_loglik"],
+            our_value=float(continuous_results["metrics"]["choice_log_likelihood"]),
+            digits=1,
+            block="hcm",
+        )
+    )
+    for key, value in PAPER_TABLES["continuous_market_shares"].items():
+        rows.append(
+            strict_comparison_row(
+                section="hcm_metric",
+                name=f"market_share_{key}",
+                paper_value=float(value),
+                our_value=float(continuous_results["metrics"]["market_shares"][key]),
+                digits=4,
+                block="hcm",
+            )
+        )
+    for key, value in PAPER_TABLES["continuous_elasticities"].items():
+        rows.append(
+            strict_comparison_row(
+                section="hcm_metric",
+                name=f"elasticity_{key}",
+                paper_value=float(value),
+                our_value=float(continuous_results["metrics"]["elasticities"][key]),
+                digits=3,
+                block="hcm",
+            )
+        )
+    for key, value in PAPER_TABLES["continuous_vot"].items():
+        rows.append(
+            strict_comparison_row(
+                section="hcm_metric",
+                name=f"value_of_time_{key}",
+                paper_value=float(value),
+                our_value=float(continuous_results["metrics"]["value_of_time_chf_per_hour"][key]),
+                digits=2,
+                block="hcm",
+            )
+        )
+    return pd.DataFrame(rows)
 
 
 def write_report(
@@ -664,123 +888,97 @@ def write_report(
     frame: pd.DataFrame,
     base_results: dict[str, object],
     continuous_results: dict[str, object],
-    normalization_search: pd.DataFrame,
+    base_comparison: pd.DataFrame,
+    hcm_comparison: pd.DataFrame,
 ) -> None:
-    base_metrics = base_results["metrics"]
-    continuous_metrics = continuous_results["metrics"]
-    lines = []
-    lines.append("# Atasoy, Glerum, and Bierlaire (2011) replication")
-    lines.append("")
-    lines.append("## Goal")
-    lines.append("")
-    lines.append("This note reproduces, as closely as possible with the public `optima.dat`, the paper **Attitudes towards mode choice in Switzerland**. The first target is the paper's base logit model. The second target is the paper's continuous hybrid choice model, which combines a mode-choice model with two latent attitudes and continuous measurement equations for selected psychometric indicators.")
-    lines.append("")
-    lines.append("## Files and command")
-    lines.append("")
-    lines.append(f"- Raw data: `{RAW_DATA_FILE}`")
-    lines.append(f"- Replication script: `{ROOT_DIR / 'scripts' / 'replicate_atasoy_2011_models.py'}`")
-    lines.append(f"- Output directory: `{output_dir}`")
-    lines.append("- Re-run command:")
-    lines.append("")
-    lines.append("```bash")
-    lines.append(f"./.venv/bin/python scripts/replicate_atasoy_2011_models.py --output-dir \"{output_dir}\"")
-    lines.append("```")
-    lines.append("")
-    lines.append("## Sample and variable construction")
-    lines.append("")
-    lines.append(f"The replication sample keeps all observations with `Choice != -1`. This gives `{len(frame)}` loop observations from the public Optima file. Choice coding follows the public Optima description: `0 = PT`, `1 = PMM`, `2 = SM`.")
-    lines.append("")
-    lines.append("For the base logit model, the specification that reproduces Table 7 is the following. Public transport uses `MarginalCostPT`, `TimePT`, `Urban`, and `Student`. Private motorized modes use `CostCarCHF`, `TimeCar`, `NbCar`, `NbChild`, `French`, and `WorkTrip`. Soft modes use `distance_km` and `NbBicy`. The paper-consistent `WorkTrip` dummy is `TripPurpose in {1, 2}`. The paper-consistent household-resource treatment is to recode negative missing codes in `NbCar`, `NbChild`, and `NbBicy` to zero before estimation.")
-    lines.append("")
-    lines.append("For the continuous model, the same utility-side variables are used, and two latent attitudes are added to the public-transport utility. The pro-car attitude uses the paper's indicators 8, 9, and 10. In the public Optima file these correspond to `Mobil10`, `Mobil11`, and `Mobil16`. The environmental attitude uses the paper's indicators 1, 2, 4, and 5. In the public Optima file these correspond to `Envir01`, `Envir02`, `Envir05`, and `Envir06`. Indicator codes `1` to `5` are treated as valid continuous responses. Codes `6`, `-1`, and `-2` do not contribute to the measurement likelihood.")
-    lines.append("")
-    lines.append("The structural equations use `NbCar`, `EducHigh`, `NbBicy`, `AgeTerm`, and five region controls. `EducHigh` is defined as `Education >= 6`, which matches the paper's high-education share best. `AgeTerm` is defined as `max(age - 45, 0)`. Region dummies are `Valais = Region 2`, `Bern = Region 4`, `BaselZurich = Region in {5, 6}`, `East = Region 7`, and `Graubunden = Region 8`. The omitted region group is the remaining French-speaking regions.")
-    lines.append("")
-    lines.append("## Base logit results")
-    lines.append("")
-    lines.append(f"The replicated base model log-likelihood is `{base_metrics['log_likelihood']:.3f}`, compared with the paper's `-1067.4`. This is a near-exact reproduction.")
-    lines.append("")
-    lines.append("| Parameter | Paper | Ours | Gap |")
-    lines.append("| --- | ---: | ---: | ---: |")
-    for _, row in base_results["estimates_table"].iterrows():
-        lines.append(f"| {row['parameter_name']} | {row['paper_estimate']:.4f} | {row['estimate']:.4f} | {row['estimate'] - row['paper_estimate']:.4f} |")
-    lines.append("")
-    lines.append("| Metric | Paper | Ours | Gap |")
-    lines.append("| --- | ---: | ---: | ---: |")
-    for metric_name, paper_value in PAPER_TABLES["base_market_shares"].items():
-        our_value = base_metrics["market_shares"][metric_name]
-        lines.append(f"| market share {metric_name} | {paper_value:.4f} | {our_value:.4f} | {our_value - paper_value:.4f} |")
-    for metric_name, paper_value in PAPER_TABLES["base_elasticities"].items():
-        our_value = base_metrics["elasticities"][metric_name]
-        lines.append(f"| elasticity {metric_name} | {paper_value:.4f} | {our_value:.4f} | {our_value - paper_value:.4f} |")
-    for metric_name, paper_value in PAPER_TABLES["base_vot"].items():
-        our_value = base_metrics["value_of_time_chf_per_hour"][metric_name]
-        lines.append(f"| value of time {metric_name} (CHF/hour) | {paper_value:.2f} | {our_value:.2f} | {our_value - paper_value:.2f} |")
-    lines.append("")
-    lines.append("## Continuous hybrid choice results")
-    lines.append("")
-    lines.append("The public paper does not report the normalization of the continuous measurement equations. Because of this, the absolute scale of the latent attitudes is not fully identified from the paper text alone. To make the replication explicit and reproducible, the script searches all `3 x 4 = 12` reference-indicator pairs and picks the pair that minimizes the joint gap in Table 7 utility parameters, Table 7 attitude-structure parameters, and the Table 8 choice-only log-likelihood.")
-    lines.append("")
-    lines.append(
-        f"The best pair in that deterministic search is `pro-car reference = {continuous_results['normalization']['ref_pro_car_indicator']}` and `environment reference = {continuous_results['normalization']['ref_env_indicator']}`."
+    base_matches = int(base_comparison["rounded_match"].sum())
+    hcm_matches = int(hcm_comparison["rounded_match"].sum())
+    base_total = int(len(base_comparison))
+    hcm_total = int(len(hcm_comparison))
+
+    root_lines = []
+    root_lines.append("# Atasoy 2011 replication")
+    root_lines.append("")
+    root_lines.append(
+        "This directory is the canonical human replication of the Atasoy, Glerum, and Bierlaire (2011) base logit model and continuous hybrid choice model."
     )
-    lines.append("")
-    lines.append("The reported continuous-model coefficients keep the paper-closest local optimum found in that deterministic search-and-refinement procedure. This choice is explicit and reproducible. The paper does not fully disclose the measurement-equation normalization, and later numerical refinements can move to local optima that fit the joint likelihood differently but are clearly less consistent with Tables 7 and 8.")
-    lines.append("")
-    lines.append(
-        f"The final continuous model joint log-likelihood is `{continuous_metrics['joint_log_likelihood']:.3f}`. Its choice-only log-likelihood is `{continuous_metrics['choice_log_likelihood']:.3f}`, compared with the paper's `-1069.8`."
+    root_lines.append("")
+    root_lines.append(
+        f"The replication sample keeps all observations with `Choice != -1`, which gives `{len(frame)}` loop observations from the public `optima.dat`."
     )
-    lines.append("")
-    lines.append("| Utility / attitude parameter | Paper | Ours | Gap |")
-    lines.append("| --- | ---: | ---: | ---: |")
-    for _, row in pd.concat([continuous_results["utility_table"], continuous_results["attitude_table"]], ignore_index=True).iterrows():
-        lines.append(f"| {row['parameter_name']} | {row['paper_estimate']:.4f} | {row['estimate']:.4f} | {row['estimate'] - row['paper_estimate']:.4f} |")
-    lines.append("")
-    lines.append("| Metric | Paper | Ours | Gap |")
-    lines.append("| --- | ---: | ---: | ---: |")
-    for metric_name, paper_value in PAPER_TABLES["continuous_market_shares"].items():
-        our_value = continuous_metrics["market_shares"][metric_name]
-        lines.append(f"| market share {metric_name} | {paper_value:.4f} | {our_value:.4f} | {our_value - paper_value:.4f} |")
-    for metric_name, paper_value in PAPER_TABLES["continuous_elasticities"].items():
-        our_value = continuous_metrics["elasticities"][metric_name]
-        lines.append(f"| elasticity {metric_name} | {paper_value:.4f} | {our_value:.4f} | {our_value - paper_value:.4f} |")
-    for metric_name, paper_value in PAPER_TABLES["continuous_vot"].items():
-        our_value = continuous_metrics["value_of_time_chf_per_hour"][metric_name]
-        lines.append(f"| value of time {metric_name} (CHF/hour) | {paper_value:.2f} | {our_value:.2f} | {our_value - paper_value:.2f} |")
-    lines.append("")
-    lines.append("## Remaining differences")
-    lines.append("")
-    lines.append("The base logit model is essentially reproduced. The continuous model is closely reproduced on the utility side and on the demand-indicator side, but not exactly on every latent-scale parameter. The main reason is that the paper does not fully document the normalization of the measurement equations. The script makes this ambiguity explicit through the normalization search file and by saving every final measurement parameter.")
-    lines.append("")
-    lines.append("The paper's Table 12 uses an 80/20 validation split, but the paper does not report the random split seed. For that reason this replication note focuses on Tables 7 to 11, which are the main estimation and demand tables and are directly reproducible from the public data and the public model description.")
-    lines.append("")
-    lines.append("## External sources used")
-    lines.append("")
-    lines.append("- Paper PDF: https://transp-or.epfl.ch/documents/technicalReports/AtaGlerBier_2011.pdf")
-    lines.append("- Optima public description: https://transp-or.epfl.ch/documents/technicalReports/CS_OptimaDescription.pdf")
-    (output_dir / "replication_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    root_lines.append("")
+    root_lines.append(
+        f"The base logit outputs are saved under `{output_dir / 'base_logit'}`. "
+        f"Rounded to the paper precision, `{base_matches}` of `{base_total}` literature-reported base quantities match."
+    )
+    root_lines.append("")
+    root_lines.append(
+        f"The continuous hybrid choice outputs are saved under `{output_dir / 'hcm'}`. "
+        f"The repository now uses the fixed normalization `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude. "
+        f"Rounded to the paper precision, `{hcm_matches}` of `{hcm_total}` literature-reported continuous-model quantities match."
+    )
+    root_lines.append("")
+    root_lines.append("Re-run command:")
+    root_lines.append("")
+    root_lines.append("```bash")
+    root_lines.append(f"./.venv/bin/python scripts/replicate_atasoy_2011_models.py --output-dir \"{output_dir}\"")
+    root_lines.append("```")
+    (output_dir / "replication_report.md").write_text("\n".join(root_lines) + "\n", encoding="utf-8")
+
+    hcm_lines = []
+    hcm_lines.append("# Atasoy 2011 continuous HCM replication")
+    hcm_lines.append("")
+    hcm_lines.append(
+        "This report fixes the normalization to `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude."
+    )
+    hcm_lines.append("")
+    hcm_lines.append(
+        "The strict reproduction rule is simple: for each parameter or summary quantity explicitly reported in the paper, our estimate must match the paper after rounding to the same number of displayed decimals."
+    )
+    hcm_lines.append("")
+    hcm_lines.append(
+        f"Rounded matches: `{hcm_matches}` / `{hcm_total}`. "
+        f"Choice-only log-likelihood: `{continuous_results['metrics']['choice_log_likelihood']:.3f}` versus paper `-1069.8`."
+    )
+    hcm_lines.append("")
+    hcm_lines.append("| Name | Paper | Ours | Status |")
+    hcm_lines.append("| --- | ---: | ---: | --- |")
+    for _, row in hcm_comparison.iterrows():
+        hcm_lines.append(
+            f"| {row['name']} | {row['paper_display']} | {row['our_display']} | {row['status']} |"
+        )
+    (output_dir / "hcm" / "hcm_replication_report.md").write_text("\n".join(hcm_lines) + "\n", encoding="utf-8")
 
 
 def main() -> None:
     args = parse_args()
     output_dir = ensure_dir(args.output_dir)
+    base_dir = ensure_dir(output_dir / "base_logit")
+    hcm_dir = ensure_dir(output_dir / "hcm")
     frame = prepare_replication_frame()
 
     base_results = estimate_base_model(frame)
-    normalization_search, best_normalization = search_continuous_normalization(frame)
+    fixed_initial = fixed_continuous_initial_result(
+        frame,
+        ref_pro_car_indicator=FIXED_PRO_CAR_REFERENCE,
+        ref_env_indicator=FIXED_ENV_REFERENCE,
+    )
     continuous_results = estimate_continuous_model(
         frame,
-        ref_pro_car_indicator=best_normalization["ref_pro_car_indicator"],
-        ref_env_indicator=best_normalization["ref_env_indicator"],
-        start_vector=best_normalization["vector"],
-        initial_result=best_normalization["result"],
+        ref_pro_car_indicator=FIXED_PRO_CAR_REFERENCE,
+        ref_env_indicator=FIXED_ENV_REFERENCE,
+        start_vector=fixed_initial.x.copy(),
+        initial_result=fixed_initial,
     )
+    base_comparison = build_base_comparison_frame(base_results)
+    hcm_comparison = build_hcm_comparison_frame(continuous_results)
 
-    base_results["estimates_table"].to_csv(output_dir / "base_logit_estimates.csv", index=False)
-    normalization_search.to_csv(output_dir / "continuous_normalization_search.csv", index=False)
-    continuous_results["utility_table"].to_csv(output_dir / "continuous_utility_estimates.csv", index=False)
-    continuous_results["attitude_table"].to_csv(output_dir / "continuous_attitude_estimates.csv", index=False)
-    continuous_results["measurement_table"].to_csv(output_dir / "continuous_measurement_estimates.csv", index=False)
+    base_results["estimates_table"].to_csv(base_dir / "base_logit_estimates.csv", index=False)
+    continuous_results["utility_table"].to_csv(hcm_dir / "hcm_utility_estimates.csv", index=False)
+    continuous_results["attitude_table"].to_csv(hcm_dir / "hcm_attitude_estimates.csv", index=False)
+    continuous_results["measurement_table"].to_csv(hcm_dir / "hcm_measurement_estimates.csv", index=False)
+    base_comparison.to_csv(base_dir / "base_logit_paper_comparison.csv", index=False)
+    hcm_comparison.to_csv(hcm_dir / "hcm_paper_comparison.csv", index=False)
 
     base_summary = {
         "sample_size": int(len(frame)),
@@ -793,42 +991,15 @@ def main() -> None:
         "sample_size": int(len(frame)),
         "normalization": continuous_results["normalization"],
         "indicator_mapping": continuous_results["indicator_mapping"],
-        "selection_rule": "best paper-matching local optimum retained from normalization search and post-search refinements",
+        "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05",
         "metrics": continuous_results["metrics"],
         "optimizer_success": bool(continuous_results["result"].success),
         "optimizer_message": str(continuous_results["result"].message),
     }
-    (output_dir / "base_logit_summary.json").write_text(json.dumps(base_summary, indent=2), encoding="utf-8")
-    (output_dir / "continuous_model_summary.json").write_text(json.dumps(continuous_summary, indent=2), encoding="utf-8")
+    (base_dir / "base_logit_summary.json").write_text(json.dumps(base_summary, indent=2), encoding="utf-8")
+    (hcm_dir / "hcm_summary.json").write_text(json.dumps(continuous_summary, indent=2), encoding="utf-8")
 
-    comparison_rows = []
-    comparison_rows.append(
-        {
-            "model": "base",
-            "metric_name": "log_likelihood",
-            "paper_value": PAPER_TABLES["base_loglik"],
-            "our_value": base_results["metrics"]["log_likelihood"],
-            "gap": base_results["metrics"]["log_likelihood"] - PAPER_TABLES["base_loglik"],
-        }
-    )
-    comparison_rows.append(
-        {
-            "model": "continuous",
-            "metric_name": "choice_log_likelihood",
-            "paper_value": PAPER_TABLES["continuous_choice_loglik"],
-            "our_value": continuous_results["metrics"]["choice_log_likelihood"],
-            "gap": continuous_results["metrics"]["choice_log_likelihood"] - PAPER_TABLES["continuous_choice_loglik"],
-        }
-    )
-    comparison_rows.extend(gap_rows(PAPER_TABLES["base_market_shares"], base_results["metrics"]["market_shares"], "base_market_share"))
-    comparison_rows.extend(gap_rows(PAPER_TABLES["continuous_market_shares"], continuous_results["metrics"]["market_shares"], "continuous_market_share"))
-    comparison_rows.extend(gap_rows(PAPER_TABLES["base_elasticities"], base_results["metrics"]["elasticities"], "base_elasticity"))
-    comparison_rows.extend(gap_rows(PAPER_TABLES["continuous_elasticities"], continuous_results["metrics"]["elasticities"], "continuous_elasticity"))
-    comparison_rows.extend(gap_rows(PAPER_TABLES["base_vot"], base_results["metrics"]["value_of_time_chf_per_hour"], "base_vot"))
-    comparison_rows.extend(gap_rows(PAPER_TABLES["continuous_vot"], continuous_results["metrics"]["value_of_time_chf_per_hour"], "continuous_vot"))
-    pd.DataFrame(comparison_rows).to_csv(output_dir / "paper_vs_our_metrics.csv", index=False)
-
-    write_report(output_dir, frame, base_results, continuous_results, normalization_search)
+    write_report(output_dir, frame, base_results, continuous_results, base_comparison, hcm_comparison)
 
 
 if __name__ == "__main__":

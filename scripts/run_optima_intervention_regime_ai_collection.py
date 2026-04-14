@@ -3,10 +3,12 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -15,7 +17,9 @@ from optima_common import (
     CONFIG,
     EXPERIMENT_DIR,
     OUTPUT_DIR,
+    SOURCE_OBSERVATION_COLUMN,
     TASK_ATTRIBUTE_OPTIONS,
+    VALID_INDICATOR_VALUES,
     archive_experiment_config,
     configured_indicator_names,
     decode_chat_response,
@@ -41,6 +45,7 @@ from optima_intervention_regime_questionnaire import (
 
 
 CHOICE_NAME_TO_CODE = {"PT": 0, "CAR": 1, "SLOW_MODES": 2}
+_MLX_RUNTIME_CACHE: dict[str, tuple[Any, Any]] = {}
 
 
 def parse_args() -> argparse.Namespace:
@@ -126,7 +131,8 @@ class ChatBackend:
             headers=self._headers(),
             method="POST",
         )
-        timeout = int(self.config.get("timeout_sec", 240))
+        timeout_value = self.config.get("timeout_sec")
+        timeout = int(timeout_value) if timeout_value not in (None, "") else 240
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
                 return json.loads(response.read().decode("utf-8"))
@@ -134,30 +140,77 @@ class ChatBackend:
             body = exc.read().decode("utf-8", errors="replace")
             raise RuntimeError(f"Backend request failed: {exc.code} {body}") from exc
 
+    def _mlx_runtime(self) -> tuple[Any, Any]:
+        model_id = str(self.config.get("model") or "").strip()
+        if not model_id:
+            raise RuntimeError("MLX backend requires llm_models[].model to be a non-empty Hugging Face model id.")
+
+        cached = _MLX_RUNTIME_CACHE.get(model_id)
+        if cached is not None:
+            return cached
+
+        try:
+            from mlx_lm import load
+        except ModuleNotFoundError as exc:
+            raise RuntimeError("MLX backend requires mlx-lm in the active Python environment.") from exc
+
+        model, tokenizer = load(model_id, tokenizer_config={"trust_remote_code": True})
+        if not hasattr(tokenizer, "apply_chat_template") or not getattr(tokenizer, "chat_template", None):
+            raise RuntimeError(f"MLX model '{model_id}' does not provide a tokenizer chat template.")
+
+        _MLX_RUNTIME_CACHE[model_id] = (model, tokenizer)
+        return model, tokenizer
+
+    def _mlx_prompt(self, tokenizer: Any, messages: list[dict[str, str]]) -> str:
+        try:
+            prompt = tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+        except Exception as exc:
+            raise RuntimeError(f"Failed to apply tokenizer chat template for MLX model '{self.config['model']}'.") from exc
+        if not isinstance(prompt, str) or not prompt.strip():
+            raise RuntimeError(f"Tokenizer chat template for MLX model '{self.config['model']}' returned an empty prompt.")
+        return prompt
+
     def generate(self, messages: list[dict[str, str]], num_predict: int) -> dict:
-        if self.provider == "ollama":
-            payload = {
-                "model": self.config["model"],
-                "messages": messages,
-                "stream": False,
-                "options": {
-                    "temperature": self.config.get("temperature"),
-                    "top_p": self.config.get("top_p"),
-                    "top_k": self.config.get("top_k"),
-                    "seed": self.config.get("seed"),
-                    "num_predict": int(num_predict),
-                },
-            }
-            if "think" in self.config:
-                payload["think"] = self.config["think"]
-            if self.config.get("format"):
-                payload["format"] = self.config["format"]
-            response = self._post_json(str(self.config["base_url"]).rstrip("/") + "/api/chat", payload)
-            decoded = decode_chat_response(response, self.config, "ollama")
+        if self.provider == "mlx":
+            try:
+                import mlx.core as mx
+                from mlx_lm import stream_generate
+                from mlx_lm.sample_utils import make_sampler
+            except ModuleNotFoundError as exc:
+                raise RuntimeError("MLX backend requires mlx and mlx-lm in the active Python environment.") from exc
+
+            model, tokenizer = self._mlx_runtime()
+            prompt = self._mlx_prompt(tokenizer, messages)
+            seed_value = self.config.get("seed")
+            if seed_value is not None:
+                mx.random.seed(int(seed_value))
+
+            sampler = make_sampler(
+                temp=float(self.config.get("temperature", 0.0) or 0.0),
+                top_p=float(self.config.get("top_p", 0.0) or 0.0),
+            )
+            started = time.perf_counter()
+            text_parts: list[str] = []
+            final_chunk = None
+            for chunk in stream_generate(model, tokenizer, prompt, max_tokens=int(num_predict), sampler=sampler):
+                text_parts.append(chunk.text)
+                final_chunk = chunk
+            duration_ns = int((time.perf_counter() - started) * 1_000_000_000)
+            response_text = "".join(text_parts)
             return {
-                "response_text": decoded["response_text"],
-                "thinking_text": decoded["thinking_text"],
-                "metadata": decoded["metadata"],
+                "response_text": response_text,
+                "thinking_text": "",
+                "metadata": {
+                    "done_reason": str(getattr(final_chunk, "finish_reason", "") or ""),
+                    "total_duration": duration_ns,
+                    "prompt_eval_count": int(getattr(final_chunk, "prompt_tokens", 0) or 0),
+                    "eval_count": int(getattr(final_chunk, "generation_tokens", 0) or 0),
+                },
             }
 
         payload = {
@@ -173,10 +226,10 @@ class ChatBackend:
             if isinstance(thinking_value, dict) and thinking_value:
                 payload["thinking"] = dict(thinking_value)
             else:
-                thinking_mode = str(self.config.get("thinking_mode", "")).strip().lower()
+                thinking_mode = str(self.config.get("thinking_mode") or "").strip().lower()
                 if thinking_mode in {"thinking", "enabled", "on"}:
                     payload["thinking"] = {"type": "enabled"}
-        reasoning_effort = str(self.config.get("reasoning_effort", "")).strip()
+        reasoning_effort = str(self.config.get("reasoning_effort") or "").strip()
         if reasoning_effort:
             payload["reasoning_effort"] = reasoning_effort
         format_value = self.config.get("format")
@@ -189,11 +242,11 @@ class ChatBackend:
                 payload["response_format"] = format_value
         if self.config.get("extra_body"):
             payload.update(self.config["extra_body"])
-        base_url = str(self.config["base_url"]).rstrip("/")
+        base_url = str(self.config.get("base_url") or "").rstrip("/")
         if self.provider == "poe" and not base_url.endswith("/v1"):
             base_url = base_url + "/v1"
         response = self._post_json(base_url + "/chat/completions", payload)
-        decoded = decode_chat_response(response, self.config, self.provider)
+        decoded = decode_chat_response(response, self.config)
         return {
             "response_text": decoded["response_text"],
             "thinking_text": decoded["thinking_text"],
@@ -282,7 +335,11 @@ def purge_partial_respondents(raw_path: Path, attitudes_path: Path, tasks_path: 
 
 
 def previous_answer_strings(attitude_rows: list[dict], task_rows: list[dict]) -> list[str]:
-    history = [f"{row['indicator_name']}={row['indicator_value']}" for row in attitude_rows if int(row["indicator_value"]) in {1, 2, 3, 4, 5, 6}]
+    history = [
+        f"{row['indicator_name']}={row['indicator_value']}"
+        for row in attitude_rows
+        if int(row["indicator_value"]) in VALID_INDICATOR_VALUES
+    ]
     for row in task_rows:
         if int(row["is_valid_task_response"]) == 1:
             history.append(f"T{int(row['task_index'])}={row['choice_label']}/{row['chosen_alternative_name']}/conf={int(row['confidence'])}")
@@ -370,7 +427,7 @@ def collect_one_respondent(
             "run_repeat": int(persona["run_repeat"]),
             "indicator_name": indicator_name,
             "indicator_value": indicator_value,
-            "is_valid_indicator": int(indicator_value in {1, 2, 3, 4, 5, 6}),
+            "is_valid_indicator": int(indicator_value in VALID_INDICATOR_VALUES),
             "duration_sec": float(response["metadata"].get("total_duration", 0)) / 1_000_000_000.0,
         }
         attitude_rows.append(row)
@@ -515,20 +572,37 @@ def build_ai_panel_long(block_frame: pd.DataFrame, task_frame: pd.DataFrame, res
         ],
         how="left",
     )
+    block_metadata_columns = [
+        "model_key",
+        "respondent_id",
+        "block_template_id",
+        "run_repeat",
+        SOURCE_OBSERVATION_COLUMN,
+        "human_id",
+        "LangCode",
+        "UrbRur",
+        "OccupStat",
+        "TripPurpose",
+        "Education",
+        "Region",
+        "block_complexity_mean",
+        "age",
+        "age_30_less",
+        "high_education",
+        "low_education",
+        "ScaledIncome",
+        "work_trip",
+        "other_trip",
+        "NbCar",
+        "NbBicy",
+        "NbHousehold",
+        "NbChild",
+    ]
+    merge_keys = ["model_key", "respondent_id", "block_template_id", "run_repeat"]
+    extra_block_columns = [column for column in block_metadata_columns if column in merge_keys or column not in merged.columns]
     merged = merged.merge(
-        block_frame[
-            [
-                "model_key",
-                "respondent_id",
-                "block_template_id",
-                "run_repeat",
-                "block_complexity_mean",
-                "age_30_less",
-                "high_education",
-                "ScaledIncome",
-            ]
-        ],
-        on=["model_key", "respondent_id", "block_template_id", "run_repeat"],
+        block_frame[extra_block_columns],
+        on=merge_keys,
         how="left",
     )
     rows: list[dict] = []
@@ -543,8 +617,16 @@ def build_ai_panel_long(block_frame: pd.DataFrame, task_frame: pd.DataFrame, res
                     "respondent_id": row["respondent_id"],
                     "block_template_id": row["block_template_id"],
                     "run_repeat": int(row["run_repeat"]),
+                    SOURCE_OBSERVATION_COLUMN: int(row[SOURCE_OBSERVATION_COLUMN]),
+                    "human_id": int(row["human_id"]),
                     "human_respondent_id": row["human_respondent_id"],
                     "normalized_weight": float(row["normalized_weight"]),
+                    "LangCode": int(row["LangCode"]),
+                    "UrbRur": int(row["UrbRur"]),
+                    "OccupStat": int(row["OccupStat"]),
+                    "TripPurpose": int(row["TripPurpose"]),
+                    "Education": int(row["Education"]),
+                    "Region": int(row["Region"]),
                     "prompt_arm": row["prompt_arm"],
                     "semantic_arm": int(row["semantic_arm"]),
                     "prompt_family": row["prompt_family"],
@@ -555,9 +637,17 @@ def build_ai_panel_long(block_frame: pd.DataFrame, task_frame: pd.DataFrame, res
                     "manipulation_type": row["manipulation_type"],
                     "anchor_task_index": int(row["anchor_task_index"]),
                     "block_complexity_mean": float(row["block_complexity_mean"]),
+                    "age": float(row["age"]),
                     "age_30_less": int(row["age_30_less"]),
                     "high_education": int(row["high_education"]),
+                    "low_education": int(row["low_education"]),
                     "ScaledIncome": float(row["ScaledIncome"]),
+                    "work_trip": int(row["work_trip"]),
+                    "other_trip": int(row["other_trip"]),
+                    "NbCar": float(row["NbCar"]),
+                    "NbBicy": float(row["NbBicy"]),
+                    "NbHousehold": float(row["NbHousehold"]),
+                    "NbChild": float(row["NbChild"]),
                     "CAR_AVAILABLE": int(row["CAR_AVAILABLE"]),
                     "alternative_name": alternative_name,
                     "alternative_code": alt_code,
@@ -763,7 +853,15 @@ def main() -> None:
         str(respondent_id): group.sort_values("task_index").to_dict(orient="records")
         for respondent_id, group in task_frame.groupby("respondent_id")
     }
-    max_workers = int(args.max_workers if args.max_workers is not None else CONFIG.get("collection", {}).get("max_workers", 1))
+    requested_max_workers = int(args.max_workers if args.max_workers is not None else CONFIG.get("collection", {}).get("max_workers", 1))
+    max_workers = requested_max_workers
+    if str(llm_config.get("provider", "")).lower() == "mlx":
+        if requested_max_workers != 1:
+            print(
+                f"[intervention_regime_ai_collection] provider=mlx forces max_workers=1 "
+                f"(requested={requested_max_workers})"
+            )
+        max_workers = 1
 
     if max_workers <= 1:
         for persona in pending_personas:

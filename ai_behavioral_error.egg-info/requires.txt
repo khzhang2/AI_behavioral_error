@@ -1,0 +1,13 @@
+matplotlib>=3.5
+numpy>=1.23
+pandas>=1.5
+scipy>=1.10
+statsmodels>=0.13
+
+[experiments]
+biogeme==3.2.12
+matplotlib<3.9
+mlx-lm==0.31.2
+numpy<2
+pandas<2.3
+scipy<1.14

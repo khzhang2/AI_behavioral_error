@@ -7,7 +7,7 @@ import pandas as pd
 from optima_common import EXPERIMENT_DIR, OUTPUT_DIR, active_model_config, ai_collection_dir_for, experiment_analysis_dir, read_json, write_json
 
 
-HUMAN_ATASOY_BASE = Path(__file__).resolve().parents[1] / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication" / "base_logit_summary.json"
+HUMAN_ATASOY_BASE = Path(__file__).resolve().parents[1] / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication" / "base_logit" / "base_logit_summary.json"
 
 
 def maybe_read_csv(path: Path) -> pd.DataFrame:
@@ -71,6 +71,52 @@ def share_gap_tv(human_base: dict, ai_base: dict) -> float | None:
     return 0.5 * sum(abs(float(ai_share.get(name, 0.0)) - float(human_share.get(name, 0.0))) for name in names)
 
 
+def share_direction_text(human_share: dict, ai_share: dict) -> str:
+    if not human_share or not ai_share:
+        return "当前 summary 无法读取完整的 AI 与 human share。"
+    gaps = {
+        "PMM": float(ai_share.get("PMM", 0.0)) - float(human_share.get("PMM", 0.0)),
+        "PT": float(ai_share.get("PT", 0.0)) - float(human_share.get("PT", 0.0)),
+        "SM": float(ai_share.get("SM", 0.0)) - float(human_share.get("SM", 0.0)),
+    }
+    dominant_name = max(gaps, key=lambda name: abs(gaps[name]))
+    direction = "高估" if gaps[dominant_name] > 0 else "低估"
+    paired = [name for name in ["PMM", "PT", "SM"] if name != dominant_name]
+    secondary = max(paired, key=lambda name: abs(gaps[name]))
+    secondary_direction = "高估" if gaps[secondary] > 0 else "低估"
+    return f"按 Atasoy 2011 base logit 的结构比较，模型当前最明显的是 `{direction}` `{dominant_name}`，同时 `{secondary_direction}` `{secondary}`。"
+
+
+def label_order_summary_text(label_flip, order_flip, label_excess, order_excess) -> tuple[str, str]:
+    values = [value for value in [label_flip, order_flip, label_excess, order_excess] if value is not None and not pd.isna(value)]
+    if not values:
+        return "NA", "当前 summary 无法读取完整的 label/order 指标。"
+    strongest = max(values)
+    if strongest >= 0.5:
+        level = "很强"
+    elif strongest >= 0.2:
+        level = "明显"
+    else:
+        level = "很弱"
+    if pd.isna(order_flip) or pd.isna(label_flip):
+        return level, "当前 summary 无法同时比较 label 与 order 两类翻转率。"
+    if float(order_flip) >= float(label_flip):
+        return level, "当前更明显的是 order sensitivity，而不是 label sensitivity。"
+    return level, "当前更明显的是 label sensitivity，而不是 order sensitivity。"
+
+
+def tradeoff_summary_text(monotonicity, dominance_violation) -> tuple[str, str]:
+    if monotonicity is None or dominance_violation is None or pd.isna(monotonicity) or pd.isna(dominance_violation):
+        return "NA", "当前 summary 无法读取完整的 monotonicity / dominance 指标。"
+    monotonicity = float(monotonicity)
+    dominance_violation = float(dominance_violation)
+    if monotonicity >= 0.95 and dominance_violation <= 0.05:
+        return "很强", "模型同时通过 monotonicity 与 dominance 检查，trade-off fidelity 很强。"
+    if monotonicity >= 0.8 and dominance_violation <= 0.2:
+        return "中等", "模型在 monotonicity 上较稳，但 dominance 仍有一定偏离。"
+    return "很弱", "虽然 monotonicity 通过率不低，但 dominance violation 很高，说明规则性 trade-off fidelity 并不稳。"
+
+
 def caveat_text(human_base: dict, ai_base: dict, salcm: dict) -> str:
     warnings = []
     if human_base and not bool(human_base.get("optimizer_success", False)):
@@ -92,7 +138,7 @@ def main() -> None:
     human_base = maybe_read_json(HUMAN_ATASOY_BASE)
     ai_base = maybe_read_json(EXPERIMENT_DIR / "atasoy_2011_replication" / "ai_atasoy_base_logit_summary.json")
     intervention = maybe_read_json(EXPERIMENT_DIR / "intervention_metrics_summary.json")
-    salcm = maybe_read_json(experiment_analysis_dir(EXPERIMENT_DIR, "salcm", "ai") / "ai_salcm_summary.json")
+    salcm = maybe_read_json(experiment_analysis_dir(EXPERIMENT_DIR, "salcm") / "ai_salcm_summary.json")
     intervention_type = intervention_by_type(EXPERIMENT_DIR / "intervention_sensitivity.csv")
     gap_tv = share_gap_tv(human_base, ai_base)
 
@@ -101,13 +147,23 @@ def main() -> None:
     para = intervention_type.get("paraphrase", {})
     label = intervention_type.get("label_mask", {})
     order = intervention_type.get("order_randomization", {})
+    label_order_level, label_order_explanation = label_order_summary_text(
+        collection_summary.get("mean_label_flip_rate"),
+        collection_summary.get("mean_order_flip_rate"),
+        label.get("excess_intervention_gap"),
+        order.get("excess_intervention_gap"),
+    )
+    tradeoff_level, tradeoff_explanation = tradeoff_summary_text(
+        collection_summary.get("mean_monotonicity_compliance_rate"),
+        collection_summary.get("mean_dominance_violation_rate"),
+    )
 
     opening = (
         f"# 实验摘要：{model_key}\n\n"
         f"本次实验对应单模型归档 `{model_key}`。AI 问卷收集共完成 `{collection_summary['completed_respondents']}` / "
         f"`{collection_summary['target_respondents']}` 个 planned respondents，态度题有效率为 `{fmt(collection_summary['valid_attitude_rate'])}`，"
         f"任务题有效率为 `{fmt(collection_summary['valid_task_rate'])}`。总体上，这次实验的主要特征是：模型内部非常稳定，"
-        f"语义、标签和顺序干预几乎不产生额外波动，但相对 human benchmark 仍表现出明显的出行方式偏移。"
+        f"但相对 human benchmark 仍表现出明显的出行方式偏移，而且部分干预与 trade-off 检查并不稳。"
     )
 
     table_lines = [
@@ -115,9 +171,9 @@ def main() -> None:
         "| --- | --- | --- | --- |",
         f"| 同一系统的随机不稳定性 | 很低 | exact-repeat flip rate = `{fmt(intervention.get('mean_exact_repeat_flip_rate'))}`；response entropy = `{fmt(intervention.get('mean_response_entropy'))}` | 完全相同输入下几乎不翻转，within-model randomness 很弱。 |",
         f"| 对语义等价改写是否稳健 | 很稳健 | paraphrase flip rate = `{fmt(collection_summary.get('mean_paraphrase_flip_rate'))}`；paraphrase gap = `{fmt(para.get('intervention_gap_tv'))}`；paraphrase excess gap = `{fmt(para.get('excess_intervention_gap'))}` | 改写措辞后几乎没有系统变化，没有观察到超出随机性基线的 semantic fragility。 |",
-        f"| 对标签或顺序是否过敏 | 很弱 | label flip rate = `{fmt(collection_summary.get('mean_label_flip_rate'))}`；order flip rate = `{fmt(collection_summary.get('mean_order_flip_rate'))}`；label excess gap = `{fmt(label.get('excess_intervention_gap'))}`；order excess gap = `{fmt(order.get('excess_intervention_gap'))}` | 这次 smoke 中 label 与 order 的额外干预效应都非常小，未见明显的 label-sensitive 或 order-sensitive pattern。 |",
-        f"| 是否真的在做 trade-off | 很强 | monotonicity compliance = `{fmt(collection_summary.get('mean_monotonicity_compliance_rate'))}`；dominance violation = `{fmt(collection_summary.get('mean_dominance_violation_rate'))}` | 基本完全遵守 monotonicity 与 dominance 检查，说明规则性 trade-off fidelity 很强。 |",
-        f"| 是否只是总体像人 | 不像，仍有明显 distortion | AI base-model shares: `PMM={fmt(ai_share.get('PMM'))}, PT={fmt(ai_share.get('PT'))}, SM={fmt(ai_share.get('SM'))}`；human base-model shares: `PMM={fmt(human_share.get('PMM'))}, PT={fmt(human_share.get('PT'))}, SM={fmt(human_share.get('SM'))}`；share gap TV = `{fmt(gap_tv)}` | 按 Atasoy 2011 base logit 的结构比较，模型仍显著高估 `PMM`，显著低估 `PT`。 |",
+        f"| 对标签或顺序是否过敏 | {label_order_level} | label flip rate = `{fmt(collection_summary.get('mean_label_flip_rate'))}`；order flip rate = `{fmt(collection_summary.get('mean_order_flip_rate'))}`；label excess gap = `{fmt(label.get('excess_intervention_gap'))}`；order excess gap = `{fmt(order.get('excess_intervention_gap'))}` | {label_order_explanation} |",
+        f"| 是否真的在做 trade-off | {tradeoff_level} | monotonicity compliance = `{fmt(collection_summary.get('mean_monotonicity_compliance_rate'))}`；dominance violation = `{fmt(collection_summary.get('mean_dominance_violation_rate'))}` | {tradeoff_explanation} |",
+        f"| 是否只是总体像人 | 不像，仍有明显 distortion | AI base-model shares: `PMM={fmt(ai_share.get('PMM'))}, PT={fmt(ai_share.get('PT'))}, SM={fmt(ai_share.get('SM'))}`；human base-model shares: `PMM={fmt(human_share.get('PMM'))}, PT={fmt(human_share.get('PT'))}, SM={fmt(human_share.get('SM'))}`；share gap TV = `{fmt(gap_tv)}` | {share_direction_text(human_share, ai_share)} |",
     ]
 
     closing = (

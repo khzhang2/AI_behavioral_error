@@ -1,0 +1,44 @@
+{
+  "sample_size": 1906,
+  "normalization": {
+    "ref_pro_car_indicator": "Mobil10",
+    "ref_env_indicator": "Envir05"
+  },
+  "indicator_mapping": {
+    "paper_pro_car_items_8_9_10": [
+      "Mobil10",
+      "Mobil11",
+      "Mobil16"
+    ],
+    "paper_environment_items_1_2_4_5": [
+      "Envir01",
+      "Envir02",
+      "Envir05",
+      "Envir06"
+    ]
+  },
+  "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05",
+  "metrics": {
+    "joint_log_likelihood": -18776.611208672042,
+    "choice_log_likelihood": -1067.4766404025509,
+    "market_shares": {
+      "PT": 0.3153956512142868,
+      "PMM": 0.6290103975169069,
+      "SM": 0.05559395126880637
+    },
+    "elasticities": {
+      "PMM_cost": -0.060889072315101364,
+      "PMM_time": -0.24065156831129347,
+      "PT_cost": -0.2093998089758125,
+      "PT_time": -0.47440364862081885
+    },
+    "value_of_time_chf_per_hour": {
+      "PMM": 31.030752509710183,
+      "PT": 12.654632423460951
+    },
+    "mean_acar": 2.8486804942921062,
+    "mean_aenv": 3.571255568953128
+  },
+  "optimizer_success": false,
+  "optimizer_message": "STOP: TOTAL NO. of ITERATIONS REACHED LIMIT"
+}

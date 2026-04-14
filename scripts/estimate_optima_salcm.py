@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -14,6 +15,8 @@ from optima_common import CONFIG, EXPERIMENT_DIR, archive_experiment_config, ai_
 
 CHOICE_NAMES = ["PT", "CAR", "SLOW_MODES"]
 PREF_NAMES = ["ASC_PT", "ASC_CAR", "B_COST", "B_TIME_PT", "B_TIME_CAR", "B_WAIT", "B_DIST"]
+HUMAN_ATASOY_BASE_FILE = Path(__file__).resolve().parents[1] / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication" / "base_logit" / "base_logit_summary.json"
+HUMAN_ATASOY_ESTIMATES_FILE = Path(__file__).resolve().parents[1] / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication" / "base_logit" / "base_logit_estimates.csv"
 
 
 def parse_args() -> argparse.Namespace:
@@ -214,17 +217,34 @@ def objective(theta: np.ndarray, matrices: dict, covariate_names: list[str]) -> 
     return float(-(matrices["weights"] * respondent_loglik).sum())
 
 
-def initial_theta(covariate_names: list[str], mnl_estimates: pd.DataFrame | None) -> np.ndarray:
-    base = {name: 0.0 for name in PREF_NAMES}
-    if mnl_estimates is not None and not mnl_estimates.empty:
-        estimate_map = dict(zip(mnl_estimates["parameter_name"], mnl_estimates["estimate"]))
-        base["ASC_PT"] = float(estimate_map.get("ASC_PT", 0.0))
-        base["ASC_CAR"] = float(estimate_map.get("ASC_CAR", 0.0))
-        base["B_COST"] = float(estimate_map.get("B_COST", -0.1))
-        base["B_TIME_PT"] = float(estimate_map.get("B_TIME_PT", estimate_map.get("B_TIME", -0.1)))
-        base["B_TIME_CAR"] = float(estimate_map.get("B_TIME_CAR", estimate_map.get("B_TIME", -0.1)))
-        base["B_WAIT"] = float(estimate_map.get("B_WAIT", -0.1))
-        base["B_DIST"] = float(estimate_map.get("B_DIST", -0.1))
+def human_atasoy_baseline_estimates() -> dict[str, float]:
+    if not HUMAN_ATASOY_ESTIMATES_FILE.exists():
+        return {
+            "ASC_PT": 0.47,
+            "ASC_CAR": 0.06,
+            "B_COST": -0.06,
+            "B_TIME_PT": -0.012,
+            "B_TIME_CAR": -0.03,
+            "B_WAIT": 0.0,
+            "B_DIST": -0.227,
+        }
+    frame = pd.read_csv(HUMAN_ATASOY_ESTIMATES_FILE)
+    mapping = dict(zip(frame["parameter_name"], frame["estimate"]))
+    asc_pmm = float(mapping.get("ASCPMM", -0.413))
+    asc_sm = float(mapping.get("ASCSM", -0.470))
+    return {
+        "ASC_PT": float(0.0 - asc_sm),
+        "ASC_CAR": float(asc_pmm - asc_sm),
+        "B_COST": float(mapping.get("beta_cost", -0.0592)),
+        "B_TIME_PT": float(mapping.get("beta_time_pt", -0.0121)),
+        "B_TIME_CAR": float(mapping.get("beta_time_pmm", -0.0299)),
+        "B_WAIT": 0.0,
+        "B_DIST": float(mapping.get("beta_distance", -0.227)),
+    }
+
+
+def initial_theta(covariate_names: list[str]) -> np.ndarray:
+    base = human_atasoy_baseline_estimates()
 
     values = []
     class_scales = [1.0, 0.8, 1.2]
@@ -266,21 +286,16 @@ def posterior_probabilities(theta: np.ndarray, matrices: dict, covariate_names: 
     return posterior, class_prob, scale_values
 
 
-def human_baseline_estimates() -> dict[str, float]:
-    path = experiment_analysis_dir(EXPERIMENT_DIR, "mnl", "human") / "human_baseline_mnl_estimates.csv"
-    if not path.exists():
-        return {name: np.nan for name in PREF_NAMES}
-    frame = pd.read_csv(path)
-    mapping = dict(zip(frame["parameter_name"], frame["estimate"]))
-    return {name: float(mapping.get(name, np.nan)) for name in PREF_NAMES}
-
-
 def human_choice_share() -> dict[str, float]:
-    path = experiment_analysis_dir(EXPERIMENT_DIR, "mnl", "human") / "human_baseline_mnl_summary.json"
-    if not path.exists():
+    if not HUMAN_ATASOY_BASE_FILE.exists():
         return {}
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    return {str(key): float(value) for key, value in payload["choice_share"].items()}
+    payload = json.loads(HUMAN_ATASOY_BASE_FILE.read_text(encoding="utf-8"))
+    share = payload.get("metrics", {}).get("market_shares", {})
+    return {
+        "PT": float(share.get("PT", 0.0)),
+        "CAR": float(share.get("PMM", 0.0)),
+        "SLOW_MODES": float(share.get("SM", 0.0)),
+    }
 
 
 def regime_label(row: pd.Series) -> str:
@@ -303,16 +318,14 @@ def safe_weighted_mean(values: pd.Series, weights: pd.Series) -> float:
 def main() -> None:
     args = parse_args()
     archive_experiment_config(EXPERIMENT_DIR)
-    output_dir = experiment_analysis_dir(EXPERIMENT_DIR, "salcm", "ai")
+    output_dir = experiment_analysis_dir(EXPERIMENT_DIR, "salcm")
     long_frame, block_frame = load_ai_data(args.max_respondents_per_model)
     if long_frame.empty or block_frame.empty:
         raise RuntimeError("No valid pooled AI panel data available for SALCM estimation.")
 
     covariate_names = list(CONFIG["salcm"]["membership_covariates"])
     matrices = build_matrices(long_frame, block_frame, covariate_names)
-    mnl_path = experiment_analysis_dir(EXPERIMENT_DIR, "mnl", "ai") / "ai_panel_mnl_estimates.csv"
-    mnl_estimates = pd.read_csv(mnl_path) if mnl_path.exists() else None
-    theta0 = initial_theta(covariate_names, mnl_estimates)
+    theta0 = initial_theta(covariate_names)
     result = minimize(
         fun=lambda x: objective(np.array(x, dtype=float), matrices, covariate_names),
         x0=theta0,
@@ -346,7 +359,7 @@ def main() -> None:
     posterior_frame = pd.DataFrame(posterior_rows)
     posterior_frame.to_csv(output_dir / "ai_salcm_posterior_membership.csv", index=False)
 
-    human_estimates = human_baseline_estimates()
+    human_estimates = human_atasoy_baseline_estimates()
     human_share = human_choice_share()
     unpacked = unpack(theta_hat, covariate_names)
     regime_rows = []
