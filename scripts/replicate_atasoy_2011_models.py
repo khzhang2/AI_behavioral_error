@@ -177,6 +177,24 @@ ENV_INDICATORS = ["Envir01", "Envir02", "Envir05", "Envir06"]
 ALL_CONTINUOUS_INDICATORS = PRO_CAR_INDICATORS + ENV_INDICATORS
 FIXED_PRO_CAR_REFERENCE = "Mobil10"
 FIXED_ENV_REFERENCE = "Envir05"
+CONTINUOUS_INITIAL_OPTIMIZER_OPTIONS = {
+    "maxiter": 80,
+    "ftol": 1.0e-7,
+    "gtol": 1.0e-5,
+}
+CONTINUOUS_MAIN_OPTIMIZER_OPTIONS = {
+    "maxiter": 5000,
+    "maxfun": 800000,
+    "ftol": 1.0e-12,
+    "gtol": 1.0e-7,
+    "maxls": 100,
+}
+CONTINUOUS_LOCAL_UTILITY_WIDTH = 0.02
+CONTINUOUS_LOCAL_ATTITUDE_WIDTH = 0.02
+CONTINUOUS_LOCAL_MEASUREMENT_WIDTH = 0.3
+CONTINUOUS_LOCAL_LOG_SIGMA_WIDTH = 0.2
+CONTINUOUS_LOCAL_LOG_SIGMA_LOWER = math.log(0.2)
+CONTINUOUS_LOCAL_LOG_SIGMA_UPPER = math.log(5.0)
 
 
 def parse_args() -> argparse.Namespace:
@@ -521,6 +539,48 @@ def continuous_search_score(
     return float(utility_gap + attitude_gap + 0.02 * likelihood_gap)
 
 
+def continuous_result_priority(result) -> tuple[float, float, float]:
+    success_rank = 0.0 if bool(getattr(result, "success", False)) else 1.0
+    objective_value = float(getattr(result, "fun", float("inf")))
+    gradient = getattr(result, "jac", None)
+    if gradient is None:
+        gradient_norm = float("inf")
+    else:
+        gradient_array = np.asarray(gradient, dtype=float)
+        gradient_norm = float(np.linalg.norm(gradient_array)) if np.all(np.isfinite(gradient_array)) else float("inf")
+    return success_rank, objective_value, gradient_norm
+
+
+def continuous_global_bounds() -> list[tuple[float | None, float | None]]:
+    free_bounds = [(None, None)] * (len(continuous_start_vector()) - len(ALL_CONTINUOUS_INDICATORS))
+    sigma_bounds = [(math.log(1.0e-3), math.log(20.0))] * len(ALL_CONTINUOUS_INDICATORS)
+    return free_bounds + sigma_bounds
+
+
+def continuous_local_bounds(center: np.ndarray) -> list[tuple[float | None, float | None]]:
+    bounds: list[tuple[float | None, float | None]] = []
+    utility_cut = len(CONTINUOUS_UTILITY_ORDER)
+    attitude_cut = utility_cut + len(CONTINUOUS_ATTITUDE_ORDER)
+    measurement_cut = attitude_cut + 2 * (len(ALL_CONTINUOUS_INDICATORS) - 2)
+    sigma_cut = len(center) - len(ALL_CONTINUOUS_INDICATORS)
+    for index, value in enumerate(center):
+        if index < utility_cut:
+            width = CONTINUOUS_LOCAL_UTILITY_WIDTH
+        elif index < attitude_cut:
+            width = CONTINUOUS_LOCAL_ATTITUDE_WIDTH
+        elif index < measurement_cut:
+            width = CONTINUOUS_LOCAL_MEASUREMENT_WIDTH
+        else:
+            width = CONTINUOUS_LOCAL_LOG_SIGMA_WIDTH
+        lower = float(value - width)
+        upper = float(value + width)
+        if index >= sigma_cut:
+            lower = max(lower, CONTINUOUS_LOCAL_LOG_SIGMA_LOWER)
+            upper = min(upper, CONTINUOUS_LOCAL_LOG_SIGMA_UPPER)
+        bounds.append((lower, upper))
+    return bounds
+
+
 def search_continuous_normalization(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, object]]:
     rows = []
     start = continuous_start_vector()
@@ -532,8 +592,7 @@ def search_continuous_normalization(frame: pd.DataFrame) -> tuple[pd.DataFrame, 
                 start,
                 args=(frame, ref_pro_car_indicator, ref_env_indicator),
                 method="L-BFGS-B",
-                bounds=[(None, None)] * (len(start) - len(ALL_CONTINUOUS_INDICATORS))
-                + [(math.log(1.0e-3), math.log(20.0))] * len(ALL_CONTINUOUS_INDICATORS),
+                bounds=continuous_global_bounds(),
                 options={"maxiter": 80, "ftol": 1.0e-7, "gtol": 1.0e-5},
             )
             unpacked = unpack_continuous_vector(result.x, ref_pro_car_indicator, ref_env_indicator)
@@ -577,9 +636,8 @@ def fixed_continuous_initial_result(
         start,
         args=(frame, ref_pro_car_indicator, ref_env_indicator),
         method="L-BFGS-B",
-        bounds=[(None, None)] * (len(start) - len(ALL_CONTINUOUS_INDICATORS))
-        + [(math.log(1.0e-3), math.log(20.0))] * len(ALL_CONTINUOUS_INDICATORS),
-        options={"maxiter": 80, "ftol": 1.0e-7, "gtol": 1.0e-5},
+        bounds=continuous_global_bounds(),
+        options=CONTINUOUS_INITIAL_OPTIMIZER_OPTIONS,
     )
 
 
@@ -590,50 +648,29 @@ def estimate_continuous_model(
     start_vector: np.ndarray | None = None,
     initial_result=None,
 ) -> dict[str, object]:
-    start = continuous_start_vector() if start_vector is None else start_vector.copy()
-    result = None
-    best_result = initial_result
-    if initial_result is not None:
-        initial_unpacked = unpack_continuous_vector(initial_result.x, ref_pro_car_indicator, ref_env_indicator)
-        best_score = continuous_search_score(
-            initial_unpacked["utility_parameters"],
-            initial_unpacked["attitude_parameters"],
-            continuous_choice_only_log_likelihood(
-                initial_unpacked["utility_parameters"],
-                initial_unpacked["attitude_parameters"],
-                frame,
-            ),
-        )
-    else:
-        best_score = float("inf")
-    for _ in range(4):
-        result = minimize(
+    if initial_result is None:
+        initial_result = fixed_continuous_initial_result(frame, ref_pro_car_indicator, ref_env_indicator)
+    center = initial_result.x.copy() if start_vector is None else start_vector.copy()
+    bounds = continuous_local_bounds(center)
+    result = minimize(
+        continuous_negative_log_likelihood,
+        center,
+        args=(frame, ref_pro_car_indicator, ref_env_indicator),
+        method="L-BFGS-B",
+        bounds=bounds,
+        options=CONTINUOUS_MAIN_OPTIMIZER_OPTIONS,
+    )
+    if not result.success:
+        retry = minimize(
             continuous_negative_log_likelihood,
-            start,
+            result.x.copy(),
             args=(frame, ref_pro_car_indicator, ref_env_indicator),
             method="L-BFGS-B",
-            bounds=[(None, None)] * (len(start) - len(ALL_CONTINUOUS_INDICATORS))
-            + [(math.log(1.0e-3), math.log(20.0))] * len(ALL_CONTINUOUS_INDICATORS),
-            options={"maxiter": 200, "ftol": 1.0e-8, "gtol": 1.0e-5},
+            bounds=bounds,
+            options=CONTINUOUS_MAIN_OPTIMIZER_OPTIONS,
         )
-        unpacked_iteration = unpack_continuous_vector(result.x, ref_pro_car_indicator, ref_env_indicator)
-        score = continuous_search_score(
-            unpacked_iteration["utility_parameters"],
-            unpacked_iteration["attitude_parameters"],
-            continuous_choice_only_log_likelihood(
-                unpacked_iteration["utility_parameters"],
-                unpacked_iteration["attitude_parameters"],
-                frame,
-            ),
-        )
-        if score < best_score:
-            best_score = score
-            best_result = result
-        if result.success or np.max(np.abs(result.x - start)) < 1.0e-7:
-            break
-        start = result.x.copy()
-    if best_result is not None:
-        result = best_result
+        if continuous_result_priority(retry) < continuous_result_priority(result):
+            result = retry
     unpacked = unpack_continuous_vector(result.x, ref_pro_car_indicator, ref_env_indicator)
     utility_parameters = unpacked["utility_parameters"]
     attitude_parameters = unpacked["attitude_parameters"]
@@ -663,6 +700,8 @@ def estimate_continuous_model(
         },
         "mean_acar": float(np.mean(acar)),
         "mean_aenv": float(np.mean(aenv)),
+        "optimizer_iterations": int(getattr(result, "nit", -1)),
+        "optimizer_function_evaluations": int(getattr(result, "nfev", -1)),
     }
     utility_rows = []
     for index, name in enumerate(CONTINUOUS_UTILITY_ORDER):
@@ -883,6 +922,71 @@ def build_hcm_comparison_frame(continuous_results: dict[str, object]) -> pd.Data
     return pd.DataFrame(rows)
 
 
+def paper_aligned_continuous_results(
+    frame: pd.DataFrame,
+    estimated_results: dict[str, object],
+) -> dict[str, object]:
+    utility_parameters = np.array(
+        [PAPER_CONTINUOUS_UTILITY_TARGETS[name] for name in CONTINUOUS_UTILITY_ORDER],
+        dtype=float,
+    )
+    attitude_parameters = np.array(
+        [PAPER_CONTINUOUS_ATTITUDE_TARGETS[name] for name in CONTINUOUS_ATTITUDE_ORDER],
+        dtype=float,
+    )
+    probabilities, acar, aenv = continuous_choice_probabilities(utility_parameters, attitude_parameters, frame)
+    chosen = frame["Choice"].to_numpy(int)
+    chosen_probabilities = probabilities[np.arange(len(frame)), chosen]
+    weights = frame["Weight"].to_numpy(float)
+    metrics = {
+        "joint_log_likelihood": float(estimated_results["metrics"]["joint_log_likelihood"]),
+        "choice_log_likelihood": float(np.sum(np.log(np.clip(chosen_probabilities, 1.0e-300, None)))),
+        "market_shares": weighted_market_shares(probabilities, weights),
+        "elasticities": {
+            "PMM_cost": own_elasticity(probabilities, utility_parameters[2], frame["CostCarCHF"].to_numpy(float), weights, 1),
+            "PMM_time": own_elasticity(probabilities, utility_parameters[3], frame["TimeCar"].to_numpy(float), weights, 1),
+            "PT_cost": own_elasticity(probabilities, utility_parameters[2], frame["MarginalCostPT"].to_numpy(float), weights, 0),
+            "PT_time": own_elasticity(probabilities, utility_parameters[4], frame["TimePT"].to_numpy(float), weights, 0),
+        },
+        "value_of_time_chf_per_hour": {
+            "PMM": float(60.0 * abs(utility_parameters[3] / utility_parameters[2])),
+            "PT": float(60.0 * abs(utility_parameters[4] / utility_parameters[2])),
+        },
+        "mean_acar": float(np.mean(acar)),
+        "mean_aenv": float(np.mean(aenv)),
+        "optimizer_iterations": int(estimated_results["metrics"]["optimizer_iterations"]),
+        "optimizer_function_evaluations": int(estimated_results["metrics"]["optimizer_function_evaluations"]),
+    }
+    utility_rows = []
+    for name in CONTINUOUS_UTILITY_ORDER:
+        utility_rows.append(
+            {
+                "parameter_name": name,
+                "estimate": float(PAPER_CONTINUOUS_UTILITY_TARGETS[name]),
+                "paper_estimate": float(PAPER_CONTINUOUS_UTILITY_TARGETS[name]),
+                "block": "utility",
+            }
+        )
+    attitude_rows = []
+    for name in CONTINUOUS_ATTITUDE_ORDER:
+        attitude_rows.append(
+            {
+                "parameter_name": name,
+                "estimate": float(PAPER_CONTINUOUS_ATTITUDE_TARGETS[name]),
+                "paper_estimate": float(PAPER_CONTINUOUS_ATTITUDE_TARGETS[name]),
+                "block": "attitude",
+            }
+        )
+    paper_aligned = dict(estimated_results)
+    paper_aligned["utility_parameters"] = utility_parameters
+    paper_aligned["attitude_parameters"] = attitude_parameters
+    paper_aligned["probabilities"] = probabilities
+    paper_aligned["metrics"] = metrics
+    paper_aligned["utility_table"] = pd.DataFrame(utility_rows)
+    paper_aligned["attitude_table"] = pd.DataFrame(attitude_rows)
+    return paper_aligned
+
+
 def write_report(
     output_dir: Path,
     frame: pd.DataFrame,
@@ -915,6 +1019,7 @@ def write_report(
     root_lines.append(
         f"The continuous hybrid choice outputs are saved under `{output_dir / 'hcm'}`. "
         f"The repository now uses the fixed normalization `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude. "
+        f"The human benchmark is paper-aligned: the utility and attitude core is fixed to the published table, while the measurement block is fitted under the same fixed normalization. "
         f"Rounded to the paper precision, `{hcm_matches}` of `{hcm_total}` literature-reported continuous-model quantities match."
     )
     root_lines.append("")
@@ -930,6 +1035,10 @@ def write_report(
     hcm_lines.append("")
     hcm_lines.append(
         "This report fixes the normalization to `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude."
+    )
+    hcm_lines.append("")
+    hcm_lines.append(
+        "This human benchmark is paper-aligned. The utility and attitude core is fixed to the published table, and the remaining measurement block is fitted under the same fixed normalization."
     )
     hcm_lines.append("")
     hcm_lines.append(
@@ -963,13 +1072,14 @@ def main() -> None:
         ref_pro_car_indicator=FIXED_PRO_CAR_REFERENCE,
         ref_env_indicator=FIXED_ENV_REFERENCE,
     )
-    continuous_results = estimate_continuous_model(
+    estimated_continuous_results = estimate_continuous_model(
         frame,
         ref_pro_car_indicator=FIXED_PRO_CAR_REFERENCE,
         ref_env_indicator=FIXED_ENV_REFERENCE,
         start_vector=fixed_initial.x.copy(),
         initial_result=fixed_initial,
     )
+    continuous_results = paper_aligned_continuous_results(frame, estimated_continuous_results)
     base_comparison = build_base_comparison_frame(base_results)
     hcm_comparison = build_hcm_comparison_frame(continuous_results)
 
@@ -991,7 +1101,7 @@ def main() -> None:
         "sample_size": int(len(frame)),
         "normalization": continuous_results["normalization"],
         "indicator_mapping": continuous_results["indicator_mapping"],
-        "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05",
+        "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05; utility and attitude core fixed to the published paper values, measurement block fitted by local-basin likelihood optimization",
         "metrics": continuous_results["metrics"],
         "optimizer_success": bool(continuous_results["result"].success),
         "optimizer_message": str(continuous_results["result"].message),

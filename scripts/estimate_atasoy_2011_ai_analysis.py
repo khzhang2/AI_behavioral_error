@@ -13,8 +13,6 @@ from replicate_atasoy_2011_models import (
     FIXED_PRO_CAR_REFERENCE,
     RAW_DATA_FILE,
     add_atasoy_covariates,
-    build_base_comparison_frame,
-    build_hcm_comparison_frame,
     estimate_base_model,
     estimate_continuous_model,
     fixed_continuous_initial_result,
@@ -22,12 +20,8 @@ from replicate_atasoy_2011_models import (
 )
 
 HUMAN_REPLICATION_DIR = ROOT_DIR / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication"
-HUMAN_BASE_ESTIMATES_FILE = HUMAN_REPLICATION_DIR / "base_logit" / "base_logit_estimates.csv"
 HUMAN_BASE_SUMMARY_FILE = HUMAN_REPLICATION_DIR / "base_logit" / "base_logit_summary.json"
 HUMAN_HCM_SUMMARY_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_summary.json"
-HUMAN_HCM_UTILITY_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_utility_estimates.csv"
-HUMAN_HCM_ATTITUDE_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_attitude_estimates.csv"
-HUMAN_HCM_MEASUREMENT_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_measurement_estimates.csv"
 _HUMAN_FRAME_TEMPLATE: pd.DataFrame | None = None
 
 
@@ -261,52 +255,6 @@ def hcm_feasibility(experiment_dir: Path) -> dict[str, object]:
     }
 
 
-def human_base_estimates() -> pd.DataFrame:
-    return pd.read_csv(HUMAN_BASE_ESTIMATES_FILE)
-
-
-def build_ai_base_human_comparison(base_results: dict[str, object]) -> pd.DataFrame:
-    human = human_base_estimates()[["parameter_name", "estimate"]].rename(columns={"estimate": "human_estimate"})
-    ai = base_results["estimates_table"][["parameter_name", "estimate"]].rename(columns={"estimate": "ai_estimate"})
-    comparison = human.merge(ai, on="parameter_name", how="outer")
-    comparison["gap_ai_minus_human"] = comparison["ai_estimate"] - comparison["human_estimate"]
-    return comparison.sort_values("parameter_name").reset_index(drop=True)
-
-
-def human_hcm_estimates() -> pd.DataFrame:
-    utility = pd.read_csv(HUMAN_HCM_UTILITY_FILE)
-    attitude = pd.read_csv(HUMAN_HCM_ATTITUDE_FILE)
-    measurement = pd.read_csv(HUMAN_HCM_MEASUREMENT_FILE)
-    return pd.concat([utility, attitude, measurement], ignore_index=True)
-
-
-def build_ai_hcm_human_comparison(hcm_results: dict[str, object]) -> pd.DataFrame:
-    human = human_hcm_estimates()[["parameter_name", "estimate", "block"]].rename(columns={"estimate": "human_estimate"})
-    ai = pd.concat(
-        [
-            hcm_results["utility_table"][["parameter_name", "estimate", "block"]],
-            hcm_results["attitude_table"][["parameter_name", "estimate", "block"]],
-            hcm_results["measurement_table"][["parameter_name", "estimate", "block"]],
-        ],
-        ignore_index=True,
-    ).rename(columns={"estimate": "ai_estimate"})
-    comparison = human.merge(ai, on=["parameter_name", "block"], how="outer")
-    comparison["gap_ai_minus_human"] = comparison["ai_estimate"] - comparison["human_estimate"]
-    return comparison.sort_values(["block", "parameter_name"]).reset_index(drop=True)
-
-
-def write_alias_csv(frame: pd.DataFrame, canonical_path: Path, alias_path: Path) -> None:
-    frame.to_csv(canonical_path, index=False)
-    if alias_path != canonical_path:
-        frame.to_csv(alias_path, index=False)
-
-
-def write_alias_json(payload: dict, canonical_path: Path, alias_path: Path) -> None:
-    write_json(canonical_path, payload)
-    if alias_path != canonical_path:
-        write_json(alias_path, payload)
-
-
 def write_experiment_report(
     experiment_dir: Path,
     sample_size: int,
@@ -355,7 +303,7 @@ def write_experiment_report(
     else:
         human_hcm = read_json(HUMAN_HCM_SUMMARY_FILE)
         lines.append(
-            "The AI exact HCM uses the same fixed normalization and the same estimation code path as the human replication: `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude."
+            "The AI exact HCM uses the same fixed normalization and the same model equations as the human benchmark: `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude. The human side is stored as a paper-aligned canonical benchmark, while the AI side is estimated with the repository local-basin optimizer under that same normalization."
         )
         lines.append("")
         lines.append("| Metric | Human HCM | This AI experiment |")
@@ -365,7 +313,7 @@ def write_experiment_report(
         lines.append(f"| PT VOT (CHF/hour) | {human_hcm['metrics']['value_of_time_chf_per_hour']['PT']:.2f} | {hcm_results['metrics']['value_of_time_chf_per_hour']['PT']:.2f} |")
         lines.append(f"| mean Acar | {human_hcm['metrics']['mean_acar']:.3f} | {hcm_results['metrics']['mean_acar']:.3f} |")
         lines.append(f"| mean Aenv | {human_hcm['metrics']['mean_aenv']:.3f} | {hcm_results['metrics']['mean_aenv']:.3f} |")
-    (experiment_dir / "atasoy_2011_replication" / "ai_atasoy_analysis.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (experiment_dir / "ai_atasoy_analysis.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> None:
@@ -381,16 +329,10 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
     n_respondents = int(trace_frame["respondent_id"].nunique())
     sample_size = int(len(exact_frame))
 
-    write_alias_csv(
-        exact_frame,
-        atasoy_dir / "atasoy_replication_input.csv",
-        atasoy_dir / "ai_atasoy_replication_input.csv",
-    )
-    trace_frame.to_csv(atasoy_dir / "ai_atasoy_replication_trace.csv", index=False)
+    exact_frame.to_csv(experiment_dir / "ai_atasoy_replication_input.csv", index=False)
+    trace_frame.to_csv(experiment_dir / "ai_atasoy_replication_trace.csv", index=False)
 
     base_results = estimate_base_model(exact_frame)
-    base_comparison = build_base_comparison_frame(base_results)
-    base_human_comparison = build_ai_base_human_comparison(base_results)
     base_summary = {
         "sample_size": sample_size,
         "n_respondents": n_respondents,
@@ -402,26 +344,8 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
         "optimizer_success": bool(base_results["result"].success),
         "optimizer_message": str(base_results["result"].message),
     }
-    write_alias_csv(
-        base_results["estimates_table"],
-        atasoy_dir / "base_logit_estimates.csv",
-        atasoy_dir / "ai_atasoy_base_logit_estimates.csv",
-    )
-    write_alias_csv(
-        base_comparison,
-        atasoy_dir / "base_logit_paper_comparison.csv",
-        atasoy_dir / "ai_atasoy_base_logit_paper_comparison.csv",
-    )
-    write_alias_csv(
-        base_human_comparison,
-        atasoy_dir / "base_logit_human_comparison.csv",
-        atasoy_dir / "ai_atasoy_base_logit_human_comparison.csv",
-    )
-    write_alias_json(
-        base_summary,
-        atasoy_dir / "base_logit_summary.json",
-        atasoy_dir / "ai_atasoy_base_logit_summary.json",
-    )
+    base_results["estimates_table"].to_csv(atasoy_dir / "ai_atasoy_base_logit_estimates.csv", index=False)
+    write_json(atasoy_dir / "ai_atasoy_base_logit_summary.json", base_summary)
 
     feasibility = hcm_feasibility(experiment_dir)
     hcm_results = None
@@ -438,7 +362,6 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
             start_vector=fixed_initial.x.copy(),
             initial_result=fixed_initial,
         )
-        hcm_comparison = build_hcm_comparison_frame(hcm_results)
         ai_estimates = pd.concat(
             [
                 hcm_results["utility_table"],
@@ -455,48 +378,18 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
             "is_partial_sample": bool(progress["is_partial_sample"]),
             "normalization": hcm_results["normalization"],
             "indicator_mapping": hcm_results["indicator_mapping"],
-            "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05",
+            "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05; short paper-target warm start followed by bounded local-basin convergence",
             "metrics": hcm_results["metrics"],
             "optimizer_success": bool(hcm_results["result"].success),
             "optimizer_message": str(hcm_results["result"].message),
         }
-        write_alias_csv(
-            hcm_results["utility_table"],
-            hcm_dir / "hcm_utility_estimates.csv",
-            hcm_dir / "ai_atasoy_hcm_utility_estimates.csv",
-        )
-        write_alias_csv(
-            hcm_results["attitude_table"],
-            hcm_dir / "hcm_attitude_estimates.csv",
-            hcm_dir / "ai_atasoy_hcm_attitude_estimates.csv",
-        )
-        write_alias_csv(
-            hcm_results["measurement_table"],
-            hcm_dir / "hcm_measurement_estimates.csv",
-            hcm_dir / "ai_atasoy_hcm_measurement_estimates.csv",
-        )
-        write_alias_csv(
-            ai_estimates,
-            hcm_dir / "hcm_estimates.csv",
-            hcm_dir / "ai_atasoy_hcm_estimates.csv",
-        )
-        write_alias_csv(
-            hcm_comparison,
-            hcm_dir / "hcm_paper_comparison.csv",
-            hcm_dir / "ai_atasoy_hcm_paper_comparison.csv",
-        )
-        write_alias_csv(
-            build_ai_hcm_human_comparison(hcm_results),
-            hcm_dir / "hcm_human_comparison.csv",
-            hcm_dir / "ai_atasoy_hcm_human_comparison.csv",
-        )
-        write_alias_json(
-            hcm_summary,
-            hcm_dir / "hcm_summary.json",
-            hcm_dir / "ai_atasoy_hcm_summary.json",
-        )
+        hcm_results["utility_table"].to_csv(hcm_dir / "ai_atasoy_hcm_utility_estimates.csv", index=False)
+        hcm_results["attitude_table"].to_csv(hcm_dir / "ai_atasoy_hcm_attitude_estimates.csv", index=False)
+        hcm_results["measurement_table"].to_csv(hcm_dir / "ai_atasoy_hcm_measurement_estimates.csv", index=False)
+        ai_estimates.to_csv(hcm_dir / "ai_atasoy_hcm_estimates.csv", index=False)
+        write_json(hcm_dir / "ai_atasoy_hcm_summary.json", hcm_summary)
 
-    write_json(hcm_dir / "ai_atasoy_hcm_feasibility.json", feasibility)
+    write_json(experiment_dir / "ai_atasoy_hcm_feasibility.json", feasibility)
     write_experiment_report(experiment_dir, sample_size, n_respondents, progress, base_results, feasibility, hcm_results)
 
 

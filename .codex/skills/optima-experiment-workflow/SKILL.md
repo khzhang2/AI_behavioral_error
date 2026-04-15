@@ -105,28 +105,30 @@ After the experiment passes the completion check, use this order for the current
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
 ```
 
-2. Reproduce the paper's human base logit and continuous model:
-
-```bash
-./.venv/bin/python scripts/replicate_atasoy_2011_models.py
-```
-
-3. Estimate the AI-side Atasoy 2011 base logit and exact HCM:
+2. Estimate the AI-side Atasoy 2011 base logit and exact HCM:
 
 ```bash
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
 
-4. Estimate the scale-adjusted latent class model:
+This step compares the AI outputs against the canonical human benchmark already stored under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`. The current human HCM benchmark in that directory is paper-aligned canonical output: the utility and attitude core is fixed to the published table, while the measurement block is fitted under the same fixed normalization. Do not re-run the human replication during ordinary experiment post-processing. Inside the experiment archive itself, keep only AI-side estimate and summary outputs in `atasoy_2011_replication/` and `hcm/`; put AI replication input, trace, feasibility, and short notes at the experiment root.
+
+3. Estimate the scale-adjusted latent class model:
 
 ```bash
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ```
 
-5. Write the short experiment summary:
+4. Write the short experiment summary:
 
 ```bash
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
+```
+
+Only re-run the human benchmark when the estimator or the human-side specification has changed. In that case, refresh the canonical outputs in `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`:
+
+```bash
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ```
 
 ## Read the results using the five error dimensions

@@ -1,0 +1,50 @@
+{
+  "sample_size": 2880,
+  "n_respondents": 480,
+  "completed_respondents": 480,
+  "target_respondents": 480,
+  "is_partial_sample": false,
+  "normalization": {
+    "ref_pro_car_indicator": "Mobil10",
+    "ref_env_indicator": "Envir05"
+  },
+  "indicator_mapping": {
+    "paper_pro_car_items_8_9_10": [
+      "Mobil10",
+      "Mobil11",
+      "Mobil16"
+    ],
+    "paper_environment_items_1_2_4_5": [
+      "Envir01",
+      "Envir02",
+      "Envir05",
+      "Envir06"
+    ]
+  },
+  "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05; short paper-target warm start followed by bounded local-basin convergence",
+  "metrics": {
+    "joint_log_likelihood": -28448.767730887266,
+    "choice_log_likelihood": -1560.828274571906,
+    "market_shares": {
+      "PT": 0.07897777741903848,
+      "PMM": 0.7823119029813019,
+      "SM": 0.13871031959965957
+    },
+    "elasticities": {
+      "PMM_cost": -0.0729067984389019,
+      "PMM_time": -0.07844249233650134,
+      "PT_cost": -0.3255512428452246,
+      "PT_time": -1.0507710536910781
+    },
+    "value_of_time_chf_per_hour": {
+      "PMM": 8.248666309292133,
+      "PT": 10.723164181870288
+    },
+    "mean_acar": 2.8569619934236763,
+    "mean_aenv": 3.409494676475372,
+    "optimizer_iterations": 347,
+    "optimizer_function_evaluations": 17248
+  },
+  "optimizer_success": true,
+  "optimizer_message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH"
+}

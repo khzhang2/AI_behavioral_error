@@ -25,7 +25,9 @@ Post-AI analysis only: [optima-experiment-workflow](.codex/skills/optima-experim
 6. **Write experiment summaries in Chinese** unless the user specifies otherwise.
 7. **Sobol draws are shared.** Pre-generated `.npy` files ensure identical Monte Carlo integration across methods.
 8. **Gitignored runtime files:** `*.iter`, `biogeme.toml`, `biogeme_runtime.toml`, `api_credentials.local.json`, `raw_interactions.jsonl`, `respondent_transcripts.json`.
-9. **Keep Atasoy AI analysis on the human code path.** `estimate_atasoy_2011_ai_analysis.py` should reorganize AI outputs into the same Atasoy-style estimation table used by `replicate_atasoy_2011_models.py`, and then reuse the same base-logit and exact-HCM estimation functions.
+9. **Keep Atasoy AI analysis on the shared model-code path.** `estimate_atasoy_2011_ai_analysis.py` should reorganize AI outputs into the same Atasoy-style estimation table used by `replicate_atasoy_2011_models.py`, and then reuse the shared base-logit and exact-HCM model functions. The human HCM benchmark stored under `data/.../atasoy_2011_replication/hcm/` is paper-aligned canonical output, not a fresh free-estimation run inside each AI experiment.
+10. **Do not re-run the human benchmark for ordinary post-AI work.** Reuse the canonical human outputs under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`. Only refresh them when the estimator or the human-side specification changes, and write the refreshed benchmark back into `data/`, not an experiment folder.
+11. **Keep experiment choice-model folders AI-only.** Under each experiment archive, `atasoy_2011_replication/` and `hcm/` should store only AI-side estimate and summary outputs. Do not duplicate human benchmark tables or paper-comparison tables there; read those from `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`. Put AI replication input, trace, feasibility, and short notes at the experiment root instead.
 
 ## Active Pipeline Scripts
 

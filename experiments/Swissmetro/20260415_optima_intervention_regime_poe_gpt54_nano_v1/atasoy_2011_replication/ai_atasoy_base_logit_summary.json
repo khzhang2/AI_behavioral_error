@@ -1,0 +1,37 @@
+{
+  "sample_size": 2400,
+  "n_respondents": 400,
+  "completed_respondents": 400,
+  "target_respondents": 400,
+  "is_partial_sample": false,
+  "specification": {
+    "sample_rule": "Choice != -1",
+    "cost_pmm": "CostCarCHF",
+    "cost_pt": "MarginalCostPT",
+    "work_trip_dummy": "TripPurpose in {1, 2}",
+    "student_dummy": "OccupStat == 8",
+    "urban_dummy": "UrbRur == 2",
+    "language_dummy": "LangCode == 1 (French-speaking commune)",
+    "household_counts": "NbCar, NbChild, NbBicy with negative missing codes recoded to 0"
+  },
+  "metrics": {
+    "log_likelihood": -918.7021009145983,
+    "market_shares": {
+      "PT": 0.1483992642007179,
+      "PMM": 0.840934896540608,
+      "SM": 0.010665839258674037
+    },
+    "elasticities": {
+      "PMM_cost": -0.07093364408309213,
+      "PMM_time": -0.08804281386005341,
+      "PT_cost": -0.3303637664879488,
+      "PT_time": -0.9247422113953264
+    },
+    "value_of_time_chf_per_hour": {
+      "PMM": 10.81158861205872,
+      "PT": 11.394919286499222
+    }
+  },
+  "optimizer_success": false,
+  "optimizer_message": "Desired error not necessarily achieved due to precision loss."
+}

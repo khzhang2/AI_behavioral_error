@@ -6,7 +6,7 @@
 2. 通过 LLM API（Poe、DeepSeek）或本地 **MLX** 小模型收集 AI 问卷回答。
 3. 在**干预诊断**、**Atasoy 2011 基础 logit 复现**、**Atasoy 2011 exact HCM** 和 **SALCM** 上比较人类与 AI 的行为差异。
 
-当前 Atasoy 2011 的 AI 分析不再使用一套单独的平行估计代码。`scripts/estimate_atasoy_2011_ai_analysis.py` 会先把 AI 问卷结果整理成与人类复现脚本相同的 Atasoy 行格式输入表，然后直接调用 `scripts/replicate_atasoy_2011_models.py` 中同一套 base logit 与 exact HCM 估计函数。这样，AI 结果与人类结果可以在同一口径下直接比较。
+当前 Atasoy 2011 的 AI 分析不再使用一套单独的平行估计代码。`scripts/estimate_atasoy_2011_ai_analysis.py` 会先把 AI 问卷结果整理成与人类复现脚本相同的 Atasoy 行格式输入表，然后复用 `scripts/replicate_atasoy_2011_models.py` 中共享的 base logit 与 exact HCM 模型函数。当前 `data/.../atasoy_2011_replication/hcm/` 下的人类 HCM benchmark 是一个 paper-aligned canonical benchmark：utility 和 attitude 核心参数固定为 paper 表格值，measurement block 则在同一固定 normalization 下补充拟合。AI 侧 exact HCM 仍然在这个 normalization 下用仓库的 local-basin estimator 做数值估计，再与这个 canonical human benchmark 比较。
 
 ## 环境配置
 
@@ -154,13 +154,20 @@ AI_behavioral_error/
 
 # 4. 后续估计
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
-./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <name>
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```
 
-其中 `estimate_atasoy_2011_ai_analysis.py` 这一步会先把 AI 输出重排成与人类复现相同的 Atasoy 输入表，再复用人类复现脚本里的 base logit 与 exact HCM 估计函数。当前实验归档因此会同时保留人类风格的输出文件，例如 `atasoy_2011_replication/base_logit_estimates.csv`、`atasoy_2011_replication/base_logit_summary.json`、`hcm/hcm_utility_estimates.csv`、`hcm/hcm_attitude_estimates.csv`、`hcm/hcm_measurement_estimates.csv` 和 `hcm/hcm_summary.json`；原来的 `ai_atasoy_*` 文件名仍会继续写出，用来兼容旧下游脚本。
+当前默认后处理会直接复用 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/` 下的 canonical human benchmark，不会在每次 AI experiment 的 post-AI analysis 时重复重跑 human estimation。
+
+其中 `estimate_atasoy_2011_ai_analysis.py` 这一步会先把 AI 输出重排成与人类复现相同的 Atasoy 输入表，再复用共享的 base logit 与 exact HCM 模型函数。当前 experiment 目录下的 `atasoy_2011_replication/` 与 `hcm/` 子文件夹只保留 AI-side estimate 和 summary，例如 `atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`、`hcm/ai_atasoy_hcm_utility_estimates.csv`、`hcm/ai_atasoy_hcm_attitude_estimates.csv`、`hcm/ai_atasoy_hcm_measurement_estimates.csv` 和 `hcm/ai_atasoy_hcm_summary.json`。AI replication input、trace、feasibility 和简短分析说明放回 experiment 根目录。human benchmark 与 paper 对照元数据统一只放在 `data/.../atasoy_2011_replication/`。
+
+只有当 human estimator 或 human specification 本身发生变化时，才应手动刷新 canonical human benchmark，而且刷新结果应继续写回 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`，而不是写进某个 experiment 目录：
+
+```bash
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
+```
 
 > **注意：** CLI 一律使用 `--model-key`（即配置中的 `key`），而非原始模型名。  
 > 若修改了 `survey_design` 或样本量相关字段，需在采集前重新运行 prepare 脚本。
@@ -186,8 +193,8 @@ AI_behavioral_error/
 | `optima_intervention_regime_questionnaire.py` | 问卷构造逻辑 |
 | `run_optima_intervention_regime_ai_collection.py` | 运行 AI 问卷采集 |
 | `estimate_optima_intervention_metrics.py` | 计算干预与随机性诊断指标 |
-| `replicate_atasoy_2011_models.py` | 复现人类 Atasoy 2011 base logit 与 exact HCM |
-| `estimate_atasoy_2011_ai_analysis.py` | 将 AI 输出整理成与人类复现一致的 Atasoy 输入表，并复用同一套 base logit 与 exact HCM 估计代码 |
+| `replicate_atasoy_2011_models.py` | 生成人类 Atasoy 2011 base logit 与 paper-aligned exact HCM canonical benchmark |
+| `estimate_atasoy_2011_ai_analysis.py` | 将 AI 输出整理成与人类复现一致的 Atasoy 输入表，并复用共享的 base logit 与 exact HCM 模型函数 |
 | `estimate_optima_salcm.py` | 尺度调整潜类别模型（SALCM） |
 | `summarize_optima_intervention_regime.py` | 生成实验总结报告 |
 

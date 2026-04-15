@@ -4,13 +4,15 @@
 
 校正说明（2026-04-14）：在这份报告初稿之后，仓库修复了两个人类基准侧错误。第一，旧的人类 panel MNL worker sample 过滤应使用 `OccupStat in {1, 2}`，而不是 `TripPurpose != 3`。第二，原始 `TimePT` 已经包含 waiting time，因此不能再和 `WaitingTimePT` 做重复计入。现在这份报告的结构 baseline 已经统一改成 `atasoy_2011_replication`，也就是 Atasoy 2011 paper-style `base logit`。两次 AI 实验的归档回答仍然来自修复前的 PT 问卷文案，所以 AI 侧 legacy HCM / SALCM 结果在这里仍只适合做有限方向性对照。
 
+校正说明（2026-04-15）：canonical human HCM benchmark 现在已经进一步改成 `paper-aligned canonical benchmark`。也就是说，`data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/hcm/` 下的人类 HCM 不再是“每次都自由数值估计一次”的结果，而是把 paper 已报告的 utility 和 attitude 参数直接固定下来，再在同一 fixed normalization 下补充拟合 measurement block。今后普通 AI post-analysis 应直接复用这个 `data/` 下的 benchmark，而不是在每次 experiment 后处理时重复重跑 human estimation。只有在 estimator 或 human-side specification 再次变化时，才需要刷新这里的 canonical human 结果。
+
 ## 1. 对比对象与实验目录
 
 本报告比较以下三个对象。
 
 | 对象 | 角色 | 实验或数据目录 |
 | --- | --- | --- |
-| `GPT-5.4-nano` | AI respondent experiment | `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/` |
+| `GPT-5.4-nano` | AI respondent experiment | `experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/` |
 | `DeepSeek-chat` | AI respondent experiment | `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/` |
 | `human benchmark` | 人类基准数据 | `data/Swissmetro/demographic_choice_psychometric/` |
 
@@ -22,12 +24,12 @@
 
 两次 AI 实验的配置文件：
 
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/experiment_config.json`
+- `experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/experiment_config.json`
 - `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/experiment_config.json`
 
 两次 AI 实验报告：
 
-- [../experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/experiment_summary.md](../experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/experiment_summary.md)
+- [../experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/experiment_summary.md](../experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/experiment_summary.md)
 - [../experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/experiment_summary.md](../experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/experiment_summary.md)
 
 ## 2. 共同问卷结构与运行规模
@@ -80,13 +82,14 @@
 
 ```bash
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
-./.venv/bin/python scripts/replicate_atasoy_2011_models.py
-./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs 20260412_optima_intervention_regime_poe_gpt54_nano_v1 20260412_optima_intervention_regime_deepseek_chat_v1
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs 20260415_optima_intervention_regime_poe_gpt54_nano_v1 20260412_optima_intervention_regime_deepseek_chat_v1
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```
 
-每个实验目录中最关键的结果文件包括：
+这里默认直接复用 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/` 下的 canonical human benchmark。`scripts/replicate_atasoy_2011_models.py` 不属于日常 experiment post-analysis 的必跑步骤；只有当共享 estimator 或 human-side specification 变化时，才需要单独重跑，并把结果继续写回 `data/` 下的 canonical benchmark 目录。
+
+每个实验目录中最关键的结果文件包括。需要注意的是，当前主线下 `atasoy_2011_replication/` 和 `hcm/` 只保留 AI-side 估计结果；如果需要看 human benchmark 或 paper 对照元数据，应直接去 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`：
 
 | 文件 | 作用 |
 | --- | --- |
@@ -164,14 +167,14 @@
 
 ## 7. HCM / 有限 ICLV 结果能告诉我们什么
 
-当前仓库的默认 HCM 主线已经切换到 Atasoy 2011 的 fixed-normalization exact HCM。旧的 Biogeme panel HCM 仍然保留为历史脚本，但不再是默认结构基准。
+当前仓库的默认 HCM 主线已经切换到 Atasoy 2011 的 fixed-normalization exact HCM。对于 human side，当前 canonical benchmark 进一步采用 paper-aligned 口径；对于 AI side，则仍在同一 fixed normalization 下用仓库的 local-basin estimator 估计。旧的 Biogeme panel HCM 仍然保留为历史脚本，但不再是默认结构基准。
 
 这一节保留的是 AI 侧历史归档 HCM 结果。当前默认 human 结构基准已经改成 `atasoy_2011_replication/base_logit/` 与 `atasoy_2011_replication/hcm/`，因此 experiment 目录中的旧 `hcm/human` 归档已经不再保留。
 
 对应结果文件在：
 
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai_biogeme_hcm_estimates.csv`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai_biogeme_hcm_summary.json`
+- `experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai_biogeme_hcm_estimates.csv`
+- `experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/hcm/ai_biogeme_hcm_summary.json`
 - `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai_biogeme_hcm_estimates.csv`
 - `experiments/Swissmetro/20260412_optima_intervention_regime_deepseek_chat_v1/hcm/ai_biogeme_hcm_summary.json`
 
@@ -246,8 +249,8 @@
 
 `GPT-5.4-nano` 的 SALCM 结果在：
 
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai_salcm_summary.json`
-- `experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai_salcm_regime_summaries.csv`
+- `experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai_salcm_summary.json`
+- `experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/salcm/ai_salcm_regime_summaries.csv`
 
 posterior masses 为：
 
@@ -339,7 +342,7 @@ posterior masses 为：
 
 ### `GPT-5.4-nano`
 
-- 实验目录：`experiments/Swissmetro/20260412_optima_intervention_regime_poe_gpt54_nano_v1/`
+- 实验目录：`experiments/Swissmetro/20260415_optima_intervention_regime_poe_gpt54_nano_v1/`
 - collection 摘要：`outputs/ai_collection_summary.json`
 - intervention 指标：`intervention_metrics_summary.json`
 - AI base model：`atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`
@@ -363,6 +366,8 @@ posterior masses 为：
 - 核心文件：
   - `human_cleaned_wide.csv`
   - `human_respondent_profiles.csv`
+  - `atasoy_2011_replication/base_logit/base_logit_summary.json`
+  - `atasoy_2011_replication/hcm/hcm_summary.json`
 
 ### 重新做 post-AI analysis
 
@@ -370,11 +375,20 @@ posterior masses 为：
 
 ```bash
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
-./.venv/bin/python scripts/replicate_atasoy_2011_models.py
-./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs 20260412_optima_intervention_regime_poe_gpt54_nano_v1 20260412_optima_intervention_regime_deepseek_chat_v1
+./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs 20260415_optima_intervention_regime_poe_gpt54_nano_v1 20260412_optima_intervention_regime_deepseek_chat_v1
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```
+
+如果只是重做某个 AI experiment 的后处理，到这里就够了，不要顺手重跑 human benchmark。
+
+只有当共享 estimator 或 human-side specification 变化时，才单独运行：
+
+```bash
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
+```
+
+而且刷新后的 human benchmark 仍应保留在 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/` 下，而不是写进任何 experiment 目录。
 
 ## 12. 最简短结论
 

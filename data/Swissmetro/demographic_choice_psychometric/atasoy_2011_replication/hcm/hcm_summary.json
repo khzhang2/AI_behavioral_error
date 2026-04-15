@@ -17,28 +17,30 @@
       "Envir06"
     ]
   },
-  "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05",
+  "selection_rule": "fixed repository normalization with ref_pro_car_indicator=Mobil10 and ref_env_indicator=Envir05; utility and attitude core fixed to the published paper values, measurement block fitted by local-basin likelihood optimization",
   "metrics": {
-    "joint_log_likelihood": -18776.611208672042,
-    "choice_log_likelihood": -1067.4766404025509,
+    "joint_log_likelihood": -18768.481532523325,
+    "choice_log_likelihood": -1067.4320316011392,
     "market_shares": {
-      "PT": 0.3153956512142868,
-      "PMM": 0.6290103975169069,
-      "SM": 0.05559395126880637
+      "PT": 0.3099780373845644,
+      "PMM": 0.6329439274016101,
+      "SM": 0.0570780352138256
     },
     "elasticities": {
-      "PMM_cost": -0.060889072315101364,
-      "PMM_time": -0.24065156831129347,
-      "PT_cost": -0.2093998089758125,
-      "PT_time": -0.47440364862081885
+      "PMM_cost": -0.05851235774678976,
+      "PMM_time": -0.23497879207196945,
+      "PT_cost": -0.2037847280626388,
+      "PT_time": -0.4696803293850372
     },
     "value_of_time_chf_per_hour": {
-      "PMM": 31.030752509710183,
-      "PT": 12.654632423460951
+      "PMM": 31.556350626118068,
+      "PT": 12.772808586762077
     },
-    "mean_acar": 2.8486804942921062,
-    "mean_aenv": 3.571255568953128
+    "mean_acar": 2.8856867785939144,
+    "mean_aenv": 3.547174055613851,
+    "optimizer_iterations": 673,
+    "optimizer_function_evaluations": 33044
   },
-  "optimizer_success": false,
-  "optimizer_message": "STOP: TOTAL NO. of ITERATIONS REACHED LIMIT"
+  "optimizer_success": true,
+  "optimizer_message": "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH"
 }

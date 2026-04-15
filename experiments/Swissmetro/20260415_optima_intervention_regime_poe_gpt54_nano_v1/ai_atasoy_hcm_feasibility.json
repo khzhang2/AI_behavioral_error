@@ -1,0 +1,23 @@
+{
+  "available_indicators": [
+    "Envir01",
+    "Envir02",
+    "Envir05",
+    "Envir06",
+    "Mobil10",
+    "Mobil11",
+    "Mobil16"
+  ],
+  "required_for_exact_atasoy_hcm": [
+    "Envir01",
+    "Envir02",
+    "Envir05",
+    "Envir06",
+    "Mobil10",
+    "Mobil11",
+    "Mobil16"
+  ],
+  "missing_required_indicators": [],
+  "is_exact_atasoy_hcm_feasible": true,
+  "reason": "Exact Atasoy 2011 continuous HCM is feasible from the collected AI indicators."
+}

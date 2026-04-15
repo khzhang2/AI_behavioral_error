@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import os
+import ssl
 import time
 import urllib.error
 import urllib.request
@@ -46,6 +48,18 @@ from optima_intervention_regime_questionnaire import (
 
 CHOICE_NAME_TO_CODE = {"PT": 0, "CAR": 1, "SLOW_MODES": 2}
 _MLX_RUNTIME_CACHE: dict[str, tuple[Any, Any]] = {}
+
+
+def http_ssl_context() -> ssl.SSLContext:
+    for env_name in ["SSL_CERT_FILE", "REQUESTS_CA_BUNDLE"]:
+        candidate = str(os.environ.get(env_name, "")).strip()
+        if candidate:
+            return ssl.create_default_context(cafile=candidate)
+    try:
+        import certifi
+    except ModuleNotFoundError:
+        return ssl.create_default_context()
+    return ssl.create_default_context(cafile=certifi.where())
 
 
 def parse_args() -> argparse.Namespace:
@@ -134,11 +148,20 @@ class ChatBackend:
         timeout_value = self.config.get("timeout_sec")
         timeout = int(timeout_value) if timeout_value not in (None, "") else 240
         try:
-            with urllib.request.urlopen(request, timeout=timeout) as response:
+            with urllib.request.urlopen(request, timeout=timeout, context=http_ssl_context()) as response:
                 return json.loads(response.read().decode("utf-8"))
         except urllib.error.HTTPError as exc:
             body = exc.read().decode("utf-8", errors="replace")
             raise RuntimeError(f"Backend request failed: {exc.code} {body}") from exc
+        except urllib.error.URLError as exc:
+            reason = getattr(exc, "reason", None)
+            if isinstance(reason, ssl.SSLCertVerificationError):
+                raise RuntimeError(
+                    "TLS certificate verification failed. "
+                    "The collection script now tries SSL_CERT_FILE, REQUESTS_CA_BUNDLE, and certifi. "
+                    "If this still fails, set SSL_CERT_FILE to a valid CA bundle path and rerun with --resume."
+                ) from exc
+            raise
 
     def _mlx_runtime(self) -> tuple[Any, Any]:
         model_id = str(self.config.get("model") or "").strip()
@@ -816,6 +839,14 @@ def main() -> None:
     args = parse_args()
     archive_experiment_config(EXPERIMENT_DIR)
     llm_config = llm_config_for(args.model_key)
+    if str(llm_config.get("provider", "")).lower() != "mlx" and not resolve_llm_api_key(llm_config):
+        provider_name = str(llm_config.get("provider", "")).lower() or "remote"
+        env_name = str(llm_config.get("api_key_env") or "").strip()
+        env_hint = f" or the environment variable `{env_name}`" if env_name else ""
+        raise RuntimeError(
+            f"Missing API key for provider `{provider_name}`. "
+            f"Set `api_key` in the configured credentials file{env_hint}, then rerun."
+        )
     base_dir = EXPERIMENT_DIR
     raw_dir = OUTPUT_DIR
     indicator_names = configured_indicator_names()

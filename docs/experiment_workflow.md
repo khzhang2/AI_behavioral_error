@@ -143,19 +143,13 @@ Use this order for the current intervention-regime workflow.
 ./.venv/bin/python scripts/estimate_optima_intervention_metrics.py
 ```
 
-2. Reproduce the paper's human base logit and continuous model:
-
-```bash
-./.venv/bin/python scripts/replicate_atasoy_2011_models.py
-```
-
-3. Estimate the AI-side Atasoy 2011 base logit and exact HCM on the archived experiment outputs:
+2. Estimate the AI-side Atasoy 2011 base logit and exact HCM on the archived experiment outputs:
 
 ```bash
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
 
-This step now first reorganizes the AI outputs into the same Atasoy-style estimation input schema used by the human replication, and then calls the same base-logit and exact-HCM estimation functions as the human script. The AI experiment archive therefore keeps human-style outputs such as `base_logit_estimates.csv`, `base_logit_summary.json`, `base_logit_human_comparison.csv`, `hcm_utility_estimates.csv`, `hcm_attitude_estimates.csv`, `hcm_measurement_estimates.csv`, `hcm_human_comparison.csv`, and `hcm_summary.json`, while also writing the existing `ai_atasoy_*` alias files for backward compatibility.
+This step now first reorganizes the AI outputs into the same Atasoy-style estimation input schema used by the human replication, and then calls the shared base-logit and exact-HCM model functions from the human script. The human benchmark it compares against is the canonical replication already stored under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`; do not re-run the human replication as part of ordinary experiment post-processing. In the current repository state, the human HCM benchmark under `data/.../atasoy_2011_replication/hcm/` is paper-aligned: the utility and attitude core is fixed to the published table, and the measurement block is fitted under the same fixed normalization. The AI experiment archive keeps only AI-side estimate and summary files in these subfolders, using the `ai_atasoy_*` filenames. AI replication input, trace, feasibility, and short analysis notes stay at the experiment root. Human benchmark metadata and paper-comparison metadata stay under `data/.../atasoy_2011_replication/`.
 
 If a collection was intentionally stopped early and you explicitly want a partial-sample Atasoy analysis, use:
 
@@ -165,16 +159,22 @@ If a collection was intentionally stopped early and you explicitly want a partia
 
 The default behavior still requires a complete collection. The `--allow-partial` flag is only for explicit partial-sample analysis and the resulting summaries will mark the run as partial.
 
-4. Estimate the scale-adjusted latent class model:
+3. Estimate the scale-adjusted latent class model:
 
 ```bash
 ./.venv/bin/python scripts/estimate_optima_salcm.py
 ```
 
-5. Write the short experiment summary:
+4. Write the short experiment summary:
 
 ```bash
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
+```
+
+Only re-run the canonical human benchmark when the estimator itself or the human-side specification changes. In that case, write the refreshed outputs back to `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`, not into an experiment archive:
+
+```bash
+./.venv/bin/python scripts/replicate_atasoy_2011_models.py
 ```
 
 ## Read the results using the five error dimensions
@@ -198,7 +198,7 @@ Use the following mapping when interpreting one completed experiment.
    Focus on `dominance violation rate` and `monotonicity compliance rate`.
 
 5. Human-relative distortion:
-   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit/base_logit_summary.json`, `atasoy_2011_replication/base_logit_summary.json`, and `salcm/ai_salcm_regime_summaries.csv`.
+   Read `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit/base_logit_summary.json`, `atasoy_2011_replication/ai_atasoy_base_logit_summary.json`, and `salcm/ai_salcm_regime_summaries.csv`.
    Start with `choice share` differences. Treat `VOT/WTP` or elasticity-style interpretation more cautiously when the optimizer reports precision loss or iteration limits.
 
 ## Follow the experiment record rules

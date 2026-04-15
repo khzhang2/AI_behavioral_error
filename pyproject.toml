@@ -9,6 +9,7 @@ description = "LLM stated-preference respondent pipeline for travel behavior res
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
+  "certifi>=2024.0.0",
   "matplotlib>=3.5",
   "numpy>=1.23",
   "pandas>=1.5",

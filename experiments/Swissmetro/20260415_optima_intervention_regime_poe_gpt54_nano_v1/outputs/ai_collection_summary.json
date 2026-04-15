@@ -1,0 +1,14 @@
+{
+  "experiment_name": "20260415_optima_intervention_regime_poe_gpt54_nano_v1",
+  "model_key": "poe_gpt54_nano",
+  "completed_respondents": 400,
+  "target_respondents": 400,
+  "valid_attitude_rate": 1.0,
+  "valid_task_rate": 1.0,
+  "mean_exact_repeat_flip_rate": 0.09208333333333332,
+  "mean_paraphrase_flip_rate": 0.02625,
+  "mean_label_flip_rate": 0.07125,
+  "mean_order_flip_rate": 0.14125,
+  "mean_monotonicity_compliance_rate": 0.96125,
+  "mean_dominance_violation_rate": 0.0425
+}

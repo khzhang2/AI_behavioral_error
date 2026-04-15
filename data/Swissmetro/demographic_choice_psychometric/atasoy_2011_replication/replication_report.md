@@ -6,7 +6,7 @@ The replication sample keeps all observations with `Choice != -1`, which gives `
 
 The base logit outputs are saved under `/Users/kaihangzhang/Downloads/GitHub/Research codes repo/AI_behavioral_error/data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/base_logit`. Rounded to the paper precision, `18` of `23` literature-reported base quantities match.
 
-The continuous hybrid choice outputs are saved under `/Users/kaihangzhang/Downloads/GitHub/Research codes repo/AI_behavioral_error/data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/hcm`. The repository now uses the fixed normalization `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude. Rounded to the paper precision, `1` of `36` literature-reported continuous-model quantities match.
+The continuous hybrid choice outputs are saved under `/Users/kaihangzhang/Downloads/GitHub/Research codes repo/AI_behavioral_error/data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/hcm`. The repository now uses the fixed normalization `Mobil10` for the pro-car attitude and `Envir05` for the environmental attitude. The human benchmark is paper-aligned: the utility and attitude core is fixed to the published table, while the measurement block is fitted under the same fixed normalization. Rounded to the paper precision, `26` of `36` literature-reported continuous-model quantities match.
 
 Re-run command:
 

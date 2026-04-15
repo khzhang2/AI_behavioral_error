@@ -1,0 +1,14 @@
+{
+  "experiment_name": "20260415_optima_intervention_regime_poe_deepseek_v32_v1",
+  "model_key": "poe_deepseek_v32",
+  "completed_respondents": 480,
+  "target_respondents": 480,
+  "valid_attitude_rate": 1.0,
+  "valid_task_rate": 1.0,
+  "mean_exact_repeat_flip_rate": 0.09600694444444444,
+  "mean_paraphrase_flip_rate": 0.0020833333333333333,
+  "mean_label_flip_rate": 0.0020833333333333333,
+  "mean_order_flip_rate": 0.036458333333333336,
+  "mean_monotonicity_compliance_rate": 0.9885416666666667,
+  "mean_dominance_violation_rate": 0.004166666666666667
+}
