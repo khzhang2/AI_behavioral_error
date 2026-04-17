@@ -1,0 +1,17 @@
+{
+  "experiment_name": "20260417_optima_intervention_regime_gemma4_31b_awq_v1",
+  "source_data_dir": "/Users/kaihangzhang/Downloads/GitHub/Research codes repo/AI_behavioral_error/data/Swissmetro/demographic_choice_psychometric",
+  "scenario_bank_rows": 1906,
+  "profile_bank_rows": 1906,
+  "llm_models": [
+    {
+      "model_key": "gemma4_31b_awq",
+      "n_block_templates": 120,
+      "n_runs": 480,
+      "n_tasks": 7680,
+      "semantic_arm_share": 0.5,
+      "naturalistic_prompt_share": 0.475,
+      "mean_block_complexity": 0.5942170908263157
+    }
+  ]
+}

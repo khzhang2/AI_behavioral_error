@@ -1,0 +1,52 @@
+{
+  "profiles": [
+    {
+      "model": "gpt-5.4-nano",
+      "provider": "poe",
+      "thinking_control": {
+        "path": "reasoning_effort",
+        "off": "none",
+        "on": "low"
+      }
+    },
+    {
+      "model": "deepseek-v3.2",
+      "provider": "poe",
+      "thinking_control": {
+        "path": "reasoning_effort",
+        "off": "none",
+        "on": "low"
+      }
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "provider": "openai_compatible",
+      "thinking_control": {
+        "path": "extra_body.chat_template_kwargs.enable_thinking",
+        "off": false,
+        "on": true
+      },
+      "response_decoder_defaults": {
+        "thinking_text_path": "choices.0.message.reasoning"
+      }
+    },
+    {
+      "model": "QuantTrio/gemma-4-31B-it-AWQ",
+      "provider": "openai_compatible",
+      "thinking_control": {
+        "path": "extra_body.chat_template_kwargs.enable_thinking",
+        "off": false,
+        "on": true
+      }
+    },
+    {
+      "model": "mlx-community/Qwen3.5-0.8B-5bit",
+      "provider": "mlx",
+      "thinking_control": {
+        "path": "",
+        "off": null,
+        "on": null
+      }
+    }
+  ]
+}

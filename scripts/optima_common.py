@@ -9,11 +9,11 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from scipy.stats import norm, qmc
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT_DIR / "experiment_config.json"
+MODEL_BEHAVIOR_REGISTRY_PATH = ROOT_DIR / "model_behavior_registry.json"
 LLM_OPTIONAL_STRING_FIELDS = [
     "base_url",
     "credentials_file",
@@ -21,6 +21,7 @@ LLM_OPTIONAL_STRING_FIELDS = [
     "api_key",
     "api_key_env",
     "reasoning_effort",
+    "thinking_mode",
 ]
 LLM_OPTIONAL_NULL_FIELDS = ["top_k", "timeout_sec"]
 LLM_OPTIONAL_OBJECT_FIELDS = ["extra_body", "response_decoder"]
@@ -47,6 +48,96 @@ def _deep_merge(base: dict[str, Any], overrides: dict[str, Any]) -> dict[str, An
         else:
             merged[key] = override_value
     return merged
+
+
+def _set_nested_value(payload: dict[str, Any], dotted_path: str, value: Any) -> None:
+    if not dotted_path:
+        return
+    keys = [str(part).strip() for part in str(dotted_path).split(".") if str(part).strip()]
+    if not keys:
+        return
+    cursor = payload
+    for key in keys[:-1]:
+        current = cursor.get(key)
+        if not isinstance(current, dict):
+            current = {}
+            cursor[key] = current
+        cursor = current
+    cursor[keys[-1]] = value
+
+
+def _thinking_mode_state(value: Any) -> str:
+    normalized = _string_or_empty(value).strip().lower()
+    if normalized in {"off", "false", "disabled", "disable", "non_thinking", "none", "no"}:
+        return "off"
+    if normalized in {"on", "true", "enabled", "enable", "thinking", "yes"}:
+        return "on"
+    return ""
+
+
+def _read_model_behavior_registry() -> list[dict[str, Any]]:
+    if not MODEL_BEHAVIOR_REGISTRY_PATH.exists():
+        return []
+    try:
+        payload = _read_json_file(MODEL_BEHAVIOR_REGISTRY_PATH)
+    except Exception:
+        return []
+    profiles = payload.get("profiles", [])
+    return profiles if isinstance(profiles, list) else []
+
+
+def model_behavior_profile(config: dict[str, Any]) -> dict[str, Any]:
+    model_name = _string_or_empty(config.get("model", "")).strip()
+    provider_name = _string_or_empty(config.get("provider", "")).strip().lower()
+    for profile in _read_model_behavior_registry():
+        if not isinstance(profile, dict):
+            continue
+        if _string_or_empty(profile.get("model", "")).strip() != model_name:
+            continue
+        profile_provider = _string_or_empty(profile.get("provider", "")).strip().lower()
+        if profile_provider and profile_provider != provider_name:
+            continue
+        return dict(profile)
+    return {}
+
+
+def apply_model_behavior_profile(config: dict[str, Any]) -> dict[str, Any]:
+    merged = normalize_llm_config_shape(config)
+    profile = model_behavior_profile(merged)
+    if not profile:
+        return merged
+
+    decoder_defaults = profile.get("response_decoder_defaults", {})
+    if isinstance(decoder_defaults, dict) and decoder_defaults:
+        decoder = dict(merged.get("response_decoder") or {})
+        for key, value in decoder_defaults.items():
+            if key not in decoder or decoder.get(key) in {None, ""}:
+                decoder[str(key)] = value
+        merged["response_decoder"] = decoder
+
+    thinking_state = _thinking_mode_state(merged.get("thinking_mode", ""))
+    thinking_control = profile.get("thinking_control", {})
+    if thinking_state and isinstance(thinking_control, dict):
+        path = _string_or_empty(thinking_control.get("path", "")).strip()
+        mapped_value = thinking_control.get(thinking_state)
+        if path != "reasoning_effort":
+            merged["reasoning_effort"] = ""
+        if path:
+            if path == "reasoning_effort":
+                merged["reasoning_effort"] = _string_or_empty(mapped_value).strip()
+            else:
+                extra_body = dict(merged.get("extra_body") or {})
+                target_path = path
+                if target_path == "extra_body":
+                    extra_body = mapped_value if isinstance(mapped_value, dict) else {}
+                    merged["extra_body"] = extra_body
+                    return normalize_llm_config_shape(merged)
+                if target_path.startswith("extra_body."):
+                    target_path = target_path[len("extra_body.") :]
+                _set_nested_value(extra_body, target_path, mapped_value)
+                merged["extra_body"] = extra_body
+
+    return normalize_llm_config_shape(merged)
 
 
 def _load_experiment_config() -> dict[str, Any]:
@@ -100,7 +191,6 @@ INDICATOR_TEXT = {
 CHOICE_LABEL_TO_CODE = {"A": 0, "B": 1, "C": 2}
 CHOICE_CODE_TO_NAME = {0: "PT", 1: "CAR", 2: "SLOW_MODES"}
 CHOICE_LABEL_TO_NAME = {"A": "PT", "B": "CAR", "C": "SLOW_MODES"}
-DRAW_NAMES = ["omega_car", "omega_env"]
 TASK_ATTRIBUTE_OPTIONS = ["travel_time", "waiting_time", "cost", "distance", "availability", "mode_label"]
 
 
@@ -177,19 +267,13 @@ def apply_llm_credentials(config: dict[str, Any]) -> dict[str, Any]:
         merged["base_url"] = "https://api.poe.com/v1"
     if _string_or_empty(merged.get("provider", "")).lower() == "deepseek" and not merged.get("base_url"):
         merged["base_url"] = "https://api.deepseek.com"
-    return normalize_llm_config_shape(merged)
+    return apply_model_behavior_profile(merged)
 
 
 def llm_models() -> list[dict[str, Any]]:
     models = CONFIG.get("llm_models")
     if isinstance(models, list) and models:
         return [apply_llm_credentials(dict(model)) for model in models]
-    if "llm" in CONFIG:
-        legacy = apply_llm_credentials(dict(CONFIG["llm"]))
-        legacy.setdefault("key", legacy.get("model", "default"))
-        legacy.setdefault("collection_subdir", CONFIG["paths"].get("ai_collection_subdir", f"ai_collection_{legacy['key']}"))
-        legacy.setdefault("respondent_prefix", "AI")
-        return [legacy]
     return []
 
 
@@ -523,28 +607,6 @@ def parse_task_response(text: str) -> dict[str, Any]:
 def total_variation_distance(left: pd.Series, right: pd.Series) -> float:
     levels = sorted(set(left.index).union(set(right.index)))
     return 0.5 * sum(abs(float(left.get(level, 0.0)) - float(right.get(level, 0.0))) for level in levels)
-
-
-def generate_shared_sobol_draws(n_rows: int, n_draws: int, n_dims: int, seed: int) -> np.ndarray:
-    n_points = n_rows * n_draws
-    m = math.ceil(math.log2(max(2, n_points)))
-    sampler = qmc.Sobol(d=n_dims, scramble=True, seed=seed)
-    uniforms = sampler.random_base2(m=m)[:n_points]
-    uniforms = np.clip(uniforms, 1e-10, 1 - 1e-10)
-    return norm.ppf(uniforms).reshape(n_rows, n_draws, n_dims)
-
-
-def draw_generator_from_file(draw_path: Path, dim_index: int):
-    draw_cache: dict[tuple[int, int], np.ndarray] = {}
-
-    def generator(sample_size: int, number_of_draws: int) -> np.ndarray:
-        key = (sample_size, number_of_draws)
-        if key not in draw_cache:
-            draws = np.load(draw_path)
-            draw_cache[key] = draws[:sample_size, :number_of_draws, dim_index]
-        return draw_cache[key]
-
-    return generator
 
 
 def likert_probability_numpy(observed: np.ndarray, index_value: np.ndarray, delta_1: float, delta_2: float) -> np.ndarray:

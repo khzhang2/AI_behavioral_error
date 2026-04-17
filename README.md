@@ -24,7 +24,7 @@
 
 ```bash
 pip install -e .                    # 核心依赖
-pip install -e ".[experiments]"     # + Biogeme、MLX backend 及估计所需的锁定版本
+pip install -e ".[experiments]"     # + MLX backend 及估计所需的锁定版本
 ```
 
 版本约束详见 `pyproject.toml`。
@@ -72,7 +72,6 @@ AI_behavioral_error/
 │   ├── raw/                            # 原始 Optima .dat 文件
 │   ├── human_cleaned_wide.csv          # 清洗后的人类数据（宽格式）
 │   ├── human_respondent_profiles.csv   # 人类受访者画像
-│   ├── shared_sobol_draws_{32,500}.npy # 预生成的 Sobol 抽样
 │   ├── optima_codebook.json
 │   ├── optima_data_description.md
 │   └── atasoy_2011_replication/        # 人类基准模型输出
@@ -85,8 +84,6 @@ AI_behavioral_error/
 ├── experiment_config.json       # 当前实验覆盖层
 ├── experiment_config_base.json  # 稳定默认值与方法参数
 ├── api_credentials.local.json   # 本机 API 密钥（gitignored）
-├── biogeme.toml                 # Biogeme 默认参数（gitignored）
-├── biogeme_runtime.toml         # 由脚本写入（gitignored）
 ├── pyproject.toml
 ├── AGENTS.md                    # AI 编程助手指南
 └── README.md
@@ -161,7 +158,7 @@ AI_behavioral_error/
 
 当前默认后处理会直接复用 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/` 下的 canonical human benchmark，不会在每次 AI experiment 的 post-AI analysis 时重复重跑 human estimation。
 
-其中 `estimate_atasoy_2011_ai_analysis.py` 这一步会先把 AI 输出重排成与人类复现相同的 Atasoy 输入表，再复用共享的 base logit 与 exact HCM 模型函数。当前 experiment 目录下的 `atasoy_2011_replication/` 与 `hcm/` 子文件夹只保留 AI-side estimate 和 summary，例如 `atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`、`hcm/ai_atasoy_hcm_utility_estimates.csv`、`hcm/ai_atasoy_hcm_attitude_estimates.csv`、`hcm/ai_atasoy_hcm_measurement_estimates.csv` 和 `hcm/ai_atasoy_hcm_summary.json`。AI replication input、trace、feasibility 和简短分析说明放回 experiment 根目录。human benchmark 与 paper 对照元数据统一只放在 `data/.../atasoy_2011_replication/`。
+其中 `estimate_atasoy_2011_ai_analysis.py` 这一步会先把 AI 输出重排成与人类复现相同的 Atasoy 输入表，再复用共享的 base logit 与 exact HCM 模型函数。当前 experiment 目录下的 `atasoy_2011_replication/` 与 `hcm/` 子文件夹只保留 AI-side estimate 和 summary，例如 `atasoy_2011_replication/ai_atasoy_base_logit_estimates.csv`、`atasoy_2011_replication/ai_atasoy_base_logit_summary.json`、`hcm/ai_atasoy_hcm_utility_estimates.csv`、`hcm/ai_atasoy_hcm_attitude_estimates.csv`、`hcm/ai_atasoy_hcm_measurement_estimates.csv` 和 `hcm/ai_atasoy_hcm_summary.json`。每个选择模型文件夹还会额外写出一张 `parameter_comparison.csv`，用于并排查看 human 参数和 AI 参数；其中 `salcm/parameter_comparison.csv` 只保留 AI 参数。最后的 `summarize_optima_intervention_regime.py` 会自动读取 `atasoy_2011_replication/parameter_comparison.csv` 与 `hcm/parameter_comparison.csv`，并在 experiment 根目录额外写出一份 `parameter_comparison_report.md`，标题直接使用实验配置里的大模型名称。AI replication input、trace、feasibility 和简短分析说明放回 experiment 根目录。human benchmark 与 paper 对照元数据统一只放在 `data/.../atasoy_2011_replication/`。
 
 只有当 human estimator 或 human specification 本身发生变化时，才应手动刷新 canonical human benchmark，而且刷新结果应继续写回 `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`，而不是写进某个 experiment 目录：
 
@@ -195,12 +192,9 @@ AI_behavioral_error/
 | `estimate_optima_intervention_metrics.py` | 计算干预与随机性诊断指标 |
 | `replicate_atasoy_2011_models.py` | 生成人类 Atasoy 2011 base logit 与 paper-aligned exact HCM canonical benchmark |
 | `estimate_atasoy_2011_ai_analysis.py` | 将 AI 输出整理成与人类复现一致的 Atasoy 输入表，并复用共享的 base logit 与 exact HCM 模型函数 |
+| `write_parameter_comparison_report.py` | 读取 `atasoy_2011_replication/` 与 `hcm/` 的 `parameter_comparison.csv`，在 experiment 根目录生成标题为大模型名称的参数对照 Markdown |
 | `estimate_optima_salcm.py` | 尺度调整潜类别模型（SALCM） |
 | `summarize_optima_intervention_regime.py` | 生成实验总结报告 |
-
-### 旧版脚本（仅供参考）
-
-`legacy_estimate_optima_biogeme_hcm.py`、`legacy_estimate_optima_torch_hcm.py`、`legacy_compare_optima_hcm.py`、`legacy_optima_hcm_model_spec.py` — 不属于当前实验流水线。
 
 ## LLM 后端配置
 
@@ -225,8 +219,9 @@ AI_behavioral_error/
 
 | 供应商 | `base_url` | 备注 |
 |---|---|---|
-| `poe` | `https://api.poe.com/v1` | 设 `reasoning_effort` 为 `"none"` 可关闭推理模式 |
-| `deepseek` | `https://api.deepseek.com` | 使用 `thinking_mode`：`"non_thinking"` 或 `"thinking"` |
+| `poe` | `https://api.poe.com/v1` | 思考开关统一写在 `llm_models[].thinking_mode`；代码会按 `model_behavior_registry.json` 自动映射到底层请求字段 |
+| `deepseek` | `https://api.deepseek.com` | 思考开关统一写在 `llm_models[].thinking_mode`；代码会按 `model_behavior_registry.json` 自动映射到底层请求字段 |
+| `openai_compatible` | 自定义 | OpenAI-compatible `/chat/completions`；思考开关统一写在 `llm_models[].thinking_mode`；当 `base_url` 指向当前内网 vLLM 服务器时，collection 会自动切到异步 respondent-level 并发分支 |
 | `mlx` | 不使用 | 本地模型；`llm_models[].model` 必须是 `mlx_lm.load()` 可直接加载的 Hugging Face MLX repo id，当前默认是 `mlx-community/Qwen3.5-0.8B-5bit` |
 
 ### MLX 本地模型约定
@@ -238,6 +233,15 @@ AI_behavioral_error/
 - collection 代码会忽略这些 `mlx` 占位字段，不会把它们发到本地 MLX backend。
 - `temperature`、`top_p`、`seed`、`grounding_num_predict`、`attitude_num_predict`、`task_num_predict` 会直接映射到本地生成参数。
 - 当前默认小量 Qwen 实验键名固定为 `mlx_qwen35_0p8b`。
+
+### 统一思考开关
+
+- 配置里只改 `llm_models[].thinking_mode` 这一处。
+- 推荐值只有两个：`"off"` 和 `"on"`。
+- 每个模型真正需要的底层写法不直接写进 experiment config，而是记录在仓库根目录的 [model_behavior_registry.json](/Users/kaihangzhang/Downloads/GitHub/Research%20codes%20repo/AI_behavioral_error/model_behavior_registry.json)。
+- 运行时会先按 `model` 自动查这张表，再把 `thinking_mode` 映射成对应的请求字段。例如有的模型用 `reasoning_effort`，有的模型用 `extra_body.chat_template_kwargs.enable_thinking`。
+- `reasoning_effort` 现在也视为模型表管理的内部字段。experiment config 里这个键只作为条目形状占位保留，普通实验不要手动改它。
+- 如果某个模型没有出现在这张表里，代码就不会替它自动改底层 thinking 参数。
 
 ### 自定义响应解码器
 
@@ -260,8 +264,6 @@ AI_behavioral_error/
 ## 关键约定
 
 - 所有路径基于 `ROOT_DIR = Path(__file__).resolve().parents[1]`（定义在 `optima_common.py`）解析。
-- Sobol 抽样**预先生成并共享**给所有估计方法，以确保可复现性。
-- Biogeme 的 `*.iter`、`biogeme.toml`、`biogeme_runtime.toml` 已加入 gitignore；运行时 TOML 在每次估计时重新写入。
 - `raw_interactions.jsonl` 和 `respondent_transcripts.json` 已加入 gitignore（大文件）；派生 CSV 会被提交。
 
 ## 许可证

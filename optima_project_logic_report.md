@@ -1,57 +1,79 @@
 # AI Behavioral Error 项目整体逻辑说明
 
-这个项目想回答的不是一个单纯的“AI 能不能模仿人类选择结果”的问题，而是一个更严格的问题：如果我们把大语言模型当成“虚拟受访者”，让它在真实的人类出行调查框架里反复回答同一类问题，它表现出来的到底是接近人类的行为规则，还是只是某种表面上像、但内部机制不同的稳定反应。仓库当前的主线做法很清楚。它先以 Swissmetro 的 Optima 数据作为人类基准，再从人类数据中抽取真实的 persona 支持集和真实的场景支持集，构造一套可以系统操控语义、标签、顺序与规则检验的问卷模板，随后让一个模型在同一 persona 和同一模板上做多次完整作答，最后再用一组从浅到深的分析工具去判断这个模型的 response regime，也就是它回答问题时所遵循的反应规则，究竟是不是稳、是不是守规则、是不是对语义与表面形式有不该有的敏感性，以及它和人类到底差在哪一层。
+这个项目检验大语言模型作为虚拟受访者时所呈现的行为生成规则。主线流程很清楚：仓库先从 Optima 的 Swissmetro 数据整理出人类基准，再从人类样本里抽取 persona 和场景，生成一套带有系统干预的问卷模板，随后让一个模型在同一 persona 和同一模板上完成多次完整作答，最后用五个 response regime 维度和三类结构模型去定位 AI 与 human 的距离。这里的关键对象有四个。`task` 是一道题，可能是态度题，也可能是 choice card；`block template` 是一整套可复用的问卷模板；`respondent block` 是这套模板在固定实验条件下的一次实例化；`run` 是一轮完整作答，顺序固定为 grounding、attitudes、再加上全部 task cards。当前主线要求一个实验文件夹只对应一个模型，这样每个归档目录都能被直接读成一个完整的实验单元。
 
-理解这个项目，第一步不是看模型，而是先把几个对象分清。代码里一条 `task` 是一道题，它可以是一道态度题，也可以是一张离散选择卡片。一个 `block template` 是一整套可以复用的问卷模板，它把 persona、提示词条件和一组 choice cards 绑在一起。一个 `respondent block` 是这套模板在某个固定实验条件下的一次实例化。一个 `run` 则是一整次完整作答，顺序固定为一条 grounding、若干条 attitude、再加上全部 task cards。当前 intervention-regime 主线里，一个实验文件夹只对应一个模型，`block template` 决定“答哪套问卷”，`persona` 决定“谁在答”，`run` 决定“这套问卷被完整答了一次”。这套定义很重要，因为后面的随机性、语义稳健性和结构模型，都是围绕这几个层级展开的。
+## 数据基础与人类基准
 
-项目的人类基准不是直接从论文表格抄来的，而是从原始 `optima.dat` 重新整理出来的。`scripts/prepare_optima_data.py` 先读取原始 Optima 数据，去掉 `Choice = -1` 的无效观测，构造 `human_cleaned_wide.csv` 和 `human_respondent_profiles.csv` 两张关键表。前者保留估计模型需要的数值变量，例如公共交通时间、等待时间、汽车时间、成本和慢行距离，并做了若干标准化与缩放；后者保留可以写进 persona 的受访者背景信息，同时也保留后续 Atasoy 2011 精确混合选择模型所需要的七个态度指标。这个脚本还会预先生成共享的 Sobol draws，也就是一套固定的低差异随机抽样，用来让后续不同模型共用同样的 Monte Carlo integration 输入，从而把“积分噪声不同”这个因素尽量排除掉。
+人类基准来自 `scripts/prepare_optima_data.py`。这个脚本读取原始 `optima.dat`，保留有效选择观测，写出 `human_cleaned_wide.csv` 和 `human_respondent_profiles.csv` 两张核心表。`human_cleaned_wide.csv` 服务于场景构造和人类结构模型，里面保留了公共交通时间、等待时间、汽车时间、成本、距离以及若干缩放后的版本。`human_respondent_profiles.csv` 服务于 persona 支持集，里面保留了年龄、收入、教育、家庭资源、出行背景、成长环境以及 Atasoy 风格精确 HCM 需要的七个态度指标。
 
-persona 的构造是这个项目最关键、也最容易被误解的一步。当前实现并不是从年龄、收入、教育、车辆拥有等属性做一个笛卡尔积，也不是做正交设计，更不是在属性空间里人造一批虚拟人。它采用的是经验支持集的思路。所谓经验支持集，就是只使用人类样本中真实出现过的完整 profile rows。`scripts/prepare_optima_intervention_regime_data.py` 直接从 `human_respondent_profiles.csv` 取出固定字段，形成 `respondent_profile_bank.csv`。这样做的好处是保留了年龄、收入、教育、家庭车辆数、出行目的、成长背景和若干态度指标之间原本就存在的联合结构。它的代价也同样明确：这不是覆盖性最强的设计，稀有 subgroup 不一定会被抽到，从未在原始样本里出现的组合也不会被人为补出来。
+## Persona 如何构建
 
-具体到抽样机制，当前代码并不按样本权重做加权抽样，而是先对整个 profile bank 做一次可复现的随机打乱，然后截取前 `n_block_templates_per_model` 条作为本轮实验真正使用的 `selected_profiles`。如果 profile bank 的行数小于模板数，代码会重复拼接这张表，直到足够长，再从前面截取。这意味着这里更接近“从真实人类支持集中抽完整的人”，而不是“对人口统计属性空间做系统设计”。因此，这种 persona 方案主要保证的是现实性，而不是全面覆盖。换句话说，项目现在更适合研究“在看起来像真实受访者的前提下，AI 会不会表现出不该有的脆弱性或失真”，而不是研究“AI 在所有可能的理想化人口组合上会怎样”。
+当前 persona 采用经验支持集。代码直接把 `human_respondent_profiles.csv` 里真实出现过的完整 profile rows 当成候选 persona，并把固定字段写入实验目录中的 `respondent_profile_bank.csv`。这种做法保留了人口统计、家庭资源、出行背景与态度指标之间原本就存在的联合结构，因此 persona 的社会背景和行为背景来自同一条真实人类记录。
 
-真正写进 system prompt 的 persona 也不是整行 profile 的机械复制。`scripts/optima_intervention_regime_questionnaire.py` 会把 `sex_text`、`age_text`、`income_text`、`trip_purpose_text`、`car_availability_text`、家庭人口与车辆配置、教育水平、父母是否更偏向汽车、童年是否住在 suburb 或 city center 这些字段，整理成一段稳定的受访者背景说明。这里的设计有两个用意。第一个用意是保证 AI 在整轮问卷中始终围绕同一个“人”来回答，而不是每一题都临时即兴发挥。第二个用意是只给那些语言上容易解释、又和行为机制相关的字段，避免把整张数据表直接塞给模型，造成 prompt 冗长却不清晰。
+抽样规则很直接。`scripts/prepare_optima_intervention_regime_data.py` 先对整个 profile bank 做可复现的等概率打乱，再截取前 `n_block_templates_per_model` 条作为 `selected_profiles`。当模板数大于支持集行数时，脚本会重复拼接 profile bank 直到数量足够，因此模板数表示本轮实验中 persona-template 单元的数量，persona 覆盖范围则由 profile bank 的规模和抽样规则共同决定。
 
-如果说 persona 决定的是“谁来答”，那么 template 决定的就是“答什么，以及怎么被测试”。同一个准备脚本会从 `human_cleaned_wide.csv` 构造 `scenario_bank.csv`。这里每一条人类 choice observation 都会被变成一个候选场景，保留公共交通、汽车和慢行方式的核心属性，并计算一个 `complexity_score`。这个复杂度指标不是抽象定义，而是根据三种备选方式在一个简化 proxy 上的最小两两差距来算的：三种方式越接近，场景越难；差距越大，场景越容易。这样做的意义在于，模板不只知道用了哪些场景，也知道这些场景大致有多难，从而让后续的 block-level diagnostics 和 SALCM membership covariates 可以把“任务复杂度”纳入解释。
+写进 system prompt 的 persona 字段是一组语言上清楚、行为上有解释力的背景变量。当前实现会写入性别、年龄、收入、出行目的、这次出行是否有车可用、家庭人口、子女数、家庭汽车数、自行车数、教育水平、父母是否更依赖汽车，以及童年是否住在 suburb 或 city center。这个设计让模型在整轮问卷里围绕同一个人持续作答，同时把 prompt 控制在足够短、足够稳定的范围内。
 
-template 的生成逻辑本身很有研究味道。对于每一个被抽中的 profile，代码先随机指定一个 `prompt_arm` 和一个 `prompt_family`。`prompt_arm` 主要控制后续任务更偏“语义显示”还是更偏“标签遮蔽”，也就是选项是不是直接显示成 `PT`、`CAR`、`SLOW_MODES` 这些语义标签。`prompt_family` 则控制整体提示词风格，例如更简洁还是更自然。接着，代码会从 scenario bank 里无放回抽取 `n_core_tasks` 个核心场景，生成最基础的 core tasks。到这里为止，模板还只是“一套普通问卷”。真正让它变成 response regime 实验工具的，是后面一组系统派生出来的 twin 和 probe cards。
+## Template 如何构建
 
-这些派生题目对应的正是项目最核心的五个检验方向。首先是 paraphrase twin，也就是把同一个 choice task 换一种措辞，但不改底层属性；它考察的是语义等价改写下是否稳定。其次是 label-mask twin，也就是把选项标签从有意义的模式名称切换成更中性的显示方式；它考察的是模型会不会被“名字”本身牵着走。再往后是 order-randomization twin，也就是只改变 `A/B/C` 的展示顺序，而不改变真实属性；它考察的是模型有没有表面顺序偏好。然后是 monotonicity task，也就是把当前 proxy 上最有吸引力的选项故意变差，看模型会不会反而更愿意选它。最后是 dominance task，也就是刻意制造一个在显示属性上明显更差的备选项，看模型会不会还去选一个被支配的选项。换句话说，template 不是单纯让 AI 做选择，而是在同一套问卷里嵌入了一整组有针对性的干预与规则检查。
+template 来自场景支持集和干预规则。`scenario_bank.csv` 由 `human_cleaned_wide.csv` 生成，每一条人类 choice observation 都会被整理成一个三选项场景，并附带 `complexity_score`。这个复杂度分数根据三种方式在简化 proxy 上的最小两两差距来计算，数值越高表示三个选项越接近，任务越难分。这样做让每个 template 同时带着内容和难度信息，后续的 block-level diagnostics 与 SALCM membership covariates 都能直接利用它。
 
-这也解释了为什么这个项目要把 `template` 和 `repeat` 分开。很多人会下意识地以为改写、换顺序、换标签这些操作发生在不同 repeat 之间，但当前实现不是这样。repeat 的作用是 exact repeat，也就是把同一 persona、同一模板、同一条件完整重复运行多次，用来测随机不稳定性。语义改写、标签遮蔽、顺序打乱、单调性和支配性检验，则发生在同一 template 内部，是这份问卷原本就带着的不同 task。于是，一个 repeat 问的是“同一问卷你会不会自己变”，而 twin/probe 问的是“同一个底层问题换个表面形式或规则条件后你会不会变”。这两个维度加在一起，才构成 response regime 的核心。
+对于每一个被选中的 profile，脚本会先随机指定一个 `prompt_arm` 和一个 `prompt_family`，再从 scenario bank 中无放回抽取 `n_core_tasks` 个核心场景，生成 core tasks。`prompt_arm` 控制模式标签的显式程度，`prompt_family` 控制提示词风格。到这一步，template 已经是一份完整问卷的骨架。
 
-AI response experiment 的执行方式同样是为这个逻辑服务的。`scripts/run_optima_intervention_regime_ai_collection.py` 会读取 `block_assignments.csv` 和 `panel_tasks.csv`，对每个 `respondent_id` 串行执行 grounding、attitudes 和 tasks。串行是必要的，因为后续题目会把之前的回答历史拼进 prompt，让模型在同一轮问卷里尽量保持自洽；并行则只发生在 respondent 之间。对于远程后端，这能提高吞吐；对于 `mlx` 本地后端，脚本会强制把有效 worker 数降为 1，避免重复加载模型和争抢显存。每一次 interaction 都会立刻追加写入 `raw_interactions.jsonl`，解析后的 attitude rows 和 task rows 也会立刻落盘，所以 `--resume` 不是简单地重新开始，而是能从已有痕迹恢复，并把未完成 respondent 的残留部分先清掉，再从下一个完整状态继续。
+真正让 template 具备 response regime 检验能力的是后续派生出来的 twin 和 probe tasks。paraphrase twin 保持属性不变，只换措辞；label-mask twin 切换语义标签显示方式；order-randomization twin 改变 `A/B/C` 的展示顺序；monotonicity task 把当前 proxy 上最有吸引力的选项变差；dominance task 刻意制造一个在显示属性上明显更差的备选项。每个 template 内部同时包含 core tasks 与这些派生任务，因此同一个 run 既能产出正常选择，也能产出稳定性与规则性检验。
 
-collection 结束以后，项目会形成两张非常重要的派生表。`ai_panel_long.csv` 把每一道 task 展开成三行，一行对应一个备选方式，所以它适合做离散选择估计，因为每个 choice set 的三种备选属性都被显式排开了。`ai_panel_block.csv` 则把 respondent 这一层的统计量压缩出来，例如 label flip rate、order flip rate、paraphrase flip rate、monotonicity compliance rate、dominance violation rate、confidence mean，以及各类 top attributes 的占比。这两张表分工很明确。前者更像结构模型的输入，后者更像 regime diagnostics 和 latent class membership 的输入。
+repeat 的作用是 exact repeat。相同 persona、相同 template、相同提示条件会被完整执行多次，因此 repeat 检验的是同一问卷在重复运行中的内部稳定性。twin 和 probe 检验的是同一个底层问题在语言、标签、顺序和规则条件改变后的反应变化。`block_assignments.csv` 记录 run-level 计划表，`panel_tasks.csv` 记录 task-level 计划表，这两张表合起来定义了整轮 AI 实验。
 
-现在就可以回到“五个维度的 response regime”这个项目真正想检验的对象。第一维是同一系统内部的随机不稳定性。这里的概念并不是“模型偶尔答错”这么简单，而是指在输入完全一样、persona 一样、模板一样的条件下，模型会不会给出不一致的选择。`scripts/estimate_optima_intervention_metrics.py` 会按 `model_key`、`block_template_id` 和 `task_index` 把 exact repeats 聚起来，计算 `exact_repeat_flip_rate` 和 `response_entropy`。前者看的是两两重复之间有多常翻转，后者看的是同一题答案分布有多分散。一个模型如果连这一关都过不了，那么后面所有语义稳健性和结构模型比较都不太可靠，因为它首先没有稳定地执行自己的规则。
+## AI response 实验如何开展
 
-第二维是语义等价改写是否稳健。这里的概念是 semantic invariance，也就是当底层效用关系没有变，只是表达方式改了，模型是否还能维持相同的选择规律。项目不是只看单题翻转，而是把 anchor task 和 paraphrase twin 的选择分布拿来比较，计算一个总变差距离，也就是 `intervention_gap_tv`。为了防止把普通随机噪声误判成语义脆弱性，代码还会把这个 gap 和 exact repeat 的随机性基线做比较，形成 `excess_intervention_gap`。如果 paraphrase gap 很小，而且没有明显超过随机性基线，那么更稳妥的解释是“模型对改写基本稳健”；如果 gap 明显大于随机性可解释的范围，才说明它真的被语言表面拖动了。
+`scripts/run_optima_intervention_regime_ai_collection.py` 负责执行整轮 AI 问卷。每个 `respondent_id` 都会先收到一个 system prompt，再依次完成 grounding、attitude questions 和全部 task cards。grounding 让模型确认 persona 与 trip context，attitude questions 收集七个或更少的指标值，task prompts 要求模型返回结构化 JSON，包括选择标签、信心、两个最重要属性以及是否看到 dominated option。
 
-第三维是标签或顺序是否过敏。这里其实有两个不同问题。label sensitivity 问的是模型会不会因为选项名从 `PT`、`CAR` 这样的语义标签变成中性显示而改主意；order sensitivity 问的是模型会不会因为 `A/B/C` 的顺序换了就改主意。代码对这两种 twin 都做与 paraphrase 相同的分布比较，也同样计算 flip rate、intervention gap 和 excess intervention gap。项目文档特别强调不要过早把 label 和 order 合并，因为一个模型可能几乎不受 label 影响，却明显受顺序影响，反过来也可能成立。这个区分很重要，因为它对应的是两类不同的机制：前者更接近语义标签牵引，后者更接近界面和呈现顺序牵引。
+执行顺序遵循 respondent 内串行、respondent 间并行的原则。串行保证后续题目可以读取之前的回答历史，从而让同一轮问卷更一致；并行提升受访者级吞吐。`mlx` 本地后端会强制使用单 worker，远程后端则使用配置或命令行指定的 `max-workers`。
 
-第四维是 trade-off fidelity，也就是模型是不是真的在做权衡，而不是只是套用一个表面偏好。这里又分成两种规则检验。dominance 很直白：如果一个选项在显示出来的关键负担属性上明显比另一个更差，模型还去选它，那就是 dominance violation。monotonicity 稍微细一点。当前实现不是要求“一个选项只要变差，模型就必须离开它”，而是更保守地检查：当某个原本最有吸引力的选项被加重以后，模型会不会反而新转向这个更差的选项。如果会，那说明它连最基本的单调性都没有守住。因此，`monotonicity_compliance_rate` 高、`dominance_violation_rate` 低，才比较能说明模型真的在读属性、做权衡，而不是机械偏向某个选项名称。
+持久化策略是增量写入。每次 interaction 都会立刻追加到 `outputs/raw_interactions.jsonl`，解析后的 attitude rows 与 task rows 也会立刻写入 CSV，因此中断恢复可以依赖磁盘上已经完成的 respondent 轨迹。collection 完成后，脚本会生成 `persona_samples.csv`、`parsed_attitudes.csv`、`parsed_task_responses.csv`、`ai_panel_long.csv` 和 `ai_panel_block.csv`，其中 long 表服务于结构估计，block 表服务于 regime diagnostics 和 latent class 解释。
 
-第五维是 human-relative distortion，也就是“它是否只是总体上像人，还是在同样结构下真的接近人类规则”。这一维和前四维的差别在于，它不再只看 AI 自己内部稳不稳，而是把 AI 放回人类基准结构里比较。这里的逻辑顺序也值得注意。只有当一个模型在前四维至少表现出某种内部稳定性时，第五维才更像“稳定但偏了”，而不是“本来就乱，所以偏了”。因此，在这个项目里，第五维不是替代前四维，而是在前四维之后给出更深一层的解释：一个模型完全可能既很稳定、也守规则，但仍然系统性地偏离 human benchmark。
+## 五个 response regime 维度
 
-为了读懂第五维，必须先理解项目里的三类结构模型。第一类是多项 logit 模型，也就是 multinomial logit，简称 MNL。在仓库里，它对应 `scripts/replicate_atasoy_2011_models.py` 里的 base logit 部分。这个模型用三种方式 `PT`、`PMM` 和 `SM` 的效用函数来解释选择，其中 `PMM` 是 private motorized modes，当前实现里主要对应汽车，`SM` 是 slow modes。模型参数包括方式常数、成本与时间系数、距离系数，以及车辆数、孩子数、语言区、工作出行、城市化程度、学生身份、自行车数等人类特征变量的效应。这个模型的意义不在于“最复杂”，而在于它给出一个清楚、可比、可解释的平均行为结构。它会产出市场份额、弹性和 value of time，也就是时间价值，这些量非常适合做 human 和 AI 的第一层比较。
+### 同一系统的随机不稳定性
 
-第二类是混合选择模型，也就是 hybrid choice model，简称 HCM。当前主线里的 HCM 不是旧版的平行实现，而是 Atasoy 2011 的 fixed-normalization exact HCM。`replicate_atasoy_2011_models.py` 先在人类数据上重跑这套模型，固定用 `Mobil10` 作为 pro-car attitude 的归一化参考指标，用 `Envir05` 作为 environmental attitude 的归一化参考指标，然后把同一套估计函数暴露出来给 `scripts/estimate_atasoy_2011_ai_analysis.py` 复用。HCM 的意义在于，它不只看显性的成本、时间和距离，还引入两个潜在态度：一个更接近亲车倾向，一个更接近环境倾向。七个 attitude indicators 通过 measurement equations 去测量这两个潜在态度，再由潜在态度进入效用函数，影响选择。于是，HCM 比 MNL 多回答了一层问题：如果 AI 和 human 的选择不同，这个差异能不能被“潜在态度结构不同”来解释。
+第一维测量同一模型在完全相同输入下的内部稳定性。`scripts/estimate_optima_intervention_metrics.py` 会把 exact repeats 按 `block_template_id` 和 `task_index` 聚合，计算 `exact_repeat_flip_rate` 和 `response_entropy`。flip rate 描述两两重复之间的翻转频率，entropy 描述答案分布的离散程度。这个维度给出的是模型自己的噪声基线。
 
-第三类是尺度调整潜类别模型，也就是 scale-adjusted latent class model，简称 SALCM。它的作用和前两个模型不同。MNL 给出的是一个总体平均结构，HCM 给出的是带潜在态度的连续结构，而 SALCM 想回答的是：AI respondent 群体内部会不会其实不是一种规则，而是由几种不同的 response regimes 混合而成。`scripts/estimate_optima_salcm.py` 把 `ai_panel_long.csv` 和 `ai_panel_block.csv` 合起来，给每个 preference class 估一组更简化的效用参数，例如 `ASC_PT`、`ASC_CAR`、`B_COST`、`B_TIME_PT`、`B_TIME_CAR`、`B_WAIT` 和 `B_DIST`，同时再估一个 scale class，也就是回答风格或一致性强弱的维度。更进一步，类别归属还不是常数，而是由 `membership_covariates` 决定，例如 prompt 条件、收入、车可用性和 block complexity。这让 SALCM 能区分“偏好本身不同”和“回答尺度不同”这两层异质性。
+### 语义等价改写是否稳健
 
-这三类模型之所以要并列使用，是因为它们回答的问题根本不同。MNL 最适合看平均结构是否偏了，例如方式常数是否过度偏车，成本和时间系数是否过弱，市场份额和 value of time 是否像人。HCM 最适合看这种偏差有没有可能进一步落在潜在态度和指标测量上，也就是 AI 不是单纯在选车，而是可能在“亲车倾向”和“环境倾向”的潜变量空间里就和 human 不同。SALCM 则最适合看“AI 不是一个整体”，它内部是否分成几类不同 regime，有的更接近 human，有的更失真，还有的只是更稳定地偏。换句话说，MNL 看平均规则，HCM 看潜在机制，SALCM 看内部混合结构。
+第二维测量 semantic invariance。脚本把 anchor task 与 paraphrase twin 的选择分布拿来比较，计算总变差距离 `intervention_gap_tv`，再用 exact repeat 的随机性包络形成 `excess_intervention_gap`。小的 paraphrase gap 表示模型在相同效用结构下保持了稳定的选择规则。正向的 excess intervention gap 表示语义改写带来了超出随机基线的系统偏移。
 
-AI 侧结构估计的实现还有一个非常关键的设计选择，那就是尽量走“与 human 相同的代码路径”。`scripts/estimate_atasoy_2011_ai_analysis.py` 并没有自己另写一套 AI 版 MNL 和 HCM。它做的事情，是先从 `ai_panel_long.csv` 里抽出 `task_role = core` 且有效的选择，把每个 AI respondent 的 core tasks 重排成与 `optima.dat` 同口径的 Atasoy-style 输入表，然后把这张表送回 `replicate_atasoy_2011_models.py` 里的同一组 `estimate_base_model` 和 `estimate_continuous_model` 函数。这样做的好处非常大。它把人机比较里最麻烦的“结构口径不一致”问题直接压到最低，因为 human 和 AI 用的是同一套参数定义、同一套似然函数和同一套输出格式。
+### 标签或顺序是否过敏
 
-因此，解读估计文件时也应该沿着这条主线来读。对于一个完成的实验，先看 `outputs/run_respondents.json` 和 `outputs/ai_collection_summary.json`，确认 planned respondents 是否都完成了、态度题和任务题有效率是否足够高。接着看 `exact_repeat_randomness.csv`、`intervention_sensitivity.csv` 和 `intervention_metrics_summary.json`，先判断模型是不是内部稳定、是不是对改写、标签和顺序有异常敏感。再往后看 `atasoy_2011_replication/base_logit_summary.json` 与 `base_logit_estimates.csv`。前者给你的是 log-likelihood、market shares、elasticities 和 value of time，后者给你的是每个参数本身。只要把它和 `base_logit_human_comparison.csv` 放在一起看，就能很快判断 AI 相对 human 是方式常数偏了、成本时间斜率偏了，还是人口统计交互项的方向偏了。
+第三维分别测量 label sensitivity 和 order sensitivity。label-mask twin 只切换模式标签的呈现方式，order-randomization twin 只切换 `A/B/C` 的展示顺序，因此两者分别对应语义标签牵引和界面顺序牵引。脚本对这两类 twin 同样计算 flip rate、`intervention_gap_tv` 和 `excess_intervention_gap`。比较时应优先分别阅读 label 和 order 两组指标，因为它们对应两种不同的行为机制。
 
-如果要继续往深里看，就进入 `hcm/` 文件夹。`hcm_utility_estimates.csv` 讲的是选择效用部分的参数，`hcm_attitude_estimates.csv` 讲的是两个潜在态度如何由社会经济变量和地区变量形成，`hcm_measurement_estimates.csv` 讲的是七个 attitude indicators 如何测量这两个潜在态度。`hcm_summary.json` 则把 choice-only log-likelihood、value of time、mean Acar、mean Aenv 和优化器状态集中到一起。如果实验当时没有采齐这七个指标，脚本不会硬估，而是先在 `ai_atasoy_hcm_feasibility.json` 里明确写出 exact HCM 是否可行。这里有一个研究上必须谨慎的地方：HCM 比 MNL 更强，但也更脆弱。如果优化器不成功，或者大量参数停在初始值附近，那么它告诉你的不是“机制已经识别清楚”，而更像是“数据链路通了，但参数还不能放心解释”。这一点仓库文档和现有比较报告都反复提醒过，报告里也应该保留这种谨慎。
+### 是否真的在做 trade-off
 
-`salcm/` 文件夹读法又不一样。`ai_salcm_estimates.csv` 是全部参数，但它本身不太适合直接给外行解释，因为 latent class 参数没有直观排序。真正最值得读的是 `ai_salcm_summary.json`、`ai_salcm_posterior_membership.csv` 和 `ai_salcm_regime_summaries.csv`。summary 告诉你模型有没有收敛、每个 state 的 posterior mass 有多大，也就是这个 regime 在总体里占多大比例。posterior membership 告诉你每个 respondent 最可能属于哪个 state。regime summaries 才是最有解释性的文件，因为它把每个状态对应的偏好参数、与 human baseline 的 normalized coefficient distance、mode share deviation、以及 label flip、order flip、monotonicity、dominance 这些诊断量放在一起。于是你可以回答这样的问题：这个 AI 群体内部是否存在一个相对接近 human trade-off 的 class，以及另一个更强烈偏车的 class；某个状态的“像人”究竟是因为系数更接近 human，还是只是因为模式份额刚好更接近 human；某个状态更稳定，究竟是因为它规则更清晰，还是只是尺度更高。
+第四维测量 trade-off fidelity。dominance task 检查模型是否会选择一个在显示负担属性上明显更差的选项，核心指标是 `dominance_violation_rate`。monotonicity task 检查模型在某个选项被加重后是否还会向这个更差选项转移，核心指标是 `monotonicity_compliance_rate`。这两个指标一起衡量模型是否真的在读属性并执行一致的权衡规则。
 
-把这三类模型放在一起比较 human 和 AI 时，最好的顺序通常是先浅后深。先用 MNL 看平均结构，因为它最直观，也最容易发现大的偏差方向，例如 `CAR` 或 `PMM` 是否被系统性高估，`PT` 是否被压低，距离惩罚是否太弱。再用 HCM 看这种偏差能不能进一步被潜在态度结构解释，但前提是优化器状态足够好。最后用 SALCM 看这种偏差是不是由单一规则造成的，还是几个 regime 的混合结果。MNL 更适合回答“总体上哪里不像人”，HCM 更适合回答“潜在态度层面有没有不同”，SALCM 更适合回答“AI 内部是不是其实有几种不同的规则在混合”。如果这三层都指向同一个方向，例如都显示 AI 稳定偏车，那你就更有理由说这不是偶然噪声，而是一个结构性 distortion。
+### 相对 human 的结构性失真
 
-从整个仓库的演化来看，旧脚本也值得提一句，但不应该和当前主线混在一起。`legacy_estimate_optima_biogeme_hcm.py`、`legacy_estimate_optima_torch_hcm.py` 和 `legacy_compare_optima_hcm.py` 保存的是更早一版 reduced official style HCM，以及 Biogeme 和 Torch 两套数值实现的比较路径。它们的价值主要在历史对照、数值验证和模型开发过程中，而不是当前实验主线工作流的默认答案。当前真正的主线已经很明确：用 `prepare_optima_data.py` 做人类基准清洗，用 `prepare_optima_intervention_regime_data.py` 构造 persona 和 template，用 `run_optima_intervention_regime_ai_collection.py` 做 AI survey collection，用 `estimate_optima_intervention_metrics.py` 做前四维诊断，用 `replicate_atasoy_2011_models.py` 和 `estimate_atasoy_2011_ai_analysis.py` 做人机同口径的 MNL 与 HCM，用 `estimate_optima_salcm.py` 解释 AI 内部 regimes，最后由 `summarize_optima_intervention_regime.py` 写出面向实验记录的中文摘要。
+第五维测量 human-relative distortion。这里的核心问题是 AI 的稳定规则与人类规则之间有多大距离。基础读法是先看 Atasoy 风格 base logit 的 choice shares 和 share gap，再看系数方向、系数大小、value of time 与 elasticities，最后再把 HCM 与 SALCM 带入解释。这个维度把 AI 放回 human benchmark 的同一结构口径中，因此结论可以直接落到行为机制上。
 
-如果要用一句话概括这个项目的逻辑，我会这样说：它不是把 AI 当成一个会不会“答对题”的黑箱，而是把 AI 放进一套与人类出行调查同口径、但比普通预测任务更严格的实验框架里，逐层检验它的内部稳定性、语义稳健性、表面敏感性、规则一致性和相对人类的结构性失真。persona 让 AI 先成为“某个人”，template 让它面对一套可控的问卷环境，五个 response regime 维度把“像不像人”拆成更细的机制问题，而 MNL、HCM 和 SALCM 则分别从平均结构、潜在态度和内部异质性三个层面，把这种差异解释清楚。对一个受过良好教育、但未必事先熟悉这个仓库的读者来说，这个项目最值得注意的地方也正是在这里：它比较的不是单次答案，而是一整套行为生成逻辑。
+## MNL、HCM 与 SALCM 分别回答什么
+
+多项 logit 模型，也就是 multinomial logit，简称 MNL，对应仓库里的 Atasoy 风格 base logit。它用三种方式 `PT`、`PMM` 和 `SM` 的效用函数解释选择，并估计方式常数、成本、时间、距离和若干社会经济变量的效应。这个模型最适合读平均行为结构，因为 market shares、elasticities 和 value of time 都很直观。human 与 AI 的第一层比较优先看它。
+
+混合选择模型，也就是 hybrid choice model，简称 HCM，对应当前主线里的 fixed-normalization exact HCM。它在显性属性之外引入两个潜在态度，一个更接近 pro-car attitude，一个更接近 environmental attitude，并用七个 attitude indicators 构造 measurement equations。这样，选择差异可以被继续拆到潜在态度层。这个模型要求七个指标齐全，因此脚本会先写出 `ai_atasoy_hcm_feasibility.json` 再决定是否进入估计。
+
+尺度调整潜类别模型，也就是 scale-adjusted latent class model，简称 SALCM，对应 `scripts/estimate_optima_salcm.py`。它把 AI respondent 群体拆成若干 preference classes 和 scale classes，前者代表偏好结构，后者代表回答尺度或一致性强弱，类别归属再由 `membership_covariates` 解释。这个模型最适合回答 AI 内部是否存在多种 response regimes，以及哪些 regime 更接近 human baseline。
+
+## 估计文件如何解读
+
+读一个实验目录时，建议先看 `outputs/run_respondents.json` 与 `outputs/ai_collection_summary.json`。这两份文件给出完成度、有效率和最基本的 collection 质量。接着看 `exact_repeat_randomness.csv`、`intervention_sensitivity.csv` 和 `intervention_metrics_summary.json`，先建立 AI 自身的稳定性、语义稳健性、标签顺序敏感性与 trade-off fidelity 画像。这个顺序能先把“模型自身如何作答”读清楚。
+
+随后进入 `atasoy_2011_replication/`。`atasoy_replication_input.csv` 是 AI core tasks 被重排成 Atasoy 风格后的估计输入，`base_logit_estimates.csv` 是 MNL 参数，`base_logit_summary.json` 是 market shares、elasticities、value of time 和优化器状态，`base_logit_human_comparison.csv` 直接给出 AI 与 human 的参数差。这里最值得优先比较的是方式常数、时间与成本系数，以及 `PMM`、`PT`、`SM` 的 share gap。
+
+再往后读 `hcm/`。`hcm_utility_estimates.csv` 对应选择效用，`hcm_attitude_estimates.csv` 对应潜在态度结构，`hcm_measurement_estimates.csv` 对应指标测量方程，`hcm_summary.json` 汇总 choice-only log-likelihood、value of time、mean Acar、mean Aenv 和优化器状态，`hcm_human_comparison.csv` 直接给出 AI 与 human 的参数差。优化器状态和参数是否远离初始值决定了 HCM 解释的强度，因此这里应把数值可识别性与行为解释一起读。
+
+最后读 `salcm/`。`ai_salcm_summary.json` 给出收敛状态和各 state 的 posterior mass，`ai_salcm_posterior_membership.csv` 给出 respondent-level 后验归属，`ai_salcm_regime_summaries.csv` 汇总每个 regime 的偏好参数、与 human baseline 的 `normalized_coefficient_distance`、`mode_share_deviation`、以及 label flip、order flip、monotonicity、dominance 等 block-level diagnostics。这个文件最适合回答“AI 内部有哪几类规则”以及“哪一类更接近 human”。
+
+## 外部文献与互联网来源
+
+仓库沿用 `atasoy_2011_replication` 作为内部目录名。外部公开论文对应的是 Bilge Atasoy、Aurélie Glerum、Michel Bierlaire 的 *Attitudes towards mode choice in Switzerland*，发表于 2013 年的 *disP - The Planning Review*，DOI 是 `10.1080/02513625.2013.827518`。DOI 与题名匹配。公开来源可见 [TU Delft Repository 记录](https://repository.tudelft.nl/record/uuid%3A4151b64a-d735-48b4-8ce6-c884c50bcb12) 和 [DOI 链接](https://doi.org/10.1080/02513625.2013.827518)。
+
+关于 stated-preference transport survey 这一实验框架的公开背景，Swiss Federal Office for Spatial Development 提供了 [Access to Stated-Preference-Data](https://www.are.admin.ch/en/access-to-stated-preference-data) 这一类官方说明页面。仓库中的代码逻辑已经把这类调查框架具体化为 persona、template、exact repeat、twin tasks 和结构估计流程，因此阅读实验时应按 `outputs/`、regime diagnostics、`atasoy_2011_replication/`、`hcm/`、`salcm/` 的顺序推进。

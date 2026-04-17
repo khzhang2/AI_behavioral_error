@@ -1,0 +1,14 @@
+{
+  "experiment_name": "20260416_optima_intervention_regime_gpt_oss_120b_v1",
+  "model_key": "gpt_oss_120b",
+  "completed_respondents": 480,
+  "target_respondents": 480,
+  "valid_attitude_rate": 1.0,
+  "valid_task_rate": 1.0,
+  "mean_exact_repeat_flip_rate": 0.0337673611111111,
+  "mean_paraphrase_flip_rate": 0.011458333333333333,
+  "mean_label_flip_rate": 0.020833333333333332,
+  "mean_order_flip_rate": 0.05520833333333333,
+  "mean_monotonicity_compliance_rate": 0.9885416666666667,
+  "mean_dominance_violation_rate": 0.034375
+}

@@ -15,9 +15,6 @@
       "order_randomization"
     ]
   },
-  "biogeme": {
-    "optimization_algorithm": "scipy"
-  },
   "salcm": {
     "n_preference_classes": 3,
     "n_scale_classes": 2,
@@ -61,18 +58,6 @@
       "prompt_arm"
     ]
   },
-  "torch": {
-    "default_device": "cuda_if_available",
-    "float_dtype": "float64"
-  },
-  "n_monte_carlo_draws_biogeme": 32,
-  "n_monte_carlo_draws_torch_compare": 32,
-  "n_monte_carlo_draws_torch_final": 500,
-  "shared_draw_dims": 2,
-  "shared_draw_names": [
-    "omega_car",
-    "omega_env"
-  ],
   "master_seed": 20260412,
   "active_llm_key": "poe_gpt54_nano",
   "n_block_templates_per_model": 100,

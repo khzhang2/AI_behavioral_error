@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import asyncio
 import concurrent.futures
 import json
 import os
@@ -8,7 +9,7 @@ import ssl
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +39,12 @@ from optima_common import (
     survey_total_tasks,
     write_json,
 )
+from openai_compatible_localserver_async import (
+    collect_respondents_async,
+    localserver_max_workers_cap,
+    localserver_model_profile,
+    uses_openai_compatible_localserver_async,
+)
 from optima_intervention_regime_questionnaire import (
     build_attitude_prompt,
     build_grounding_prompt,
@@ -48,6 +55,7 @@ from optima_intervention_regime_questionnaire import (
 
 CHOICE_NAME_TO_CODE = {"PT": 0, "CAR": 1, "SLOW_MODES": 2}
 _MLX_RUNTIME_CACHE: dict[str, tuple[Any, Any]] = {}
+GMT_PLUS_8 = timezone(timedelta(hours=8))
 
 
 def http_ssl_context() -> ssl.SSLContext:
@@ -73,7 +81,50 @@ def parse_args() -> argparse.Namespace:
 
 
 def now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(GMT_PLUS_8).isoformat()
+
+
+def parse_progress_started_at(payload: dict[str, Any]) -> datetime:
+    started_at_value = str(payload.get("started_at") or "").strip()
+    if started_at_value:
+        try:
+            parsed = datetime.fromisoformat(started_at_value)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=GMT_PLUS_8)
+            return parsed.astimezone(GMT_PLUS_8)
+        except ValueError:
+            pass
+    return datetime.now(GMT_PLUS_8)
+
+
+def progress_payload(
+    experiment_name: str,
+    target_respondents: int,
+    completed_respondents: int,
+    previous_payload: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    previous = previous_payload or {}
+    started_at = parse_progress_started_at(previous)
+    updated_at = datetime.now(GMT_PLUS_8)
+    elapsed_time_sec = max(int((updated_at - started_at).total_seconds()), 0)
+    time_remaining_sec: int | None
+    remaining_respondents = max(int(target_respondents) - int(completed_respondents), 0)
+    if int(completed_respondents) <= 0:
+        time_remaining_sec = None
+    elif remaining_respondents == 0:
+        time_remaining_sec = 0
+    else:
+        seconds_per_completed = elapsed_time_sec / max(int(completed_respondents), 1)
+        time_remaining_sec = max(int(round(seconds_per_completed * remaining_respondents)), 0)
+    return {
+        "experiment_name": experiment_name,
+        "target_respondents": int(target_respondents),
+        "completed_respondents": int(completed_respondents),
+        "started_at": started_at.isoformat(),
+        "updated_at": updated_at.isoformat(),
+        "elapsed_time_sec": elapsed_time_sec,
+        "time_remaining_sec": time_remaining_sec,
+    }
 
 
 def append_jsonl(path: Path, row: dict) -> None:
@@ -130,6 +181,34 @@ class ChatBackend:
     def __init__(self, config: dict) -> None:
         self.config = dict(config)
         self.provider = str(self.config["provider"]).lower()
+        self.localserver_profile = (
+            localserver_model_profile(str(self.config.get("model") or ""))
+            if uses_openai_compatible_localserver_async(self.config)
+            else {}
+        )
+
+    def _should_omit_max_tokens(self) -> bool:
+        return bool(self.localserver_profile.get("omit_max_tokens"))
+
+    def _effective_num_predict(self, stage: str, num_predict: int) -> int:
+        requested = int(num_predict)
+        minimum = 0
+        if stage == "grounding":
+            minimum = int(self.localserver_profile.get("grounding_min_tokens") or 0)
+        elif stage == "attitude":
+            minimum = int(self.localserver_profile.get("attitude_min_tokens") or 0)
+        elif stage == "task":
+            minimum = int(self.localserver_profile.get("task_min_tokens") or 0)
+        return max(requested, minimum)
+
+    def _decoder_config(self) -> dict[str, Any]:
+        config_for_decode = dict(self.config)
+        decoder = dict(config_for_decode.get("response_decoder") or {})
+        thinking_text_path = str(self.localserver_profile.get("thinking_text_path") or "").strip()
+        if thinking_text_path and not str(decoder.get("thinking_text_path") or "").strip():
+            decoder["thinking_text_path"] = thinking_text_path
+        config_for_decode["response_decoder"] = decoder
+        return config_for_decode
 
     def _headers(self) -> dict[str, str]:
         headers = {"Content-Type": "application/json"}
@@ -198,7 +277,7 @@ class ChatBackend:
             raise RuntimeError(f"Tokenizer chat template for MLX model '{self.config['model']}' returned an empty prompt.")
         return prompt
 
-    def generate(self, messages: list[dict[str, str]], num_predict: int) -> dict:
+    def generate(self, messages: list[dict[str, str]], num_predict: int, stage: str = "") -> dict:
         if self.provider == "mlx":
             try:
                 import mlx.core as mx
@@ -242,8 +321,11 @@ class ChatBackend:
             "temperature": self.config.get("temperature"),
             "top_p": self.config.get("top_p"),
             "seed": self.config.get("seed"),
-            "max_tokens": int(num_predict),
         }
+        effective_num_predict: int | None = None
+        if not self._should_omit_max_tokens():
+            effective_num_predict = self._effective_num_predict(stage, num_predict)
+            payload["max_tokens"] = effective_num_predict
         if self.provider == "deepseek":
             thinking_value = self.config.get("thinking")
             if isinstance(thinking_value, dict) and thinking_value:
@@ -269,7 +351,10 @@ class ChatBackend:
         if self.provider == "poe" and not base_url.endswith("/v1"):
             base_url = base_url + "/v1"
         response = self._post_json(base_url + "/chat/completions", payload)
-        decoded = decode_chat_response(response, self.config)
+        decoded = decode_chat_response(response, self._decoder_config())
+        decoded["metadata"]["requested_max_tokens"] = int(num_predict)
+        decoded["metadata"]["effective_max_tokens"] = effective_num_predict
+        decoded["metadata"]["max_tokens_omitted"] = int(self._should_omit_max_tokens())
         return {
             "response_text": decoded["response_text"],
             "thinking_text": decoded["thinking_text"],
@@ -292,26 +377,27 @@ def initialize_outputs(base_dir: Path, raw_dir: Path, experiment_name: str, targ
         if target.exists():
             target.unlink()
     write_json(raw_dir / "respondent_transcripts.json", {"experiment_name": experiment_name, "respondents": {}})
-    write_json(
-        raw_dir / "run_respondents.json",
-        {
-            "experiment_name": experiment_name,
-            "target_respondents": int(target_respondents),
-            "completed_respondents": 0,
-            "updated_at": now_iso(),
-        },
-    )
+    write_json(raw_dir / "run_respondents.json", progress_payload(experiment_name, int(target_respondents), 0))
 
 
-def completed_ids(base_dir: Path, total_tasks: int) -> set[str]:
-    parsed_path = base_dir / "parsed_task_responses.csv"
-    if not parsed_path.exists():
+def completed_ids(base_dir: Path, total_tasks: int, total_attitudes: int) -> set[str]:
+    parsed_task_path = base_dir / "parsed_task_responses.csv"
+    parsed_attitude_path = base_dir / "parsed_attitudes.csv"
+    if not parsed_task_path.exists() or not parsed_attitude_path.exists():
         return set()
-    frame = pd.read_csv(parsed_path)
-    if frame.empty:
+    task_frame = pd.read_csv(parsed_task_path)
+    attitude_frame = pd.read_csv(parsed_attitude_path)
+    if task_frame.empty or attitude_frame.empty:
         return set()
-    counts = frame.groupby("respondent_id")["task_index"].nunique()
-    return {str(index) for index, value in counts.items() if int(value) >= total_tasks}
+    valid_task_frame = task_frame.loc[task_frame["is_valid_task_response"].fillna(0).astype(int) == 1].copy()
+    valid_attitude_frame = attitude_frame.loc[attitude_frame["is_valid_indicator"].fillna(0).astype(int) == 1].copy()
+    if valid_task_frame.empty or valid_attitude_frame.empty:
+        return set()
+    valid_task_counts = valid_task_frame.groupby("respondent_id")["task_index"].nunique()
+    valid_attitude_counts = valid_attitude_frame.groupby("respondent_id")["indicator_name"].nunique()
+    completed_tasks = {str(index) for index, value in valid_task_counts.items() if int(value) >= total_tasks}
+    completed_attitudes = {str(index) for index, value in valid_attitude_counts.items() if int(value) >= total_attitudes}
+    return completed_tasks & completed_attitudes
 
 
 def respondent_ids_with_any_data(raw_path: Path, attitudes_path: Path, tasks_path: Path) -> set[str]:
@@ -376,14 +462,11 @@ def chosen_alternative_name(task_row: pd.Series, choice_label: str) -> str:
 
 
 def update_progress(base_dir: Path, experiment_name: str, target_respondents: int, completed_respondents: int) -> None:
+    progress_path = base_dir / "outputs" / "run_respondents.json"
+    previous = read_json(progress_path) if progress_path.exists() else {}
     write_json(
-        raw_output_path("run_respondents.json"),
-        {
-            "experiment_name": experiment_name,
-            "target_respondents": int(target_respondents),
-            "completed_respondents": int(completed_respondents),
-            "updated_at": now_iso(),
-        },
+        progress_path,
+        progress_payload(experiment_name, int(target_respondents), int(completed_respondents), previous),
     )
 
 
@@ -416,7 +499,7 @@ def collect_one_respondent(
 
     grounding_prompt = build_grounding_prompt(persona)
     messages.append({"role": "user", "content": grounding_prompt})
-    grounding_response = backend.generate(messages, int(llm_config["grounding_num_predict"]))
+    grounding_response = backend.generate(messages, int(llm_config["grounding_num_predict"]), "grounding")
     messages.append({"role": "assistant", "content": grounding_response["response_text"]})
     grounding_payload = {
         "model_key": model_key,
@@ -439,7 +522,7 @@ def collect_one_respondent(
         prompt = build_attitude_prompt(indicator_name, question_offset, len(indicator_names) + total_tasks, previous_answer_strings(attitude_rows, task_rows))
         message_snapshot = list(messages)
         messages.append({"role": "user", "content": prompt})
-        response = backend.generate(messages, int(llm_config["attitude_num_predict"]))
+        response = backend.generate(messages, int(llm_config["attitude_num_predict"]), "attitude")
         messages.append({"role": "assistant", "content": response["response_text"]})
         indicator_value = parse_indicator_value(response["response_text"])
         turn_index += 1
@@ -477,7 +560,7 @@ def collect_one_respondent(
         prompt = build_task_prompt(task_row, len(indicator_names) + int(task_row["task_index"]), len(indicator_names) + total_tasks, previous_answer_strings(attitude_rows, task_rows))
         message_snapshot = list(messages)
         messages.append({"role": "user", "content": prompt})
-        response = backend.generate(messages, int(llm_config["task_num_predict"]))
+        response = backend.generate(messages, int(llm_config["task_num_predict"]), "task")
         messages.append({"role": "assistant", "content": response["response_text"]})
         parsed = parse_task_response(response["response_text"])
         choice_label = parsed["choice_label"] or parse_choice_label(response["response_text"])
@@ -564,10 +647,11 @@ def persist_respondent_result(
     append_csv(tasks_path, result["task_rows"])
     append_jsonl_rows(raw_path, result["raw_rows"])
     update_transcripts(EXPERIMENT_DIR, result["respondent_id"], result["persona"], result["turns"])
-    completed.add(result["respondent_id"])
-    update_progress(EXPERIMENT_DIR, CONFIG["experiment_name"], total_target, len(completed))
     valid_attitudes = sum(int(row["is_valid_indicator"]) for row in result["attitude_rows"])
     valid_tasks = sum(int(row["is_valid_task_response"]) for row in result["task_rows"])
+    if valid_attitudes == len(result["attitude_rows"]) and valid_tasks == len(result["task_rows"]):
+        completed.add(result["respondent_id"])
+    update_progress(EXPERIMENT_DIR, CONFIG["experiment_name"], total_target, len(completed))
     print(
         f"[intervention_regime_ai_collection] model={result['task_rows'][0]['model_key'] if result['task_rows'] else ''} "
         f"respondent={result['respondent_id']} valid_attitudes={valid_attitudes}/{len(result['attitude_rows'])} "
@@ -866,7 +950,7 @@ def main() -> None:
 
     if not args.resume or not raw_output_path("run_respondents.json").exists():
         initialize_outputs(base_dir, raw_dir, CONFIG["experiment_name"], len(block_frame))
-    completed = completed_ids(base_dir, total_tasks)
+    completed = completed_ids(base_dir, total_tasks, len(indicator_names))
     update_progress(base_dir, CONFIG["experiment_name"], len(block_frame), len(completed))
 
     attitudes_path = base_dir / "parsed_attitudes.csv"
@@ -893,11 +977,39 @@ def main() -> None:
                 f"(requested={requested_max_workers})"
             )
         max_workers = 1
+    localserver_cap = localserver_max_workers_cap(llm_config)
+    if localserver_cap > 0 and max_workers > localserver_cap:
+        print(
+            f"[intervention_regime_ai_collection] model={llm_config.get('model','')} caps max_workers={localserver_cap} "
+            f"for the current local server (requested={requested_max_workers})"
+        )
+        max_workers = localserver_cap
 
     if max_workers <= 1:
         for persona in pending_personas:
             result = collect_one_respondent(args.model_key, llm_config, persona, task_lookup.get(str(persona["respondent_id"]), []), indicator_names, total_tasks)
             persist_respondent_result(result, attitudes_path, tasks_path, raw_path, completed, len(block_frame))
+    elif uses_openai_compatible_localserver_async(llm_config):
+        print(
+            f"[intervention_regime_ai_collection] provider={llm_config['provider']} "
+            f"base_url={str(llm_config.get('base_url') or '').rstrip('/')} uses async respondent-level collection "
+            f"(max_workers={max_workers})"
+        )
+        def persist_async_result(result: dict) -> None:
+            persist_respondent_result(result, attitudes_path, tasks_path, raw_path, completed, len(block_frame))
+
+        asyncio.run(
+            collect_respondents_async(
+                args.model_key,
+                llm_config,
+                pending_personas,
+                task_lookup,
+                indicator_names,
+                total_tasks,
+                max_workers,
+                persist_async_result,
+            )
+        )
     else:
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = [

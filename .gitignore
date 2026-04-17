@@ -5,7 +5,6 @@ __pycache__/
 .venv/
 .venv-arm64/
 .python_packages/
-*.iter
 **raw_interactions.jsonl
 **respondent_transcripts.json
 api_credentials.local.json

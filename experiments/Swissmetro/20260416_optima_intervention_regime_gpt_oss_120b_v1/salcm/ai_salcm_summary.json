@@ -1,0 +1,20 @@
+{
+  "n_respondents": 480,
+  "n_tasks_per_respondent": 16,
+  "n_preference_classes": 3,
+  "n_scale_classes": 2,
+  "final_loglikelihood": -2487.472767255514,
+  "optimizer_success": false,
+  "optimizer_message": "STOP: TOTAL NO. of ITERATIONS REACHED LIMIT",
+  "posterior_probability_min": 0.9999999999999987,
+  "posterior_probability_max": 1.0000000000000475,
+  "class_masses": {
+    "C1_S1": 0.6555488481150754,
+    "C1_S2": 0.0873977955800817,
+    "C2_S1": 0.13889716506149383,
+    "C2_S2": 0.01781647442743815,
+    "C3_S1": 0.0738999939498868,
+    "C3_S2": 0.026439722866024286
+  },
+  "n_nonempty_states": 6
+}

@@ -1,8 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-ai_behavioral_error.egg-info/PKG-INFO
-ai_behavioral_error.egg-info/SOURCES.txt
-ai_behavioral_error.egg-info/dependency_links.txt
-ai_behavioral_error.egg-info/requires.txt
-ai_behavioral_error.egg-info/top_level.txt

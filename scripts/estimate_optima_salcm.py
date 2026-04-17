@@ -243,6 +243,15 @@ def human_atasoy_baseline_estimates() -> dict[str, float]:
     }
 
 
+def salcm_parameter_comparison(parameter_frame: pd.DataFrame) -> pd.DataFrame:
+    comparison = parameter_frame.rename(columns={"estimate": "ai_estimate"}).copy()
+    comparison["model"] = "salcm"
+    comparison["block"] = "salcm"
+    comparison["human_estimate"] = np.nan
+    comparison["gap_ai_minus_human"] = np.nan
+    return comparison[["model", "block", "parameter_name", "human_estimate", "ai_estimate", "gap_ai_minus_human"]]
+
+
 def initial_theta(covariate_names: list[str]) -> np.ndarray:
     base = human_atasoy_baseline_estimates()
 
@@ -340,6 +349,7 @@ def main() -> None:
     theta_hat = np.array(result.x, dtype=float)
     parameter_frame = pd.DataFrame({"parameter_name": parameter_names(covariate_names), "estimate": theta_hat})
     parameter_frame.to_csv(output_dir / "ai_salcm_estimates.csv", index=False)
+    salcm_parameter_comparison(parameter_frame).to_csv(output_dir / "parameter_comparison.csv", index=False)
     long_frame.to_csv(output_dir / "ai_salcm_estimation_input_long.csv", index=False)
     block_frame.to_csv(output_dir / "ai_salcm_estimation_input_block.csv", index=False)
 

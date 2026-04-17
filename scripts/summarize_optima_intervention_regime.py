@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from optima_common import EXPERIMENT_DIR, OUTPUT_DIR, active_model_config, ai_collection_dir_for, experiment_analysis_dir, read_json, write_json
+from write_parameter_comparison_report import write_report as write_parameter_comparison_report
 
 
 HUMAN_ATASOY_BASE = Path(__file__).resolve().parents[1] / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication" / "base_logit" / "base_logit_summary.json"
@@ -134,6 +135,7 @@ def main() -> None:
     model_config = active_model_config()
     model_key = str(model_config["key"])
     collection_summary = build_ai_collection_summary(model_key)
+    write_parameter_comparison_report(EXPERIMENT_DIR, "parameter_comparison_report.md")
 
     human_base = maybe_read_json(HUMAN_ATASOY_BASE)
     ai_base = maybe_read_json(EXPERIMENT_DIR / "atasoy_2011_replication" / "ai_atasoy_base_logit_summary.json")

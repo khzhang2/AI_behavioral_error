@@ -4,7 +4,7 @@
 
 Use this skill for the current experiment-ready workflow in this repository. Treat the workflow as four linked stages: parameter design in `experiment_config.json`, pre-AI preparation of personas and questionnaire tasks, AI questionnaire collection, and post-AI estimation plus experiment summaries.
 
-Use the current intervention-regime line as the default workflow. Treat older hybrid-choice or legacy multi-output layouts as reference only unless the user explicitly asks for them.
+Use the current intervention-regime line as the default workflow.
 
 ## Define the main objects first
 
@@ -109,6 +109,7 @@ The intervention collection script writes incrementally.
 - Each grounding, attitude, or task response is appended immediately to `outputs/raw_interactions.jsonl`.
 - Parsed rows are appended immediately to `parsed_attitudes.csv` and `parsed_task_responses.csv`.
 - `outputs/respondent_transcripts.json` and `outputs/run_respondents.json` are updated during collection.
+- `outputs/run_respondents.json` now keeps `started_at`, `updated_at`, `elapsed_time_sec`, and `time_remaining_sec`. The timestamps are written in GMT+8.
 
 Because of this, `--resume` should continue from unfinished respondents and, within those respondents, from the next unfinished question when the needed rows already exist on disk.
 
@@ -149,7 +150,7 @@ Use this order for the current intervention-regime workflow.
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
 
-This step now first reorganizes the AI outputs into the same Atasoy-style estimation input schema used by the human replication, and then calls the shared base-logit and exact-HCM model functions from the human script. The human benchmark it compares against is the canonical replication already stored under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`; do not re-run the human replication as part of ordinary experiment post-processing. In the current repository state, the human HCM benchmark under `data/.../atasoy_2011_replication/hcm/` is paper-aligned: the utility and attitude core is fixed to the published table, and the measurement block is fitted under the same fixed normalization. The AI experiment archive keeps only AI-side estimate and summary files in these subfolders, using the `ai_atasoy_*` filenames. AI replication input, trace, feasibility, and short analysis notes stay at the experiment root. Human benchmark metadata and paper-comparison metadata stay under `data/.../atasoy_2011_replication/`.
+This step now first reorganizes the AI outputs into the same Atasoy-style estimation input schema used by the human replication, and then calls the shared base-logit and exact-HCM model functions from the human script. The human benchmark it compares against is the canonical replication already stored under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`; do not re-run the human replication as part of ordinary experiment post-processing. In the current repository state, the human HCM benchmark under `data/.../atasoy_2011_replication/hcm/` is paper-aligned: the utility and attitude core is fixed to the published table, and the measurement block is fitted under the same fixed normalization. The AI experiment archive keeps only AI-side estimate and summary files in these subfolders, using the `ai_atasoy_*` filenames, plus one `parameter_comparison.csv` in each choice-model folder. AI replication input, trace, feasibility, and short analysis notes stay at the experiment root. Human benchmark metadata and paper-comparison metadata stay under `data/.../atasoy_2011_replication/`.
 
 If a collection was intentionally stopped early and you explicitly want a partial-sample Atasoy analysis, use:
 
@@ -170,6 +171,8 @@ The default behavior still requires a complete collection. The `--allow-partial`
 ```bash
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```
+
+This final step now also reads `atasoy_2011_replication/parameter_comparison.csv` and `hcm/parameter_comparison.csv`, then writes a separate `parameter_comparison_report.md` at the experiment root. The title is the configured large-model name from the experiment snapshot, so it stays separate from `ai_atasoy_analysis.md` and `experiment_summary.md`.
 
 Only re-run the canonical human benchmark when the estimator itself or the human-side specification changes. In that case, write the refreshed outputs back to `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`, not into an experiment archive:
 

@@ -5,16 +5,13 @@ from pathlib import Path
 import pandas as pd
 
 from optima_common import (
-    CONFIG,
     COST_SCALE,
     DISTANCE_SCALE,
-    DRAW_NAMES,
     INDICATOR_NAMES,
     SOURCE_DATA_DIR,
     SOURCE_OBSERVATION_COLUMN,
     TIME_SCALE,
     WAIT_SCALE,
-    generate_shared_sobol_draws,
     pt_non_wait_time,
 )
 
@@ -164,26 +161,7 @@ def main() -> None:
     profile_frame.to_csv(SOURCE_DATA_DIR / "human_respondent_profiles.csv", index=False)
 
     n_rows = len(frame)
-    draws_500 = generate_shared_sobol_draws(
-        n_rows=n_rows,
-        n_draws=int(CONFIG["n_monte_carlo_draws_torch_final"]),
-        n_dims=len(DRAW_NAMES),
-        seed=int(CONFIG["master_seed"]),
-    )
-    draws_32 = draws_500[:, : int(CONFIG["n_monte_carlo_draws_biogeme"]), :].copy()
-    with (SOURCE_DATA_DIR / "shared_sobol_draws_500.npy").open("wb") as handle:
-        import numpy as np
-
-        np.save(handle, draws_500)
-    with (SOURCE_DATA_DIR / "shared_sobol_draws_32.npy").open("wb") as handle:
-        import numpy as np
-
-        np.save(handle, draws_32)
-
-    print(
-        f"[prepare_optima_data] rows={n_rows} respondents={n_rows} "
-        f"draws32={draws_32.shape} draws500={draws_500.shape}"
-    )
+    print(f"[prepare_optima_data] rows={n_rows} respondents={n_rows}")
 
 
 if __name__ == "__main__":

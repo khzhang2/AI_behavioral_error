@@ -20,8 +20,12 @@ from replicate_atasoy_2011_models import (
 )
 
 HUMAN_REPLICATION_DIR = ROOT_DIR / "data" / "Swissmetro" / "demographic_choice_psychometric" / "atasoy_2011_replication"
+HUMAN_BASE_ESTIMATES_FILE = HUMAN_REPLICATION_DIR / "base_logit" / "base_logit_estimates.csv"
 HUMAN_BASE_SUMMARY_FILE = HUMAN_REPLICATION_DIR / "base_logit" / "base_logit_summary.json"
 HUMAN_HCM_SUMMARY_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_summary.json"
+HUMAN_HCM_UTILITY_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_utility_estimates.csv"
+HUMAN_HCM_ATTITUDE_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_attitude_estimates.csv"
+HUMAN_HCM_MEASUREMENT_FILE = HUMAN_REPLICATION_DIR / "hcm" / "hcm_measurement_estimates.csv"
 _HUMAN_FRAME_TEMPLATE: pd.DataFrame | None = None
 
 
@@ -255,6 +259,53 @@ def hcm_feasibility(experiment_dir: Path) -> dict[str, object]:
     }
 
 
+def human_base_estimates() -> pd.DataFrame:
+    return pd.read_csv(HUMAN_BASE_ESTIMATES_FILE)
+
+
+def human_hcm_estimates() -> pd.DataFrame:
+    utility = pd.read_csv(HUMAN_HCM_UTILITY_FILE)
+    attitude = pd.read_csv(HUMAN_HCM_ATTITUDE_FILE)
+    measurement = pd.read_csv(HUMAN_HCM_MEASUREMENT_FILE)
+    return pd.concat([utility, attitude, measurement], ignore_index=True)
+
+
+def base_parameter_comparison(base_results: dict[str, object]) -> pd.DataFrame:
+    human = human_base_estimates()[["parameter_name", "estimate"]].rename(columns={"estimate": "human_estimate"})
+    ai = (
+        base_results["estimates_table"]
+        .drop(columns=["paper_estimate"], errors="ignore")
+        [["parameter_name", "estimate"]]
+        .rename(columns={"estimate": "ai_estimate"})
+    )
+    comparison = human.merge(ai, on="parameter_name", how="outer")
+    comparison["model"] = "atasoy_2011_replication"
+    comparison["gap_ai_minus_human"] = comparison["ai_estimate"] - comparison["human_estimate"]
+    return comparison[["model", "parameter_name", "human_estimate", "ai_estimate", "gap_ai_minus_human"]].sort_values("parameter_name").reset_index(drop=True)
+
+
+def hcm_parameter_comparison(hcm_results: dict[str, object]) -> pd.DataFrame:
+    human = human_hcm_estimates()[["parameter_name", "estimate", "block"]].rename(columns={"estimate": "human_estimate"})
+    ai = pd.concat(
+        [
+            hcm_results["utility_table"].drop(columns=["paper_estimate"], errors="ignore")[["parameter_name", "estimate", "block"]],
+            hcm_results["attitude_table"].drop(columns=["paper_estimate"], errors="ignore")[["parameter_name", "estimate", "block"]],
+            hcm_results["measurement_table"][["parameter_name", "estimate", "block"]],
+        ],
+        ignore_index=True,
+    ).rename(columns={"estimate": "ai_estimate"})
+    comparison = human.merge(ai, on=["parameter_name", "block"], how="outer")
+    comparison["model"] = "hcm"
+    comparison["gap_ai_minus_human"] = comparison["ai_estimate"] - comparison["human_estimate"]
+    return comparison[["model", "block", "parameter_name", "human_estimate", "ai_estimate", "gap_ai_minus_human"]].sort_values(["block", "parameter_name"]).reset_index(drop=True)
+
+
+def empty_hcm_parameter_comparison() -> pd.DataFrame:
+    return pd.DataFrame(
+        columns=["model", "block", "parameter_name", "human_estimate", "ai_estimate", "gap_ai_minus_human"]
+    )
+
+
 def write_experiment_report(
     experiment_dir: Path,
     sample_size: int,
@@ -344,8 +395,10 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
         "optimizer_success": bool(base_results["result"].success),
         "optimizer_message": str(base_results["result"].message),
     }
-    base_results["estimates_table"].to_csv(atasoy_dir / "ai_atasoy_base_logit_estimates.csv", index=False)
+    base_estimates = base_results["estimates_table"].drop(columns=["paper_estimate"], errors="ignore").copy()
+    base_estimates.to_csv(atasoy_dir / "ai_atasoy_base_logit_estimates.csv", index=False)
     write_json(atasoy_dir / "ai_atasoy_base_logit_summary.json", base_summary)
+    base_parameter_comparison(base_results).to_csv(atasoy_dir / "parameter_comparison.csv", index=False)
 
     feasibility = hcm_feasibility(experiment_dir)
     hcm_results = None
@@ -362,14 +415,6 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
             start_vector=fixed_initial.x.copy(),
             initial_result=fixed_initial,
         )
-        ai_estimates = pd.concat(
-            [
-                hcm_results["utility_table"],
-                hcm_results["attitude_table"],
-                hcm_results["measurement_table"],
-            ],
-            ignore_index=True,
-        )
         hcm_summary = {
             "sample_size": sample_size,
             "n_respondents": n_respondents,
@@ -383,11 +428,28 @@ def analyze_experiment(experiment_dir: Path, allow_partial: bool = False) -> Non
             "optimizer_success": bool(hcm_results["result"].success),
             "optimizer_message": str(hcm_results["result"].message),
         }
+        utility_table = hcm_results["utility_table"].drop(columns=["paper_estimate"], errors="ignore").copy()
+        attitude_table = hcm_results["attitude_table"].drop(columns=["paper_estimate"], errors="ignore").copy()
+        measurement_table = hcm_results["measurement_table"].copy()
+        hcm_results["utility_table"] = utility_table
+        hcm_results["attitude_table"] = attitude_table
+        hcm_results["measurement_table"] = measurement_table
+        ai_estimates = pd.concat(
+            [
+                hcm_results["utility_table"],
+                hcm_results["attitude_table"],
+                hcm_results["measurement_table"],
+            ],
+            ignore_index=True,
+        )
         hcm_results["utility_table"].to_csv(hcm_dir / "ai_atasoy_hcm_utility_estimates.csv", index=False)
         hcm_results["attitude_table"].to_csv(hcm_dir / "ai_atasoy_hcm_attitude_estimates.csv", index=False)
         hcm_results["measurement_table"].to_csv(hcm_dir / "ai_atasoy_hcm_measurement_estimates.csv", index=False)
         ai_estimates.to_csv(hcm_dir / "ai_atasoy_hcm_estimates.csv", index=False)
         write_json(hcm_dir / "ai_atasoy_hcm_summary.json", hcm_summary)
+        hcm_parameter_comparison(hcm_results).to_csv(hcm_dir / "parameter_comparison.csv", index=False)
+    else:
+        empty_hcm_parameter_comparison().to_csv(hcm_dir / "parameter_comparison.csv", index=False)
 
     write_json(experiment_dir / "ai_atasoy_hcm_feasibility.json", feasibility)
     write_experiment_report(experiment_dir, sample_size, n_respondents, progress, base_results, feasibility, hcm_results)

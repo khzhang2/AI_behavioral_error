@@ -1,0 +1,14 @@
+{
+  "experiment_name": "20260417_optima_intervention_regime_gemma4_31b_awq_v1",
+  "model_key": "gemma4_31b_awq",
+  "completed_respondents": 480,
+  "target_respondents": 480,
+  "valid_attitude_rate": 1.0,
+  "valid_task_rate": 1.0,
+  "mean_exact_repeat_flip_rate": 0.0013020833333333333,
+  "mean_paraphrase_flip_rate": 0.0,
+  "mean_label_flip_rate": 0.0,
+  "mean_order_flip_rate": 0.0,
+  "mean_monotonicity_compliance_rate": 1.0,
+  "mean_dominance_violation_rate": 0.041666666666666664
+}

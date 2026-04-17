@@ -1,0 +1,9 @@
+{
+  "experiment_name": "20260417_optima_intervention_regime_gemma4_31b_awq_v1",
+  "target_respondents": 480,
+  "completed_respondents": 480,
+  "started_at": "2026-04-17T03:26:20.396951+08:00",
+  "updated_at": "2026-04-17T05:38:01.335414+08:00",
+  "elapsed_time_sec": 7900,
+  "time_remaining_sec": 0
+}

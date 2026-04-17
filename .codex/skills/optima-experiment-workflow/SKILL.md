@@ -9,7 +9,7 @@ description: Run post-AI analysis for a completed Optima intervention-regime exp
 
 Use this skill only for post-AI analysis in the current intervention-regime workflow. Start from an experiment folder that should already contain AI collection outputs. Do not use this skill to prepare personas, generate questionnaire tasks, run AI collection, or resume interrupted collection.
 
-Use the current intervention-regime line as the default analysis workflow. Treat older hybrid-choice or legacy multi-output layouts as reference only unless the user explicitly asks for them.
+Use the current intervention-regime line as the default analysis workflow.
 
 The current local small-model backend in this repository is `mlx`. The default small Qwen experiment key is `mlx_qwen35_0p8b`.
 
@@ -111,7 +111,7 @@ After the experiment passes the completion check, use this order for the current
 ./.venv/bin/python scripts/estimate_atasoy_2011_ai_analysis.py --experiment-dirs <experiment_name>
 ```
 
-This step compares the AI outputs against the canonical human benchmark already stored under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`. The current human HCM benchmark in that directory is paper-aligned canonical output: the utility and attitude core is fixed to the published table, while the measurement block is fitted under the same fixed normalization. Do not re-run the human replication during ordinary experiment post-processing. Inside the experiment archive itself, keep only AI-side estimate and summary outputs in `atasoy_2011_replication/` and `hcm/`; put AI replication input, trace, feasibility, and short notes at the experiment root.
+This step compares the AI outputs against the canonical human benchmark already stored under `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`. The current human HCM benchmark in that directory is paper-aligned canonical output: the utility and attitude core is fixed to the published table, while the measurement block is fitted under the same fixed normalization. Do not re-run the human replication during ordinary experiment post-processing. Inside the experiment archive itself, keep only AI-side estimate and summary outputs in `atasoy_2011_replication/`, `hcm/`, and `salcm/`, plus one `parameter_comparison.csv` in each of these folders. Put AI replication input, trace, feasibility, and short notes at the experiment root.
 
 3. Estimate the scale-adjusted latent class model:
 
@@ -124,6 +124,8 @@ This step compares the AI outputs against the canonical human benchmark already 
 ```bash
 ./.venv/bin/python scripts/summarize_optima_intervention_regime.py
 ```
+
+This final summary step also writes `parameter_comparison_report.md` at the experiment root by reading `atasoy_2011_replication/parameter_comparison.csv` and `hcm/parameter_comparison.csv`.
 
 Only re-run the human benchmark when the estimator or the human-side specification has changed. In that case, refresh the canonical outputs in `data/Swissmetro/demographic_choice_psychometric/atasoy_2011_replication/`:
 
